@@ -1,22 +1,22 @@
 # Italian translation of gnome-photos
 # Copyright (C) 2012 – 2019 Red Hat, Inc.
 # This file is distributed under the same license as the PACKAGE package.
-# Gianvito Cavasoli <gianvito@gmx.it>, 2013-2019.
+# Gianvito Cavasoli <gianvito@gmx.it>, 2013-2020.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-photos/issues\n"
-"POT-Creation-Date: 2019-01-18 12:57+0000\n"
-"PO-Revision-Date: 2019-02-27 13:42+0100\n"
+"POT-Creation-Date: 2020-08-25 17:10+0000\n"
+"PO-Revision-Date: 2020-09-10 14:50+0200\n"
 "Last-Translator: Gianvito Cavasoli <gianvito@gmx.it>\n"
-"Language-Team: Italiano <gnome-it-list@gnome.org>\n"
+"Language-Team: Italian <gnome-it-list@gnome.org>\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Gtranslator 3.30.1\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"X-Generator: Gtranslator 3.36.0\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 
 #: data/org.gnome.Photos.appdata.xml.in:7 data/org.gnome.Photos.desktop.in.in:3
@@ -84,18 +84,13 @@ msgstr ""
 "Modificare facilmente nell'applicazione le proprie foto, oppure inviarle a "
 "un editor più completo per modifiche più avanzate"
 
-#: data/org.gnome.Photos.appdata.xml.in:51
+#: data/org.gnome.Photos.appdata.xml.in:81
 msgid "The GNOME Project"
 msgstr "Il progetto GNOME"
 
 #: data/org.gnome.Photos.desktop.in.in:4
 msgid "Access, organize and share photos"
 msgstr "Accede, organizza e condivide foto"
-
-#. Translators: Do NOT translate or transliterate this text (this is an icon file name)!
-#: data/org.gnome.Photos.desktop.in.in:7
-msgid "org.gnome.Photos"
-msgstr "org.gnome.Photos"
 
 #. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
 #: data/org.gnome.Photos.desktop.in.in:15
@@ -152,7 +147,7 @@ msgstr "%-d %B %Y"
 msgid "Album"
 msgstr "Album"
 
-#: src/photos-base-item.c:2840
+#: src/photos-base-item.c:2845
 msgid "Screenshots"
 msgstr "Schermate"
 
@@ -197,7 +192,7 @@ msgstr "Preferite"
 msgid "Import"
 msgstr "Importa"
 
-#: src/photos-embed.c:843 src/photos-main-toolbar.c:336
+#: src/photos-embed.c:843 src/photos-main-toolbar.c:335
 msgid "Search"
 msgstr "Cerca"
 
@@ -269,8 +264,8 @@ msgid "_Reduced"
 msgstr "_Ridotta"
 
 #: src/photos-export-dialog.ui:160 src/photos-import-dialog.ui:185
-#: src/photos-main-toolbar.c:490 src/photos-main-toolbar.c:526
-#: src/photos-main-toolbar.c:639
+#: src/photos-main-toolbar.c:487 src/photos-main-toolbar.c:523
+#: src/photos-main-toolbar.c:634
 msgid "_Cancel"
 msgstr "_Annulla"
 
@@ -351,118 +346,126 @@ msgid "Show help"
 msgstr "Mostra l'aiuto"
 
 #: src/photos-help-overlay.ui:43
+#| msgid "Keyboard Shortcuts"
+msgctxt "shortcut window"
+msgid "Keyboard shortcuts"
+msgstr "Scorciatoie da tastiera"
+
+#: src/photos-help-overlay.ui:50
 msgctxt "shortcut window"
 msgid "Quit"
 msgstr "Esce"
 
-#: src/photos-help-overlay.ui:52
+#: src/photos-help-overlay.ui:59
 msgctxt "shortcut window"
 msgid "Navigation"
 msgstr "Navigazione"
 
-#: src/photos-help-overlay.ui:56
+#: src/photos-help-overlay.ui:63
 msgctxt "shortcut window"
 msgid "Next photo"
 msgstr "Foto successiva"
 
-#: src/photos-help-overlay.ui:63
+#: src/photos-help-overlay.ui:70
 msgctxt "shortcut window"
 msgid "Previous photo"
 msgstr "Foto precedente"
 
-#: src/photos-help-overlay.ui:70 src/photos-help-overlay.ui:78
+#: src/photos-help-overlay.ui:77 src/photos-help-overlay.ui:85
 msgctxt "shortcut window"
 msgid "Go back"
 msgstr "Va indietro"
 
-#: src/photos-help-overlay.ui:88
+#: src/photos-help-overlay.ui:95
 msgctxt "shortcut window"
 msgid "Overview"
 msgstr "Panoramica"
 
-#: src/photos-help-overlay.ui:92
+#: src/photos-help-overlay.ui:99
 msgctxt "shortcut window"
 msgid "Search"
 msgstr "Cerca"
 
-#: src/photos-help-overlay.ui:99
+#: src/photos-help-overlay.ui:106
 msgctxt "shortcut window"
 msgid "Select all"
 msgstr "Seleziona tutto"
 
-#: src/photos-help-overlay.ui:106
+#: src/photos-help-overlay.ui:113
+#| msgctxt "shortcut window"
+#| msgid "Export selected photos"
+msgctxt "shortcut window"
+msgid "Export selected photo"
+msgstr "Esporta le foto selezionate"
+
+#: src/photos-help-overlay.ui:120
 #| msgctxt "shortcut window"
 #| msgid "Print selected photos"
 msgctxt "shortcut window"
-msgid "Export selected photos"
-msgstr "Esporta le foto selezionate"
-
-#: src/photos-help-overlay.ui:113
-msgctxt "shortcut window"
-msgid "Print selected photos"
+msgid "Print selected photo"
 msgstr "Stampa le foto selezionate"
 
-#: src/photos-help-overlay.ui:120
+#: src/photos-help-overlay.ui:127
 msgctxt "shortcut window"
 msgid "Delete selected photos"
 msgstr "Elimina le foto selezionate"
 
-#: src/photos-help-overlay.ui:129
+#: src/photos-help-overlay.ui:136
 msgctxt "shortcut window"
 msgid "Photo view"
 msgstr "Visuale della foto"
 
-#: src/photos-help-overlay.ui:133
+#: src/photos-help-overlay.ui:140
 msgctxt "shortcut window"
 msgid "Edit"
 msgstr "Modifica"
 
-#: src/photos-help-overlay.ui:140
+#: src/photos-help-overlay.ui:147
 msgctxt "shortcut window"
 msgid "Export"
 msgstr "Esporta"
 
-#: src/photos-help-overlay.ui:147
+#: src/photos-help-overlay.ui:154
 msgctxt "shortcut window"
 msgid "Print"
 msgstr "Stampa"
 
-#: src/photos-help-overlay.ui:154
+#: src/photos-help-overlay.ui:161
 msgctxt "shortcut window"
 msgid "Zoom in"
 msgstr "Aumenta l'ingrandimento"
 
-#: src/photos-help-overlay.ui:161
+#: src/photos-help-overlay.ui:168
 msgctxt "shortcut window"
 msgid "Zoom out"
 msgstr "Diminuisce l'ingrandimento"
 
-#: src/photos-help-overlay.ui:168
+#: src/photos-help-overlay.ui:175
 msgctxt "shortcut window"
 msgid "Best fit"
 msgstr "Adatta al meglio"
 
-#: src/photos-help-overlay.ui:175
+#: src/photos-help-overlay.ui:182
 msgctxt "shortcut window"
 msgid "Delete"
 msgstr "Elimina"
 
-#: src/photos-help-overlay.ui:182
+#: src/photos-help-overlay.ui:189
 msgctxt "shortcut window"
 msgid "Action menu"
 msgstr "Menù azione"
 
-#: src/photos-help-overlay.ui:189
+#: src/photos-help-overlay.ui:196
 msgctxt "shortcut window"
 msgid "Fullscreen"
 msgstr "Schermo intero"
 
-#: src/photos-help-overlay.ui:198
+#: src/photos-help-overlay.ui:205
 msgctxt "shortcut window"
 msgid "Edit view"
 msgstr "Visuale di modifica"
 
-#: src/photos-help-overlay.ui:202
+#: src/photos-help-overlay.ui:209
 msgctxt "shortcut window"
 msgid "Cancel"
 msgstr "Annulla"
@@ -521,64 +524,61 @@ msgstr "Attenzione! Impossibile caricare «%s»"
 msgid "Local"
 msgstr "Locale"
 
-#: src/photos-main-toolbar.c:80
+#: src/photos-main-toolbar.c:79
 msgid "Click on items to select them"
 msgstr "Fare clic sugli oggetti per selezionarli"
 
-#: src/photos-main-toolbar.c:82
+#: src/photos-main-toolbar.c:81
 #, c-format
 msgid "%d selected"
 msgid_plural "%d selected"
 msgstr[0] "%d selezionato"
 msgstr[1] "%d selezionati"
 
-#: src/photos-main-toolbar.c:170
+#: src/photos-main-toolbar.c:169
 msgid "Select items for import"
 msgstr "Seleziona oggetti per l'importazione"
 
-#: src/photos-main-toolbar.c:174
+#: src/photos-main-toolbar.c:173
 #, c-format
 msgid "Select items for import (%u selected)"
 msgid_plural "Select items for import (%u selected)"
 msgstr[0] "Seleziona oggetti per l'importazione (%u selezionato)"
 msgstr[1] "Seleziona oggetti per l'importazione (%u selezionati)"
 
-#: src/photos-main-toolbar.c:217
+#: src/photos-main-toolbar.c:216
 msgid "Back"
 msgstr "Indietro"
 
-#: src/photos-main-toolbar.c:351
+#: src/photos-main-toolbar.c:350
 msgid "Select Items"
 msgstr "Seleziona oggetti"
 
 #. length == 1
 #. Translators: this is the Open action in a context menu
-#: src/photos-main-toolbar.c:413 src/photos-selection-toolbar.c:237
+#: src/photos-main-toolbar.c:410 src/photos-selection-toolbar.c:237
 #: src/photos-share-notification.c:165
 #, c-format
 msgid "Open with %s"
 msgstr "Apri con %s"
 
-#: src/photos-main-toolbar.c:444 src/photos-selection-toolbar.c:248
+#: src/photos-main-toolbar.c:441 src/photos-selection-toolbar.c:248
 msgid "Remove from favorites"
 msgstr "Rimuove dalle preferite"
 
-#: src/photos-main-toolbar.c:449 src/photos-selection-toolbar.c:253
+#: src/photos-main-toolbar.c:446 src/photos-selection-toolbar.c:253
 msgid "Add to favorites"
 msgstr "Aggiunge alle preferite"
 
-#: src/photos-main-toolbar.c:494
+#: src/photos-main-toolbar.c:491
 msgid "Done"
 msgstr "Fatto"
 
-#: src/photos-main-toolbar.c:530
+#: src/photos-main-toolbar.c:527
 msgid "_Select"
 msgstr "_Seleziona"
 
 #: src/photos-main-window.c:458
-#| msgid ""
-#| "Copyright © 2012 – 2018 Red Hat, Inc.\n"
-#| "Copyright © 2015 – 2018 Umang Jain"
 msgid ""
 "Copyright © 2012 – 2019 Red Hat, Inc.\n"
 "Copyright © 2015 – 2018 Umang Jain"
@@ -646,7 +646,6 @@ msgid "_Help"
 msgstr "A_iuto"
 
 #: src/photos-primary-menu.ui:14
-#| msgid "Photos"
 msgid "About Photos"
 msgstr "Informazioni su Foto"
 
@@ -1035,18 +1034,22 @@ msgid "Calistoga"
 msgstr "Calistoga"
 
 #: src/photos-tool-filters.c:202
+msgid "Trencin"
+msgstr "Trencin"
+
+#: src/photos-tool-filters.c:209
 msgid "Mogadishu"
 msgstr "Mogadiscio"
 
-#: src/photos-tool-filters.c:209
+#: src/photos-tool-filters.c:215
 msgid "Caap"
 msgstr "Caap"
 
-#: src/photos-tool-filters.c:215
+#: src/photos-tool-filters.c:222
 msgid "Hometown"
 msgstr "Città natale"
 
-#: src/photos-tool-filters.c:233
+#: src/photos-tool-filters.c:239
 msgid "Filters"
 msgstr "Filtri"
 
