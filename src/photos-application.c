@@ -693,7 +693,7 @@ photos_application_gom_miner (GObject *source_object, GAsyncResult *res, gpointe
 
 
 static void
-photos_application_create_miners (PhotosApplication *self)
+photos_application_create_online_miners (PhotosApplication *self)
 {
   GIOExtensionPoint *extension_point;
   GList *extensions;
@@ -2245,7 +2245,7 @@ photos_application_share_current (PhotosApplication *self)
 static void
 photos_application_start_miners (PhotosApplication *self)
 {
-  photos_application_create_miners (self);
+  photos_application_create_online_miners (self);
 }
 
 
