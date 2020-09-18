@@ -176,7 +176,7 @@ tracker_control_dep = dependency('tracker-control-2.0')
 tracker_sparql_dep = dependency('tracker-sparql-2.0')
 
 dbus_dep = dependency('dbus-1')
-dbus_service_dir = dbus_dep.get_pkgconfig_variable(
+dbus_services_dir = dbus_dep.get_pkgconfig_variable(
   'session_bus_services_dir',
   define_variable: ['datadir', photos_datadir],
 )

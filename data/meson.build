@@ -42,7 +42,7 @@ configure_file(
   output: service,
   configuration: service_conf,
   install: true,
-  install_dir: dbus_service_dir,
+  install_dir: dbus_services_dir,
 )
 
 install_data(
