@@ -34,6 +34,14 @@
     <kudo>UserDocs</kudo>
   </kudos>
   <releases>
+    <release version="3.38.0" date="2020-09-23">
+      <description>
+        <ul>
+          <li>Add a new magic filter, Trencin, very similar to Instagram's Clarendon filter</li>
+          <li>Switch to private instances of the Tracker 2.x daemons</li>
+        </ul>
+      </description>
+    </release>
     <release version="3.34.0" date="2019-09-11">
       <description>
         <ul>
