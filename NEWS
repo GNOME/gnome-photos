@@ -1,5 +1,32 @@
-Overview of changes in 3.37.92
-==============================
+Overview of changes in 3.38.0
+=============================
+
+* Switch to private instances of the Tracker 2.x daemons (!146)
+
+* Bugs fixed:
+ !140 flatpak: Update LibRaw to 0.20.0
+ !141 flatpak: Enable native language support in exiv2
+ !142 flatpak: Update exiv2 to 0.27.3
+ !148 utils: Avoid a potential build failure due to undefined M_PI constant
+ !149 Fix various CRITICALs from Tracker
+ !151 flatpak: Remove unsed tracker-miner build option
+
+* Updated translations:
+ Basque
+ Danish
+ Dutch
+ English (British)
+ French
+ German
+ Hungarian
+ Italian
+ Japanese
+ Korean
+ Latvian
+ Lithuanian
+ Portuguese
+ Serbian
+ Slovak
 
 
 Overview of changes in 3.37.91.1
@@ -12,7 +39,7 @@ Overview of changes in 3.37.91.1
 Overview of changes in 3.37.91
 ==============================
 
-* Add a new magic filter called Trencin
+* Add a new magic filter called Trencin (!129)
 
 * Bugs fixed:
  !133 CI: Drop MESON_ARGS, and detect them from the Flatpak manifest
