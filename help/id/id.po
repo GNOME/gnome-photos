@@ -5,16 +5,16 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: gnome-photos master\n"
-"POT-Creation-Date: 2019-12-11 10:41+0000\n"
-"PO-Revision-Date: 2020-03-11 11:14+0700\n"
+"Project-Id-Version: gnome-photos gnome-3-38\n"
+"POT-Creation-Date: 2020-08-25 17:11+0000\n"
+"PO-Revision-Date: 2020-10-05 13:39+0700\n"
 "Last-Translator: Andika Triwidada <andika@gmail.com>\n"
 "Language-Team: Indonesian <gnome-l10n-id@googlegroups.com>\n"
 "Language: id\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.3\n"
+"X-Generator: Poedit 2.4.1\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
 msgctxt "_"
@@ -66,10 +66,10 @@ msgstr "Tandai favorit Anda"
 #: C/favorites-set.page:27
 msgid ""
 "Photos or albums can be marked as favorites from the <gui style=\"tab"
-"\">Recent</gui> tab or <gui style=\"tab\">Albums</gui> tab."
+"\">Photos</gui> tab or <gui style=\"tab\">Albums</gui> tab."
 msgstr ""
 "Foto atau album dapat ditandai sebagai favorit dari tab <gui style=\"tab"
-"\">Terkini</gui> atau tab <gui style=\"tab\">Album</gui>."
+"\">Foto</gui> atau tab <gui style=\"tab\">Album</gui>."
 
 #. (itstool) path: steps/title
 #: C/favorites-set.page:31
@@ -79,11 +79,11 @@ msgstr "Untuk melabeli butir-butir favorit:"
 #. (itstool) path: item/p
 #: C/favorites-set.page:33
 msgid ""
-"Select the <gui>Albums</gui> tab or <gui>Recent</gui> tab depending on "
+"Select the <gui>Albums</gui> tab or <gui>Photos</gui> tab depending on "
 "whether you want to mark an album or a photo as a favorite."
 msgstr ""
-"Pilih tab <gui>Album</gui> atau tab <gui>Terkini</gui>, tergantung apakah "
-"Anda ingin menandai album atau foto sebagai favorit."
+"Pilih tab <gui>Album</gui> atau tab <gui>Foto</gui>, tergantung apakah Anda "
+"ingin menandai album atau foto sebagai favorit."
 
 #. (itstool) path: item/p
 #: C/favorites-set.page:37
@@ -241,13 +241,13 @@ msgstr "Lihat foto terkini"
 #. (itstool) path: page/p
 #: C/view-photos.page:21
 msgid ""
-"The <gui style=\"tab\">Recent</gui> tab displays photos from local file "
+"The <gui style=\"tab\">Photos</gui> tab displays photos from local file "
 "system locations such as <file>~/Downloads</file>, <file>~/Pictures</file> "
 "and from online collections. You can also add other locations, even cloud-"
 "based collections such as Flickr or Facebook photographs, through <app>GNOME "
 "Online Accounts</app>."
 msgstr ""
-"Tab <gui style=\"tab\">Terkini</gui> ini menampilkan foto dari lokasi sistem "
+"Tab <gui style=\"tab\">Foto</gui> ini menampilkan foto dari lokasi sistem "
 "berkas lokal seperti <file>~/Downloads</file>, <file>~/Pictures</file>, dan "
 "dari koleksi daring. Anda juga dapat menambahkan lokasi lain, bahkan koleksi "
 "berbasis cloud seperti foto Flickr atau Facebook, melalui <app>Akun Daring "
@@ -267,10 +267,10 @@ msgstr "Buka <guiseq><gui>Pengaturan</gui><gui>Cari</gui></guiseq>."
 #: C/view-photos.page:34
 msgid ""
 "Click on the gear button on the bottom right. You can select the locations "
-"you want to display in the <gui style=\"tab\">Recent</gui> tab."
+"you want to display in the <gui style=\"tab\">Photos</gui> tab."
 msgstr ""
 "Klik tombol roda gigi di kanan bawah. Anda dapat memilih lokasi yang ingin "
-"ditampilkan di tab <gui style=\"tab\">Terkini</gui>."
+"ditampilkan di tab <gui style=\"tab\">Foto</gui>."
 
 #. (itstool) path: page/p
 #: C/view-photos.page:40
@@ -279,8 +279,8 @@ msgstr "Untuk melihat foto terkini:"
 
 #. (itstool) path: item/p
 #: C/view-photos.page:43
-msgid "Select the <gui style=\"tab\">Recent</gui> tab."
-msgstr "Pilih tab <gui style=\"tab\">Terkini</gui>."
+msgid "Select the <gui style=\"tab\">Photos</gui> tab."
+msgstr "Pilih tab <gui style=\"tab\">Foto</gui>."
 
 #. (itstool) path: item/p
 #: C/view-photos.page:46
@@ -300,12 +300,12 @@ msgstr "Lihat citra"
 #. (itstool) path: page/p
 #: C/view.page:26
 msgid ""
-"When <app>Photos</app> is opened, you will see the <gui>Recent</gui> tab "
-"open. The <gui>Recent</gui> tab contains images from your computer, the "
+"When <app>Photos</app> is opened, you will see the <gui>Photos</gui> tab "
+"open. The <gui>Photos</gui> tab contains images from your computer, the "
 "<gui>Albums</gui> tab contains your photo albums, and any image you mark as "
 "a favourite can be found in the <gui>Favorites</gui> tab."
 msgstr ""
-"Ketika <app>Foto</app> dibuka, Anda akan melihat tab <gui>Terkini</gui> ini "
-"terbuka. Tab <gui>Terkini</gui> berisi gambar dari komputer Anda, tab "
+"Ketika <app>Foto</app> dibuka, Anda akan melihat tab <gui>Foto</gui> ini "
+"terbuka. Tab <gui>Foto</gui> berisi gambar dari komputer Anda, tab "
 "<gui>Album</gui> berisi album foto Anda, dan citra apa pun yang Anda tandai "
 "sebagai favorit dapat ditemukan di tab <gui>Favorit</gui> ."
