@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-photos/issues\n"
-"POT-Creation-Date: 2020-03-30 16:41+0000\n"
-"PO-Revision-Date: 2020-05-02 00:24+0800\n"
+"POT-Creation-Date: 2020-08-25 17:10+0000\n"
+"PO-Revision-Date: 2020-10-12 22:09+0800\n"
 "Last-Translator: Cheng-Chia Tseng <pswo10680@gmail.com>\n"
 "Language-Team: Chinese <zh-l10n@linux.org.tw>\n"
 "Language: zh_TW\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 2.3\n"
+"X-Generator: Poedit 2.4.1\n"
 
 #: data/org.gnome.Photos.appdata.xml.in:7 data/org.gnome.Photos.desktop.in.in:3
 #: src/photos-application.c:3040 src/photos-embed.c:825
@@ -79,7 +79,7 @@ msgid ""
 msgstr ""
 "在應用程式中以簡單的方式編輯圖片，或傳送到完整功能的編輯器來做更多的修改"
 
-#: data/org.gnome.Photos.appdata.xml.in:74
+#: data/org.gnome.Photos.appdata.xml.in:81
 msgid "The GNOME Project"
 msgstr "GNOME 專案"
 
@@ -142,7 +142,7 @@ msgstr "%Y-%m-%d"
 msgid "Album"
 msgstr "相簿"
 
-#: src/photos-base-item.c:2840
+#: src/photos-base-item.c:2845
 msgid "Screenshots"
 msgstr "螢幕擷圖"
 
@@ -1016,18 +1016,22 @@ msgid "Calistoga"
 msgstr "卡利斯托加"
 
 #: src/photos-tool-filters.c:202
+msgid "Trencin"
+msgstr "特倫欽"
+
+#: src/photos-tool-filters.c:209
 msgid "Mogadishu"
 msgstr "摩加迪休"
 
-#: src/photos-tool-filters.c:209
+#: src/photos-tool-filters.c:215
 msgid "Caap"
 msgstr "Caap"
 
-#: src/photos-tool-filters.c:215
+#: src/photos-tool-filters.c:222
 msgid "Hometown"
 msgstr "家鄉"
 
-#: src/photos-tool-filters.c:233
+#: src/photos-tool-filters.c:239
 msgid "Filters"
 msgstr "濾鏡"
 
