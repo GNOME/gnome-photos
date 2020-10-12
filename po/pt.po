@@ -6,21 +6,22 @@
 # Sérgio Cardeira <scardeira.sergio@gmail.com>, 2016.
 # Tiago Santos <tiagofsantos81@sapo.pt>, 2014 - 2016.
 # José Vieira <jvieira33@sapo.pt>, 2020.
+# Juliano de Souza Camargo <julianosc@protonmail.com>, 2020.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos gnome-3-10\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-photos/issues\n"
-"POT-Creation-Date: 2020-08-25 17:10+0000\n"
-"PO-Revision-Date: 2020-09-13 17:50+0100\n"
-"Last-Translator: José Vieira <jvieira33@sapo.pt>\n"
-"Language-Team: Português <@>\n"
+"POT-Creation-Date: 2020-09-14 00:24+0000\n"
+"PO-Revision-Date: 2020-10-12 17:15+0100\n"
+"Last-Translator: Juliano de Souza Camargo <julianosc@protonmail.com>\n"
+"Language-Team: Portuguese < >\n"
 "Language: pt\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"X-Generator: Gtranslator 3.30.1\n"
+"X-Generator: Gtranslator 3.38.0\n"
 "X-Language: pt_PT\n"
 "X-Source-Language: C\n"
 "X-Project-Style: gnome\n"
@@ -33,23 +34,18 @@ msgstr "Fotografias"
 
 #: data/org.gnome.Photos.appdata.xml.in:8 src/photos-main-window.c:457
 msgid "Access, organize and share your photos on GNOME"
-msgstr "Aceda, organize e partilhe as suas fotografias no GNOME"
+msgstr "Aceda, organize e partilhe as suas fotos no GNOME"
 
 #: data/org.gnome.Photos.appdata.xml.in:10
-#| msgid ""
-#| "A simple application to access, organize and share your photos on GNOME. "
-#| "It is meant to be a simple and elegant replacement for using a file "
-#| "manager to deal with photos. Seamless cloud integration is offered "
-#| "through GNOME Online Accounts."
 msgid ""
 "Access, organize and share your photos on GNOME. A simple and elegant "
 "replacement for using a file manager to deal with photos. Enhance, crop and "
 "edit in a snap. Seamless cloud integration is offered through GNOME Online "
 "Accounts."
 msgstr ""
-"Uma aplicação simples para aceder, organizar e partilhar as suas fotografias "
-"no GNOME. Pretende ser um substituto simples e elegante à utilização de um "
-"gestor de ficheiros para lidar com fotografias. Otimizar, recortar e editar "
+"Uma aplicação simples para aceder, organizar e partilhar as suas fotos no "
+"GNOME. Pretende ser um substituto simples e elegante à utilização de um "
+"gestor de ficheiros para lidar com fotos. Otimizar, recortar e editar "
 "facilmente. É possível integração em nuvem através das Contas online do "
 "GNOME."
 
@@ -63,10 +59,9 @@ msgstr "Procurar todas as fotos automaticamente"
 
 #: data/org.gnome.Photos.appdata.xml.in:19
 msgid "View recent local and online photos"
-msgstr "Ver fotografias recentes locais e online"
+msgstr "Ver fotos recentes locais e online"
 
 #: data/org.gnome.Photos.appdata.xml.in:20
-#| msgid "Access your Facebook or Flickr content"
 msgid "Access your Facebook or Flickr pictures"
 msgstr "Aceder às fotos no Facebook ou no Flickr"
 
@@ -74,24 +69,22 @@ msgstr "Aceder às fotos no Facebook ou no Flickr"
 msgid ""
 "View photos on TVs, laptops or other DLNA renderers on your local network"
 msgstr ""
-"Ver fotografias em televisores, ecrãs de computador ou outros dispositivos "
-"na rede local"
+"Ver fotos em televisores, ecrãs de computador ou outros dispositivos na rede "
+"local"
 
 #: data/org.gnome.Photos.appdata.xml.in:23
-#| msgid "Set as background"
 msgid "Set pictures as your desktop background"
 msgstr "Definir como fundo do ambiente de trabalho"
 
 #: data/org.gnome.Photos.appdata.xml.in:24
 msgid "Print photos"
-msgstr "Imprimir fotografias"
+msgstr "Imprimir fotos"
 
 #: data/org.gnome.Photos.appdata.xml.in:25
 msgid "Select favorites"
-msgstr "Selecionar favoritos"
+msgstr "Selecionar os com estrela"
 
 #: data/org.gnome.Photos.appdata.xml.in:26
-#| msgid "Allow opening full featured editor for more advanced changes"
 msgid ""
 "Easily edit your pictures in the app, or send to a full featured editor for "
 "more advanced changes"
@@ -105,12 +98,12 @@ msgstr "Projeto GNOME"
 
 #: data/org.gnome.Photos.desktop.in.in:4
 msgid "Access, organize and share photos"
-msgstr "Aceder, organizar e partilhar fotografias"
+msgstr "Aceder, organizar e partilhar fotos"
 
 #. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
 #: data/org.gnome.Photos.desktop.in.in:15
 msgid "Photos;Pictures;"
-msgstr "Fotografias;Imagens;"
+msgstr "Fotografias;Imagens;Fotos;"
 
 #: data/org.gnome.photos.gschema.xml:5
 msgid "Window size"
@@ -155,7 +148,6 @@ msgstr "Mostra a versão da aplicação"
 #.
 #: src/photos-application.c:1398 src/photos-export-dialog.c:195
 #: src/photos-import-dialog.c:134
-#| msgid "%e %B %Y"
 msgid "%-d %B %Y"
 msgstr "%-d %B %Y"
 
@@ -202,10 +194,9 @@ msgstr "Álbuns"
 
 #: src/photos-embed.c:836 src/photos-search-type-manager.c:137
 msgid "Favorites"
-msgstr "Favoritos"
+msgstr "Com estrela"
 
 #: src/photos-embed.c:840
-#| msgid "Export"
 msgid "Import"
 msgstr "Importar"
 
@@ -214,22 +205,20 @@ msgid "Search"
 msgstr "Procurar"
 
 #: src/photos-empty-results-box.c:120
-#| msgid "No Albums Found"
 msgid "No albums found"
 msgstr "Nenhum álbum encontrado"
 
 #: src/photos-empty-results-box.c:124
 msgid "Starred photos will appear here"
-msgstr "As fotografias favoritas aparecem aqui"
+msgstr "As fotos marcadas com estrela aparecem aqui"
 
 #: src/photos-empty-results-box.c:134
-#| msgid "No Photos Found"
 msgid "No photos found"
-msgstr "Nenhuma fotografia encontrada"
+msgstr "Nenhuma foto encontrada"
 
 #: src/photos-empty-results-box.c:163
 msgid "You can create albums from the Photos view"
-msgstr "Podem ser criados álbuns a partir da vista Fotografias"
+msgstr "Álbuns podem ser criados a partir da vista Fotos"
 
 #. Translators: this should be translated in the context of
 #. * the "Photos from your Online Accounts and Pictures folder
@@ -245,7 +234,7 @@ msgstr "Contas online"
 #.
 #: src/photos-empty-results-box.c:191
 msgid "Pictures folder"
-msgstr "Pasta Fotos"
+msgstr "pasta Imagens"
 
 #. Translators: the first %s here is "Online Accounts" and the
 #. * second %s is "Pictures folder", which are in separate
@@ -254,9 +243,8 @@ msgstr "Pasta Fotos"
 #.
 #: src/photos-empty-results-box.c:198
 #, c-format
-#| msgid "Starred photos will appear here"
 msgid "Photos from your %s and %s will appear here."
-msgstr "As fotografias de %s e de %s aparecem aqui."
+msgstr "As fotos das %s e da %s aparecem aqui."
 
 #: src/photos-empty-results-box.c:208
 msgid "Try a different search"
@@ -277,11 +265,11 @@ msgstr "Tamanho"
 
 #: src/photos-export-dialog.ui:83
 msgid "F_ull"
-msgstr "_Completo"
+msgstr "_Inteira"
 
 #: src/photos-export-dialog.ui:113
 msgid "_Reduced"
-msgstr "_Reduzido"
+msgstr "_Reduzida"
 
 #: src/photos-export-dialog.ui:160 src/photos-import-dialog.ui:185
 #: src/photos-main-toolbar.c:487 src/photos-main-toolbar.c:523
@@ -366,7 +354,6 @@ msgid "Show help"
 msgstr "Mostrar ajuda"
 
 #: src/photos-help-overlay.ui:43
-#| msgid "Keyboard Shortcuts"
 msgctxt "shortcut window"
 msgid "Keyboard shortcuts"
 msgstr "Atalhos de teclado"
@@ -384,12 +371,12 @@ msgstr "Navegação"
 #: src/photos-help-overlay.ui:63
 msgctxt "shortcut window"
 msgid "Next photo"
-msgstr "Fotografia seguinte"
+msgstr "Foto seguinte"
 
 #: src/photos-help-overlay.ui:70
 msgctxt "shortcut window"
 msgid "Previous photo"
-msgstr "Fotografia anterior"
+msgstr "Foto anterior"
 
 #: src/photos-help-overlay.ui:77 src/photos-help-overlay.ui:85
 msgctxt "shortcut window"
@@ -412,28 +399,24 @@ msgid "Select all"
 msgstr "Selecionar tudo"
 
 #: src/photos-help-overlay.ui:113
-#| msgctxt "shortcut window"
-#| msgid "Print selected photos"
 msgctxt "shortcut window"
 msgid "Export selected photo"
-msgstr "Exportar fotografia selecionada"
+msgstr "Exportar foto selecionada"
 
 #: src/photos-help-overlay.ui:120
-#| msgctxt "shortcut window"
-#| msgid "Print selected photos"
 msgctxt "shortcut window"
 msgid "Print selected photo"
-msgstr "Imprimir fotografia selecionada"
+msgstr "Imprimir foto selecionada"
 
 #: src/photos-help-overlay.ui:127
 msgctxt "shortcut window"
 msgid "Delete selected photos"
-msgstr "Eliminar fotografias selecionadas"
+msgstr "Eliminar fotos selecionadas"
 
 #: src/photos-help-overlay.ui:136
 msgctxt "shortcut window"
 msgid "Photo view"
-msgstr "Vista de Fotografia"
+msgstr "Vista Foto"
 
 #: src/photos-help-overlay.ui:140
 msgctxt "shortcut window"
@@ -473,12 +456,12 @@ msgstr "Eliminar"
 #: src/photos-help-overlay.ui:189
 msgctxt "shortcut window"
 msgid "Action menu"
-msgstr "Menu Ação"
+msgstr "Ver menu"
 
 #: src/photos-help-overlay.ui:196
 msgctxt "shortcut window"
 msgid "Fullscreen"
-msgstr "Ecrã completo"
+msgstr "Ecrã inteiro"
 
 #: src/photos-help-overlay.ui:205
 msgctxt "shortcut window"
@@ -499,7 +482,6 @@ msgid "An album for that date already exists"
 msgstr "Já existe um álbum com essa data"
 
 #: src/photos-import-dialog.ui:22
-#| msgid "Album"
 msgctxt "dialog title"
 msgid "Name Album"
 msgstr "Nome do Álbum"
@@ -522,19 +504,19 @@ msgstr "_Adicionar"
 #: src/photos-indexing-notification.c:164
 #, c-format
 msgid "Fetching photos from %s"
-msgstr "A obter fotografias do %s"
+msgstr "A obter fotos do %s"
 
 #: src/photos-indexing-notification.c:167
 msgid "Fetching photos from online accounts"
-msgstr "Obter fotografias de contas online"
+msgstr "Obter fotos de contas online"
 
 #: src/photos-indexing-notification.c:202
 msgid "Your photos are being indexed"
-msgstr "As fotografias estão a ser indexadas"
+msgstr "As fotos estão a ser indexadas"
 
 #: src/photos-indexing-notification.c:203
 msgid "Some photos might not be available during this process"
-msgstr "Algumas fotografias podem não estar disponíveis durante este processo"
+msgstr "Algumas fotos podem não estar disponíveis durante este processo"
 
 #: src/photos-item-manager.c:824
 #, c-format
@@ -557,7 +539,6 @@ msgstr[0] "%d selecionada"
 msgstr[1] "%d selecionadas"
 
 #: src/photos-main-toolbar.c:169
-#| msgid "Select Items"
 msgid "Select items for import"
 msgstr "Selecionar itens para importar"
 
@@ -586,18 +567,17 @@ msgstr "Abrir com %s"
 
 #: src/photos-main-toolbar.c:441 src/photos-selection-toolbar.c:248
 msgid "Remove from favorites"
-msgstr "Remover dos favoritos"
+msgstr "Remover estrela"
 
 #: src/photos-main-toolbar.c:446 src/photos-selection-toolbar.c:253
 msgid "Add to favorites"
-msgstr "Adicionar aos favoritos"
+msgstr "Marcar com estrela"
 
 #: src/photos-main-toolbar.c:491
 msgid "Done"
 msgstr "Concluído"
 
 #: src/photos-main-toolbar.c:527
-#| msgid "Select All"
 msgid "_Select"
 msgstr "_Selecionar"
 
@@ -615,11 +595,12 @@ msgid "translator-credits"
 msgstr ""
 "António Lima <amrlima@gmail.com>\n"
 "Tiago Santos <tiagofsantos81@sapo.pt>\n"
-"Pedro Albuquerque <palbuquerque73@gmail.com>"
+"Pedro Albuquerque <palbuquerque73@gmail.com>\n"
+"Juliano de Souza Camargo <julianosc@pm.me>"
 
 #: src/photos-organize-collection-dialog.c:70
 msgid "_OK"
-msgstr "_Aceitar"
+msgstr "A_ceitar"
 
 #. Translators: "Organize" refers to photos in this context
 #: src/photos-organize-collection-dialog.c:121
@@ -658,7 +639,7 @@ msgstr "Propriedades"
 
 #: src/photos-preview-menu.ui:41
 msgid "Fullscreen"
-msgstr "Ecrã completo"
+msgstr "Ecrã inteiro"
 
 #: src/photos-primary-menu.ui:6
 msgid "Keyboard Shortcuts"
@@ -670,7 +651,7 @@ msgstr "A_juda"
 
 #: src/photos-primary-menu.ui:14
 msgid "About Photos"
-msgstr "Sobre o Fotografias"
+msgstr "Acerca do Fotos"
 
 #: src/photos-print-notification.c:71
 #, c-format
@@ -751,7 +732,7 @@ msgstr "Antever"
 
 #: src/photos-properties-dialog.c:246
 msgid "Edited in Photos"
-msgstr "Editar no Fotografias"
+msgstr "Editar no Fotos"
 
 #: src/photos-properties-dialog.c:259
 msgid "Untouched"
@@ -798,7 +779,6 @@ msgid "Dimensions"
 msgstr "Dimensões"
 
 #: src/photos-properties-dialog.c:507
-#| msgid "Modifications"
 msgid "Location"
 msgstr "Localização"
 
@@ -908,7 +888,6 @@ msgstr "Partilhar"
 
 #: src/photos-share-notification.c:148
 #, c-format
-#| msgid "“%s” exported"
 msgid "“%s” shared"
 msgstr "“%s” partilhada"
 
@@ -918,11 +897,11 @@ msgstr "E-Mail"
 
 #: src/photos-share-point-google.c:103
 msgid "Failed to upload photo: Service not authorized"
-msgstr "Falha ao enviar fotografia: Serviço não autorizado"
+msgstr "Falha ao enviar foto: Serviço não autorizado"
 
 #: src/photos-share-point-google.c:105
 msgid "Failed to upload photo"
-msgstr "Falha na enviar fotografia"
+msgstr "Falha ao enviar foto"
 
 #: src/photos-source-manager.c:465
 msgid "Sources"
@@ -933,7 +912,6 @@ msgid "New device discovered"
 msgstr "Descoberto novo dispositivo"
 
 #: src/photos-source-notification.c:184
-#| msgid "Export…"
 msgid "Import…"
 msgstr "Importar…"
 
@@ -970,7 +948,6 @@ msgid "Shadows"
 msgstr "Sombreados"
 
 #: src/photos-tool-colors.c:466
-#| msgid "Height"
 msgid "Highlights"
 msgstr "Realces"
 
@@ -1086,7 +1063,7 @@ msgstr "Incapz de encontrar o Tracker no sistema"
 
 #: src/photos-tracker-controller.c:176
 msgid "Unable to fetch the list of photos"
-msgstr "Impossível obter a lista de fotografias"
+msgstr "Impossível obter a lista de fotos"
 
 #~ msgid "It lets you:"
 #~ msgstr "Permite-lhe:"
