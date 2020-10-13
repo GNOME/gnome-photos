@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: gnome-photos gnome-3-10\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-photos/issues\n"
 "POT-Creation-Date: 2020-09-14 00:24+0000\n"
-"PO-Revision-Date: 2020-10-12 17:15+0100\n"
+"PO-Revision-Date: 2020-10-13 13:48+0100\n"
 "Last-Translator: Juliano de Souza Camargo <julianosc@protonmail.com>\n"
 "Language-Team: Portuguese < >\n"
 "Language: pt\n"
@@ -30,7 +30,7 @@ msgstr ""
 #: src/photos-application.c:3040 src/photos-embed.c:825
 #: src/photos-main-window.c:437 src/photos-search-type-manager.c:144
 msgid "Photos"
-msgstr "Fotografias"
+msgstr "Fotos"
 
 #: data/org.gnome.Photos.appdata.xml.in:8 src/photos-main-window.c:457
 msgid "Access, organize and share your photos on GNOME"
@@ -82,7 +82,7 @@ msgstr "Imprimir fotos"
 
 #: data/org.gnome.Photos.appdata.xml.in:25
 msgid "Select favorites"
-msgstr "Selecionar os com estrela"
+msgstr "Selecionar as com estrela"
 
 #: data/org.gnome.Photos.appdata.xml.in:26
 msgid ""
@@ -186,7 +186,7 @@ msgstr "“%s” editada"
 
 #: src/photos-embed.c:829
 msgid "Collection View"
-msgstr "Vista de Coleção"
+msgstr "Vista Coleção"
 
 #: src/photos-embed.c:832 src/photos-search-type-manager.c:129
 msgid "Albums"
@@ -416,7 +416,7 @@ msgstr "Eliminar fotos selecionadas"
 #: src/photos-help-overlay.ui:136
 msgctxt "shortcut window"
 msgid "Photo view"
-msgstr "Vista Foto"
+msgstr "Vista Fotos"
 
 #: src/photos-help-overlay.ui:140
 msgctxt "shortcut window"
@@ -466,7 +466,7 @@ msgstr "Ecrã inteiro"
 #: src/photos-help-overlay.ui:205
 msgctxt "shortcut window"
 msgid "Edit view"
-msgstr "Editar vista"
+msgstr "Vista Editar"
 
 #: src/photos-help-overlay.ui:209
 msgctxt "shortcut window"
@@ -475,24 +475,24 @@ msgstr "Cancelar"
 
 #: src/photos-import-dialog.c:194
 msgid "An album with that name already exists"
-msgstr "Já existe um álbum com esse nome"
+msgstr "Já existe um álbum com este nome"
 
 #: src/photos-import-dialog.c:211
 msgid "An album for that date already exists"
-msgstr "Já existe um álbum com essa data"
+msgstr "Já existe um álbum com esta data"
 
 #: src/photos-import-dialog.ui:22
 msgctxt "dialog title"
 msgid "Name Album"
-msgstr "Nome do Álbum"
+msgstr "Nome do álbum"
 
 #: src/photos-import-dialog.ui:54
 msgid "Create _New"
-msgstr "Criar _Novo"
+msgstr "Criar _novo"
 
 #: src/photos-import-dialog.ui:118
 msgid "Add to _Existing"
-msgstr "Adicionar a _Existente"
+msgstr "Adicionar a _existente"
 
 #: src/photos-import-dialog.ui:192 src/photos-organize-collection-dialog.c:69
 msgid "_Add"
@@ -656,7 +656,7 @@ msgstr "Acerca do Fotos"
 #: src/photos-print-notification.c:71
 #, c-format
 msgid "Printing “%s”: %s"
-msgstr "A imprimir \"%s\": %s"
+msgstr "A imprimir “%s”: %s"
 
 #: src/photos-print-operation.c:241
 msgid "Image Settings"
@@ -712,7 +712,7 @@ msgstr "_Altura:"
 
 #: src/photos-print-setup.c:918
 msgid "_Scaling:"
-msgstr "_Escala:"
+msgstr "E_scala:"
 
 #: src/photos-print-setup.c:927
 msgid "_Unit:"
@@ -728,7 +728,7 @@ msgstr "Polegadas"
 
 #: src/photos-print-setup.c:960
 msgid "Preview"
-msgstr "Antever"
+msgstr "Antevisão"
 
 #: src/photos-properties-dialog.c:246
 msgid "Edited in Photos"
@@ -893,7 +893,7 @@ msgstr "“%s” partilhada"
 
 #: src/photos-share-point-email.c:78
 msgid "E-Mail"
-msgstr "E-Mail"
+msgstr "Correio"
 
 #: src/photos-share-point-google.c:103
 msgid "Failed to upload photo: Service not authorized"
@@ -921,7 +921,7 @@ msgstr "Importar…"
 #: src/photos-source-notification.c:214
 #, c-format
 msgid "Your %s credentials have expired"
-msgstr "As credenciais %s expiraram"
+msgstr "As credenciais do %s expiraram"
 
 #: src/photos-source-notification.c:221
 msgid "Settings"
@@ -937,7 +937,7 @@ msgstr "Contraste"
 
 #: src/photos-tool-colors.c:407
 msgid "Blacks"
-msgstr "Preto e branco"
+msgstr "Pretos"
 
 #: src/photos-tool-colors.c:428
 msgid "Saturation"
@@ -1059,7 +1059,7 @@ msgstr "Filtros"
 
 #: src/photos-tracker-controller.c:174
 msgid "Unable to find Tracker on your operating system"
-msgstr "Incapz de encontrar o Tracker no sistema"
+msgstr "Incapaz de encontrar o Tracker no sistema"
 
 #: src/photos-tracker-controller.c:176
 msgid "Unable to fetch the list of photos"
