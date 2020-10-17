@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-photos/issues\n"
-"POT-Creation-Date: 2020-05-26 16:37+0000\n"
-"PO-Revision-Date: 2020-07-14 17:29+0200\n"
+"POT-Creation-Date: 2020-08-04 20:37+0000\n"
+"PO-Revision-Date: 2020-10-17 22:19+0200\n"
 "Last-Translator: Fabio Tomat <f.t.public@gmail.com>\n"
 "Language-Team: Friulian <fur@li.org>\n"
 "Language: fur\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 2.3.1\n"
+"X-Generator: Poedit 2.4.1\n"
 
 #: data/org.gnome.Photos.appdata.xml.in:7 data/org.gnome.Photos.desktop.in.in:3
 #: src/photos-application.c:3040 src/photos-embed.c:825
@@ -1050,7 +1050,7 @@ msgstr "Impussibil cjatâ Tracker sul sisteme operatîf"
 
 #: src/photos-tracker-controller.c:176
 msgid "Unable to fetch the list of photos"
-msgstr "Impussibil vê la liste das fotos"
+msgstr "Impussibil vê la liste des fotos"
 
 #~ msgid "org.gnome.Photos"
 #~ msgstr "org.gnome.Photos"
