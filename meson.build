@@ -12,6 +12,7 @@ photos_bindir = join_paths(photos_prefix, get_option('bindir'))
 photos_datadir = join_paths(photos_prefix, get_option('datadir'))
 photos_libexecdir = join_paths(photos_prefix, get_option('libexecdir'))
 photos_localedir = join_paths(photos_prefix, get_option('localedir'))
+photos_mandir = join_paths(photos_prefix, get_option('mandir'))
 
 photos_docdir = join_paths(photos_datadir, 'doc', meson.project_name())
 photos_libdir = join_paths(photos_prefix, get_option('libdir'), meson.project_name())
@@ -23,6 +24,7 @@ photos_namespace = 'org.gnome.Photos'
 
 photos_buildtype = get_option('buildtype')
 photos_installed_tests_enabled = get_option('installed_tests')
+photos_manuals_enabled = get_option('manuals')
 
 photos_installed_tests_template_tap = files('template-tap.test.in')
 
@@ -182,6 +184,10 @@ dbus_services_dir = dbus_dep.get_pkgconfig_variable(
   define_variable: ['datadir', photos_datadir],
 )
 
+if photos_manuals_enabled
+  xsltproc = find_program('xsltproc')
+endif
+
 configure_file(
   output: 'config.h',
   configuration: config_h,
@@ -202,6 +208,11 @@ install_data(
 
 subdir('data')
 subdir('src')
+
+if photos_manuals_enabled
+  subdir('manuals')
+endif
+
 subdir('po')
 subdir('tests')
 subdir('help')
