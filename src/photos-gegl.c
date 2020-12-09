@@ -680,21 +680,38 @@ void
 photos_gegl_init (void)
 {
   GeglConfig *config;
+  GParamSpec *threads_pspec;
+  GParamSpecInt *threads_pspec_int;
+  gint max_threads;
   gint threads;
   guint n_processors;
 
   n_processors = g_get_num_processors ();
-  g_return_if_fail (n_processors > 0);
+  config = gegl_config ();
+
+  /* GEGL has an arbitrary maximum for the number of threads. The
+   * maximum for the version of GEGL we were compiled against is given
+   * by the GEGL_MAX_THREADS macro, but there's no guarantee that the
+   * version we are eventually run against will be the same, so
+   * introspect the property to get the current maximum.
+   */
+  threads_pspec = g_object_class_find_property (G_OBJECT_GET_CLASS (config), "threads");
+  g_return_if_fail (threads_pspec != NULL);
+  g_return_if_fail (G_IS_PARAM_SPEC_INT (threads_pspec));
+  threads_pspec_int = G_PARAM_SPEC_INT (threads_pspec);
+  g_return_if_fail (threads_pspec_int->maximum >= 1);
+  max_threads = threads_pspec_int->maximum;
 
   /* The number of threads should match the number of physical CPU
    * cores, not the number of virtual hyper-threading cores. In the
    * absence of an API to get the number of physical CPU cores, we
    * assume that a number higher than one is indicative of
    * hyper-threading, and hence divide by two.
+   *
+   * Make sure it's in the allowed range for the threads property.
    */
-  threads = (gint) (n_processors > 1 ? n_processors / 2 : n_processors);
+  threads = (gint) CLAMP (n_processors / 2, 1U, (guint) max_threads);
 
-  config = gegl_config ();
   g_object_set (config, "application-license", "GPL3", NULL);
   g_object_set (config, "threads", threads, NULL);
   g_object_set (config, "use-opencl", FALSE, NULL);
