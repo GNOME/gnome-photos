@@ -24,11 +24,12 @@
 #define PHOTOS_MAIN_WINDOW_H
 
 #include <gtk/gtk.h>
+#include <handy.h>
 
 G_BEGIN_DECLS
 
 #define PHOTOS_TYPE_MAIN_WINDOW (photos_main_window_get_type ())
-G_DECLARE_FINAL_TYPE (PhotosMainWindow, photos_main_window, PHOTOS, MAIN_WINDOW, GtkApplicationWindow);
+G_DECLARE_FINAL_TYPE (PhotosMainWindow, photos_main_window, PHOTOS, MAIN_WINDOW, HdyApplicationWindow);
 
 GtkWidget             *photos_main_window_new                    (GtkApplication *application);
 

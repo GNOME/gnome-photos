@@ -17,7 +17,7 @@
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <interface>
-  <template class="PhotosMainWindow" parent="GtkApplicationWindow">
+  <template class="PhotosMainWindow" parent="HdyApplicationWindow">
     <property name="show-menubar">0</property>
     <property name="window-position">GTK_WIN_POS_CENTER</property>
     <child>

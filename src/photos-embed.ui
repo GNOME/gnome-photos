@@ -21,6 +21,9 @@
     <property name="orientation">GTK_ORIENTATION_VERTICAL</property>
     <property name="visible">1</property>
     <child>
+      <object class="PhotosMainToolbar" id="toolbar"/>
+    </child>
+    <child>
       <object class="GtkOverlay" id="stack_overlay">
         <property name="visible">1</property>
         <child>

@@ -796,7 +796,6 @@ static void
 photos_embed_init (PhotosEmbed *self)
 {
   GApplication *app;
-  GList *windows;
   PhotosSearchbar *searchbar;
   PhotosSearchContextState *state;
   gboolean querying;
@@ -812,10 +811,7 @@ photos_embed_init (PhotosEmbed *self)
 
   self->extension_point = g_io_extension_point_lookup (PHOTOS_TRACKER_CONTROLLER_EXTENSION_POINT_NAME);
 
-  self->toolbar = photos_main_toolbar_new ();
   photos_main_toolbar_set_stack (PHOTOS_MAIN_TOOLBAR (self->toolbar), GTK_STACK (self->stack));
-  windows = gtk_application_get_windows (GTK_APPLICATION (app));
-  gtk_window_set_titlebar (GTK_WINDOW (windows->data), self->toolbar);
   searchbar = photos_main_toolbar_get_searchbar (PHOTOS_MAIN_TOOLBAR (self->toolbar));
   g_signal_connect_swapped (searchbar, "activate-result", G_CALLBACK (photos_embed_activate_result), self);
 
@@ -944,6 +940,7 @@ photos_embed_class_init (PhotosEmbedClass *class)
   gtk_widget_class_bind_template_child (widget_class, PhotosEmbed, spinner_box);
   gtk_widget_class_bind_template_child (widget_class, PhotosEmbed, stack);
   gtk_widget_class_bind_template_child (widget_class, PhotosEmbed, stack_overlay);
+  gtk_widget_class_bind_template_child (widget_class, PhotosEmbed, toolbar);
 }
 
 

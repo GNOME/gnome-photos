@@ -197,7 +197,7 @@ photos_main_toolbar_set_toolbar_title (PhotosMainToolbar *self)
         }
     }
   else
-    gtk_header_bar_set_title (GTK_HEADER_BAR (self->header_bar), primary);
+    hdy_header_bar_set_title (HDY_HEADER_BAR (self->header_bar), primary);
 }
 
 
@@ -215,7 +215,7 @@ photos_main_toolbar_add_back_button (PhotosMainToolbar *self)
 
   back_button = gtk_button_new_from_icon_name ("go-previous-symbolic", GTK_ICON_SIZE_BUTTON);
   gtk_widget_set_tooltip_text (back_button, _("Back"));
-  gtk_header_bar_pack_start (GTK_HEADER_BAR (self->header_bar), back_button);
+  hdy_header_bar_pack_start (HDY_HEADER_BAR (self->header_bar), back_button);
   g_signal_connect_swapped (back_button, "clicked", G_CALLBACK (photos_main_toolbar_back_button_clicked), self);
 
   return back_button;
@@ -228,7 +228,7 @@ photos_main_toolbar_add_devices_button (PhotosMainToolbar *self)
   GtkWidget *devices_button;
 
   devices_button = photos_removable_devices_button_new ();
-  gtk_header_bar_pack_start (GTK_HEADER_BAR (self->header_bar), devices_button);
+  hdy_header_bar_pack_start (HDY_HEADER_BAR (self->header_bar), devices_button);
 }
 
 
@@ -248,7 +248,7 @@ photos_main_toolbar_add_primary_menu_button (PhotosMainToolbar *self)
   gtk_actionable_set_action_name (GTK_ACTIONABLE (menu_button), "app.primary-menu");
   gtk_button_set_image (GTK_BUTTON (menu_button), image);
   gtk_menu_button_set_menu_model (GTK_MENU_BUTTON (menu_button), G_MENU_MODEL (primary_menu));
-  gtk_header_bar_pack_end (GTK_HEADER_BAR (self->header_bar), menu_button);
+  hdy_header_bar_pack_end (HDY_HEADER_BAR (self->header_bar), menu_button);
 }
 
 
@@ -278,7 +278,7 @@ photos_main_toolbar_add_remote_display_button (PhotosMainToolbar *self)
   gtk_label_set_ellipsize (label, PANGO_ELLIPSIZE_MIDDLE);
   gtk_label_set_use_markup (label, TRUE);
   gtk_widget_set_margin_end (self->remote_display_button, 12);
-  gtk_header_bar_pack_start (GTK_HEADER_BAR (self->header_bar), self->remote_display_button);
+  hdy_header_bar_pack_start (HDY_HEADER_BAR (self->header_bar), self->remote_display_button);
   gtk_widget_show_all (self->remote_display_button);
 
   g_signal_connect_swapped (self->remote_display_button,
@@ -336,7 +336,7 @@ photos_main_toolbar_add_search_button (PhotosMainToolbar *self)
   gtk_widget_set_tooltip_text (search_button, _("Search"));
   gtk_button_set_image (GTK_BUTTON (search_button), image);
   gtk_actionable_set_action_name (GTK_ACTIONABLE (search_button), "app.search");
-  gtk_header_bar_pack_end (GTK_HEADER_BAR (self->header_bar), search_button);
+  hdy_header_bar_pack_end (HDY_HEADER_BAR (self->header_bar), search_button);
 
   return search_button;
 }
@@ -350,7 +350,7 @@ photos_main_toolbar_add_selection_button (PhotosMainToolbar *self)
   selection_button = gtk_button_new_from_icon_name ("object-select-symbolic", GTK_ICON_SIZE_BUTTON);
   gtk_widget_set_tooltip_text (selection_button, _("Select Items"));
   gtk_actionable_set_action_name (GTK_ACTIONABLE (selection_button), "app.selection-mode");
-  gtk_header_bar_pack_end (GTK_HEADER_BAR (self->header_bar), selection_button);
+  hdy_header_bar_pack_end (HDY_HEADER_BAR (self->header_bar), selection_button);
 
   return selection_button;
 }
@@ -376,8 +376,8 @@ photos_main_toolbar_clear_toolbar (PhotosMainToolbar *self)
 
   photos_main_toolbar_clear_state_data (self);
 
-  gtk_header_bar_set_custom_title (GTK_HEADER_BAR (self->header_bar), NULL);
-  gtk_header_bar_set_show_close_button (GTK_HEADER_BAR (self->header_bar), FALSE);
+  hdy_header_bar_set_custom_title (HDY_HEADER_BAR (self->header_bar), NULL);
+  hdy_header_bar_set_show_close_button (HDY_HEADER_BAR (self->header_bar), FALSE);
   gtk_container_foreach (GTK_CONTAINER (self->header_bar), (GtkCallback) gtk_widget_destroy, NULL);
   context = gtk_widget_get_style_context (self->header_bar);
   gtk_style_context_remove_class (context, "selection-mode");
@@ -456,7 +456,7 @@ photos_main_toolbar_favorite_button_update (PhotosMainToolbar *self, gboolean fa
 static void
 photos_main_toolbar_populate_for_collection_view (PhotosMainToolbar *self)
 {
-  gtk_header_bar_set_show_close_button (GTK_HEADER_BAR (self->header_bar), TRUE);
+  hdy_header_bar_set_show_close_button (HDY_HEADER_BAR (self->header_bar), TRUE);
 
   photos_main_toolbar_add_back_button (self);
   photos_main_toolbar_add_primary_menu_button (self);
@@ -468,8 +468,8 @@ photos_main_toolbar_populate_for_collection_view (PhotosMainToolbar *self)
 static void
 photos_main_toolbar_populate_for_collections (PhotosMainToolbar *self)
 {
-  gtk_header_bar_set_custom_title (GTK_HEADER_BAR (self->header_bar), self->stack_switcher);
-  gtk_header_bar_set_show_close_button (GTK_HEADER_BAR (self->header_bar), TRUE);
+  hdy_header_bar_set_custom_title (HDY_HEADER_BAR (self->header_bar), self->stack_switcher);
+  hdy_header_bar_set_show_close_button (HDY_HEADER_BAR (self->header_bar), TRUE);
 
   photos_main_toolbar_add_devices_button (self);
   photos_main_toolbar_add_primary_menu_button (self);
@@ -487,11 +487,11 @@ photos_main_toolbar_populate_for_edit (PhotosMainToolbar *self)
 
   cancel_button = gtk_button_new_with_mnemonic (_("_Cancel"));
   gtk_actionable_set_action_name (GTK_ACTIONABLE (cancel_button), "app.edit-cancel");
-  gtk_header_bar_pack_start (GTK_HEADER_BAR (self->header_bar), cancel_button);
+  hdy_header_bar_pack_start (HDY_HEADER_BAR (self->header_bar), cancel_button);
 
   done_button = gtk_button_new_with_label (_("Done"));
   gtk_actionable_set_action_name (GTK_ACTIONABLE (done_button), "app.edit-done");
-  gtk_header_bar_pack_end (GTK_HEADER_BAR (self->header_bar), done_button);
+  hdy_header_bar_pack_end (HDY_HEADER_BAR (self->header_bar), done_button);
   context = gtk_widget_get_style_context (done_button);
   gtk_style_context_add_class (context, "suggested-action");
 }
@@ -500,8 +500,8 @@ photos_main_toolbar_populate_for_edit (PhotosMainToolbar *self)
 static void
 photos_main_toolbar_populate_for_favorites (PhotosMainToolbar *self)
 {
-  gtk_header_bar_set_custom_title (GTK_HEADER_BAR (self->header_bar), self->stack_switcher);
-  gtk_header_bar_set_show_close_button (GTK_HEADER_BAR (self->header_bar), TRUE);
+  hdy_header_bar_set_custom_title (HDY_HEADER_BAR (self->header_bar), self->stack_switcher);
+  hdy_header_bar_set_show_close_button (HDY_HEADER_BAR (self->header_bar), TRUE);
 
   photos_main_toolbar_add_devices_button (self);
   photos_main_toolbar_add_primary_menu_button (self);
@@ -517,17 +517,17 @@ photos_main_toolbar_populate_for_import (PhotosMainToolbar *self)
   GtkWidget *cancel_button;
   GtkWidget *select_button;
 
-  gtk_header_bar_set_custom_title (GTK_HEADER_BAR (self->header_bar), self->selection_menu);
+  hdy_header_bar_set_custom_title (HDY_HEADER_BAR (self->header_bar), self->selection_menu);
   context = gtk_widget_get_style_context (self->header_bar);
   gtk_style_context_add_class (context, "selection-mode");
 
   cancel_button = gtk_button_new_with_mnemonic (_("_Cancel"));
   gtk_actionable_set_action_name (GTK_ACTIONABLE (cancel_button), "app.import-cancel");
-  gtk_header_bar_pack_start (GTK_HEADER_BAR (self->header_bar), cancel_button);
+  hdy_header_bar_pack_start (HDY_HEADER_BAR (self->header_bar), cancel_button);
 
   select_button = gtk_button_new_with_mnemonic (_("_Select"));
   gtk_actionable_set_action_name (GTK_ACTIONABLE (select_button), "app.import-current");
-  gtk_header_bar_pack_end (GTK_HEADER_BAR (self->header_bar), select_button);
+  hdy_header_bar_pack_end (HDY_HEADER_BAR (self->header_bar), select_button);
 
   g_signal_connect_object (self->sel_cntrlr,
                            "selection-changed",
@@ -540,8 +540,8 @@ photos_main_toolbar_populate_for_import (PhotosMainToolbar *self)
 static void
 photos_main_toolbar_populate_for_overview (PhotosMainToolbar *self)
 {
-  gtk_header_bar_set_custom_title (GTK_HEADER_BAR (self->header_bar), self->stack_switcher);
-  gtk_header_bar_set_show_close_button (GTK_HEADER_BAR (self->header_bar), TRUE);
+  hdy_header_bar_set_custom_title (HDY_HEADER_BAR (self->header_bar), self->stack_switcher);
+  hdy_header_bar_set_show_close_button (HDY_HEADER_BAR (self->header_bar), TRUE);
 
   photos_main_toolbar_add_devices_button (self);
   photos_main_toolbar_add_primary_menu_button (self);
@@ -564,7 +564,7 @@ photos_main_toolbar_populate_for_preview (PhotosMainToolbar *self)
   gboolean remote_display_available;
   GAction *remote_display_action;
 
-  gtk_header_bar_set_show_close_button (GTK_HEADER_BAR (self->header_bar), TRUE);
+  hdy_header_bar_set_show_close_button (HDY_HEADER_BAR (self->header_bar), TRUE);
 
   photos_main_toolbar_add_back_button (self);
 
@@ -574,18 +574,18 @@ photos_main_toolbar_populate_for_preview (PhotosMainToolbar *self)
   gtk_actionable_set_action_name (GTK_ACTIONABLE (menu_button), "app.preview-menu");
   gtk_button_set_image (GTK_BUTTON (menu_button), image);
   gtk_menu_button_set_menu_model (GTK_MENU_BUTTON (menu_button), G_MENU_MODEL (preview_menu));
-  gtk_header_bar_pack_end (GTK_HEADER_BAR (self->header_bar), menu_button);
+  hdy_header_bar_pack_end (HDY_HEADER_BAR (self->header_bar), menu_button);
 
   share_button = gtk_button_new_from_icon_name ("emblem-shared-symbolic", GTK_ICON_SIZE_BUTTON);
   gtk_actionable_set_action_name (GTK_ACTIONABLE (share_button), "app.share-current");
-  gtk_header_bar_pack_end (GTK_HEADER_BAR (self->header_bar), share_button);
+  hdy_header_bar_pack_end (HDY_HEADER_BAR (self->header_bar), share_button);
 
   edit_button = gtk_button_new_from_icon_name ("image-edit-symbolic", GTK_ICON_SIZE_BUTTON);
   gtk_actionable_set_action_name (GTK_ACTIONABLE (edit_button), "app.edit-current");
-  gtk_header_bar_pack_end (GTK_HEADER_BAR (self->header_bar), edit_button);
+  hdy_header_bar_pack_end (HDY_HEADER_BAR (self->header_bar), edit_button);
 
   self->favorite_button = gtk_button_new ();
-  gtk_header_bar_pack_end (GTK_HEADER_BAR (self->header_bar), self->favorite_button);
+  hdy_header_bar_pack_end (HDY_HEADER_BAR (self->header_bar), self->favorite_button);
   g_signal_connect_swapped (self->favorite_button,
                             "clicked",
                             G_CALLBACK (photos_main_toolbar_favorite_button_clicked),
@@ -613,8 +613,8 @@ photos_main_toolbar_populate_for_preview (PhotosMainToolbar *self)
 static void
 photos_main_toolbar_populate_for_search (PhotosMainToolbar *self)
 {
-  gtk_header_bar_set_custom_title (GTK_HEADER_BAR (self->header_bar), self->stack_switcher);
-  gtk_header_bar_set_show_close_button (GTK_HEADER_BAR (self->header_bar), TRUE);
+  hdy_header_bar_set_custom_title (HDY_HEADER_BAR (self->header_bar), self->stack_switcher);
+  hdy_header_bar_set_show_close_button (HDY_HEADER_BAR (self->header_bar), TRUE);
 
   photos_main_toolbar_add_primary_menu_button (self);
   photos_main_toolbar_add_selection_button (self);
@@ -628,13 +628,13 @@ photos_main_toolbar_populate_for_selection_mode (PhotosMainToolbar *self)
   GtkWidget *selection_button;
   GtkStyleContext *context;
 
-  gtk_header_bar_set_custom_title (GTK_HEADER_BAR (self->header_bar), self->selection_menu);
+  hdy_header_bar_set_custom_title (HDY_HEADER_BAR (self->header_bar), self->selection_menu);
   context = gtk_widget_get_style_context (self->header_bar);
   gtk_style_context_add_class (context, "selection-mode");
 
   selection_button = gtk_button_new_with_mnemonic (_("_Cancel"));
   gtk_actionable_set_action_name (GTK_ACTIONABLE (selection_button), "app.selection-mode");
-  gtk_header_bar_pack_end (GTK_HEADER_BAR (self->header_bar), selection_button);
+  hdy_header_bar_pack_end (HDY_HEADER_BAR (self->header_bar), selection_button);
 
   g_signal_connect_object (self->sel_cntrlr,
                            "selection-changed",

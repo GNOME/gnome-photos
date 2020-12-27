@@ -39,7 +39,7 @@
 
 struct _PhotosMainWindow
 {
-  GtkApplicationWindow parent_instance;
+  HdyApplicationWindow parent_instance;
   GAction *edit_cancel;
   GAction *import_cancel;
   GAction *load_next;
@@ -53,7 +53,7 @@ struct _PhotosMainWindow
 };
 
 
-G_DEFINE_TYPE (PhotosMainWindow, photos_main_window, GTK_TYPE_APPLICATION_WINDOW);
+G_DEFINE_TYPE (PhotosMainWindow, photos_main_window, HDY_TYPE_APPLICATION_WINDOW);
 
 
 enum
