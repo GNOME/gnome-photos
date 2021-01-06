@@ -375,7 +375,7 @@ msgstr "Fotografia prèvia"
 #: src/photos-help-overlay.ui:77 src/photos-help-overlay.ui:85
 msgctxt "shortcut window"
 msgid "Go back"
-msgstr "Vés enrere"
+msgstr "Ves enrere"
 
 #: src/photos-help-overlay.ui:95
 msgctxt "shortcut window"
