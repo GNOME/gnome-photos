@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
-"POT-Creation-Date: 2018-03-26 22:34+0000\n"
-"PO-Revision-Date: 2018-08-05 11:18+0200\n"
+"POT-Creation-Date: 2021-01-06 14:13+0000\n"
+"PO-Revision-Date: 2021-01-21 20:56+0100\n"
 "Last-Translator: Daniel Șerbănescu <daniel [at] serbanescu [dot] dk>\n"
 "Language-Team: Română <>\n"
 "Language: ro\n"
@@ -16,14 +16,14 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
 "20)) ? 1 : 2);\n"
-"X-Generator: Poedit 2.1.1\n"
+"X-Generator: Poedit 2.4.2\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
 msgctxt "_"
 msgid "translator-credits"
 msgstr ""
 "Bogdan Mințoi <mintoi.bogdan@gmail.com>, 2014\n"
-"Daniel Șerbănescu <daniel [at] serbanescu [dot] dk>, 2018"
+"Daniel Șerbănescu <daniel [at] serbanescu [dot] dk>, 2018-2021"
 
 #. (itstool) path: credit/name
 #: C/favorites.page:11 C/favorites-set.page:12 C/view-album.page:11
@@ -71,10 +71,10 @@ msgstr "Etichetarea elementelor favorite"
 #: C/favorites-set.page:27
 msgid ""
 "Photos or albums can be marked as favorites from the <gui style=\"tab"
-"\">Recent</gui> tab or <gui style=\"tab\">Albums</gui> tab."
+"\">Photos</gui> tab or <gui style=\"tab\">Albums</gui> tab."
 msgstr ""
 "Fotografiile sau albumele pot fi marcate ca favorite din tabul <gui style="
-"\"tab\">Recente</gui> sau <gui style=\"tab\">Albume</gui>."
+"\"tab\">Fotografii</gui> sau <gui style=\"tab\">Albume</gui>."
 
 #. (itstool) path: steps/title
 #: C/favorites-set.page:31
@@ -84,10 +84,10 @@ msgstr "Pentru etichetarea elementelor favorite:"
 #. (itstool) path: item/p
 #: C/favorites-set.page:33
 msgid ""
-"Select the <gui>Albums</gui> tab or <gui>Recent</gui> tab depending on "
+"Select the <gui>Albums</gui> tab or <gui>Photos</gui> tab depending on "
 "whether you want to mark an album or a photo as a favorite."
 msgstr ""
-"Selectați tabul <gui>Albume</gui> sau <gui>Recente</gui> în funcție dacă "
+"Selectați tabul <gui>Albume</gui> sau <gui>Fotografii</gui> în funcție dacă "
 "doriți marcarea unui album sau a unei fotografii ca favorită."
 
 #. (itstool) path: item/p
@@ -250,15 +250,15 @@ msgstr "Vizualizarea fotografiilor recente"
 #. (itstool) path: page/p
 #: C/view-photos.page:21
 msgid ""
-"The <gui style=\"tab\">Recent</gui> tab displays photos from local file "
+"The <gui style=\"tab\">Photos</gui> tab displays photos from local file "
 "system locations such as <file>~/Downloads</file>, <file>~/Pictures</file> "
 "and from online collections. You can also add other locations, even cloud-"
 "based collections such as Flickr or Facebook photographs, through <app>GNOME "
 "Online Accounts</app>."
 msgstr ""
-"Tabul <gui style=\"tab\">Recente</gui> afișează fotografii din locații de pe "
-"sistemul local cum ar fi <file>~/Descărcări</file>, <file>~/Poze</file> și "
-"din colecții online. Puteți de asemenea adăuga alte locații, chiar și "
+"Tabul <gui style=\"tab\">Fotografii</gui> afișează fotografii din locații de "
+"pe sistemul local cum ar fi <file>~/Descărcări</file>, <file>~/Poze</file> "
+"și din colecții online. Puteți de asemenea adăuga alte locații, chiar și "
 "colecții stocate în nor (cloud) cum ar fi fotografii de pe Flickr sau "
 "Facebook, prin intermediul <app>Conturi online GNOME</app>."
 
@@ -276,10 +276,10 @@ msgstr "Navigați la <guiseq><gui>Configurări</gui><gui>Căutare</gui></guiseq>
 #: C/view-photos.page:34
 msgid ""
 "Click on the gear button on the bottom right. You can select the locations "
-"you want to display in the <gui style=\"tab\">Recent</gui> tab."
+"you want to display in the <gui style=\"tab\">Photos</gui> tab."
 msgstr ""
 "Clic pe butonul „roată dințată” din dreapta jos. Puteți selecta locații de "
-"afișat în tabul <gui style=\"tab\">Recent</gui>."
+"afișat în tabul <gui style=\"tab\">Fotografii</gui>."
 
 #. (itstool) path: page/p
 #: C/view-photos.page:40
@@ -288,8 +288,8 @@ msgstr "Pentru a vizualiza fotografii recente:"
 
 #. (itstool) path: item/p
 #: C/view-photos.page:43
-msgid "Select the <gui style=\"tab\">Recent</gui> tab."
-msgstr "Selectați tabul <gui style=\"tab\">Recente</gui>."
+msgid "Select the <gui style=\"tab\">Photos</gui> tab."
+msgstr "Selectați tabul <gui style=\"tab\">Fotografii</gui>."
 
 #. (itstool) path: item/p
 #: C/view-photos.page:46
@@ -311,12 +311,16 @@ msgstr "Vizualizare de imagini"
 #. (itstool) path: page/p
 #: C/view.page:26
 msgid ""
-"When <app>Photos</app> is opened, you will see the <gui>Recent</gui> tab "
-"open. The <gui>Recent</gui> tab contains images from your computer, the "
+"When <app>Photos</app> is opened, you will see the <gui>Photos</gui> tab "
+"open. The <gui>Photos</gui> tab contains images from your computer, the "
 "<gui>Albums</gui> tab contains your photo albums, and any image you mark as "
 "a favourite can be found in the <gui>Favorites</gui> tab."
 msgstr ""
 "Dacă aplicația <app>Fotografii</app> este pornită, veți observa tabul "
-"<gui>Recente</gui>. Acesta conține imagini din calculatorul dumneavoastră, "
-"tabul <gui>Albume</gui> conține albumele dumneavoastră foto iar oricare "
-"imagine marcată ca favorită poate fi găsită în tabul <gui>Favorite</gui>."
+"<gui>Fotografii</gui>. Acesta conține imagini din calculatorul "
+"dumneavoastră, tabul <gui>Albume</gui> conține albumele dumneavoastră foto "
+"iar oricare imagine marcată ca favorită poate fi găsită în tabul "
+"<gui>Favorite</gui>."
+
+#~ msgid "Select the <gui style=\"tab\">Recent</gui> tab."
+#~ msgstr "Selectați tabul <gui style=\"tab\">Recente</gui>."
