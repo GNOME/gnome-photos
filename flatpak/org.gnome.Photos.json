@@ -85,7 +85,6 @@
                 "-Dvapi=false",
                 "-Dglade_catalog=disabled"
             ],
-            "cleanup" : [ "/include", "/lib/pkgconfig" ],
             "sources" : [
                 {
                     "type" : "git",
