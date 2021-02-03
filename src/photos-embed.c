@@ -825,9 +825,7 @@ photos_embed_init (PhotosEmbed *self)
   self->overview = photos_view_container_new (PHOTOS_WINDOW_MODE_OVERVIEW, _("Photos"));
   name = photos_view_container_get_name (PHOTOS_VIEW_CONTAINER (self->overview));
   gtk_stack_add_titled (GTK_STACK (self->stack), self->overview, "overview", name);
-  gtk_container_child_set (GTK_CONTAINER (self->stack), self->overview,
-                           "icon-name", "camera-photo-symbolic",
-                           NULL);
+  gtk_container_child_set (GTK_CONTAINER (self->stack), self->overview, "icon-name", "camera-photo-symbolic", NULL);
 
   self->collection_view = photos_view_container_new (PHOTOS_WINDOW_MODE_COLLECTION_VIEW, _("Collection View"));
   gtk_stack_add_named (GTK_STACK (self->stack), self->collection_view, "collection-view");
@@ -835,16 +833,12 @@ photos_embed_init (PhotosEmbed *self)
   self->collections = photos_view_container_new (PHOTOS_WINDOW_MODE_COLLECTIONS, _("Albums"));
   name = photos_view_container_get_name (PHOTOS_VIEW_CONTAINER (self->collections));
   gtk_stack_add_titled (GTK_STACK (self->stack), self->collections, "collections", name);
-  gtk_container_child_set (GTK_CONTAINER (self->stack), self->collections,
-                           "icon-name", "emblem-photos-symbolic",
-                           NULL);
+  gtk_container_child_set (GTK_CONTAINER (self->stack), self->collections, "icon-name", "emblem-photos-symbolic", NULL);
 
   self->favorites = photos_view_container_new (PHOTOS_WINDOW_MODE_FAVORITES, _("Favorites"));
   name = photos_view_container_get_name (PHOTOS_VIEW_CONTAINER (self->favorites));
   gtk_stack_add_titled (GTK_STACK (self->stack), self->favorites, "favorites", name);
-  gtk_container_child_set (GTK_CONTAINER (self->stack), self->favorites,
-                           "icon-name", "starred-symbolic",
-                           NULL);
+  gtk_container_child_set (GTK_CONTAINER (self->stack), self->favorites, "icon-name", "starred-symbolic", NULL);
 
   self->import = photos_view_container_new (PHOTOS_WINDOW_MODE_IMPORT, _("Import"));
   gtk_stack_add_named (GTK_STACK (self->stack), self->import, "import");
