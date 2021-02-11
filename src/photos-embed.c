@@ -388,6 +388,8 @@ photos_embed_load_started (PhotosEmbed *self, PhotosBaseItem *item)
 static void
 photos_embed_fullscreen_changed (PhotosModeController *mode_cntrlr, gboolean fullscreen, gpointer user_data)
 {
+  PhotosEmbed *self = PHOTOS_EMBED (user_data);
+  gtk_widget_set_visible (self->toolbar, !fullscreen);
 }
 
 
