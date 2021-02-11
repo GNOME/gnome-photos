@@ -25,6 +25,7 @@
 
 #include <gio/gio.h>
 #include <glib/gi18n.h>
+#include <handy.h>
 
 #include "photos-empty-results-box.h"
 #include "photos-enums.h"
@@ -33,7 +34,8 @@
 
 struct _PhotosEmptyResultsBox
 {
-  GtkGrid parent_instance;
+  GtkBin parent_instance;
+  GtkWidget *status_page;
   PhotosWindowMode mode;
 };
 
@@ -44,7 +46,7 @@ enum
 };
 
 
-G_DEFINE_TYPE (PhotosEmptyResultsBox, photos_empty_results_box, GTK_TYPE_GRID);
+G_DEFINE_TYPE (PhotosEmptyResultsBox, photos_empty_results_box, GTK_TYPE_BIN);
 
 
 static gboolean
@@ -66,7 +68,6 @@ photos_empty_results_box_activate_link (PhotosEmptyResultsBox *self, const gchar
 static void
 photos_empty_results_box_add_image (PhotosEmptyResultsBox *self)
 {
-  GtkWidget *image;
   const gchar *icon_name = NULL;
 
   switch (self->mode)
@@ -100,28 +101,23 @@ photos_empty_results_box_add_image (PhotosEmptyResultsBox *self)
       break;
     }
 
-  image = gtk_image_new_from_icon_name (icon_name, GTK_ICON_SIZE_INVALID);
-  gtk_widget_set_margin_bottom (GTK_WIDGET (image), 9);
-  gtk_image_set_pixel_size (GTK_IMAGE (image), 128);
-  gtk_container_add (GTK_CONTAINER (self), image);
+  hdy_status_page_set_icon_name (HDY_STATUS_PAGE (self->status_page), icon_name);
 }
 
 
 static void
 photos_empty_results_box_add_primary_label (PhotosEmptyResultsBox *self)
 {
-  GtkWidget *primary_label;
   const gchar *text = NULL;
-  g_autofree gchar *label = NULL;
 
   switch (self->mode)
     {
     case PHOTOS_WINDOW_MODE_COLLECTIONS:
-      text = _("No albums found");
+      text = _("No Albums Found");
       break;
 
     case PHOTOS_WINDOW_MODE_FAVORITES:
-      text = _("Starred photos will appear here");
+      text = _("Starred Photos Will Appear Here");
       break;
 
     /* TODO: Don't show a collection if there are no screenshots in
@@ -131,7 +127,7 @@ photos_empty_results_box_add_primary_label (PhotosEmptyResultsBox *self)
     case PHOTOS_WINDOW_MODE_IMPORT:
     case PHOTOS_WINDOW_MODE_OVERVIEW:
     case PHOTOS_WINDOW_MODE_SEARCH:
-      text = _("No photos found");
+      text = _("No Photos Found");
       break;
 
     case PHOTOS_WINDOW_MODE_NONE:
@@ -142,11 +138,7 @@ photos_empty_results_box_add_primary_label (PhotosEmptyResultsBox *self)
       break;
     }
 
-  label = g_strconcat ("<b><span size=\"large\">", text, "</span></b>", NULL);
-  primary_label = gtk_label_new (label);
-  gtk_widget_set_margin_top (GTK_WIDGET (primary_label), 9);
-  gtk_label_set_use_markup (GTK_LABEL (primary_label), TRUE);
-  gtk_container_add (GTK_CONTAINER (self), primary_label);
+  hdy_status_page_set_title (HDY_STATUS_PAGE (self->status_page), text);
 }
 
 
@@ -205,7 +197,7 @@ photos_empty_results_box_add_secondary_label (PhotosEmptyResultsBox *self)
       }
 
     case PHOTOS_WINDOW_MODE_SEARCH:
-      label = g_strdup (_("Try a different search"));
+      label = g_strdup (_("Try a different search."));
       break;
 
     case PHOTOS_WINDOW_MODE_NONE:
@@ -219,10 +211,17 @@ photos_empty_results_box_add_secondary_label (PhotosEmptyResultsBox *self)
   if (label != NULL)
     {
       GtkWidget *secondary_label;
+      GtkStyleContext *context;
 
       secondary_label = gtk_label_new (label);
       gtk_label_set_use_markup (GTK_LABEL (secondary_label), use_markup);
-      gtk_container_add (GTK_CONTAINER (self), secondary_label);
+      gtk_label_set_justify (GTK_LABEL (secondary_label), GTK_JUSTIFY_CENTER);
+      gtk_label_set_line_wrap (GTK_LABEL (secondary_label), TRUE);
+      gtk_label_set_line_wrap_mode (GTK_LABEL (secondary_label), PANGO_WRAP_WORD_CHAR);
+      context = gtk_widget_get_style_context (secondary_label);
+      gtk_style_context_add_class (context, "body");
+      gtk_style_context_add_class (context, "description");
+      gtk_container_add (GTK_CONTAINER (self->status_page), secondary_label);
       if (handle_activate_link)
         {
           g_signal_connect_swapped (secondary_label,
@@ -238,19 +237,14 @@ static void
 photos_empty_results_box_constructed (GObject *object)
 {
   PhotosEmptyResultsBox *self = PHOTOS_EMPTY_RESULTS_BOX (object);
-  GtkStyleContext *context;
-  g_autofree gchar *label = NULL;
 
   G_OBJECT_CLASS (photos_empty_results_box_parent_class)->constructed (object);
 
-  gtk_widget_set_halign (GTK_WIDGET (self), GTK_ALIGN_CENTER);
   gtk_widget_set_hexpand (GTK_WIDGET (self), TRUE);
-  gtk_widget_set_valign (GTK_WIDGET (self), GTK_ALIGN_CENTER);
   gtk_widget_set_vexpand (GTK_WIDGET (self), TRUE);
-  gtk_orientable_set_orientation (GTK_ORIENTABLE (self), GTK_ORIENTATION_VERTICAL);
-  gtk_grid_set_row_spacing (GTK_GRID (self), 12);
-  context = gtk_widget_get_style_context (GTK_WIDGET (self));
-  gtk_style_context_add_class (context, "dim-label");
+
+  self->status_page = hdy_status_page_new ();
+  gtk_container_add (GTK_CONTAINER (self), self->status_page);
 
   photos_empty_results_box_add_image (self);
   photos_empty_results_box_add_primary_label (self);
