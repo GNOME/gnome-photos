@@ -12,22 +12,23 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos gnome-3-10\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-photos/issues\n"
-"POT-Creation-Date: 2020-09-14 00:24+0000\n"
-"PO-Revision-Date: 2020-10-13 13:48+0100\n"
-"Last-Translator: Juliano de Souza Camargo <julianosc@protonmail.com>\n"
+"POT-Creation-Date: 2021-01-06 14:13+0000\n"
+"PO-Revision-Date: 2021-02-11 17:39+0000\n"
+"Last-Translator: Hugo Carvalho <hugokarvalho@hotmail.com>\n"
 "Language-Team: Portuguese < >\n"
 "Language: pt\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"X-Generator: Gtranslator 3.38.0\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 2.4.1\n"
 "X-Language: pt_PT\n"
 "X-Source-Language: C\n"
 "X-Project-Style: gnome\n"
+"X-Poedit-Bookmarks: -1,-1,112,-1,-1,-1,-1,-1,-1,-1\n"
 
 #: data/org.gnome.Photos.appdata.xml.in:7 data/org.gnome.Photos.desktop.in.in:3
-#: src/photos-application.c:3040 src/photos-embed.c:825
+#: src/photos-application.c:3061 src/photos-embed.c:825
 #: src/photos-main-window.c:437 src/photos-search-type-manager.c:144
 msgid "Photos"
 msgstr "Fotos"
@@ -92,9 +93,9 @@ msgstr ""
 "Editar fotos facilmente na aplicação ou abrir um editor completo para "
 "alterações mais avançadas"
 
-#: data/org.gnome.Photos.appdata.xml.in:81
+#: data/org.gnome.Photos.appdata.xml.in:89
 msgid "The GNOME Project"
-msgstr "Projeto GNOME"
+msgstr "O Projeto GNOME"
 
 #: data/org.gnome.Photos.desktop.in.in:4
 msgid "Access, organize and share photos"
@@ -129,11 +130,11 @@ msgstr "Janela maximizada"
 msgid "Window maximized state"
 msgstr "Estado maximizado da janela"
 
-#: src/photos-application.c:164
+#: src/photos-application.c:166
 msgid "Show the empty state"
 msgstr "Mostrar o estado vazio"
 
-#: src/photos-application.c:165
+#: src/photos-application.c:167
 msgid "Show the application's version"
 msgstr "Mostra a versão da aplicação"
 
@@ -146,7 +147,7 @@ msgstr "Mostra a versão da aplicação"
 #. Translators: this is the name of the default album that will be
 #. * created for imported photos.
 #.
-#: src/photos-application.c:1398 src/photos-export-dialog.c:195
+#: src/photos-application.c:1396 src/photos-export-dialog.c:195
 #: src/photos-import-dialog.c:134
 msgid "%-d %B %Y"
 msgstr "%-d %B %Y"
@@ -155,7 +156,7 @@ msgstr "%-d %B %Y"
 msgid "Album"
 msgstr "Álbum"
 
-#: src/photos-base-item.c:2845
+#: src/photos-base-item.c:2833
 msgid "Screenshots"
 msgstr "Capturas de ecrã"
 
@@ -184,23 +185,23 @@ msgstr "Dispositivos DLNA de composição de imagens"
 msgid "“%s” edited"
 msgstr "“%s” editada"
 
-#: src/photos-embed.c:829
+#: src/photos-embed.c:832
 msgid "Collection View"
 msgstr "Vista Coleção"
 
-#: src/photos-embed.c:832 src/photos-search-type-manager.c:129
+#: src/photos-embed.c:835 src/photos-search-type-manager.c:129
 msgid "Albums"
 msgstr "Álbuns"
 
-#: src/photos-embed.c:836 src/photos-search-type-manager.c:137
+#: src/photos-embed.c:842 src/photos-search-type-manager.c:137
 msgid "Favorites"
 msgstr "Com estrela"
 
-#: src/photos-embed.c:840
+#: src/photos-embed.c:849
 msgid "Import"
 msgstr "Importar"
 
-#: src/photos-embed.c:843 src/photos-main-toolbar.c:335
+#: src/photos-embed.c:852 src/photos-main-toolbar.c:336
 msgid "Search"
 msgstr "Procurar"
 
@@ -234,7 +235,7 @@ msgstr "Contas online"
 #.
 #: src/photos-empty-results-box.c:191
 msgid "Pictures folder"
-msgstr "pasta Imagens"
+msgstr "Pasta de imagens"
 
 #. Translators: the first %s here is "Online Accounts" and the
 #. * second %s is "Pictures folder", which are in separate
@@ -272,8 +273,8 @@ msgid "_Reduced"
 msgstr "_Reduzida"
 
 #: src/photos-export-dialog.ui:160 src/photos-import-dialog.ui:185
-#: src/photos-main-toolbar.c:487 src/photos-main-toolbar.c:523
-#: src/photos-main-toolbar.c:634
+#: src/photos-main-toolbar.c:488 src/photos-main-toolbar.c:524
+#: src/photos-main-toolbar.c:635
 msgid "_Cancel"
 msgstr "_Cancelar"
 
@@ -527,57 +528,57 @@ msgstr "Ups! Incapaz de carregar “%s”"
 msgid "Local"
 msgstr "Local"
 
-#: src/photos-main-toolbar.c:79
+#: src/photos-main-toolbar.c:80
 msgid "Click on items to select them"
 msgstr "Clicar nos itens para os selecionar"
 
-#: src/photos-main-toolbar.c:81
+#: src/photos-main-toolbar.c:82
 #, c-format
 msgid "%d selected"
 msgid_plural "%d selected"
 msgstr[0] "%d selecionada"
 msgstr[1] "%d selecionadas"
 
-#: src/photos-main-toolbar.c:169
+#: src/photos-main-toolbar.c:170
 msgid "Select items for import"
 msgstr "Selecionar itens para importar"
 
-#: src/photos-main-toolbar.c:173
+#: src/photos-main-toolbar.c:174
 #, c-format
 msgid "Select items for import (%u selected)"
 msgid_plural "Select items for import (%u selected)"
 msgstr[0] "Selecionar itens para importar (%u selecionado)"
 msgstr[1] "Selecionar itens para importar (%u selecionados)"
 
-#: src/photos-main-toolbar.c:216
+#: src/photos-main-toolbar.c:217
 msgid "Back"
 msgstr "Recuar"
 
-#: src/photos-main-toolbar.c:350
+#: src/photos-main-toolbar.c:351
 msgid "Select Items"
 msgstr "Selecionar itens"
 
 #. length == 1
 #. Translators: this is the Open action in a context menu
-#: src/photos-main-toolbar.c:410 src/photos-selection-toolbar.c:237
+#: src/photos-main-toolbar.c:411 src/photos-selection-toolbar.c:237
 #: src/photos-share-notification.c:165
 #, c-format
 msgid "Open with %s"
 msgstr "Abrir com %s"
 
-#: src/photos-main-toolbar.c:441 src/photos-selection-toolbar.c:248
+#: src/photos-main-toolbar.c:442 src/photos-selection-toolbar.c:248
 msgid "Remove from favorites"
 msgstr "Remover estrela"
 
-#: src/photos-main-toolbar.c:446 src/photos-selection-toolbar.c:253
+#: src/photos-main-toolbar.c:447 src/photos-selection-toolbar.c:253
 msgid "Add to favorites"
 msgstr "Marcar com estrela"
 
-#: src/photos-main-toolbar.c:491
+#: src/photos-main-toolbar.c:492
 msgid "Done"
 msgstr "Concluído"
 
-#: src/photos-main-toolbar.c:527
+#: src/photos-main-toolbar.c:528
 msgid "_Select"
 msgstr "_Selecionar"
 
@@ -596,7 +597,8 @@ msgstr ""
 "António Lima <amrlima@gmail.com>\n"
 "Tiago Santos <tiagofsantos81@sapo.pt>\n"
 "Pedro Albuquerque <palbuquerque73@gmail.com>\n"
-"Juliano de Souza Camargo <julianosc@pm.me>"
+"Juliano de Souza Camargo <julianosc@pm.me>\n"
+"Hugo Carvalho <hugokarvalho@hotmail.com.com>"
 
 #: src/photos-organize-collection-dialog.c:70
 msgid "_OK"
@@ -643,7 +645,7 @@ msgstr "Ecrã inteiro"
 
 #: src/photos-primary-menu.ui:6
 msgid "Keyboard Shortcuts"
-msgstr "Atalhos de teclado"
+msgstr "Teclas de atalho"
 
 #: src/photos-primary-menu.ui:10
 msgid "_Help"
@@ -1043,7 +1045,7 @@ msgstr "Trencin"
 
 #: src/photos-tool-filters.c:209
 msgid "Mogadishu"
-msgstr " Mogadiscio"
+msgstr "Mogadíscio"
 
 #: src/photos-tool-filters.c:215
 msgid "Caap"
