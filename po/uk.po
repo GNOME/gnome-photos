@@ -1,26 +1,25 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # Daniel Korostil <ted.korostiled@gmail.com>, 2013, 2014, 2015, 2016, 2017.
-# Yuri Chornoivan <yurchor@ukr.net>, 2020.
+# Yuri Chornoivan <yurchor@ukr.net>, 2020, 2021.
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-photos/issues\n"
-"POT-Creation-Date: 2020-05-26 16:37+0000\n"
-"PO-Revision-Date: 2020-05-26 19:53+0300\n"
+"POT-Creation-Date: 2021-02-15 19:24+0000\n"
+"PO-Revision-Date: 2021-02-15 22:30+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<"
-"=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Lokalize 20.07.70\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Generator: Lokalize 20.11.70\n"
 "X-Project-Style: gnome\n"
 
 #: data/org.gnome.Photos.appdata.xml.in:7 data/org.gnome.Photos.desktop.in.in:3
-#: src/photos-application.c:3040 src/photos-embed.c:825
+#: src/photos-application.c:3061 src/photos-embed.c:823
 #: src/photos-main-window.c:437 src/photos-search-type-manager.c:144
 msgid "Photos"
 msgstr "Світлини"
@@ -84,7 +83,7 @@ msgstr ""
 "Без проблем редагувати ваші зображення у програмі або надсилати їх до "
 "повноцінного редактора для складнішого редагування"
 
-#: data/org.gnome.Photos.appdata.xml.in:81
+#: data/org.gnome.Photos.appdata.xml.in:89
 msgid "The GNOME Project"
 msgstr "Проєкт GNOME"
 
@@ -121,11 +120,11 @@ msgstr "Вікно розгорнуто"
 msgid "Window maximized state"
 msgstr "Стан розгорнутого вікна"
 
-#: src/photos-application.c:164
+#: src/photos-application.c:166
 msgid "Show the empty state"
 msgstr "Показувати порожній стан"
 
-#: src/photos-application.c:165
+#: src/photos-application.c:167
 msgid "Show the application's version"
 msgstr "Показати версію програми"
 
@@ -138,7 +137,7 @@ msgstr "Показати версію програми"
 #. Translators: this is the name of the default album that will be
 #. * created for imported photos.
 #.
-#: src/photos-application.c:1398 src/photos-export-dialog.c:195
+#: src/photos-application.c:1396 src/photos-export-dialog.c:195
 #: src/photos-import-dialog.c:134
 msgid "%-d %B %Y"
 msgstr "%-d %B %Y"
@@ -147,7 +146,7 @@ msgstr "%-d %B %Y"
 msgid "Album"
 msgstr "Альбом"
 
-#: src/photos-base-item.c:2845
+#: src/photos-base-item.c:2833
 msgid "Screenshots"
 msgstr "Знімки екрана"
 
@@ -177,11 +176,11 @@ msgstr "Пристрої DLNA"
 msgid "“%s” edited"
 msgstr "«%s» редаговано"
 
-#: src/photos-embed.c:829
+#: src/photos-embed.c:828
 msgid "Collection View"
 msgstr "Панель збірок"
 
-#: src/photos-embed.c:832 src/photos-search-type-manager.c:129
+#: src/photos-embed.c:831 src/photos-search-type-manager.c:129
 msgid "Albums"
 msgstr "Альбоми"
 
@@ -189,27 +188,30 @@ msgstr "Альбоми"
 msgid "Favorites"
 msgstr "Улюблене"
 
-#: src/photos-embed.c:840
+#: src/photos-embed.c:841
 msgid "Import"
 msgstr "Імпортувати"
 
-#: src/photos-embed.c:843 src/photos-main-toolbar.c:335
+#: src/photos-embed.c:844 src/photos-main-toolbar.c:336
 msgid "Search"
 msgstr "Пошук"
 
-#: src/photos-empty-results-box.c:120
-msgid "No albums found"
+#: src/photos-empty-results-box.c:116
+#| msgid "No albums found"
+msgid "No Albums Found"
 msgstr "Не знайдено жодного альбому"
 
-#: src/photos-empty-results-box.c:124
-msgid "Starred photos will appear here"
+#: src/photos-empty-results-box.c:120
+#| msgid "Starred photos will appear here"
+msgid "Starred Photos Will Appear Here"
 msgstr "Світлини із зірками з'являтимуться тут"
 
-#: src/photos-empty-results-box.c:134
-msgid "No photos found"
+#: src/photos-empty-results-box.c:130
+#| msgid "No photos found"
+msgid "No Photos Found"
 msgstr "Світлин не знайдено"
 
-#: src/photos-empty-results-box.c:163
+#: src/photos-empty-results-box.c:155
 msgid "You can create albums from the Photos view"
 msgstr "Ви можете створювати альбоми за допомогою панелі «Світлини»"
 
@@ -217,7 +219,7 @@ msgstr "Ви можете створювати альбоми за допомо�
 #. * the "Photos from your Online Accounts and Pictures folder
 #. * will appear here." sentence below.
 #.
-#: src/photos-empty-results-box.c:184
+#: src/photos-empty-results-box.c:176
 msgid "Online Accounts"
 msgstr "Облікові записи в інтернеті"
 
@@ -225,7 +227,7 @@ msgstr "Облікові записи в інтернеті"
 #. * the "Photos from your Online Accounts and Pictures folder
 #. * will appear here." sentence below.
 #.
-#: src/photos-empty-results-box.c:191
+#: src/photos-empty-results-box.c:183
 msgid "Pictures folder"
 msgstr "теки «Картинки»"
 
@@ -234,14 +236,15 @@ msgstr "теки «Картинки»"
 #. * strings due to markup, and should be translated only in the
 #. * context of this sentence.
 #.
-#: src/photos-empty-results-box.c:198
+#: src/photos-empty-results-box.c:190
 #, c-format
 msgid "Photos from your %s and %s will appear here."
 msgstr "Світлини з вашого %s і %s буде показано тут."
 
-#: src/photos-empty-results-box.c:208
-msgid "Try a different search"
-msgstr "Спробувати інші критерії пошуку"
+#: src/photos-empty-results-box.c:200
+#| msgid "Try a different search"
+msgid "Try a different search."
+msgstr "Спробуйте інші критерії пошуку."
 
 #: src/photos-export-dialog.ui:22
 msgctxt "dialog title"
@@ -265,8 +268,8 @@ msgid "_Reduced"
 msgstr "З_меншений"
 
 #: src/photos-export-dialog.ui:160 src/photos-import-dialog.ui:185
-#: src/photos-main-toolbar.c:487 src/photos-main-toolbar.c:523
-#: src/photos-main-toolbar.c:634
+#: src/photos-main-toolbar.c:488 src/photos-main-toolbar.c:524
+#: src/photos-main-toolbar.c:635
 msgid "_Cancel"
 msgstr "_Скасувати"
 
@@ -521,11 +524,11 @@ msgstr "Отакої! Неможливо завантажити «%s»"
 msgid "Local"
 msgstr "Локальне"
 
-#: src/photos-main-toolbar.c:79
+#: src/photos-main-toolbar.c:80
 msgid "Click on items to select them"
 msgstr "Натисніть на об'єкти, щоб вибрати їх"
 
-#: src/photos-main-toolbar.c:81
+#: src/photos-main-toolbar.c:82
 #, c-format
 msgid "%d selected"
 msgid_plural "%d selected"
@@ -533,11 +536,11 @@ msgstr[0] "%d вибрано"
 msgstr[1] "%d вибрано"
 msgstr[2] "%d вибрано"
 
-#: src/photos-main-toolbar.c:169
+#: src/photos-main-toolbar.c:170
 msgid "Select items for import"
 msgstr "Виберіть записи для імпортування"
 
-#: src/photos-main-toolbar.c:173
+#: src/photos-main-toolbar.c:174
 #, c-format
 msgid "Select items for import (%u selected)"
 msgid_plural "Select items for import (%u selected)"
@@ -545,35 +548,35 @@ msgstr[0] "Виберіть записи для імпортування (виб
 msgstr[1] "Виберіть записи для імпортування (вибрано %u)"
 msgstr[2] "Виберіть записи для імпортування (вибрано %u)"
 
-#: src/photos-main-toolbar.c:216
+#: src/photos-main-toolbar.c:217
 msgid "Back"
 msgstr "Назад"
 
-#: src/photos-main-toolbar.c:350
+#: src/photos-main-toolbar.c:351
 msgid "Select Items"
 msgstr "Вибрати об'єкти"
 
 #. length == 1
 #. Translators: this is the Open action in a context menu
-#: src/photos-main-toolbar.c:410 src/photos-selection-toolbar.c:237
+#: src/photos-main-toolbar.c:411 src/photos-selection-toolbar.c:237
 #: src/photos-share-notification.c:165
 #, c-format
 msgid "Open with %s"
 msgstr "Відкрити через %s"
 
-#: src/photos-main-toolbar.c:441 src/photos-selection-toolbar.c:248
+#: src/photos-main-toolbar.c:442 src/photos-selection-toolbar.c:248
 msgid "Remove from favorites"
 msgstr "Вилучити з улюбленого"
 
-#: src/photos-main-toolbar.c:446 src/photos-selection-toolbar.c:253
+#: src/photos-main-toolbar.c:447 src/photos-selection-toolbar.c:253
 msgid "Add to favorites"
 msgstr "Додати до улюбленого"
 
-#: src/photos-main-toolbar.c:491
+#: src/photos-main-toolbar.c:492
 msgid "Done"
 msgstr "Зроблено"
 
-#: src/photos-main-toolbar.c:527
+#: src/photos-main-toolbar.c:528
 msgid "_Select"
 msgstr "_Вибрати"
 
