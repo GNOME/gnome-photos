@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos gnome-3-10\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-photos/issues\n"
-"POT-Creation-Date: 2021-01-06 14:13+0000\n"
-"PO-Revision-Date: 2021-02-11 17:39+0000\n"
+"POT-Creation-Date: 2021-02-15 19:24+0000\n"
+"PO-Revision-Date: 2021-02-15 23:28+0000\n"
 "Last-Translator: Hugo Carvalho <hugokarvalho@hotmail.com>\n"
 "Language-Team: Portuguese < >\n"
 "Language: pt\n"
@@ -21,14 +21,14 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 2.4.1\n"
+"X-Generator: Poedit 2.4.2\n"
 "X-Language: pt_PT\n"
 "X-Source-Language: C\n"
 "X-Project-Style: gnome\n"
 "X-Poedit-Bookmarks: -1,-1,112,-1,-1,-1,-1,-1,-1,-1\n"
 
 #: data/org.gnome.Photos.appdata.xml.in:7 data/org.gnome.Photos.desktop.in.in:3
-#: src/photos-application.c:3061 src/photos-embed.c:825
+#: src/photos-application.c:3061 src/photos-embed.c:823
 #: src/photos-main-window.c:437 src/photos-search-type-manager.c:144
 msgid "Photos"
 msgstr "Fotos"
@@ -185,39 +185,39 @@ msgstr "Dispositivos DLNA de composição de imagens"
 msgid "“%s” edited"
 msgstr "“%s” editada"
 
-#: src/photos-embed.c:832
+#: src/photos-embed.c:828
 msgid "Collection View"
 msgstr "Vista Coleção"
 
-#: src/photos-embed.c:835 src/photos-search-type-manager.c:129
+#: src/photos-embed.c:831 src/photos-search-type-manager.c:129
 msgid "Albums"
 msgstr "Álbuns"
 
-#: src/photos-embed.c:842 src/photos-search-type-manager.c:137
+#: src/photos-embed.c:836 src/photos-search-type-manager.c:137
 msgid "Favorites"
 msgstr "Com estrela"
 
-#: src/photos-embed.c:849
+#: src/photos-embed.c:841
 msgid "Import"
 msgstr "Importar"
 
-#: src/photos-embed.c:852 src/photos-main-toolbar.c:336
+#: src/photos-embed.c:844 src/photos-main-toolbar.c:336
 msgid "Search"
 msgstr "Procurar"
 
-#: src/photos-empty-results-box.c:120
-msgid "No albums found"
+#: src/photos-empty-results-box.c:116
+msgid "No Albums Found"
 msgstr "Nenhum álbum encontrado"
 
-#: src/photos-empty-results-box.c:124
-msgid "Starred photos will appear here"
-msgstr "As fotos marcadas com estrela aparecem aqui"
+#: src/photos-empty-results-box.c:120
+msgid "Starred Photos Will Appear Here"
+msgstr "Fotos marcadas como favoritas aparecerão aqui"
 
-#: src/photos-empty-results-box.c:134
-msgid "No photos found"
+#: src/photos-empty-results-box.c:130
+msgid "No Photos Found"
 msgstr "Nenhuma foto encontrada"
 
-#: src/photos-empty-results-box.c:163
+#: src/photos-empty-results-box.c:155
 msgid "You can create albums from the Photos view"
 msgstr "Álbuns podem ser criados a partir da vista Fotos"
 
@@ -225,7 +225,7 @@ msgstr "Álbuns podem ser criados a partir da vista Fotos"
 #. * the "Photos from your Online Accounts and Pictures folder
 #. * will appear here." sentence below.
 #.
-#: src/photos-empty-results-box.c:184
+#: src/photos-empty-results-box.c:176
 msgid "Online Accounts"
 msgstr "Contas online"
 
@@ -233,7 +233,7 @@ msgstr "Contas online"
 #. * the "Photos from your Online Accounts and Pictures folder
 #. * will appear here." sentence below.
 #.
-#: src/photos-empty-results-box.c:191
+#: src/photos-empty-results-box.c:183
 msgid "Pictures folder"
 msgstr "Pasta de imagens"
 
@@ -242,14 +242,14 @@ msgstr "Pasta de imagens"
 #. * strings due to markup, and should be translated only in the
 #. * context of this sentence.
 #.
-#: src/photos-empty-results-box.c:198
+#: src/photos-empty-results-box.c:190
 #, c-format
 msgid "Photos from your %s and %s will appear here."
 msgstr "As fotos das %s e da %s aparecem aqui."
 
-#: src/photos-empty-results-box.c:208
-msgid "Try a different search"
-msgstr "Tentar busca por outro termo"
+#: src/photos-empty-results-box.c:200
+msgid "Try a different search."
+msgstr "Tente uma procura diferente."
 
 #: src/photos-export-dialog.ui:22
 msgctxt "dialog title"
