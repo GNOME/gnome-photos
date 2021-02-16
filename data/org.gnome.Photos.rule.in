@@ -14,11 +14,11 @@
 #
 
 # Location for the Tracker database (not optional)
-CacheLocation=$XDG_CACHE_HOME/tracker
+CacheLocation=$XDG_CACHE_HOME/gnome-photos/tracker
 
 # Location for the data journal, used in data recovery
 # situations (optional)
-JournalLocation=$XDG_DATA_HOME/tracker/data
+JournalLocation=$XDG_DATA_HOME/gnome-photos/tracker/data
 
 # Name of the ontology to use, must be one located in
 # $(sharedir)/tracker/ontologies
