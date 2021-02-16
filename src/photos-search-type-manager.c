@@ -41,7 +41,7 @@ struct _PhotosSearchTypeManager
 G_DEFINE_TYPE (PhotosSearchTypeManager, photos_search_type_manager, PHOTOS_TYPE_BASE_MANAGER);
 
 
-static const gchar *BLACKLISTED_MIME_TYPES[] =
+static const gchar *BLOCKED_MIME_TYPES[] =
 {
   "image/gif",
   "image/x-eps"
@@ -96,20 +96,20 @@ photos_search_type_manager_init (PhotosSearchTypeManager *self)
   PhotosSearchType *search_type;
   gchar *item_filter;
   gchar *all_filter;
-  gchar *blacklisted_mime_types_filter;
+  gchar *blocked_mime_types_filter;
   gchar *col_filter;
   gchar **strv;
   guint i;
   guint n_elements;
 
-  n_elements = G_N_ELEMENTS (BLACKLISTED_MIME_TYPES);
+  n_elements = G_N_ELEMENTS (BLOCKED_MIME_TYPES);
   strv = (gchar **) g_malloc0_n (n_elements + 1, sizeof (gchar *));
   for (i = 0; i < n_elements; i++)
-    strv[i] = g_strdup_printf ("nie:mimeType(?urn) != '%s'", BLACKLISTED_MIME_TYPES[i]);
+    strv[i] = g_strdup_printf ("nie:mimeType(?urn) != '%s'", BLOCKED_MIME_TYPES[i]);
 
-  blacklisted_mime_types_filter = g_strjoinv (" && ", strv);
+  blocked_mime_types_filter = g_strjoinv (" && ", strv);
 
-  item_filter = g_strdup_printf ("(fn:contains (?type, 'nmm#Photo') && %s)", blacklisted_mime_types_filter);
+  item_filter = g_strdup_printf ("(fn:contains (?type, 'nmm#Photo') && %s)", blocked_mime_types_filter);
   col_filter = g_strdup_printf ("(fn:contains (?type, 'nfo#DataContainer')"
                                 " && ?count > 0"
                                 " && (fn:starts-with (nao:identifier (?urn), '%s')"
@@ -136,14 +136,14 @@ photos_search_type_manager_init (PhotosSearchTypeManager *self)
   search_type = photos_search_type_new_full (PHOTOS_SEARCH_TYPE_STOCK_FAVORITES,
                                              _("Favorites"),
                                              "?urn a nmm:Photo; nao:hasTag nao:predefined-tag-favorite. ",
-                                             blacklisted_mime_types_filter);
+                                             blocked_mime_types_filter);
   photos_base_manager_add_object (PHOTOS_BASE_MANAGER (self), G_OBJECT (search_type));
   g_object_unref (search_type);
 
   search_type = photos_search_type_new_full (PHOTOS_SEARCH_TYPE_STOCK_PHOTOS,
                                              _("Photos"),
                                              "?urn a nmm:Photo",
-                                             blacklisted_mime_types_filter);
+                                             blocked_mime_types_filter);
   photos_base_manager_add_object (PHOTOS_BASE_MANAGER (self), G_OBJECT (search_type));
   g_object_unref (search_type);
 
@@ -151,7 +151,7 @@ photos_search_type_manager_init (PhotosSearchTypeManager *self)
 
   g_free (item_filter);
   g_free (all_filter);
-  g_free (blacklisted_mime_types_filter);
+  g_free (blocked_mime_types_filter);
   g_free (col_filter);
   g_strfreev (strv);
 }
