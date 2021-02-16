@@ -2,13 +2,13 @@
 # Copyright (C) 2013 gnome-photos's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnome-photos package.
 # Andika Triwidada <andika@gmail.com>, 2013, 2014, 2015.
-# Kukuh Syafaat <kukuhsyafaat@gnome.org>, 2017-2020.
+# Kukuh Syafaat <kukuhsyafaat@gnome.org>, 2017-2021.
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-photos/issues\n"
-"POT-Creation-Date: 2020-05-26 16:37+0000\n"
-"PO-Revision-Date: 2020-05-31 13:23+0700\n"
+"POT-Creation-Date: 2021-02-15 19:24+0000\n"
+"PO-Revision-Date: 2021-02-16 18:24+0700\n"
 "Last-Translator: Kukuh Syafaat <kukuhsyafaat@gnome.org>\n"
 "Language-Team: Indonesian <gnome@i15n.org>\n"
 "Language: id\n"
@@ -16,10 +16,10 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural= n!=1;\n"
-"X-Generator: Poedit 2.3.1\n"
+"X-Generator: Poedit 2.4.2\n"
 
 #: data/org.gnome.Photos.appdata.xml.in:7 data/org.gnome.Photos.desktop.in.in:3
-#: src/photos-application.c:3040 src/photos-embed.c:825
+#: src/photos-application.c:3061 src/photos-embed.c:823
 #: src/photos-main-window.c:437 src/photos-search-type-manager.c:144
 msgid "Photos"
 msgstr "Foto"
@@ -82,7 +82,7 @@ msgstr ""
 "Sunting gambar Anda dengan mudah di aplikasi, atau kirim ke penyunting "
 "berfitur lengkap untuk perubahan lebih lanjut"
 
-#: data/org.gnome.Photos.appdata.xml.in:81
+#: data/org.gnome.Photos.appdata.xml.in:89
 msgid "The GNOME Project"
 msgstr "Proyek GNOME"
 
@@ -119,11 +119,11 @@ msgstr "Jendela dimaksimalkan"
 msgid "Window maximized state"
 msgstr "Keadaan termaksimalkan jendela"
 
-#: src/photos-application.c:164
+#: src/photos-application.c:166
 msgid "Show the empty state"
 msgstr "Tampilkan keadaan kosong"
 
-#: src/photos-application.c:165
+#: src/photos-application.c:167
 msgid "Show the application's version"
 msgstr "Tampilkan versi aplikasi"
 
@@ -136,7 +136,7 @@ msgstr "Tampilkan versi aplikasi"
 #. Translators: this is the name of the default album that will be
 #. * created for imported photos.
 #.
-#: src/photos-application.c:1398 src/photos-export-dialog.c:195
+#: src/photos-application.c:1396 src/photos-export-dialog.c:195
 #: src/photos-import-dialog.c:134
 msgid "%-d %B %Y"
 msgstr "%-d %B %Y"
@@ -145,7 +145,7 @@ msgstr "%-d %B %Y"
 msgid "Album"
 msgstr "Album"
 
-#: src/photos-base-item.c:2845
+#: src/photos-base-item.c:2833
 msgid "Screenshots"
 msgstr "Cuplikan Layar"
 
@@ -174,11 +174,11 @@ msgstr "Perangkat Perender DLNA"
 msgid "“%s” edited"
 msgstr "\"%s\" disunting"
 
-#: src/photos-embed.c:829
+#: src/photos-embed.c:828
 msgid "Collection View"
 msgstr "Tampilan Koleksi"
 
-#: src/photos-embed.c:832 src/photos-search-type-manager.c:129
+#: src/photos-embed.c:831 src/photos-search-type-manager.c:129
 msgid "Albums"
 msgstr "Album"
 
@@ -186,27 +186,27 @@ msgstr "Album"
 msgid "Favorites"
 msgstr "Favorit"
 
-#: src/photos-embed.c:840
+#: src/photos-embed.c:841
 msgid "Import"
 msgstr "Impor"
 
-#: src/photos-embed.c:843 src/photos-main-toolbar.c:335
+#: src/photos-embed.c:844 src/photos-main-toolbar.c:336
 msgid "Search"
 msgstr "Cari"
 
+#: src/photos-empty-results-box.c:116
+msgid "No Albums Found"
+msgstr "Tak Ditemukan Album"
+
 #: src/photos-empty-results-box.c:120
-msgid "No albums found"
-msgstr "Tak ditemukan album"
+msgid "Starred Photos Will Appear Here"
+msgstr "Foto yang Dibintangi Akan Muncul Di Sini"
 
-#: src/photos-empty-results-box.c:124
-msgid "Starred photos will appear here"
-msgstr "Foto yang dibintangi akan muncul di sini"
+#: src/photos-empty-results-box.c:130
+msgid "No Photos Found"
+msgstr "Tak Ditemukan Foto"
 
-#: src/photos-empty-results-box.c:134
-msgid "No photos found"
-msgstr "Tak ditemukan foto"
-
-#: src/photos-empty-results-box.c:163
+#: src/photos-empty-results-box.c:155
 msgid "You can create albums from the Photos view"
 msgstr "Anda dapat membuat album dari tilikan Foto"
 
@@ -214,7 +214,7 @@ msgstr "Anda dapat membuat album dari tilikan Foto"
 #. * the "Photos from your Online Accounts and Pictures folder
 #. * will appear here." sentence below.
 #.
-#: src/photos-empty-results-box.c:184
+#: src/photos-empty-results-box.c:176
 msgid "Online Accounts"
 msgstr "Akun Daring"
 
@@ -222,7 +222,7 @@ msgstr "Akun Daring"
 #. * the "Photos from your Online Accounts and Pictures folder
 #. * will appear here." sentence below.
 #.
-#: src/photos-empty-results-box.c:191
+#: src/photos-empty-results-box.c:183
 msgid "Pictures folder"
 msgstr "Folder gambar"
 
@@ -231,14 +231,14 @@ msgstr "Folder gambar"
 #. * strings due to markup, and should be translated only in the
 #. * context of this sentence.
 #.
-#: src/photos-empty-results-box.c:198
+#: src/photos-empty-results-box.c:190
 #, c-format
 msgid "Photos from your %s and %s will appear here."
 msgstr "Foto dari %s dan %s Anda akan muncul di sini."
 
-#: src/photos-empty-results-box.c:208
-msgid "Try a different search"
-msgstr "Coba pencarian lain"
+#: src/photos-empty-results-box.c:200
+msgid "Try a different search."
+msgstr "Coba pencarian lain."
 
 #: src/photos-export-dialog.ui:22
 msgctxt "dialog title"
@@ -262,8 +262,8 @@ msgid "_Reduced"
 msgstr "Diku_rangi"
 
 #: src/photos-export-dialog.ui:160 src/photos-import-dialog.ui:185
-#: src/photos-main-toolbar.c:487 src/photos-main-toolbar.c:523
-#: src/photos-main-toolbar.c:634
+#: src/photos-main-toolbar.c:488 src/photos-main-toolbar.c:524
+#: src/photos-main-toolbar.c:635
 msgid "_Cancel"
 msgstr "_Batal"
 
@@ -517,57 +517,57 @@ msgstr "Ups! Tak bisa memuat \"%s\""
 msgid "Local"
 msgstr "Lokal"
 
-#: src/photos-main-toolbar.c:79
+#: src/photos-main-toolbar.c:80
 msgid "Click on items to select them"
 msgstr "Klik pada butir untuk memilihnya"
 
-#: src/photos-main-toolbar.c:81
+#: src/photos-main-toolbar.c:82
 #, c-format
 msgid "%d selected"
 msgid_plural "%d selected"
 msgstr[0] "%d dipilih"
 msgstr[1] "%d dipilih"
 
-#: src/photos-main-toolbar.c:169
+#: src/photos-main-toolbar.c:170
 msgid "Select items for import"
 msgstr "Pilih butir untuk diimpor"
 
-#: src/photos-main-toolbar.c:173
+#: src/photos-main-toolbar.c:174
 #, c-format
 msgid "Select items for import (%u selected)"
 msgid_plural "Select items for import (%u selected)"
 msgstr[0] "Pilih butir untuk diimpor (%u dipilih)"
 msgstr[1] "Pilih butir untuk diimpor (%u dipilih)"
 
-#: src/photos-main-toolbar.c:216
+#: src/photos-main-toolbar.c:217
 msgid "Back"
 msgstr "Mundur"
 
-#: src/photos-main-toolbar.c:350
+#: src/photos-main-toolbar.c:351
 msgid "Select Items"
 msgstr "Pilih Butir"
 
 #. length == 1
 #. Translators: this is the Open action in a context menu
-#: src/photos-main-toolbar.c:410 src/photos-selection-toolbar.c:237
+#: src/photos-main-toolbar.c:411 src/photos-selection-toolbar.c:237
 #: src/photos-share-notification.c:165
 #, c-format
 msgid "Open with %s"
 msgstr "Buka dengan %s"
 
-#: src/photos-main-toolbar.c:441 src/photos-selection-toolbar.c:248
+#: src/photos-main-toolbar.c:442 src/photos-selection-toolbar.c:248
 msgid "Remove from favorites"
 msgstr "Hapus dari favorit"
 
-#: src/photos-main-toolbar.c:446 src/photos-selection-toolbar.c:253
+#: src/photos-main-toolbar.c:447 src/photos-selection-toolbar.c:253
 msgid "Add to favorites"
 msgstr "Tambah ke favorit"
 
-#: src/photos-main-toolbar.c:491
+#: src/photos-main-toolbar.c:492
 msgid "Done"
 msgstr "Selesai"
 
-#: src/photos-main-toolbar.c:527
+#: src/photos-main-toolbar.c:528
 msgid "_Select"
 msgstr "_Pilih"
 
@@ -584,7 +584,7 @@ msgstr ""
 msgid "translator-credits"
 msgstr ""
 "Andika Triwidada <andika@gmail.com>, 2013, 2014, 2015.\n"
-"Kukuh Syafaat <kukuhsyafaat@gnome.org>, 2017-2020."
+"Kukuh Syafaat <kukuhsyafaat@gnome.org>, 2017-2021."
 
 #: src/photos-organize-collection-dialog.c:70
 msgid "_OK"
