@@ -1,23 +1,23 @@
 # Hungarian translation for gnome-photos_help.
-# Copyright (C) 2014, 2015, 2019. Free Software Foundation, Inc.
+# Copyright (C) 2014, 2015, 2019, 2021. Free Software Foundation, Inc.
 # This file is distributed under the same license as the user help.
 #
 # Tibor Attila Anca <anca.tibor at posteo dot de>, 2014.
 # Gabor Kelemen <kelemeng at gnome dot hu>, 2014, 2015.
-# Balázs Úr <urbalazs at gmail dot com>, 2014, 2015, 2019.
+# Balázs Úr <ur.balazs at fsf dot hu>, 2014, 2015, 2019, 2021.
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos_help master\n"
-"POT-Creation-Date: 2018-09-02 20:53+0000\n"
-"PO-Revision-Date: 2019-02-07 16:54+0100\n"
-"Last-Translator: Balázs Úr <balazs at urbalazs dot hu>\n"
+"POT-Creation-Date: 2021-02-16 18:14+0000\n"
+"PO-Revision-Date: 2021-02-21 02:00+0100\n"
+"Last-Translator: Balázs Úr <ur.balazs at fsf dot hu>\n"
 "Language-Team: Hungarian <gnome-hu-list at gnome dot org>\n"
 "Language: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 2.0\n"
+"X-Generator: Lokalize 19.12.3\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
 msgctxt "_"
@@ -69,12 +69,15 @@ msgstr "Kedvencek címkézése"
 
 #. (itstool) path: page/p
 #: C/favorites-set.page:27
+#| msgid ""
+#| "Photos or albums can be marked as favorites from the <gui style=\"tab"
+#| "\">Recent</gui> tab or <gui style=\"tab\">Albums</gui> tab."
 msgid ""
 "Photos or albums can be marked as favorites from the <gui style=\"tab"
-"\">Recent</gui> tab or <gui style=\"tab\">Albums</gui> tab."
+"\">Photos</gui> tab or <gui style=\"tab\">Albums</gui> tab."
 msgstr ""
-"A fényképeket vagy albumokat a <gui style=\"tab\">Legújabb</gui> vagy az "
-"<gui style=\"tab\">Albumok</gui> lapon jelölheti meg kedvencként."
+"A fényképeket vagy albumokat a <gui style=\"tab\">Fényképek</gui> vagy az <"
+"gui style=\"tab\">Albumok</gui> lapon jelölheti meg kedvencként."
 
 #. (itstool) path: steps/title
 #: C/favorites-set.page:31
@@ -83,12 +86,15 @@ msgstr "Kedvenc elemek megjelölése:"
 
 #. (itstool) path: item/p
 #: C/favorites-set.page:33
+#| msgid ""
+#| "Select the <gui>Albums</gui> tab or <gui>Recent</gui> tab depending on "
+#| "whether you want to mark an album or a photo as a favorite."
 msgid ""
-"Select the <gui>Albums</gui> tab or <gui>Recent</gui> tab depending on "
+"Select the <gui>Albums</gui> tab or <gui>Photos</gui> tab depending on "
 "whether you want to mark an album or a photo as a favorite."
 msgstr ""
-"Válassza az <gui>Album</gui> vagy a <gui>Legújabb</gui> fület, attól "
-"függően, hogy fényképet vagy albumot szeretne megjelölni kedvencként."
+"Válassza az <gui>Albumok</gui> vagy a <gui>Fényképek</gui> lapot attól"
+" függően, hogy egy albumot vagy egy fényképet szeretne megjelölni kedvencként."
 
 #. (itstool) path: item/p
 #: C/favorites-set.page:37
@@ -245,14 +251,20 @@ msgstr "Legutóbbi fényképek megtekintése"
 
 #. (itstool) path: page/p
 #: C/view-photos.page:21
+#| msgid ""
+#| "The <gui style=\"tab\">Recent</gui> tab displays photos from local file "
+#| "system locations such as <file>~/Downloads</file>, <file>~/Pictures</"
+#| "file> and from online collections. You can also add other locations, even "
+#| "cloud-based collections such as Flickr or Facebook photographs, through "
+#| "<app>GNOME Online Accounts</app>."
 msgid ""
-"The <gui style=\"tab\">Recent</gui> tab displays photos from local file "
+"The <gui style=\"tab\">Photos</gui> tab displays photos from local file "
 "system locations such as <file>~/Downloads</file>, <file>~/Pictures</file> "
 "and from online collections. You can also add other locations, even cloud-"
 "based collections such as Flickr or Facebook photographs, through <app>GNOME "
 "Online Accounts</app>."
 msgstr ""
-"A <gui style=\"tab\">Legutóbbi</gui> lap a helyi fájlrendszer helyeiről, "
+"A <gui style=\"tab\">Fényképek</gui> lap a helyi fájlrendszer helyeiről, "
 "mint például a <file>~/Letöltések</file>, <file>~/Fényképek</file>, valamint "
 "az online gyűjteményekből jelenít meg fényképeket. Hozzáadhat további "
 "helyeket, akár felhőalapú gyűjteményeket is – mint például a Flickr vagy "
@@ -272,12 +284,15 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/view-photos.page:34
+#| msgid ""
+#| "Click on the gear button on the bottom right. You can select the "
+#| "locations you want to display in the <gui style=\"tab\">Recent</gui> tab."
 msgid ""
 "Click on the gear button on the bottom right. You can select the locations "
-"you want to display in the <gui style=\"tab\">Recent</gui> tab."
+"you want to display in the <gui style=\"tab\">Photos</gui> tab."
 msgstr ""
 "Kattintson a jobb alsó fogaskerék gombra. Ezután kiválaszthatja azokat a "
-"helyeket, amelyeket meg szeretne jeleníteni a <gui style=\"tab\">Legutóbbi</"
+"helyeket, amelyeket meg szeretne jeleníteni a <gui style=\"tab\">Fényképek</"
 "gui> lapon."
 
 #. (itstool) path: page/p
@@ -287,8 +302,9 @@ msgstr "A legutóbbi fényképek megtekintéséhez:"
 
 #. (itstool) path: item/p
 #: C/view-photos.page:43
-msgid "Select the <gui style=\"tab\">Recent</gui> tab."
-msgstr "Válassza a <gui style=\"tab\">Legutóbbi</gui> lapot."
+#| msgid "Select the <gui style=\"tab\">Favorites</gui> tab."
+msgid "Select the <gui style=\"tab\">Photos</gui> tab."
+msgstr "Válassza ki a <gui style=\"tab\">Fényképek</gui> lapot."
 
 #. (itstool) path: item/p
 #: C/view-photos.page:46
@@ -309,14 +325,18 @@ msgstr "Képek megtekintése"
 
 #. (itstool) path: page/p
 #: C/view.page:26
+#| msgid ""
+#| "When <app>Photos</app> is opened, you will see the <gui>Recent</gui> tab "
+#| "open. The <gui>Recent</gui> tab contains images from your computer, the "
+#| "<gui>Albums</gui> tab contains your photo albums, and any image you mark "
+#| "as a favourite can be found in the <gui>Favorites</gui> tab."
 msgid ""
-"When <app>Photos</app> is opened, you will see the <gui>Recent</gui> tab "
-"open. The <gui>Recent</gui> tab contains images from your computer, the "
+"When <app>Photos</app> is opened, you will see the <gui>Photos</gui> tab "
+"open. The <gui>Photos</gui> tab contains images from your computer, the "
 "<gui>Albums</gui> tab contains your photo albums, and any image you mark as "
 "a favourite can be found in the <gui>Favorites</gui> tab."
 msgstr ""
-"A <app>Fényképek</app> indításakor a <gui>Legújabb</gui> lapot látja. A "
-"<gui>Legújabb</gui> lap tartalmazza a számítógépen található fényképeket, az "
+"A <app>Fényképek</app> indításakor a <gui>Fényképek</gui> lapot látja. A "
+"<gui>Fényképek</gui> lap tartalmazza a számítógépen található fényképeket, az "
 "<gui>Albumok</gui> lap a fényképalbumokat mutatja, míg a kedvencnek jelölt "
 "képeket a <gui>Kedvencek</gui> lapon érheti el."
-
