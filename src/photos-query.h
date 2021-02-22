@@ -30,6 +30,9 @@
 
 G_BEGIN_DECLS
 
+#define PHOTOS_QUERY_COLLECTIONS_IDENTIFIER "photos:collection:"
+#define PHOTOS_QUERY_LOCAL_COLLECTIONS_IDENTIFIER "photos:collection:local:"
+
 #define PHOTOS_TYPE_QUERY (photos_query_get_type ())
 G_DECLARE_FINAL_TYPE (PhotosQuery, photos_query, PHOTOS, QUERY, GObject);
 
@@ -72,9 +75,6 @@ typedef enum
   PHOTOS_QUERY_FLAGS_SEARCH         = 1 << 6,
   PHOTOS_QUERY_FLAGS_UNLIMITED      = 1 << 7
 } PhotosQueryFlags;
-
-extern const gchar *PHOTOS_QUERY_COLLECTIONS_IDENTIFIER;
-extern const gchar *PHOTOS_QUERY_LOCAL_COLLECTIONS_IDENTIFIER;
 
 PhotosQuery     *photos_query_new           (PhotosSearchContextState *state, const gchar *sparql);
 

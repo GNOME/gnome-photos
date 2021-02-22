@@ -48,10 +48,6 @@ enum
 G_DEFINE_TYPE (PhotosQuery, photos_query, G_TYPE_OBJECT);
 
 
-const gchar *PHOTOS_QUERY_COLLECTIONS_IDENTIFIER = "photos:collection:";
-const gchar *PHOTOS_QUERY_LOCAL_COLLECTIONS_IDENTIFIER = "photos:collection:local:";
-
-
 static void
 photos_query_constructed (GObject *object)
 {
