@@ -35,9 +35,7 @@ G_DECLARE_FINAL_TYPE (PhotosSearchType, photos_search_type, PHOTOS, SEARCH_TYPE,
 #define PHOTOS_SEARCH_TYPE_STOCK_FAVORITES "favorites"
 #define PHOTOS_SEARCH_TYPE_STOCK_PHOTOS "photos"
 
-PhotosSearchType    *photos_search_type_new                (const gchar *id, const gchar *name);
-
-PhotosSearchType    *photos_search_type_new_full           (const gchar *id,
+PhotosSearchType    *photos_search_type_new                (const gchar *id,
                                                             const gchar *name,
                                                             const gchar *where,
                                                             const gchar *filter);

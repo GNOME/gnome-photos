@@ -210,14 +210,7 @@ photos_search_type_filterable_iface_init (PhotosFilterableInterface *iface)
 
 
 PhotosSearchType *
-photos_search_type_new (const gchar *id, const gchar *name)
-{
-  return g_object_new (PHOTOS_TYPE_SEARCH_TYPE, "id", id, "name", name, NULL);
-}
-
-
-PhotosSearchType *
-photos_search_type_new_full (const gchar *id, const gchar *name, const gchar *where, const gchar *filter)
+photos_search_type_new (const gchar *id, const gchar *name, const gchar *where, const gchar *filter)
 {
   return g_object_new (PHOTOS_TYPE_SEARCH_TYPE,
                        "id", id,

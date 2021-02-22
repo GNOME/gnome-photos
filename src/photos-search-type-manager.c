@@ -117,33 +117,33 @@ photos_search_type_manager_init (PhotosSearchTypeManager *self)
                                 PHOTOS_QUERY_COLLECTIONS_IDENTIFIER);
   all_filter = g_strdup_printf ("(%s || %s)", col_filter, item_filter);
 
-  search_type = photos_search_type_new_full (PHOTOS_SEARCH_TYPE_STOCK_ALL,
-                                             _("All"),
-                                             "?urn a rdfs:Resource. "
-                                             "OPTIONAL {?item a nmm:Photo; nie:isPartOf ?urn}",
-                                             all_filter);
+  search_type = photos_search_type_new (PHOTOS_SEARCH_TYPE_STOCK_ALL,
+                                        _("All"),
+                                        "?urn a rdfs:Resource. "
+                                        "OPTIONAL {?item a nmm:Photo; nie:isPartOf ?urn}",
+                                        all_filter);
   photos_base_manager_add_object (PHOTOS_BASE_MANAGER (self), G_OBJECT (search_type));
   g_object_unref (search_type);
 
-  search_type = photos_search_type_new_full (PHOTOS_SEARCH_TYPE_STOCK_COLLECTIONS,
-                                             _("Albums"),
-                                             "?urn a nfo:DataContainer. "
-                                             "?item a nmm:Photo; nie:isPartOf ?urn.",
-                                             col_filter);
+  search_type = photos_search_type_new (PHOTOS_SEARCH_TYPE_STOCK_COLLECTIONS,
+                                        _("Albums"),
+                                        "?urn a nfo:DataContainer. "
+                                        "?item a nmm:Photo; nie:isPartOf ?urn.",
+                                        col_filter);
   photos_base_manager_add_object (PHOTOS_BASE_MANAGER (self), G_OBJECT (search_type));
   g_object_unref (search_type);
 
-  search_type = photos_search_type_new_full (PHOTOS_SEARCH_TYPE_STOCK_FAVORITES,
-                                             _("Favorites"),
-                                             "?urn a nmm:Photo; nao:hasTag nao:predefined-tag-favorite. ",
-                                             blocked_mime_types_filter);
+  search_type = photos_search_type_new (PHOTOS_SEARCH_TYPE_STOCK_FAVORITES,
+                                        _("Favorites"),
+                                        "?urn a nmm:Photo; nao:hasTag nao:predefined-tag-favorite. ",
+                                        blocked_mime_types_filter);
   photos_base_manager_add_object (PHOTOS_BASE_MANAGER (self), G_OBJECT (search_type));
   g_object_unref (search_type);
 
-  search_type = photos_search_type_new_full (PHOTOS_SEARCH_TYPE_STOCK_PHOTOS,
-                                             _("Photos"),
-                                             "?urn a nmm:Photo",
-                                             blocked_mime_types_filter);
+  search_type = photos_search_type_new (PHOTOS_SEARCH_TYPE_STOCK_PHOTOS,
+                                        _("Photos"),
+                                        "?urn a nmm:Photo",
+                                        blocked_mime_types_filter);
   photos_base_manager_add_object (PHOTOS_BASE_MANAGER (self), G_OBJECT (search_type));
   g_object_unref (search_type);
 
