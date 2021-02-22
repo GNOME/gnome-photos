@@ -195,6 +195,7 @@ sources = common_sources + files(
   'photos-source.c',
   'photos-source-manager.c',
   'photos-source-notification.c',
+  'photos-sparql-template.c',
   'photos-spinner-box.c',
   'photos-thumbnail-factory.c',
   'photos-tool.c',
