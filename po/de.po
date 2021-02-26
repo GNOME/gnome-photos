@@ -2,29 +2,31 @@
 # Copyright (C) 2013 gnome-photos's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnome-photos package.
 #
-# Mario Blättermann <mario.blaettermann@gmail.com>, 2013, 2015-2018, 2020.
 # Christian Kirbach <christian.kirbach@gmail.com>, 2013.
-# Wolfgang Stöggl <c72578@yahoo.de>, 2013-2016.
 # Tobias Endrigkeit <tobiasendrigkeit@outlook.com>, 2013.
 # Paul Seyfert <pseyfert@mathphys.fsk.uni-heidelberg.de>, 2015.
+# Wolfgang Stöggl <c72578@yahoo.de>, 2013-2016.
 # Tim Sabsch <tim@sabsch.com>, 2018-2019.
+# Mario Blättermann <mario.blaettermann@gmail.com>, 2013, 2015-2018, 2020.
+# Philipp Kiemle <philipp.kiemle@gmail.com>, 2021.
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-photos/issues\n"
-"POT-Creation-Date: 2020-08-25 17:10+0000\n"
-"PO-Revision-Date: 2020-09-04 16:58+0200\n"
-"Last-Translator: Mario Blättermann <mario.blaettermann@gmail.com>\n"
+"POT-Creation-Date: 2021-02-15 19:24+0000\n"
+"PO-Revision-Date: 2021-02-26 10:13+0100\n"
+"Last-Translator: Philipp Kiemle <philipp.kiemle@gmail.com>\n"
 "Language-Team: Deutsch <gnome-de@gnome.org>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 20.08.0\n"
+"X-Generator: Poedit 2.4.1\n"
 
 #: data/org.gnome.Photos.appdata.xml.in:7 data/org.gnome.Photos.desktop.in.in:3
-#: src/photos-application.c:3040 src/photos-embed.c:825
+#: src/photos-application.c:3061 src/photos-embed.c:823
 #: src/photos-main-window.c:437 src/photos-search-type-manager.c:144
 msgid "Photos"
 msgstr "Fotos"
@@ -88,7 +90,7 @@ msgstr ""
 "Ihre Bilder einfach in der Anwendung bearbeiten, oder einen voll "
 "ausgestatteten Editor für fortgeschrittene Änderungen öffnen"
 
-#: data/org.gnome.Photos.appdata.xml.in:81
+#: data/org.gnome.Photos.appdata.xml.in:89
 msgid "The GNOME Project"
 msgstr "Das GNOME-Projekt"
 
@@ -126,11 +128,11 @@ msgid "Window maximized state"
 msgstr "Fenstermaximierungsstatus"
 
 # CHECK
-#: src/photos-application.c:164
+#: src/photos-application.c:166
 msgid "Show the empty state"
 msgstr "Den leeren Status anzeigen"
 
-#: src/photos-application.c:165
+#: src/photos-application.c:167
 msgid "Show the application's version"
 msgstr "Die Versionsnummer der Anwendung zeigen"
 
@@ -143,7 +145,7 @@ msgstr "Die Versionsnummer der Anwendung zeigen"
 #. Translators: this is the name of the default album that will be
 #. * created for imported photos.
 #.
-#: src/photos-application.c:1398 src/photos-export-dialog.c:195
+#: src/photos-application.c:1396 src/photos-export-dialog.c:195
 #: src/photos-import-dialog.c:134
 msgid "%-d %B %Y"
 msgstr "%d. %B %Y"
@@ -152,7 +154,7 @@ msgstr "%d. %B %Y"
 msgid "Album"
 msgstr "Album"
 
-#: src/photos-base-item.c:2845
+#: src/photos-base-item.c:2833
 msgid "Screenshots"
 msgstr "Bildschirmfotos"
 
@@ -181,11 +183,11 @@ msgstr "DLNA-Darstellungsgerät"
 msgid "“%s” edited"
 msgstr "»%s« wurde bearbeitet"
 
-#: src/photos-embed.c:829
+#: src/photos-embed.c:828
 msgid "Collection View"
 msgstr "Sammlungsansicht"
 
-#: src/photos-embed.c:832 src/photos-search-type-manager.c:129
+#: src/photos-embed.c:831 src/photos-search-type-manager.c:129
 msgid "Albums"
 msgstr "Alben"
 
@@ -193,27 +195,28 @@ msgstr "Alben"
 msgid "Favorites"
 msgstr "Favoriten"
 
-#: src/photos-embed.c:840
+#: src/photos-embed.c:841
 msgid "Import"
 msgstr "Importieren"
 
-#: src/photos-embed.c:843 src/photos-main-toolbar.c:335
+#: src/photos-embed.c:844 src/photos-main-toolbar.c:336
 msgid "Search"
 msgstr "Suchen"
 
-#: src/photos-empty-results-box.c:120
-msgid "No albums found"
+#: src/photos-empty-results-box.c:116
+msgid "No Albums Found"
 msgstr "Keine Alben gefunden"
 
-#: src/photos-empty-results-box.c:124
-msgid "Starred photos will appear here"
-msgstr "Fotos mit Bewertung werden hier angezeigt"
+#: src/photos-empty-results-box.c:120
+#, fuzzy
+msgid "Starred Photos Will Appear Here"
+msgstr "Gekennzeichnete Fotos werden hier angezeigt"
 
-#: src/photos-empty-results-box.c:134
-msgid "No photos found"
+#: src/photos-empty-results-box.c:130
+msgid "No Photos Found"
 msgstr "Keine Fotos gefunden"
 
-#: src/photos-empty-results-box.c:163
+#: src/photos-empty-results-box.c:155
 msgid "You can create albums from the Photos view"
 msgstr "Sie können Alben aus der Fotoansicht anlegen"
 
@@ -221,7 +224,7 @@ msgstr "Sie können Alben aus der Fotoansicht anlegen"
 #. * the "Photos from your Online Accounts and Pictures folder
 #. * will appear here." sentence below.
 #.
-#: src/photos-empty-results-box.c:184
+#: src/photos-empty-results-box.c:176
 msgid "Online Accounts"
 msgstr "Online-Konten"
 
@@ -229,7 +232,7 @@ msgstr "Online-Konten"
 #. * the "Photos from your Online Accounts and Pictures folder
 #. * will appear here." sentence below.
 #.
-#: src/photos-empty-results-box.c:191
+#: src/photos-empty-results-box.c:183
 msgid "Pictures folder"
 msgstr "Bilder-Ordner"
 
@@ -238,14 +241,14 @@ msgstr "Bilder-Ordner"
 #. * strings due to markup, and should be translated only in the
 #. * context of this sentence.
 #.
-#: src/photos-empty-results-box.c:198
+#: src/photos-empty-results-box.c:190
 #, c-format
 msgid "Photos from your %s and %s will appear here."
 msgstr "Fotos aus Ihren %s und Ihrem %s werden hier angezeigt."
 
-#: src/photos-empty-results-box.c:208
-msgid "Try a different search"
-msgstr "Eine andere Suche probieren"
+#: src/photos-empty-results-box.c:200
+msgid "Try a different search."
+msgstr "Versuchen Sie eine andere Suchanfrage."
 
 #: src/photos-export-dialog.ui:22
 msgctxt "dialog title"
@@ -269,8 +272,8 @@ msgid "_Reduced"
 msgstr "_Reduziert"
 
 #: src/photos-export-dialog.ui:160 src/photos-import-dialog.ui:185
-#: src/photos-main-toolbar.c:487 src/photos-main-toolbar.c:523
-#: src/photos-main-toolbar.c:634
+#: src/photos-main-toolbar.c:488 src/photos-main-toolbar.c:524
+#: src/photos-main-toolbar.c:635
 msgid "_Cancel"
 msgstr "_Abbrechen"
 
@@ -351,7 +354,6 @@ msgid "Show help"
 msgstr "Hilfe anzeigen"
 
 #: src/photos-help-overlay.ui:43
-#| msgid "Keyboard Shortcuts"
 msgctxt "shortcut window"
 msgid "Keyboard shortcuts"
 msgstr "Tastenkombinationen"
@@ -397,15 +399,11 @@ msgid "Select all"
 msgstr "Alle auswählen"
 
 #: src/photos-help-overlay.ui:113
-#| msgctxt "shortcut window"
-#| msgid "Export selected photos"
 msgctxt "shortcut window"
 msgid "Export selected photo"
 msgstr "Ausgewähltes Foto exportieren"
 
 #: src/photos-help-overlay.ui:120
-#| msgctxt "shortcut window"
-#| msgid "Print selected photos"
 msgctxt "shortcut window"
 msgid "Print selected photo"
 msgstr "Ausgewähltes Foto drucken"
@@ -529,57 +527,57 @@ msgstr "Hoppla! »%s« konnte nicht geladen werden."
 msgid "Local"
 msgstr "Lokal"
 
-#: src/photos-main-toolbar.c:79
+#: src/photos-main-toolbar.c:80
 msgid "Click on items to select them"
 msgstr "Klicken Sie auf Objekte, um diese auszuwählen"
 
-#: src/photos-main-toolbar.c:81
+#: src/photos-main-toolbar.c:82
 #, c-format
 msgid "%d selected"
 msgid_plural "%d selected"
 msgstr[0] "%d gewählt"
 msgstr[1] "%d gewählt"
 
-#: src/photos-main-toolbar.c:169
+#: src/photos-main-toolbar.c:170
 msgid "Select items for import"
 msgstr "Objekte zum Importieren auswählen"
 
-#: src/photos-main-toolbar.c:173
+#: src/photos-main-toolbar.c:174
 #, c-format
 msgid "Select items for import (%u selected)"
 msgid_plural "Select items for import (%u selected)"
 msgstr[0] "Objekte zum Importieren auswählen (%u ausgewählt)"
 msgstr[1] "Objekte zum Importieren auswählen (%u ausgewählt)"
 
-#: src/photos-main-toolbar.c:216
+#: src/photos-main-toolbar.c:217
 msgid "Back"
 msgstr "Zurück"
 
-#: src/photos-main-toolbar.c:350
+#: src/photos-main-toolbar.c:351
 msgid "Select Items"
 msgstr "Objekte auswählen"
 
 #. length == 1
 #. Translators: this is the Open action in a context menu
-#: src/photos-main-toolbar.c:410 src/photos-selection-toolbar.c:237
+#: src/photos-main-toolbar.c:411 src/photos-selection-toolbar.c:237
 #: src/photos-share-notification.c:165
 #, c-format
 msgid "Open with %s"
 msgstr "Öffnen mit %s"
 
-#: src/photos-main-toolbar.c:441 src/photos-selection-toolbar.c:248
+#: src/photos-main-toolbar.c:442 src/photos-selection-toolbar.c:248
 msgid "Remove from favorites"
 msgstr "Aus Favoriten entfernen"
 
-#: src/photos-main-toolbar.c:446 src/photos-selection-toolbar.c:253
+#: src/photos-main-toolbar.c:447 src/photos-selection-toolbar.c:253
 msgid "Add to favorites"
 msgstr "Zu Favoriten hinzufügen"
 
-#: src/photos-main-toolbar.c:491
+#: src/photos-main-toolbar.c:492
 msgid "Done"
 msgstr "Fertig"
 
-#: src/photos-main-toolbar.c:527
+#: src/photos-main-toolbar.c:528
 msgid "_Select"
 msgstr "Au_swählen"
 
@@ -601,7 +599,8 @@ msgstr ""
 "Wolfgang Stöggl <c72578@yahoo.de>\n"
 "Tobias Endrigkeit <tobiasendrigkeit@outlook.com>\n"
 "Paul Seyfert <pseyfert@mathphys.fsk.uni-heidelberg.de>\n"
-"Tim Sabsch <tim@sabsch.com>"
+"Tim Sabsch <tim@sabsch.com>\n"
+"Philipp Kiemle <philipp.kiemle@gmail.com>"
 
 #: src/photos-organize-collection-dialog.c:70
 msgid "_OK"
