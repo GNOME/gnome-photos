@@ -532,10 +532,17 @@ photos_item_manager_notifier_events_foreach (gpointer data, gpointer user_data)
   PhotosItemManager *self = PHOTOS_ITEM_MANAGER (user_data);
   TrackerNotifierEvent *event = (TrackerNotifierEvent *) data;
   TrackerNotifierEventType event_type;
+  const gchar *event_rdf_type;
   const gchar *event_urn;
 
+  event_rdf_type = tracker_notifier_event_get_type (event);
   event_type = tracker_notifier_event_get_event_type (event);
   event_urn = tracker_notifier_event_get_urn (event);
+  photos_debug (PHOTOS_DEBUG_TRACKER,
+                "Received TrackerNotifierEvent (%d): RDF type %s, URN %s",
+                event_type,
+                event_rdf_type,
+                event_urn);
 
   if (event_type == TRACKER_NOTIFIER_EVENT_UPDATE)
     {
