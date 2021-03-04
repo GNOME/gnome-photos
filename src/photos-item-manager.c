@@ -544,6 +544,8 @@ photos_item_manager_notifier_events_foreach (gpointer data, gpointer user_data)
                 event_rdf_type,
                 event_urn);
 
+  g_return_if_fail (event_urn != NULL && event_urn[0] != '\0');
+
   if (event_type == TRACKER_NOTIFIER_EVENT_UPDATE)
     {
       GObject *object;
