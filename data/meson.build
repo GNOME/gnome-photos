@@ -46,6 +46,7 @@ configure_file(
 )
 
 tracker_domain_conf = configuration_data()
+tracker_domain_conf.set('application_id', photos_namespace)
 tracker_domain_conf.set('libexecdir', photos_libexecdir)
 
 domain_ontology_rule = photos_namespace + '.rule'

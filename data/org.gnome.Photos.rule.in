@@ -29,7 +29,7 @@ OntologyName=nepomuk
 # services related to this domain ontology.
 #
 # eg. org.gnome.Photos
-Domain=org.gnome.Photos
+Domain=@application_id@
 
 # Miners that the domain ontology will require. This is
 # purely a hint (mainly for libtracker-control), and not
