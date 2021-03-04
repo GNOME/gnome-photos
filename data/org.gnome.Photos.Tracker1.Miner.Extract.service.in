@@ -1,8 +1,0 @@
-[D-BUS Service]
-Name=@application_id@.Tracker1.Miner.Extract
-Exec=@libexecdir@/tracker-extract --domain-ontology @application_id@
-
-# Miner details needed for tracker-control
-Path=/org/freedesktop/Tracker1/Miner/Extract
-NameSuffix=Miner.Extract
-DisplayName=Extractor

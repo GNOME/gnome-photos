@@ -28,17 +28,3 @@ if not destdir:
     schemadir = os.path.join(datadir, 'glib-2.0', 'schemas')
     print('Compiling gsettings schemas...')
     subprocess.call(['glib-compile-schemas', schemadir])
-
-dbusservicesdir = sys.argv[2]
-trackerdir = os.path.join(datadir, 'tracker', 'miners')
-
-miners = ["org.gnome.Photos.Tracker1.Miner.Extract.service", "org.gnome.Photos.Tracker1.Miner.Files.service"]
-
-os.makedirs(trackerdir, exist_ok=True)
-for miner in miners:
-    dst = os.path.join(trackerdir, miner)
-    src = os.path.join(dbusservicesdir, miner)
-    try:
-        os.symlink(src, dst)
-    except FileExistsError:
-        pass

@@ -1,0 +1,3 @@
+[D-BUS Service]
+Name=@application_id@.Tracker3.Miner.Extract
+Exec=@libexecdir@/tracker-extract-3 --domain-ontology @application_id@

@@ -16,11 +16,23 @@
 #
 
 SELECT {{projection}}
+FROM tracker:Pictures
 {
     ?urn a nmm:Photo; nao:hasTag nao:predefined-tag-favorite .
-    OPTIONAL { ?urn nco:creator ?creator . }
-    OPTIONAL { ?urn nco:publisher ?publisher . }
-    FILTER ({{blocked_mime_types_filter}} && {{search_match_filter}} && {{source_filter}})
+    SERVICE <dbus:{{miner_files_name}}>
+    {
+        GRAPH tracker:Pictures
+        {
+            SELECT {{projection_dbus}}
+            {
+                {{values}}
+                ?urn a nmm:Photo ; nie:isStoredAs ?file .
+                OPTIONAL { ?urn nco:creator ?creator . }
+                OPTIONAL { ?urn nco:publisher ?publisher . }
+                FILTER ({{blocked_mime_types_filter}} && {{search_match_filter}} && {{source_filter}})
+            }
+        }
+    }
 }
 {{order}}
 {{offset_limit}}

@@ -7,7 +7,7 @@
     "tags": [ "nightly" ],
     "desktop-file-name-prefix": "(Nightly) ",
     "finish-args": [
-        "--env=TRACKER_SPARQL_BACKEND=bus",
+        "--add-policy=Tracker3.dbus:org.freedesktop.Tracker3.Miner.Files=tracker:Pictures",
         "--filesystem=xdg-download",
         "--filesystem=xdg-pictures",
         "--metadata=X-DConf=migrate-path=/org/gnome/photos/",
@@ -17,8 +17,7 @@
         "--socket=wayland",
         "--socket=x11",
         "--talk-name=org.freedesktop.FileManager1",
-        "--talk-name=org.freedesktop.Tracker1",
-        "--talk-name=org.freedesktop.Tracker1.Miner.Extract",
+        "--talk-name=org.freedesktop.Tracker3.Miner.Files.Control",
         "--talk-name=com.intel.dleyna-renderer",
         "--talk-name=org.gnome.ControlCenter",
         "--talk-name=org.gnome.SettingsDaemon",
@@ -266,49 +265,18 @@
             ]
         },
         {
-            "name": "tracker",
-            "buildsystem": "meson",
-            "cleanup": [ "/bin", "/etc", "/lib/girepository-1.0", "/share/dbus-1", "/share/gir-1.0" ],
-            "config-opts": [ "-Dbash_completion=no", "-Ddocs=false", "-Dsystemd_user_services=no" ],
-            "sources": [
-                {
-                    "type": "git",
-                    "url": "https://gitlab.gnome.org/GNOME/tracker.git",
-                    "branch": "tracker-2.3"
-                }
-            ]
-        },
-        {
-            "name": "intltool",
-            "cleanup": [ "*" ],
-            "sources": [
-                {
-                    "type": "archive",
-                    "url": "https://launchpad.net/intltool/trunk/0.51.0/+download/intltool-0.51.0.tar.gz",
-                    "sha256": "67c74d94196b153b774ab9f89b2fa6c6ba79352407037c8c14d5aeb334e959cd"
-                }
-            ]
-        },
-        {
             "name": "tracker-miners",
             "buildsystem": "meson",
-            "cleanup": [ "/etc",
-                         "/share/dbus-1/services/org.freedesktop.Tracker1.Miner.Extract.service",
-                         "/share/dbus-1/services/org.freedesktop.Tracker1.Writeback.service",
-                         "/share/tracker/miners/org.freedesktop.Tracker1.Miner.Applications.service",
-                         "/share/tracker/miners/org.freedesktop.Tracker1.Miner.Extract.service",
-                         "/share/tracker/miners/org.freedesktop.Tracker1.Miner.RSS.service",
-                         "/share/glib-2.0/schemas/org.freedesktop.Tracker.Writeback.gschema.xml" ],
-            "config-opts": [ "-Dextract=true",
+            "cleanup": [ "/etc", "/share/dbus-1" ],
+            "config-opts": [ "-Dman=false",
                              "-Dminer_fs=true",
                              "-Dminer_rss=false",
-                             "-Dsystemd_user_services=no",
+                             "-Dsystemd_user_services=false",
                              "-Dwriteback=false" ],
             "sources": [
                 {
                     "type": "git",
-                    "url": "https://gitlab.gnome.org/GNOME/tracker-miners.git",
-                    "branch": "tracker-miners-2.3"
+                    "url": "https://gitlab.gnome.org/GNOME/tracker-miners.git"
                 }
             ]
         },

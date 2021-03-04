@@ -26,22 +26,23 @@
 #include <gio/gio.h>
 #include <glib.h>
 #include <glib/gi18n.h>
-#include <libtracker-control/tracker-control.h>
 
 #include "photos-application.h"
 #include "photos-gom-miner.h"
 #include "photos-indexing-notification.h"
 #include "photos-notification-manager.h"
+#include "photos-tracker-miner.h"
 
 
 struct _PhotosIndexingNotification
 {
   GtkGrid parent_instance;
+  GCancellable *cancellable;
   GtkWidget *ntfctn_mngr;
   GtkWidget *primary_label;
   GtkWidget *secondary_label;
   GtkWidget *spinner;
-  TrackerMinerManager *manager;
+  TrackerMiner *miner_files;
   gboolean closed;
   gboolean on_display;
   guint timeout_id;
@@ -55,8 +56,6 @@ enum
 {
   REMOTE_MINER_TIMEOUT = 10 /* s */
 };
-
-static const gchar *MINER_FILES = "org.gnome.Photos.Tracker1.Miner.Files";
 
 
 static void
@@ -173,23 +172,36 @@ photos_indexing_notification_timeout (gpointer user_data)
 
 
 static void
-photos_indexing_notification_check_notification (PhotosIndexingNotification *self)
+photos_indexing_notification_check_notification_get_progress (GObject *source_object,
+                                                              GAsyncResult *res,
+                                                              gpointer user_data)
 {
+  PhotosIndexingNotification *self;
   GApplication *app;
   GList *miners_running;
   GSList *running = NULL;
+  TrackerMiner *miner_files = TRACKER_MINER (source_object);
   gboolean is_indexing_local = FALSE;
   gboolean is_indexing_remote = FALSE;
+  gdouble progress;
 
-  running = tracker_miner_manager_get_running (self->manager);
-  if (g_slist_find_custom (running, (gconstpointer) MINER_FILES, (GCompareFunc) g_strcmp0) != NULL)
-    {
-      gdouble progress;
+  {
+    g_autoptr (GError) error = NULL;
 
-      tracker_miner_manager_get_status (self->manager, MINER_FILES, NULL, &progress, NULL);
-      if (progress < 1)
-        is_indexing_local = TRUE;
-    }
+    if (!tracker_miner_call_get_progress_finish (miner_files, &progress, res, &error))
+      {
+        if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
+          goto out;
+
+        g_warning ("Unable to get indexing progress from TrackerMiner proxy: %s", error->message);
+        progress = 1.0;
+      }
+  }
+
+  self = PHOTOS_INDEXING_NOTIFICATION (user_data);
+
+  if (progress < 1)
+    is_indexing_local = TRUE;
 
   app = g_application_get_default ();
   miners_running = photos_application_get_miners_running (PHOTOS_APPLICATION (app));
@@ -210,7 +222,50 @@ photos_indexing_notification_check_notification (PhotosIndexingNotification *sel
   else
     photos_indexing_notification_destroy (self, FALSE);
 
+ out:
   g_slist_free_full (running, g_free);
+}
+
+
+static void
+photos_indexing_notification_check_notification (PhotosIndexingNotification *self)
+{
+  tracker_miner_call_get_progress (self->miner_files,
+                                   self->cancellable,
+                                   photos_indexing_notification_check_notification_get_progress,
+                                   self);
+}
+
+
+static void
+photos_indexing_notification_tracker_miner (GObject *source_object, GAsyncResult *res, gpointer user_data)
+{
+  PhotosIndexingNotification *self;
+  g_autoptr (TrackerMiner) miner_files = NULL;
+
+  {
+    g_autoptr (GError) error = NULL;
+
+    miner_files = tracker_miner_proxy_new_for_bus_finish (res, &error);
+    if (error != NULL)
+      {
+        if (!g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
+          g_warning ("Unable to create TrackerMiner proxy: %s", error->message);
+
+        goto out;
+      }
+  }
+
+  self = PHOTOS_INDEXING_NOTIFICATION (user_data);
+
+  self->miner_files = g_object_ref (miner_files);
+  g_signal_connect_swapped (self->miner_files,
+                            "progress",
+                            G_CALLBACK (photos_indexing_notification_check_notification),
+                            self);
+
+ out:
+  return;
 }
 
 
@@ -221,8 +276,14 @@ photos_indexing_notification_dispose (GObject *object)
 
   photos_indexing_notification_remove_timeout (self);
 
+  if (self->cancellable != NULL)
+    {
+       g_cancellable_cancel (self->cancellable);
+       g_clear_object (&self->cancellable);
+    }
+
   g_clear_object (&self->ntfctn_mngr);
-  g_clear_object (&self->manager);
+  g_clear_object (&self->miner_files);
 
   G_OBJECT_CLASS (photos_indexing_notification_parent_class)->dispose (object);
 }
@@ -236,21 +297,10 @@ photos_indexing_notification_init (PhotosIndexingNotification *self)
   GtkWidget *close;
   GtkWidget *image;
   GtkWidget *labels;
+  const gchar *miner_files_name;
 
   app = g_application_get_default ();
-
-  {
-    g_autoptr (GError) error = NULL;
-
-    self->manager = tracker_miner_manager_new_full (TRUE, &error);
-    if (error != NULL)
-      {
-        g_warning ("Unable to create a TrackerMinerManager, indexing progress notification won't work: %s",
-                   error->message);
-        return;
-      }
-  }
-
+  self->cancellable = g_cancellable_new ();
   self->ntfctn_mngr = photos_notification_manager_dup_singleton ();
 
   self->spinner = gtk_spinner_new ();
@@ -287,16 +337,21 @@ photos_indexing_notification_init (PhotosIndexingNotification *self)
   gtk_container_add (GTK_CONTAINER (self), close);
   g_signal_connect_swapped (close, "clicked", G_CALLBACK (photos_indexing_notification_close_clicked), self);
 
+  /* TODO: should be proxied by the "control" daemon for Flatpaks */
+  miner_files_name = photos_application_get_miner_files_name (PHOTOS_APPLICATION (app));
+  tracker_miner_proxy_new_for_bus (G_BUS_TYPE_SESSION,
+                                   G_DBUS_PROXY_FLAGS_NONE,
+                                   miner_files_name,
+                                   "/org/freedesktop/Tracker3/Miner/Files",
+                                   self->cancellable,
+                                   photos_indexing_notification_tracker_miner,
+                                   self);
+
   g_signal_connect_object (app,
                            "miners-changed",
                            G_CALLBACK (photos_indexing_notification_check_notification),
                            self,
                            G_CONNECT_SWAPPED);
-
-  g_signal_connect_swapped (self->manager,
-                            "miner-progress",
-                            G_CALLBACK (photos_indexing_notification_check_notification),
-                            self);
 }
 
 

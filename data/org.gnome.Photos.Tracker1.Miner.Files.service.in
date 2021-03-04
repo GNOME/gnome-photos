@@ -1,8 +1,0 @@
-[D-BUS Service]
-Name=@application_id@.Tracker1.Miner.Files
-Exec=@libexecdir@/tracker-miner-fs --initial-sleep=0 --domain-ontology @application_id@
-
-# Miner details needed for tracker-control
-Path=/org/freedesktop/Tracker1/Miner/Files
-NameSuffix=Miner.Files
-DisplayName=File System

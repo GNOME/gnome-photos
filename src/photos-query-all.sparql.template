@@ -16,33 +16,78 @@
 #
 
 SELECT {{projection}}
+FROM tracker:Pictures
 {
     {
-        SELECT ?urn
+        GRAPH tracker:Pictures
         {
+            SELECT {{projection_private}}
             {
-                SELECT ?urn COUNT(?item) AS ?count
                 {
-                    ?urn a nfo:DataContainer.
-                    ?item a nmm:Photo; nie:isPartOf ?urn.
-                    {{item_where}}
+                    SELECT ?urn COUNT(?item) AS ?count
+                    {
+                        {{values}}
+                        VALUES (?file ?filename) { ("" "") }
+                        ?urn a nfo:DataContainer .
+                        ?item a nmm:Photo ; nie:isLogicalPartOf ?urn .
+                    }
+                    GROUP BY (?urn)
                 }
-                GROUP BY (?urn)
+                {{item_where}}
+                OPTIONAL { ?urn nco:creator ?creator . }
+                OPTIONAL { ?urn nco:publisher ?publisher . }
+                FILTER (?count > 0 && {{collections_filter}} && {{search_match_filter}} && {{source_filter}})
             }
-            OPTIONAL { ?urn nco:creator ?creator . }
-            OPTIONAL { ?urn nco:publisher ?publisher . }
-            FILTER (?count > 0 && {{collections_filter}} && {{search_match_filter}} && {{source_filter}})
         }
     }
     UNION
     {
-        SELECT ?urn
+        SELECT {{projection_forwarded}}
         {
-            ?urn a nmm:Photo .
-            OPTIONAL { ?urn nco:creator ?creator . }
-            OPTIONAL { ?urn nco:publisher ?publisher . }
             {{item_where}}
-            FILTER ({{blocked_mime_types_filter}} && {{search_match_filter}} && {{source_filter}})
+            SERVICE <dbus:{{miner_files_name}}>
+            {
+                GRAPH tracker:Pictures
+                {
+                    SELECT {{projection_dbus}}
+                    {
+                        {
+                            SELECT ?urn COUNT(?item) AS ?count
+                            {
+                                {{values}}
+                                VALUES (?file ?filename) { ("" "") }
+                                ?urn a nfo:DataContainer .
+                                ?item a nmm:Photo ; nie:isLogicalPartOf ?urn .
+                            }
+                            GROUP BY (?urn)
+                        }
+                        OPTIONAL { ?urn nco:creator ?creator . }
+                        OPTIONAL { ?urn nco:publisher ?publisher . }
+                        FILTER (?count > 0 && {{collections_filter}} && {{search_match_filter}} && {{source_filter}})
+                    }
+                }
+            }
+        }
+    }
+    UNION
+    {
+        SELECT {{projection_forwarded}}
+        {
+            {{item_where}}
+            SERVICE <dbus:{{miner_files_name}}>
+            {
+                GRAPH tracker:Pictures
+                {
+                    SELECT {{projection_dbus}}
+                    {
+                        {{values}}
+                        ?urn a nmm:Photo ; nie:isStoredAs ?file .
+                        OPTIONAL { ?urn nco:creator ?creator . }
+                        OPTIONAL { ?urn nco:publisher ?publisher . }
+                        FILTER ({{blocked_mime_types_filter}} && {{search_match_filter}} && {{source_filter}})
+                    }
+                }
+            }
         }
     }
 }

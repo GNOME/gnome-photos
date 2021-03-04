@@ -45,9 +45,9 @@ G_BEGIN_DECLS
 #define PHOTOS_TOOL_EXTENSION_POINT_NAME "photos-tool"
 #define PHOTOS_TRACKER_CONTROLLER_EXTENSION_POINT_NAME "photos-tracker-controller"
 
-#define PHOTOS_COLLECTION_SCREENSHOT \
-  "http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#image-category-screenshot"
+#define PHOTOS_COLLECTION_SCREENSHOT "http://tracker.api.gnome.org/ontology/v3/nfo#image-category-screenshot"
 #define PHOTOS_EXPORT_SUBPATH "Exports"
+#define PHOTOS_PICTURES_GRAPH "http://tracker.api.gnome.org/ontology/v3/tracker#Pictures"
 
 typedef enum
 {

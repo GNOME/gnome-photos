@@ -56,13 +56,12 @@ configure_file(
   output: domain_ontology_rule,
   configuration: tracker_domain_conf,
   install: true,
-  install_dir: join_paths(photos_datadir, 'tracker', 'domain-ontologies'),
+  install_dir: join_paths(photos_datadir, 'tracker3-miners', 'domain-ontologies'),
 )
 
 tracker_domain_services = [
-  'Tracker1',
-  'Tracker1.Miner.Extract',
-  'Tracker1.Miner.Files'
+  'Tracker3.Miner.Extract',
+  'Tracker3.Miner.Files'
 ]
 
 foreach service: tracker_domain_services

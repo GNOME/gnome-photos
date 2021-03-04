@@ -25,68 +25,68 @@
 GQuark
 photos_quarks_flash_off_quark (void)
 {
-  return g_quark_from_static_string ("http://www.tracker-project.org/temp/nmm#flash-off");
+  return g_quark_from_static_string ("http://tracker.api.gnome.org/ontology/v3/nmm#flash-off");
 }
 
 
 GQuark
 photos_quarks_flash_on_quark (void)
 {
-  return g_quark_from_static_string ("http://www.tracker-project.org/temp/nmm#flash-on");
+  return g_quark_from_static_string ("http://tracker.api.gnome.org/ontology/v3/nmm#flash-on");
 }
 
 
 GQuark
 photos_quarks_orientation_bottom_quark (void)
 {
-  return g_quark_from_static_string ("http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#orientation-bottom");
+  return g_quark_from_static_string ("http://tracker.api.gnome.org/ontology/v3/nfo#orientation-bottom");
 }
 
 
 GQuark
 photos_quarks_orientation_bottom_mirror_quark (void)
 {
-  return g_quark_from_static_string ("http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#orientation-bottom-mirror");
+  return g_quark_from_static_string ("http://tracker.api.gnome.org/ontology/v3/nfo#orientation-bottom-mirror");
 }
 
 
 GQuark
 photos_quarks_orientation_left_quark (void)
 {
-  return g_quark_from_static_string ("http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#orientation-left");
+  return g_quark_from_static_string ("http://tracker.api.gnome.org/ontology/v3/nfo#orientation-left");
 }
 
 
 GQuark
 photos_quarks_orientation_left_mirror_quark (void)
 {
-  return g_quark_from_static_string ("http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#orientation-left-mirror");
+  return g_quark_from_static_string ("http://tracker.api.gnome.org/ontology/v3/nfo#orientation-left-mirror");
 }
 
 
 GQuark
 photos_quarks_orientation_right_quark (void)
 {
-  return g_quark_from_static_string ("http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#orientation-right");
+  return g_quark_from_static_string ("http://tracker.api.gnome.org/ontology/v3/nfo#orientation-right");
 }
 
 
 GQuark
 photos_quarks_orientation_right_mirror_quark (void)
 {
-  return g_quark_from_static_string ("http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#orientation-right-mirror");
+  return g_quark_from_static_string ("http://tracker.api.gnome.org/ontology/v3/nfo#orientation-right-mirror");
 }
 
 
 GQuark
 photos_quarks_orientation_top_quark (void)
 {
-  return g_quark_from_static_string ("http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#orientation-top");
+  return g_quark_from_static_string ("http://tracker.api.gnome.org/ontology/v3/nfo#orientation-top");
 }
 
 
 GQuark
 photos_quarks_orientation_top_mirror_quark (void)
 {
-  return g_quark_from_static_string ("http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#orientation-top-mirror");
+  return g_quark_from_static_string ("http://tracker.api.gnome.org/ontology/v3/nfo#orientation-top-mirror");
 }

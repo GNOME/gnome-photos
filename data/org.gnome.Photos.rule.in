@@ -1,3 +1,7 @@
+# This is used to run the Tracker indexer inside a Flatpak sandbox, when
+# Photos is running on a host that doesn't have a suitable version of Tracker
+# installed.
+
 [DomainOntology]
 # All locations accept
 # 1) Paths relative from a variable, the variables
@@ -14,14 +18,10 @@
 #
 
 # Location for the Tracker database (not optional)
-CacheLocation=$XDG_CACHE_HOME/gnome-photos/tracker
-
-# Location for the data journal, used in data recovery
-# situations (optional)
-JournalLocation=$XDG_DATA_HOME/gnome-photos/tracker/data
+CacheLocation=$XDG_CACHE_HOME/gnome-photos/tracker3/files
 
 # Name of the ontology to use, must be one located in
-# $(sharedir)/tracker/ontologies
+# $(sharedir)/tracker3/ontologies
 OntologyName=nepomuk
 
 # DBus name for the owner (not optional). Tracker will use

@@ -3773,7 +3773,7 @@ photos_base_item_get_where (PhotosBaseItem *self)
   priv = photos_base_item_get_instance_private (self);
 
   if (priv->collection)
-    ret_val = g_strconcat ("{ ?urn nie:isPartOf <", priv->id, "> }", NULL);
+    ret_val = g_strconcat ("{ ?urn nie:isLogicalPartOf <", priv->id, "> }", NULL);
   else
     ret_val = g_strdup ("");
 

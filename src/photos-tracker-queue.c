@@ -24,7 +24,6 @@
 #include "config.h"
 
 #include <glib.h>
-#include <tracker-sparql.h>
 
 #include "photos-debug.h"
 #include "photos-filterable.h"
@@ -189,7 +188,6 @@ photos_tracker_queue_check (PhotosTrackerQueue *self)
     case PHOTOS_TRACKER_QUERY_UPDATE:
       tracker_sparql_connection_update_async (self->connection,
                                               sparql,
-                                              G_PRIORITY_DEFAULT,
                                               data->cancellable,
                                               photos_tracker_queue_collector,
                                               g_object_ref (self));
@@ -198,7 +196,6 @@ photos_tracker_queue_check (PhotosTrackerQueue *self)
     case PHOTOS_TRACKER_QUERY_UPDATE_BLANK:
       tracker_sparql_connection_update_blank_async (self->connection,
                                                     sparql,
-                                                    G_PRIORITY_DEFAULT,
                                                     data->cancellable,
                                                     photos_tracker_queue_collector,
                                                     g_object_ref (self));
@@ -274,7 +271,12 @@ static gboolean
 photos_tracker_queue_initable_init (GInitable *initable, GCancellable *cancellable, GError **error)
 {
   PhotosTrackerQueue *self = PHOTOS_TRACKER_QUEUE (initable);
+  g_autoptr (GFile) ontology = NULL;
+  g_autoptr (GFile) store = NULL;
+  TrackerSparqlConnectionFlags tracker_flags;
   gboolean ret_val = FALSE;
+  const gchar *data_dir;
+  const gchar *store_path;
 
   G_LOCK (init_lock);
 
@@ -290,7 +292,28 @@ photos_tracker_queue_initable_init (GInitable *initable, GCancellable *cancellab
 
   g_assert_no_error (self->initialization_error);
 
-  self->connection = tracker_sparql_connection_get (cancellable, &self->initialization_error);
+  /* Same flags that tracker-miner-fs uses by default. See:
+   * https://gitlab.gnome.org/GNOME/tracker-miners/-/blob/master/src/miners/fs/tracker-main.c and
+   * https://gitlab.gnome.org/GNOME/tracker-miners/-/blob/master/data/org.freedesktop.Tracker.FTS.gschema.xml
+   */
+  tracker_flags = TRACKER_SPARQL_CONNECTION_FLAGS_FTS_ENABLE_STEMMER
+                  | TRACKER_SPARQL_CONNECTION_FLAGS_FTS_ENABLE_STOP_WORDS
+                  | TRACKER_SPARQL_CONNECTION_FLAGS_FTS_ENABLE_UNACCENT
+                  | TRACKER_SPARQL_CONNECTION_FLAGS_FTS_IGNORE_NUMBERS;
+
+  data_dir = g_get_user_data_dir ();
+  store = g_file_new_build_filename (data_dir, PACKAGE_TARNAME, "tracker3", "private", NULL);
+  store_path = g_file_peek_path (store);
+
+  ontology = tracker_sparql_get_ontology_nepomuk ();
+
+  photos_debug (PHOTOS_DEBUG_TRACKER, "Opening private database at %s", store_path);
+
+  self->connection = tracker_sparql_connection_new (tracker_flags,
+                                                    store,
+                                                    ontology,
+                                                    cancellable,
+                                                    &self->initialization_error);
   if (G_UNLIKELY (self->initialization_error != NULL))
     goto out;
 
@@ -323,6 +346,18 @@ photos_tracker_queue_dup_singleton (GCancellable *cancellable, GError **error)
   g_return_val_if_fail (error == NULL || *error == NULL, NULL);
 
   return g_initable_new (PHOTOS_TYPE_TRACKER_QUEUE, cancellable, error, NULL);
+}
+
+
+TrackerNotifier *
+photos_tracker_queue_create_notifier (PhotosTrackerQueue *self)
+{
+  TrackerNotifier *notifier;
+
+  g_return_val_if_fail (PHOTOS_IS_TRACKER_QUEUE (self), NULL);
+
+  notifier = tracker_sparql_connection_create_notifier (self->connection);
+  return notifier;
 }
 
 

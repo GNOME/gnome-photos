@@ -24,6 +24,7 @@
 #define PHOTOS_TRACKER_QUEUE_H
 
 #include <gio/gio.h>
+#include <tracker-sparql.h>
 
 #include "photos-query.h"
 
@@ -33,6 +34,8 @@ G_BEGIN_DECLS
 G_DECLARE_FINAL_TYPE (PhotosTrackerQueue, photos_tracker_queue, PHOTOS, TRACKER_QUEUE, GObject);
 
 PhotosTrackerQueue    *photos_tracker_queue_dup_singleton          (GCancellable *cancellable, GError **error);
+
+TrackerNotifier       *photos_tracker_queue_create_notifier        (PhotosTrackerQueue *self);
 
 void                   photos_tracker_queue_select                 (PhotosTrackerQueue *self,
                                                                     PhotosQuery *query,

@@ -175,8 +175,7 @@ libgfgraph_dep = dependency('libgfbgraph-0.2', version: '>= 0.2.1')
 libhandy_dep = dependency ('libhandy-1', version: '>= 1.1.90')
 libjpeg_dep = dependency('libjpeg')
 libpng_dep = dependency('libpng16')
-tracker_control_dep = dependency('tracker-control-2.0')
-tracker_sparql_dep = dependency('tracker-sparql-2.0')
+tracker_sparql_dep = dependency('tracker-sparql-3.0')
 
 dbus_dep = dependency('dbus-1')
 dbus_services_dir = dbus_dep.get_pkgconfig_variable(
@@ -223,5 +222,4 @@ run_target(script_name, command: [find_program(script_name + '.sh'), source_root
 meson.add_install_script(
   'meson_post_install.py',
   photos_datadir,
-  dbus_services_dir,
 )

@@ -1,0 +1,11 @@
+<node>
+  <interface name='org.freedesktop.Tracker3.Miner.Files.Index'>
+    <method name='IndexLocation'>
+      <arg type='s' name='file_uri' direction='in' />
+      <arg type='as' name='graphs' direction='in' />
+      <arg type='as' name='flags' direction='in'>"
+        <doc:doc><doc:summary>Extension flags, no allowed values at the moment</doc:summary></doc:doc>
+      </arg>
+    </method>
+  </interface>
+</node>

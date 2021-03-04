@@ -1,3 +1,0 @@
-[D-BUS Service]
-Name=org.gnome.Photos.Tracker1
-Exec=@libexecdir@/tracker-store --domain-ontology org.gnome.Photos

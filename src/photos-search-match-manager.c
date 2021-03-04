@@ -148,7 +148,7 @@ photos_search_match_manager_init (PhotosSearchMatchManager *self)
                   "  tracker:case-fold (tracker:coalesce (nco:fullname (?creator), nco:fullname(?publisher))),"
                   "  \"%s\")";
   title_filter = "fn:contains ("
-                 "  tracker:case-fold (tracker:coalesce (nie:title (?urn), nfo:fileName(?urn))),"
+                 "  tracker:case-fold (tracker:coalesce (nie:title (?urn), nfo:fileName(?file))),"
                  "  \"%s\")";
 
   search_match = photos_search_match_new (PHOTOS_SEARCH_MATCH_STOCK_ALL,

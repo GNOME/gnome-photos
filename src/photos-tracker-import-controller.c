@@ -24,8 +24,8 @@
 #include "config.h"
 
 #include <gio/gio.h>
-#include <libtracker-control/tracker-control.h>
 
+#include "photos-application.h"
 #include "photos-base-manager.h"
 #include "photos-debug.h"
 #include "photos-device-item.h"
@@ -34,6 +34,7 @@
 #include "photos-query-builder.h"
 #include "photos-search-context.h"
 #include "photos-tracker-import-controller.h"
+#include "photos-tracker-miner-files-index.h"
 #include "photos-utils.h"
 
 
@@ -45,7 +46,7 @@ struct _PhotosTrackerImportController
   PhotosBaseManager *item_mngr;
   PhotosBaseManager *src_mngr;
   PhotosOffsetController *offset_cntrlr;
-  TrackerMinerManager *manager;
+  TrackerMinerFilesIndex *miner_files_index;
 };
 
 
@@ -76,12 +77,12 @@ static void
 photos_tracker_import_controller_index (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
   g_autoptr (GFile) file = G_FILE (user_data);
-  TrackerMinerManager *manager = TRACKER_MINER_MANAGER (source_object);
+  TrackerMinerFilesIndex *miner_files_index = TRACKER_MINER_FILES_INDEX (source_object);
 
   {
     g_autoptr (GError) error = NULL;
 
-    if (!tracker_miner_manager_index_file_for_process_finish (manager, res, &error))
+    if (!tracker_miner_files_index_call_index_location_finish (miner_files_index, res, &error))
       {
         if (!g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
           {
@@ -177,6 +178,8 @@ photos_tracker_import_controller_next_files (GObject *source_object, GAsyncResul
               {
                 const gchar *mime_type;
                 gboolean indexing = FALSE;
+                const gchar *tracker_priority_graphs[] = { PHOTOS_PICTURES_GRAPH };
+                const gchar *tracker_index_location_flags[] = { };
                 guint i;
                 guint n_elements;
 
@@ -187,11 +190,13 @@ photos_tracker_import_controller_next_files (GObject *source_object, GAsyncResul
                     if (g_content_type_equals (mime_type, IMPORTABLE_MIME_TYPES[i])
                         || g_content_type_is_a (mime_type, IMPORTABLE_MIME_TYPES[i]))
                       {
-                        tracker_miner_manager_index_file_for_process_async (self->manager,
-                                                                            file,
-                                                                            self->cancellable,
-                                                                            photos_tracker_import_controller_index,
-                                                                            g_object_ref (file));
+                        tracker_miner_files_index_call_index_location (self->miner_files_index,
+                                                                       uri,
+                                                                       tracker_priority_graphs,
+                                                                       tracker_index_location_flags,
+                                                                       self->cancellable,
+                                                                       photos_tracker_import_controller_index,
+                                                                       g_object_ref (file));
                         indexing = TRUE;
                       }
                   }
@@ -291,7 +296,7 @@ photos_tracker_import_controller_source_active_changed (PhotosTrackerImportContr
     {
       g_return_if_fail (g_queue_is_empty (self->pending_directories));
 
-      if (G_LIKELY (self->manager != NULL))
+      if (G_LIKELY (self->miner_files_index != NULL))
         {
           g_autoptr (GFile) root = NULL;
           g_autofree gchar *uri = NULL;
@@ -379,7 +384,7 @@ photos_tracker_import_controller_dispose (GObject *object)
 
   g_clear_object (&self->src_mngr);
   g_clear_object (&self->offset_cntrlr);
-  g_clear_object (&self->manager);
+  g_clear_object (&self->miner_files_index);
 
   G_OBJECT_CLASS (photos_tracker_import_controller_parent_class)->dispose (object);
 }
@@ -421,13 +426,9 @@ photos_tracker_import_controller_init (PhotosTrackerImportController *self)
 
   self->offset_cntrlr = photos_offset_import_controller_dup_singleton ();
 
-  {
-    g_autoptr (GError) error = NULL;
-
-    self->manager = tracker_miner_manager_new_full (TRUE, &error);
-    if (error != NULL)
-      g_warning ("Unable to create a TrackerMinerManager, indexing attached devices won't work: %s", error->message);
-  }
+  self->miner_files_index = photos_application_dup_miner_files_index (PHOTOS_APPLICATION (app));
+  if (G_UNLIKELY (self->miner_files_index == NULL))
+    g_warning ("No TrackerMinerFilesIndex proxy, indexing attached devices won't work");
 }
 
 

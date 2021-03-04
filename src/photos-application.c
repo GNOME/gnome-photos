@@ -37,7 +37,6 @@
 #include <glib/gi18n.h>
 #include <grilo.h>
 #include <handy.h>
-#include <libtracker-control/tracker-control.h>
 #include <tracker-sparql.h>
 
 #include "photos-application.h"
@@ -70,7 +69,7 @@
 #include "photos-share-notification.h"
 #include "photos-share-point-manager.h"
 #include "photos-thumbnail-factory.h"
-#include "photos-tracker-extract-priority.h"
+#include "photos-tracker-queue.h"
 #include "photos-utils.h"
 
 
@@ -129,10 +128,12 @@ struct _PhotosApplication
   PhotosSearchProvider *search_provider;
   PhotosSelectionController *sel_cntrlr;
   PhotosThumbnailFactory *factory;
-  TrackerMinerManager *miner_manager;
-  TrackerExtractPriority *extract_priority;
+  PhotosTrackerQueue *queue;
+  TrackerMinerFilesIndex *miner_files_index;
+  TrackerSparqlConnection *miner_files_connection;
   gboolean empty_results;
   gboolean main_window_deleted;
+  const gchar *miner_files_name;
   guint create_miners_count;
   guint init_fishes_id;
   guint use_count;
@@ -176,7 +177,11 @@ static const gchar *DESKTOP_KEY_PICTURE_OPTIONS = "picture-options";
 static const gchar *DESKTOP_KEY_COLOR_SHADING_TYPE = "color-shading-type";
 static const gchar *DESKTOP_KEY_PRIMARY_COLOR = "primary-color";
 static const gchar *DESKTOP_KEY_SECONDARY_COLOR = "secondary-color";
-static const gchar *MINER_FILES = "org.gnome.Photos.Tracker1.Miner.Files";
+static const gchar *MINER_FILES_NAME_PRIVATE = "org.gnome.Photos.Tracker3.Miner.Files";
+static const gchar *MINER_FILES_NAME_PRIVATE_CONTROL = "org.gnome.Photos.Tracker3.Miner.Files.Control";
+static const gchar *MINER_FILES_NAME_SESSION = "org.freedesktop.Tracker3.Miner.Files";
+static const gchar *MINER_FILES_NAME_SESSION_CONTROL = "org.freedesktop.Tracker3.Miner.Files.Control";
+static const gchar *MINER_FILES_OBJECT_PATH_CONTROL = "/org/freedesktop/Tracker3/Miner/Files/Control";
 
 typedef struct _PhotosApplicationCreateData PhotosApplicationCreateData;
 typedef struct _PhotosApplicationImportData PhotosApplicationImportData;
@@ -584,27 +589,6 @@ photos_application_actions_update (PhotosApplication *self)
 }
 
 
-static void
-photos_application_tracker_clear_rdf_types (GObject *source_object, GAsyncResult *res, gpointer user_data)
-{
-  PhotosApplication *self = PHOTOS_APPLICATION (user_data);
-  TrackerExtractPriority *extract_priority = TRACKER_EXTRACT_PRIORITY (source_object);
-
-  {
-    g_autoptr (GError) error = NULL;
-
-    if (!tracker_extract_priority_call_clear_rdf_types_finish (extract_priority, res, &error))
-      {
-        g_warning ("Unable to call ClearRdfTypes: %s", error->message);
-        goto out;
-      }
-  }
-
- out:
-  g_application_release (G_APPLICATION (self));
-}
-
-
 static gboolean
 photos_application_delete_event (PhotosApplication *self)
 {
@@ -641,16 +625,6 @@ photos_application_destroy (PhotosApplication *self)
   self->create_window_cancellable = g_cancellable_new ();
 
   photos_application_stop_miners (self);
-
-  if (self->extract_priority != NULL)
-    {
-      g_application_hold (G_APPLICATION (self));
-      tracker_extract_priority_call_clear_rdf_types (self->extract_priority,
-                                                     NULL,
-                                                     photos_application_tracker_clear_rdf_types,
-                                                     self);
-      g_clear_object (&self->extract_priority);
-    }
 }
 
 
@@ -740,60 +714,6 @@ photos_application_gegl_init_fishes_idle (gpointer user_data)
 }
 
 
-static void
-photos_application_tracker_set_rdf_types (GObject *source_object, GAsyncResult *res, gpointer user_data)
-{
-  PhotosApplication *self = PHOTOS_APPLICATION (user_data);
-  TrackerExtractPriority *extract_priority = TRACKER_EXTRACT_PRIORITY (source_object);
-
-  {
-    g_autoptr (GError) error = NULL;
-
-    if (!tracker_extract_priority_call_set_rdf_types_finish (extract_priority, res, &error))
-      {
-        if (!g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
-          g_warning ("Unable to call SetRdfTypes: %s", error->message);
-
-        goto out;
-      }
-  }
-
- out:
-  g_application_release (G_APPLICATION (self));
-}
-
-
-static void
-photos_application_tracker_extract_priority (GObject *source_object, GAsyncResult *res, gpointer user_data)
-{
-  PhotosApplication *self = PHOTOS_APPLICATION (user_data);
-  const gchar *const rdf_types[] = {"nfo:Image", NULL};
-
-  {
-    g_autoptr (GError) error = NULL;
-
-    self->extract_priority = tracker_extract_priority_proxy_new_for_bus_finish (res, &error);
-    if (error != NULL)
-      {
-        if (!g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
-          g_warning ("Unable to create TrackerExtractPriority proxy: %s", error->message);
-
-        goto out;
-      }
-  }
-
-  g_application_hold (G_APPLICATION (self));
-  tracker_extract_priority_call_set_rdf_types (self->extract_priority,
-                                               rdf_types,
-                                               self->create_window_cancellable,
-                                               photos_application_tracker_set_rdf_types,
-                                               self);
-
- out:
-  g_application_release (G_APPLICATION (self));
-}
-
-
 static gboolean
 photos_application_create_window (PhotosApplication *self)
 {
@@ -813,6 +733,8 @@ photos_application_create_window (PhotosApplication *self)
   gexiv2_registered_namespace = gexiv2_metadata_register_xmp_namespace ("http://www.gnome.org/xmp", "gnome");
   g_return_val_if_fail (gexiv2_registered_namespace, FALSE);
 
+  photos_application_start_miners (self);
+
   self->main_window = photos_main_window_new (GTK_APPLICATION (self));
   g_signal_connect_object (self->main_window,
                            "delete-event",
@@ -827,16 +749,6 @@ photos_application_create_window (PhotosApplication *self)
   if (self->init_fishes_id == 0)
     self->init_fishes_id = g_idle_add (photos_application_gegl_init_fishes_idle, self);
 
-  g_application_hold (G_APPLICATION (self));
-  tracker_extract_priority_proxy_new_for_bus (G_BUS_TYPE_SESSION,
-                                              G_DBUS_PROXY_FLAGS_NONE,
-                                              "org.gnome.Photos.Tracker1.Miner.Extract",
-                                              "/org/freedesktop/Tracker1/Extract/Priority",
-                                              self->create_window_cancellable,
-                                              photos_application_tracker_extract_priority,
-                                              self);
-
-  photos_application_start_miners (self);
   return TRUE;
 }
 
@@ -1113,18 +1025,18 @@ photos_application_get_state (PhotosSearchContext *context)
 
 
 static void
-photos_application_import_index_file (GObject *source_object, GAsyncResult *res, gpointer user_data)
+photos_application_import_index_location (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
   PhotosApplication *self;
   g_autoptr (GFile) file = G_FILE (user_data);
-  TrackerMinerManager *manager = TRACKER_MINER_MANAGER (source_object);
+  TrackerMinerFilesIndex *miner_files_index = TRACKER_MINER_FILES_INDEX (source_object);
 
   self = PHOTOS_APPLICATION (g_application_get_default ());
 
   {
     g_autoptr (GError) error = NULL;
 
-    if (!tracker_miner_manager_index_file_for_process_finish (manager, res, &error))
+    if (!tracker_miner_files_index_call_index_location_finish (miner_files_index, res, &error))
       {
         g_autofree gchar *uri = NULL;
 
@@ -1346,6 +1258,8 @@ photos_application_import_file_copy (GObject *source_object, GAsyncResult *res, 
     }
   else
     {
+      const gchar *tracker_priority_graphs[] = { PHOTOS_PICTURES_GRAPH };
+      const gchar *tracker_index_location_flags[] = { };
       g_autofree gchar *destination_uri = NULL;
 
       g_assert_true (G_IS_FILE (destination));
@@ -1363,11 +1277,13 @@ photos_application_import_file_copy (GObject *source_object, GAsyncResult *res, 
 
       g_application_hold (G_APPLICATION (self));
       g_application_mark_busy (G_APPLICATION (self));
-      tracker_miner_manager_index_file_for_process_async (self->miner_manager,
-                                                          destination,
-                                                          NULL,
-                                                          photos_application_import_index_file,
-                                                          g_object_ref (destination));
+      tracker_miner_files_index_call_index_location (self->miner_files_index,
+                                                     destination_uri,
+                                                     tracker_priority_graphs,
+                                                     tracker_index_location_flags,
+                                                     NULL,
+                                                     photos_application_import_index_location,
+                                                     g_object_ref (destination));
     }
 
  out:
@@ -1531,9 +1447,9 @@ photos_application_import (PhotosApplication *self)
   selection = photos_selection_controller_get_selection (self->sel_cntrlr);
   g_return_if_fail (selection != NULL);
 
-  if (self->miner_manager == NULL)
+  if (self->miner_files_index == NULL)
     {
-      g_warning ("No TrackerMinerManager, importing from attached devices won't work");
+      g_warning ("No TrackerMinerFilesIndex proxy, importing from attached devices won't work");
       goto out;
     }
 
@@ -2234,36 +2150,87 @@ photos_application_share_current (PhotosApplication *self)
 
 
 static void
-photos_application_start_miners (PhotosApplication *self)
+photos_application_start_miners_local (PhotosApplication *self)
 {
+  GDBusConnection *dbus_connection;
+  g_autoptr (TrackerNotifier) notifier = NULL;
+  const gchar *control_name;
+
+  g_return_if_fail (self->miner_files_name != NULL);
+  g_return_if_fail (g_str_equal (self->miner_files_name, MINER_FILES_NAME_SESSION));
+
+  control_name = MINER_FILES_NAME_SESSION_CONTROL;
+  photos_debug (PHOTOS_DEBUG_TRACKER, "Connecting to %s", self->miner_files_name);
+
   {
     g_autoptr (GError) error = NULL;
 
-    self->miner_manager = tracker_miner_manager_new_full (TRUE, &error);
+    self->miner_files_connection = tracker_sparql_connection_bus_new (self->miner_files_name, NULL, NULL, &error);
     if (error != NULL)
-      g_warning ("Unable to create a TrackerMinerManager: %s", error->message);
+      {
+        g_warning ("Unable to create connection for session-wide Tracker indexer at %s: %s",
+                   self->miner_files_name,
+                   error->message);
+      }
   }
 
-  if (self->miner_manager != NULL)
+  if (self->miner_files_connection == NULL && photos_utils_is_flatpak ())
     {
-      GSList *available = NULL;
-      GSList *miner_files = NULL;
+      self->miner_files_name = MINER_FILES_NAME_PRIVATE;
+      control_name = MINER_FILES_NAME_PRIVATE_CONTROL;
+      photos_debug (PHOTOS_DEBUG_TRACKER, "Connecting to %s", self->miner_files_name);
 
-      available = tracker_miner_manager_get_available (self->miner_manager);
-      miner_files = g_slist_find_custom (available, MINER_FILES, (GCompareFunc) strcmp);
-      if (miner_files == NULL)
-        {
-          g_warning ("Unable to find miner %s", MINER_FILES);
-        }
-      else
-        {
-          if (!tracker_miner_manager_is_active (self->miner_manager, MINER_FILES))
-            g_warning ("Unable to activate miner %s", MINER_FILES);
-        }
+      {
+        g_autoptr (GError) error = NULL;
 
-      g_slist_free_full (available, g_free);
+        self->miner_files_connection = tracker_sparql_connection_bus_new (self->miner_files_name, NULL, NULL, &error);
+        if (error != NULL)
+          {
+            g_warning ("Unable to create connection for private Tracker indexer at %s: %s",
+                       self->miner_files_name,
+                       error->message);
+            self->miner_files_name = MINER_FILES_NAME_SESSION;
+          }
+      }
     }
 
+  if (self->miner_files_connection == NULL)
+    goto out;
+
+  {
+    g_autoptr (GError) error = NULL;
+
+    self->miner_files_index
+      = tracker_miner_files_index_proxy_new_for_bus_sync (G_BUS_TYPE_SESSION,
+                                                          G_DBUS_PROXY_FLAGS_DO_NOT_CONNECT_SIGNALS
+                                                          | G_DBUS_PROXY_FLAGS_DO_NOT_LOAD_PROPERTIES,
+                                                          control_name,
+                                                          MINER_FILES_OBJECT_PATH_CONTROL,
+                                                          NULL,
+                                                          &error);
+    if (error != NULL)
+      g_warning ("Unable to create TrackerMinerFilesIndex proxy: %s", error->message);
+  }
+
+  notifier = photos_tracker_queue_create_notifier (self->queue);
+  dbus_connection = g_application_get_dbus_connection (G_APPLICATION (self));
+  tracker_notifier_signal_subscribe (notifier,
+                                     dbus_connection,
+                                     self->miner_files_name,
+                                     NULL,
+                                     PHOTOS_PICTURES_GRAPH);
+
+  photos_item_manager_set_notifier (PHOTOS_ITEM_MANAGER (self->state->item_mngr), notifier);
+
+ out:
+  return;
+}
+
+
+static void
+photos_application_start_miners (PhotosApplication *self)
+{
+  photos_application_start_miners_local (self);
   photos_application_create_online_miners (self);
 }
 
@@ -3023,8 +2990,9 @@ photos_application_dispose (GObject *object)
   g_clear_object (&self->camera_cache);
   g_clear_object (&self->sel_cntrlr);
   g_clear_object (&self->factory);
-  g_clear_object (&self->extract_priority);
-  g_clear_object (&self->miner_manager);
+  g_clear_object (&self->queue);
+  g_clear_object (&self->miner_files_index);
+  g_clear_object (&self->miner_files_connection);
 
   if (self->state != NULL)
     {
@@ -3060,11 +3028,19 @@ photos_application_init (PhotosApplication *self)
   textdomain (GETTEXT_PACKAGE);
 
   g_set_application_name (_("Photos"));
-  tracker_sparql_connection_set_domain ("org.gnome.Photos");
 
   photos_utils_ensure_builtins ();
 
+  {
+    g_autoptr (GError) error = NULL;
+
+    self->queue = photos_tracker_queue_dup_singleton (NULL, &error);
+    if (G_UNLIKELY (error != NULL))
+      g_warning ("Unable to create PhotosTrackerQueue: %s", error->message);
+  }
+
   self->state = photos_search_context_state_new (PHOTOS_SEARCH_CONTEXT (self));
+  self->miner_files_name = MINER_FILES_NAME_SESSION;
   self->activation_timestamp = GDK_CURRENT_TIME;
 
   g_application_add_main_option_entries (G_APPLICATION (self), COMMAND_LINE_OPTIONS);
@@ -3116,6 +3092,23 @@ photos_application_new (void)
 }
 
 
+TrackerMinerFilesIndex *
+photos_application_dup_miner_files_index (PhotosApplication *self)
+{
+  TrackerMinerFilesIndex *ret_val = NULL;
+
+  g_return_val_if_fail (PHOTOS_IS_APPLICATION (self), NULL);
+
+  if (G_UNLIKELY (self->miner_files_index == NULL))
+    goto out;
+
+  ret_val = g_object_ref (self->miner_files_index);
+
+ out:
+  return ret_val;
+}
+
+
 gboolean
 photos_application_get_empty_results (PhotosApplication *self)
 {
@@ -3144,6 +3137,16 @@ photos_application_get_miner (PhotosApplication *self, const gchar *provider_typ
     }
 
   return ret_val;
+}
+
+
+const gchar *
+photos_application_get_miner_files_name (PhotosApplication *self)
+{
+  g_return_val_if_fail (PHOTOS_IS_APPLICATION (self), NULL);
+  g_return_val_if_fail (self->miner_files_name != NULL, NULL);
+
+  return self->miner_files_name;
 }
 
 

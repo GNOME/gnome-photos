@@ -16,18 +16,54 @@
 #
 
 SELECT {{projection}}
+FROM tracker:Pictures
 {
     {
-        SELECT ?urn COUNT(?item) AS ?count
+        GRAPH tracker:Pictures
         {
-            ?urn a nfo:DataContainer.
-            ?item a nmm:Photo; nie:isPartOf ?urn.
+            SELECT {{projection_private}}
+            {
+                {
+                    SELECT ?urn COUNT(?item) AS ?count
+                    {
+                        {{values}}
+                        VALUES (?file ?filename) { ("" "") }
+                        ?urn a nfo:DataContainer .
+                        ?item a nmm:Photo ; nie:isLogicalPartOf ?urn .
+                    }
+                    GROUP BY (?urn)
+                }
+                OPTIONAL { ?urn nco:creator ?creator . }
+                OPTIONAL { ?urn nco:publisher ?publisher . }
+                FILTER (?count > 0 && {{collections_filter}} && {{search_match_filter}} && {{source_filter}})
+            }
         }
-        GROUP BY (?urn)
     }
-    OPTIONAL { ?urn nco:creator ?creator . }
-    OPTIONAL { ?urn nco:publisher ?publisher . }
-    FILTER (?count > 0 && {{collections_filter}} && {{search_match_filter}} && {{source_filter}})
+    UNION
+    {
+        SERVICE <dbus:{{miner_files_name}}>
+        {
+            GRAPH tracker:Pictures
+            {
+                SELECT {{projection_dbus}}
+                {
+                    {
+                        SELECT ?urn COUNT(?item) AS ?count
+                        {
+                            {{values}}
+                            VALUES (?file ?filename) { ("" "") }
+                            ?urn a nfo:DataContainer .
+                            ?item a nmm:Photo ; nie:isLogicalPartOf ?urn .
+                        }
+                        GROUP BY (?urn)
+                    }
+                    OPTIONAL { ?urn nco:creator ?creator . }
+                    OPTIONAL { ?urn nco:publisher ?publisher . }
+                    FILTER (?count > 0 && {{collections_filter}} && {{search_match_filter}} && {{source_filter}})
+                }
+            }
+        }
+    }
 }
 {{order}}
 {{offset_limit}}

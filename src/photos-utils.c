@@ -1333,7 +1333,13 @@ photos_utils_set_edited_name (const gchar *urn, const gchar *title)
   g_autoptr (PhotosTrackerQueue) queue = NULL;
   g_autofree gchar *sparql = NULL;
 
-  sparql = g_strdup_printf ("INSERT OR REPLACE { <%s> nie:title \"%s\" }", urn, title);
+  sparql = g_strdup_printf ("WITH tracker:Pictures "
+                            "DELETE { <%s> nie:title ?title } "
+                            "INSERT { "
+                            "  <%s> a nmm:Photo ; nie:title \"%s\" . "
+                            "}"
+                            "WHERE { <%s> nie:title ?title }", urn, urn, title, urn);
+
   query = photos_query_new (NULL, sparql);
 
   {
@@ -1361,9 +1367,23 @@ photos_utils_set_favorite (const gchar *urn, gboolean is_favorite)
   g_autoptr (PhotosTrackerQueue) queue = NULL;
   g_autofree gchar *sparql = NULL;
 
-  sparql = g_strdup_printf ("%s { <%s> nao:hasTag nao:predefined-tag-favorite }",
-                            (is_favorite) ? "INSERT OR REPLACE" : "DELETE",
-                            urn);
+  if (is_favorite)
+    {
+      sparql = g_strdup_printf ("INSERT DATA { "
+                                "  GRAPH tracker:Pictures {"
+                                "    <%s> a nmm:Photo ; nao:hasTag nao:predefined-tag-favorite ."
+                                "  } "
+                                "}", urn);
+    }
+  else
+    {
+      sparql = g_strdup_printf ("DELETE DATA {"
+                                "  GRAPH tracker:Pictures {"
+                                "    <%s> nao:hasTag nao:predefined-tag-favorite "
+                                "  } "
+                                "}", urn);
+    }
+
   query = photos_query_new (NULL, sparql);
 
   {

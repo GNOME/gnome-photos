@@ -365,12 +365,18 @@ sources += gnome.gdbus_codegen(
   autocleanup: 'all',
 )
 
-tracker_extract_priority = 'photos-tracker-extract-priority'
+sources += gnome.gdbus_codegen(
+  'photos-tracker-miner',
+  'org.freedesktop.Tracker3.Miner.xml',
+  interface_prefix: 'org.freedesktop.Tracker3.',
+  namespace: 'Tracker',
+  autocleanup: 'all',
+)
 
 sources += gnome.gdbus_codegen(
-  tracker_extract_priority,
-  tracker_extract_priority + '.xml',
-  interface_prefix: 'org.freedesktop.Tracker1.',
+  'photos-tracker-miner-files-index',
+  'org.freedesktop.Tracker3.Miner.Files.Index.xml',
+  interface_prefix: 'org.freedesktop.Tracker3.',
   namespace: 'Tracker',
   autocleanup: 'all',
 )
@@ -390,7 +396,6 @@ deps = common_deps + [
   libgfgraph_dep,
   libhandy_dep,
   m_dep,
-  tracker_control_dep,
   tracker_sparql_dep,
 ]
 

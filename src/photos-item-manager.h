@@ -105,6 +105,9 @@ void                      photos_item_manager_set_constraints_for_mode     (Phot
                                                                             gboolean constrain,
                                                                             PhotosWindowMode mode);
 
+void                      photos_item_manager_set_notifier                 (PhotosItemManager *self,
+                                                                            TrackerNotifier *notifier);
+
 void                      photos_item_manager_wait_for_file_async          (PhotosItemManager *self,
                                                                             GFile *file,
                                                                             GCancellable *cancellable,
