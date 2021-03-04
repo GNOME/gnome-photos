@@ -205,8 +205,6 @@ sources = common_sources + files(
   'photos-tool-enhance.c',
   'photos-tool-filter-button.c',
   'photos-tool-filters.c',
-  'photos-tracker-change-event.c',
-  'photos-tracker-change-monitor.c',
   'photos-tracker-collection-view-controller.c',
   'photos-tracker-collections-controller.c',
   'photos-tracker-controller.c',

@@ -41,8 +41,6 @@
 #include "photos-query.h"
 #include "photos-search-context.h"
 #include "photos-single-item-job.h"
-#include "photos-tracker-change-event.h"
-#include "photos-tracker-change-monitor.h"
 #include "photos-tracker-queue.h"
 #include "photos-utils.h"
 
@@ -60,9 +58,9 @@ struct _PhotosItemManager
   PhotosBaseItem *active_collection;
   PhotosBaseManager **item_mngr_chldrn;
   PhotosLoadState load_state;
-  PhotosTrackerChangeMonitor *monitor;
   PhotosTrackerQueue *queue;
   PhotosWindowMode mode;
+  TrackerNotifier *notifier;
   gboolean fullscreen;
   gboolean *constrain_additions;
   guint wait_for_changes_id;
@@ -529,21 +527,21 @@ photos_item_manager_item_created (PhotosItemManager *self, const gchar *urn)
 
 
 static void
-photos_item_manager_changes_pending_foreach (gpointer key, gpointer value, gpointer user_data)
+photos_item_manager_notifier_events_foreach (gpointer data, gpointer user_data)
 {
   PhotosItemManager *self = PHOTOS_ITEM_MANAGER (user_data);
-  PhotosTrackerChangeEvent *change_event = (PhotosTrackerChangeEvent *) value;
-  PhotosTrackerChangeEventType change_type;
-  const gchar *change_urn;
+  TrackerNotifierEvent *event = (TrackerNotifierEvent *) data;
+  TrackerNotifierEventType event_type;
+  const gchar *event_urn;
 
-  change_type = photos_tracker_change_event_get_type (change_event);
-  change_urn = photos_tracker_change_event_get_urn (change_event);
+  event_type = tracker_notifier_event_get_event_type (event);
+  event_urn = tracker_notifier_event_get_urn (event);
 
-  if (change_type == PHOTOS_TRACKER_CHANGE_EVENT_CHANGED)
+  if (event_type == TRACKER_NOTIFIER_EVENT_UPDATE)
     {
       GObject *object;
 
-      object = photos_base_manager_get_object_by_id (PHOTOS_BASE_MANAGER (self), change_urn);
+      object = photos_base_manager_get_object_by_id (PHOTOS_BASE_MANAGER (self), event_urn);
       if (object != NULL)
         {
           photos_base_item_refresh (PHOTOS_BASE_ITEM (object));
@@ -553,33 +551,33 @@ photos_item_manager_changes_pending_foreach (gpointer key, gpointer value, gpoin
               const gchar *uri;
 
               uri = photos_base_item_get_uri (PHOTOS_BASE_ITEM (object));
-              photos_item_manager_check_wait_for_changes (self, change_urn, uri);
+              photos_item_manager_check_wait_for_changes (self, event_urn, uri);
             }
         }
     }
-  else if (change_type == PHOTOS_TRACKER_CHANGE_EVENT_CREATED)
+  else if (event_type == TRACKER_NOTIFIER_EVENT_CREATE)
     {
-      photos_item_manager_item_created (self, change_urn);
+      photos_item_manager_item_created (self, event_urn);
     }
-  else if (change_type == PHOTOS_TRACKER_CHANGE_EVENT_DELETED)
+  else if (event_type == TRACKER_NOTIFIER_EVENT_DELETE)
     {
       GObject *object;
 
-      object = photos_base_manager_get_object_by_id (PHOTOS_BASE_MANAGER (self), change_urn);
+      object = photos_base_manager_get_object_by_id (PHOTOS_BASE_MANAGER (self), event_urn);
       if (object != NULL)
         {
           photos_base_item_destroy (PHOTOS_BASE_ITEM (object));
-          g_hash_table_remove (self->hidden_items, change_urn);
-          photos_base_manager_remove_object_by_id (PHOTOS_BASE_MANAGER (self), change_urn);
+          g_hash_table_remove (self->hidden_items, event_urn);
+          photos_base_manager_remove_object_by_id (PHOTOS_BASE_MANAGER (self), event_urn);
         }
     }
 }
 
 
 static void
-photos_item_manager_changes_pending (PhotosItemManager *self, GHashTable *changes)
+photos_item_manager_notifier_events (PhotosItemManager *self, GPtrArray *events)
 {
-  g_hash_table_foreach (changes, photos_item_manager_changes_pending_foreach, self);
+  g_ptr_array_foreach (events, photos_item_manager_notifier_events_foreach, self);
 }
 
 
@@ -1038,8 +1036,8 @@ photos_item_manager_dispose (GObject *object)
   g_clear_object (&self->active_object);
   g_clear_object (&self->loader_cancellable);
   g_clear_object (&self->active_collection);
-  g_clear_object (&self->monitor);
   g_clear_object (&self->queue);
+  g_clear_object (&self->notifier);
 
   G_OBJECT_CLASS (photos_item_manager_parent_class)->dispose (object);
 }
@@ -1093,13 +1091,12 @@ photos_item_manager_init (PhotosItemManager *self)
 
   self->mode = PHOTOS_WINDOW_MODE_NONE;
 
-  self->monitor = photos_tracker_change_monitor_dup_singleton (NULL, NULL);
-  if (G_LIKELY (self->monitor != NULL))
-    g_signal_connect_object (self->monitor,
-                             "changes-pending",
-                             G_CALLBACK (photos_item_manager_changes_pending),
-                             self,
-                             G_CONNECT_SWAPPED);
+  self->notifier = tracker_notifier_new (NULL, TRACKER_NOTIFIER_FLAG_QUERY_URN, NULL, NULL);
+  if (G_LIKELY (self->notifier != NULL))
+    g_signal_connect_swapped (self->notifier,
+                              "events",
+                              G_CALLBACK (photos_item_manager_notifier_events),
+                              self);
 
   {
     g_autoptr (GError) error = NULL;
