@@ -38,6 +38,7 @@
 #include <grilo.h>
 #include <handy.h>
 #include <libtracker-control/tracker-control.h>
+#include <tracker-sparql.h>
 
 #include "photos-application.h"
 #include "photos-base-item.h"
@@ -3059,6 +3060,7 @@ photos_application_init (PhotosApplication *self)
   textdomain (GETTEXT_PACKAGE);
 
   g_set_application_name (_("Photos"));
+  tracker_sparql_connection_set_domain ("org.gnome.Photos");
 
   photos_utils_ensure_builtins ();
 
