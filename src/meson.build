@@ -375,16 +375,6 @@ sources += gnome.gdbus_codegen(
   autocleanup: 'all',
 )
 
-tracker_resources = 'photos-tracker-resources'
-
-sources += gnome.gdbus_codegen(
-  tracker_resources,
-  tracker_resources + '.xml',
-  interface_prefix: 'org.freedesktop.Tracker1.',
-  namespace: 'Tracker',
-  autocleanup: 'all',
-)
-
 deps = common_deps + [
   babl_dep,
   cairo_dep,
