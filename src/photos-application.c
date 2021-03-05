@@ -2264,7 +2264,7 @@ photos_application_start_miners (PhotosApplication *self)
       g_slist_free_full (available, g_free);
     }
 
- photos_application_create_online_miners (self);
+  photos_application_create_online_miners (self);
 }
 
 
