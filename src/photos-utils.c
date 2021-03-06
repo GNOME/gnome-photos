@@ -1132,6 +1132,16 @@ photos_utils_get_version (void)
 }
 
 
+gboolean
+photos_utils_is_flatpak (void)
+{
+  gboolean ret_val;
+
+  ret_val = g_file_test ("/.flatpak-info", G_FILE_TEST_EXISTS);
+  return ret_val;
+}
+
+
 void
 photos_utils_launch_online_accounts (const gchar *account_id)
 {

@@ -154,6 +154,8 @@ GList           *photos_utils_get_urns_from_items         (GList *items);
 
 const gchar     *photos_utils_get_version                 (void);
 
+gboolean         photos_utils_is_flatpak                  (void);
+
 void             photos_utils_launch_online_accounts      (const gchar *account_id);
 
 void             photos_utils_list_box_header_func        (GtkListBoxRow *row,
