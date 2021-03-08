@@ -396,7 +396,7 @@ photos_application_actions_update (PhotosApplication *self)
   guint n_items = 0;
 
   item = photos_application_get_selection_or_active_item (self);
-  load_state = photos_item_manager_get_load_state (self->state->item_mngr);
+  load_state = photos_item_manager_get_load_state (PHOTOS_ITEM_MANAGER (self->state->item_mngr));
   mode = photos_mode_controller_get_window_mode (self->state->mode_cntrlr);
   selection = photos_selection_controller_get_selection (self->sel_cntrlr);
   selection_mode = photos_utils_get_selection_mode ();
