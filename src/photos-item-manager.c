@@ -1100,7 +1100,11 @@ photos_item_manager_init (PhotosItemManager *self)
 
   self->mode = PHOTOS_WINDOW_MODE_NONE;
 
-  self->notifier = tracker_notifier_new (NULL, TRACKER_NOTIFIER_FLAG_QUERY_URN, NULL, NULL);
+  self->notifier = tracker_notifier_new (NULL,
+                                         TRACKER_NOTIFIER_FLAG_NOTIFY_UNEXTRACTED
+                                         | TRACKER_NOTIFIER_FLAG_QUERY_URN,
+                                         NULL,
+                                         NULL);
   if (G_LIKELY (self->notifier != NULL))
     g_signal_connect_swapped (self->notifier,
                               "events",
