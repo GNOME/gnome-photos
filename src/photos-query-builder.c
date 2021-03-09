@@ -35,7 +35,8 @@
 #include "photos-search-type-manager.h"
 
 
-static const gchar *BLOCKED_MIME_TYPES_FILTER = "(nie:mimeType(?urn) != 'image/gif' && nie:mimeType(?urn) != 'image/x-eps')";
+static const gchar *BLOCKED_MIME_TYPES_FILTER = "(nie:mimeType(?urn) != 'image/gif' "
+                                                "&& nie:mimeType(?urn) != 'image/x-eps')";
 
 static const gchar *COLLECTIONS_FILTER
   = "(fn:starts-with (nao:identifier (?urn), '" PHOTOS_QUERY_COLLECTIONS_IDENTIFIER "')"
@@ -74,9 +75,9 @@ photos_query_builder_query (PhotosSearchContextState *state,
       "nmm:flash (?urn) "
       "slo:location (?urn) ";
   g_autofree gchar *item_mngr_where = NULL;
-  g_autofree gchar *srch_mtch_mngr_filter = NULL;
-  g_autofree gchar *src_mngr_filter = NULL;
   g_autofree gchar *offset_limit = NULL;
+  g_autofree gchar *src_mngr_filter = NULL;
+  g_autofree gchar *srch_mtch_mngr_filter = NULL;
   gchar *sparql;
 
   sparql_template = photos_base_manager_get_sparql_template (state->srch_typ_mngr, flags);
@@ -116,7 +117,9 @@ photos_query_builder_query (PhotosSearchContextState *state,
                                          "order", "ORDER BY DESC (?mtime)",
                                          "offset_limit", offset_limit ? offset_limit : "",
                                          "projection", projection,
-                                         "search_match_filter", srch_mtch_mngr_filter == NULL ? "(true)" : srch_mtch_mngr_filter,
+                                         "search_match_filter", srch_mtch_mngr_filter == NULL
+                                                                ? "(true)"
+                                                                : srch_mtch_mngr_filter,
                                          "source_filter", src_mngr_filter == NULL ? "(true)" : src_mngr_filter,
                                          NULL);
 
@@ -202,7 +205,9 @@ photos_query_builder_count_query (PhotosSearchContextState *state, gint flags)
                                          "order", "",
                                          "offset_limit", "",
                                          "projection", "COUNT(?urn)",
-                                         "search_match_filter", srch_mtch_mngr_filter == NULL ? "(true)" : srch_mtch_mngr_filter,
+                                         "search_match_filter", srch_mtch_mngr_filter == NULL
+                                                                ? "(true)"
+                                                                : srch_mtch_mngr_filter,
                                          "source_filter", src_mngr_filter == NULL ? "(true)" : src_mngr_filter,
                                          NULL);
 

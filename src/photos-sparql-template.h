@@ -27,6 +27,8 @@ G_DECLARE_FINAL_TYPE (PhotosSparqlTemplate, photos_sparql_template, PHOTOS, SPAR
 
 PhotosSparqlTemplate *photos_sparql_template_new (const gchar *template_path);
 
-gchar *photos_sparql_template_get_sparql (PhotosSparqlTemplate *self, const gchar *first_binding_name, ...) G_GNUC_NULL_TERMINATED;
+gchar *photos_sparql_template_get_sparql (PhotosSparqlTemplate *self,
+                                          const gchar *first_binding_name,
+                                          ...) G_GNUC_NULL_TERMINATED;
 
 G_END_DECLS
