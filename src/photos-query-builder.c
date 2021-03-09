@@ -25,6 +25,8 @@
 
 #include <string.h>
 
+#include <tracker-sparql.h>
+
 #include "photos-base-manager.h"
 #include "photos-query-builder.h"
 #include "photos-search-type.h"
@@ -129,6 +131,7 @@ photos_query_builder_create_collection_query (PhotosSearchContextState *state,
 {
   g_autoptr (GDateTime) now = NULL;
   PhotosQuery *query;
+  g_autoptr (TrackerResource) collection = NULL;
   g_autofree gchar *identifier = NULL;
   g_autofree gchar *sparql = NULL;
   g_autofree gchar *time = NULL;
@@ -140,14 +143,14 @@ photos_query_builder_create_collection_query (PhotosSearchContextState *state,
   now = g_date_time_new_now_utc ();
   time = g_date_time_format_iso8601 (now);
 
-  sparql = g_strdup_printf ("INSERT { _:res a nfo:DataContainer ; a nie:DataObject ; "
-                            "nie:contentLastModified '%s' ; "
-                            "nie:title '%s' ; "
-                            "nao:identifier '%s' }",
-                            time,
-                            name,
-                            identifier);
+  collection = tracker_resource_new ("_:res");
+  tracker_resource_add_uri (collection, "rdf:type", "nfo:DataContainer");
+  tracker_resource_add_uri (collection, "rdf:type", "nie:DataObject");
+  tracker_resource_set_string (collection, "nie:contentLastModified", time);
+  tracker_resource_set_string (collection, "nie:title", name);
+  tracker_resource_set_string (collection, "nao:identifier", identifier);
 
+  sparql = tracker_resource_print_sparql_update (collection, NULL, NULL);
   query = photos_query_new (state, sparql);
 
   return query;
