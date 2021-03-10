@@ -6,7 +6,7 @@
 # Tobias Endrigkeit <tobiasendrigkeit@outlook.com>, 2013.
 # Paul Seyfert <pseyfert@mathphys.fsk.uni-heidelberg.de>, 2015.
 # Wolfgang Stöggl <c72578@yahoo.de>, 2013-2016.
-# Tim Sabsch <tim@sabsch.com>, 2018-2019.
+# Tim Sabsch <tim@sabsch.com>, 2018-2019, 2021.
 # Mario Blättermann <mario.blaettermann@gmail.com>, 2013, 2015-2018, 2020.
 # Philipp Kiemle <philipp.kiemle@gmail.com>, 2021.
 #
@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-photos/issues\n"
-"POT-Creation-Date: 2021-02-15 19:24+0000\n"
-"PO-Revision-Date: 2021-02-26 10:13+0100\n"
+"POT-Creation-Date: 2021-02-26 23:02+0000\n"
+"PO-Revision-Date: 2021-02-28 13:15+0100\n"
 "Last-Translator: Philipp Kiemle <philipp.kiemle@gmail.com>\n"
 "Language-Team: Deutsch <gnome-de@gnome.org>\n"
 "Language: de\n"
@@ -27,7 +27,7 @@ msgstr ""
 
 #: data/org.gnome.Photos.appdata.xml.in:7 data/org.gnome.Photos.desktop.in.in:3
 #: src/photos-application.c:3061 src/photos-embed.c:823
-#: src/photos-main-window.c:437 src/photos-search-type-manager.c:144
+#: src/photos-main-window.c:437 src/photos-search-type-manager.c:101
 msgid "Photos"
 msgstr "Fotos"
 
@@ -187,11 +187,11 @@ msgstr "»%s« wurde bearbeitet"
 msgid "Collection View"
 msgstr "Sammlungsansicht"
 
-#: src/photos-embed.c:831 src/photos-search-type-manager.c:129
+#: src/photos-embed.c:831 src/photos-search-type-manager.c:83
 msgid "Albums"
 msgstr "Alben"
 
-#: src/photos-embed.c:836 src/photos-search-type-manager.c:137
+#: src/photos-embed.c:836 src/photos-search-type-manager.c:92
 msgid "Favorites"
 msgstr "Favoriten"
 
@@ -208,9 +208,8 @@ msgid "No Albums Found"
 msgstr "Keine Alben gefunden"
 
 #: src/photos-empty-results-box.c:120
-#, fuzzy
 msgid "Starred Photos Will Appear Here"
-msgstr "Gekennzeichnete Fotos werden hier angezeigt"
+msgstr "Favorisierte Fotos werden hier angezeigt"
 
 #: src/photos-empty-results-box.c:130
 msgid "No Photos Found"
@@ -837,7 +836,7 @@ msgstr "Alle Bearbeitungen verwerfen"
 msgid "Devices"
 msgstr "Geräte"
 
-#: src/photos-search-match-manager.c:155 src/photos-search-type-manager.c:121
+#: src/photos-search-match-manager.c:155 src/photos-search-type-manager.c:74
 #: src/photos-source-manager.c:396
 msgid "All"
 msgstr "Alle"
@@ -864,7 +863,7 @@ msgstr "Übereinstimmung"
 #. Translators: "Type" refers to a search filter. eg., All, Albums,
 #. * Favorites and Photos.
 #.
-#: src/photos-search-type-manager.c:178
+#: src/photos-search-type-manager.c:126
 msgctxt "Search Filter"
 msgid "Type"
 msgstr "Typ"
