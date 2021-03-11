@@ -22,7 +22,6 @@ SELECT {{projection}}
         {
             ?urn a nfo:DataContainer.
             ?item a nmm:Photo; nie:isPartOf ?urn.
-            {{item_where}}
         }
         GROUP BY (?urn)
     }

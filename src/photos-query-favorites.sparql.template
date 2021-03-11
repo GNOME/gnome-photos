@@ -20,7 +20,6 @@ SELECT {{projection}}
     ?urn a nmm:Photo; nao:hasTag nao:predefined-tag-favorite .
     OPTIONAL { ?urn nco:creator ?creator . }
     OPTIONAL { ?urn nco:publisher ?publisher . }
-    {{item_where}}
     FILTER ({{blocked_mime_types_filter}} && {{search_match_filter}} && {{source_filter}})
 }
 {{order}}
