@@ -1,5 +1,74 @@
-Overview of changes in 3.39.1
-=============================
+Overview of changes in 40.beta
+==============================
+
+* Bugs fixed:
+ !132 Use libhandy Hdy.ViewSwitcher instead of Gtk.StackSwitcher
+ !135 Generate queries using SPARQL templates
+ !136 query-builder: Use GDateTime instead of deprecated GTimeVal
+ !140 flatpak: Update LibRaw to 0.20.0
+ !141 flatpak: Enable native language support in exiv2
+ !142 flatpak: Update exiv2 to 0.27.3
+ !146 Switch to private instances of the Tracker 2.x daemons
+ !147 tracker-controller: Label unit of timing measurements
+ !148 utils: Avoid a potential build failure due to undefined M_PI constant
+ !149 Fix various CRITICALs from Tracker
+ !150 build: Rename a variable for consistency
+ !151 flatpak: Remove unsed tracker-miner build option
+ !152 appdata: Add release notes for 3.38.0
+ !153 Add a manual
+ !155 embed, main-toolbar, main-window: Use HdyWindow and HdyHeaderBar
+ !158 build, embed: Style fixes
+ !160 photos-empty-results-box: Use HdyStatusPage
+ !162 domain-ontology-rule: Use private locations for the cache & the journal
+ !164 search-type-manager: Rename variables
+ !165 search-type, search-type-manager: Simplify code
+ !166 item-manager: Port to TrackerNotifier
+ !167 build: Don't hard code the application ID in the Tracker domain config
+ !168 build: Don't generate code for org.freedesktop.Tracker1.Resources
+ !169 application: Style fix
+ !170 application: Add explicit cast
+ !171 query-builder: Use TrackerResource
+ !173 query-builder, sparql-template: Style fixes
+  #77 Use g_autoptr*
+ #152 Port to Tracker 3
+
+* Updated translations:
+ Basque
+ Catalan
+ Traditional Chinese (Taiwan)
+ Czech
+ Danish
+ Dutch
+ English (British)
+ Finnish
+ French
+ Friulian
+ Galician
+ German
+ Greek
+ Hebrew
+ Hungarian
+ Indonesian
+ Italian
+ Japanese
+ Kazakh
+ Korean
+ Latvian
+ Lithuanian
+ Norwegian bokmål
+ Persian
+ Polish
+ Portuguese
+ Portuguese (Brazilian)
+ Punjabi
+ Romanian
+ Serbian
+ Slovak
+ Slovenian
+ Spanish
+ Swedish
+ Turkish
+ Ukrainian
 
 
 Overview of changes in 3.37.91.1

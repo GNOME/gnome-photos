@@ -1,7 +1,7 @@
 # Not entirely random of course, but at least it changes over time
 meson_minor_version = meson.version().split('.').get(1).to_int()
-photos_minor_version = meson.project_version().split('.').get(1).to_int()
-random_number = meson_minor_version + photos_minor_version
+photos_major_version = meson.project_version().split('.').get(0).to_int()
+random_number = meson_minor_version + photos_major_version
 
 test_env = environment()
 test_env.set('G_DEBUG', 'gc-friendly')
