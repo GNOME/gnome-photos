@@ -1,3 +1,4 @@
 option('dogtail', type: 'boolean', value: true, description: 'test using dogtail')
+option('flatpak', type: 'boolean', value: false, description: 'Enable building for Flatpaks')
 option('installed_tests', type: 'boolean', value: false, description: 'Enable installation of some test cases')
 option('manuals', type: 'boolean', value: false, description: 'Enable manual pages')

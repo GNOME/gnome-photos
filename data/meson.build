@@ -45,34 +45,36 @@ configure_file(
   install_dir: dbus_services_dir,
 )
 
-tracker_domain_conf = configuration_data()
-tracker_domain_conf.set('application_id', photos_namespace)
-tracker_domain_conf.set('libexecdir', photos_libexecdir)
+if photos_flatpak_enabled
+  tracker_domain_conf = configuration_data()
+  tracker_domain_conf.set('application_id', photos_namespace)
+  tracker_domain_conf.set('libexecdir', photos_libexecdir)
 
-domain_ontology_rule = photos_namespace + '.rule'
+  domain_ontology_rule = photos_namespace + '.rule'
 
-configure_file(
-  input: domain_ontology_rule + '.in',
-  output: domain_ontology_rule,
-  configuration: tracker_domain_conf,
-  install: true,
-  install_dir: join_paths(photos_datadir, 'tracker3-miners', 'domain-ontologies'),
-)
-
-tracker_domain_services = [
-  'Tracker3.Miner.Extract',
-  'Tracker3.Miner.Files'
-]
-
-foreach service: tracker_domain_services
   configure_file(
-    input: '@0@.@1@.service.in'.format(photos_namespace, service),
-    output: '@0@.@1@.service'.format(photos_namespace, service),
+    input: domain_ontology_rule + '.in',
+    output: domain_ontology_rule,
     configuration: tracker_domain_conf,
     install: true,
-    install_dir: dbus_services_dir,
+    install_dir: join_paths(photos_datadir, 'tracker3-miners', 'domain-ontologies'),
   )
-endforeach
+
+  tracker_domain_services = [
+    'Tracker3.Miner.Extract',
+    'Tracker3.Miner.Files'
+  ]
+
+  foreach service: tracker_domain_services
+    configure_file(
+      input: '@0@.@1@.service.in'.format(photos_namespace, service),
+      output: '@0@.@1@.service'.format(photos_namespace, service),
+      configuration: tracker_domain_conf,
+      install: true,
+      install_dir: dbus_services_dir,
+    )
+  endforeach
+endif
 
 install_data(
   photos_namespace + '.search-provider.ini',

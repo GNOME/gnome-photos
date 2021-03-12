@@ -23,6 +23,7 @@ photos_installed_test_execdir = join_paths(photos_libexecdir, 'installed-tests',
 photos_namespace = 'org.gnome.Photos'
 
 photos_buildtype = get_option('buildtype')
+photos_flatpak_enabled = get_option('flatpak')
 photos_installed_tests_enabled = get_option('installed_tests')
 photos_manuals_enabled = get_option('manuals')
 
