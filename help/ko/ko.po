@@ -1,13 +1,13 @@
 # Korean translation for gnome-photos.
 # Copyright (C) 2014 gnome-photos's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnome-photos package.
-# Seong-ho Cho <shcho@gnome.org>, 2014.
+# Seong-ho Cho <shcho@gnome.org>, 2014, 2015, 2021.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
-"POT-Creation-Date: 2015-09-06 07:52+0000\n"
-"PO-Revision-Date: 2015-09-06 22:41+0900\n"
+"POT-Creation-Date: 2020-07-06 19:10+0000\n"
+"PO-Revision-Date: 2021-03-12 11:07+0900\n"
 "Last-Translator: Seong-ho Cho <shcho@gnome.org>\n"
 "Language-Team: Korean <gnome-kr@googlegroups.com>\n"
 "Language: ko\n"
@@ -15,12 +15,12 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 1.5.5\n"
+"X-Generator: Poedit 2.0.6\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
 msgctxt "_"
 msgid "translator-credits"
-msgstr "조성호 <shcho@gnome.org>"
+msgstr "조성호 <shcho@gnome.org>, 2014, 2015, 2021."
 
 #. (itstool) path: credit/name
 #: C/favorites.page:11 C/favorites-set.page:12 C/view-album.page:11
@@ -67,9 +67,9 @@ msgstr "관심 요소 태깅"
 #: C/favorites-set.page:27
 msgid ""
 "Photos or albums can be marked as favorites from the <gui style=\"tab"
-"\">Recent</gui> tab or <gui style=\"tab\">Albums</gui> tab."
+"\">Photos</gui> tab or <gui style=\"tab\">Albums</gui> tab."
 msgstr ""
-"<gui style=\"tab\">최근</gui> 탭 또는 <gui style=\"tab\">앨범</gui> 탭에서 사"
+"<gui style=\"tab\">사진</gui> 탭 또는 <gui style=\"tab\">앨범</gui> 탭에서 사"
 "진 또는 앨범에 즐겨찾기 표시할 수 있습니다."
 
 #. (itstool) path: steps/title
@@ -80,11 +80,11 @@ msgstr "관심있는 항목에 레이블을 달려면:"
 #. (itstool) path: item/p
 #: C/favorites-set.page:33
 msgid ""
-"Select the <gui>Albums</gui> tab or <gui>Recent</gui> tab depending on "
+"Select the <gui>Albums</gui> tab or <gui>Photos</gui> tab depending on "
 "whether you want to mark an album or a photo as a favorite."
 msgstr ""
-"앨범에 넣을지 즐겨찾기 표시할 지 여부에 따라 <gui>앨범</gui> 탭 또는 <gui>최"
-"근</gui> 탭을 선택하십시오."
+"앨범에 넣을지 즐겨찾기 표시할 지 여부에 따라 <gui>앨범</gui> 탭 또는 <gui>사"
+"진</gui> 탭을 선택하십시오."
 
 #. (itstool) path: item/p
 #: C/favorites-set.page:37
@@ -239,16 +239,16 @@ msgstr "최근 사진 보기"
 #. (itstool) path: page/p
 #: C/view-photos.page:21
 msgid ""
-"The <gui style=\"tab\">Recent</gui> tab displays photos from local file "
+"The <gui style=\"tab\">Photos</gui> tab displays photos from local file "
 "system locations such as <file>~/Downloads</file>, <file>~/Pictures</file> "
 "and from online collections. You can also add other locations, even cloud-"
 "based collections such as Flickr or Facebook photographs, through <app>GNOME "
 "Online Accounts</app>."
 msgstr ""
-"<gui style=\"tab\">최근</gui> 은 로컬 파일 시스템의 <file>~/다운로드</"
-"file>,  <file>~/사진</file>과 같은 위치와 온라인 사진첩에 있는 사진을 표시합"
-"니다. <app>그놈 온라인 계정</app>을 통해 플리커 또는 페이스북 앨범의 클라우"
-"드 기반 저장소도 추가할 수 있습니다."
+"<gui style=\"tab\">사진</gui> 은 로컬 파일 시스템의 <file>~/다운로드</file>, "
+"<file>~/사진</file>과 같은 위치와 온라인 사진첩에 있는 사진을 표시합니다. "
+"<app>그놈 온라인 계정</app>에서 플리커 또는 페이스북 앨범의 클라우드 기반 저"
+"장소도 추가할 수 있습니다."
 
 #. (itstool) path: page/p
 #: C/view-photos.page:27
@@ -264,10 +264,10 @@ msgstr "<guiseq><gui>설정</gui><gui>검색</gui></guiseq>으로 이동하십�
 #: C/view-photos.page:34
 msgid ""
 "Click on the gear button on the bottom right. You can select the locations "
-"you want to display in the <gui style=\"tab\">Recent</gui> tab."
+"you want to display in the <gui style=\"tab\">Photos</gui> tab."
 msgstr ""
-"우측 하단의 기어 단추를 누르십시오.  <gui style=\"tab\">최근</gui> 탭에 표시"
-"하고자 하는 위치를 선택할 수 있습니다."
+"우측 하단의 기어 단추를 누르십시오. <gui style=\"tab\">사진</gui> 탭에 표시"
+"할 위치를 선택할 수 있습니다."
 
 #. (itstool) path: page/p
 #: C/view-photos.page:40
@@ -276,8 +276,8 @@ msgstr "최근 사진을 보려면:"
 
 #. (itstool) path: item/p
 #: C/view-photos.page:43
-msgid "Select the <gui style=\"tab\">Recent</gui> tab."
-msgstr "<gui style=\"tab\">최근</gui> 탭을 선택하십시오."
+msgid "Select the <gui style=\"tab\">Photos</gui> tab."
+msgstr "<gui style=\"tab\">사진</gui> 탭을 선택하십시오."
 
 #. (itstool) path: item/p
 #: C/view-photos.page:46
@@ -299,11 +299,14 @@ msgstr "그림 보기"
 #. (itstool) path: page/p
 #: C/view.page:26
 msgid ""
-"When <app>Photos</app> is opened, you will see the <gui>Recent</gui> tab "
-"open. The <gui>Recent</gui> tab contains images from your computer, the "
+"When <app>Photos</app> is opened, you will see the <gui>Photos</gui> tab "
+"open. The <gui>Photos</gui> tab contains images from your computer, the "
 "<gui>Albums</gui> tab contains your photo albums, and any image you mark as "
 "a favourite can be found in the <gui>Favorites</gui> tab."
 msgstr ""
-"<app>사진</app>을 열면, 열려있는 <gui>최근</gui> 탭이 보입니다. <gui>최근</"
+"<app>사진</app>을 열면, 열려있는 <gui>사진</gui> 탭이 보입니다. <gui>사진</"
 "gui> 탭에는 컴퓨터에 있는 그림이 있으며, <gui>앨범</gui> 탭에는 사진 앨범이 "
 "있고, 즐겨찾기로 표시한 그림은 <gui>즐겨찾기</gui> 탭에 있습니다."
+
+#~ msgid "Select the <gui style=\"tab\">Recent</gui> tab."
+#~ msgstr "<gui style=\"tab\">최근</gui> 탭을 선택하십시오."
