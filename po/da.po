@@ -3,25 +3,24 @@
 # This file is distributed under the same license as the gnome-photos package.
 # Kris Thomsen <lakristho@gmail.com>, 2013.
 # Kenneth Nielsen <k.nielsen81@gmail.com>, 2014.
-# scootergrisen, 2016.
+# scootergrisen, 2016, 2020.
 # Ask Hjorth Larsen <asklarsen@gmail.com>, 2014-16, 2018.
 # Joe Hansen <joedalton2@yahoo.dk>, 2017.
 # Alan Mortensen <alanmortensen.am@gmail.com>, 2017-19.
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-photos/issues\n"
-"POT-Creation-Date: 2020-08-25 17:10+0000\n"
-"PO-Revision-Date: 2020-09-07 20:18+0200\n"
-"Last-Translator: Alan Mortensen <alanmortensen.am@gmail.com>\n"
+"POT-Creation-Date: 2020-09-11 00:41+0000\n"
+"PO-Revision-Date: 2020-12-31 00:00+0200\n"
+"Last-Translator: scootergrisen\n"
 "Language-Team: Danish <dansk@dansk-gruppen.dk>\n"
 "Language: da\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 2.3\n"
-"X-Project-Style: gnome\n"
 
 #: data/org.gnome.Photos.appdata.xml.in:7 data/org.gnome.Photos.desktop.in.in:3
 #: src/photos-application.c:3040 src/photos-embed.c:825
@@ -526,7 +525,7 @@ msgstr "Lokal"
 
 #: src/photos-main-toolbar.c:79
 msgid "Click on items to select them"
-msgstr "Tryk på elementer for at vælge dem"
+msgstr "Klik på elementerne for at vælge dem"
 
 #: src/photos-main-toolbar.c:81
 #, c-format
@@ -695,11 +694,11 @@ msgstr "Ingen"
 
 #: src/photos-print-setup.c:897
 msgid "Horizontal"
-msgstr "Horisontal"
+msgstr "Vandret"
 
 #: src/photos-print-setup.c:898
 msgid "Vertical"
-msgstr "Vertikal"
+msgstr "Lodret"
 
 #: src/photos-print-setup.c:899
 msgid "Both"
@@ -723,7 +722,7 @@ msgstr "_Enhed:"
 
 #: src/photos-print-setup.c:931
 msgid "Millimeters"
-msgstr "Milimeter"
+msgstr "Millimeter"
 
 #: src/photos-print-setup.c:932
 msgid "Inches"
@@ -1068,114 +1067,3 @@ msgstr "Kunne ikke finde Tracker i dit styresystem"
 #: src/photos-tracker-controller.c:176
 msgid "Unable to fetch the list of photos"
 msgstr "Kunne ikke hente liste over billeder"
-
-#~ msgid "org.gnome.Photos"
-#~ msgstr "org.gnome.Photos"
-
-#~ msgid "About"
-#~ msgstr "Om"
-
-#~ msgid "Quit"
-#~ msgstr "Afslut"
-
-#~ msgid "It lets you:"
-#~ msgstr "Den lader dig:"
-
-#~ msgid "Send photos to remote DLNA renderers"
-#~ msgstr "Send billeder til fjerne DLNA-fremvisere"
-
-#~ msgid "Name your first album"
-#~ msgstr "Navngiv dit første album"
-
-#~ msgid "You can add your online accounts in %s"
-#~ msgstr "Du kan tilføje dine onlinekonti i %s"
-
-#~ msgid "Untitled Photo"
-#~ msgstr "Unavngivet billede"
-
-#~ msgid "Cancel"
-#~ msgstr "Annullér"
-
-#~ msgid ""
-#~ "Copyright © 2013 Intel Corporation. All rights reserved.\n"
-#~ "Copyright © 2014 – 2015 Pranav Kant\n"
-#~ "Copyright © 2012 – 2017 Red Hat, Inc."
-#~ msgstr ""
-#~ "Copyright © 2013 Intel Corporation. All rights reserved.\n"
-#~ "Copyright © 2014 – 2015 Pranav Kant\n"
-#~ "Copyright © 2012 – 2017 Red Hat, Inc."
-
-#~ msgid "Brightness"
-#~ msgstr "Lysstyrke"
-
-#~ msgid "Width"
-#~ msgstr "Bredde"
-
-#~ msgid "%a, %d %B %Y  %X"
-#~ msgstr "%a, %d. %B %Y  %X"
-
-#~ msgid "%.1f (lens)"
-#~ msgstr "%.1f (linse)"
-
-#~ msgid "%.1f (35mm film)"
-#~ msgstr "%.1f (35mm film)"
-
-#~ msgid "Transformation on unloaded image."
-#~ msgstr "Transformering på ikke-indlæst billede."
-
-#~ msgid "Transformation failed."
-#~ msgstr "Transformering mislykkedes."
-
-#~ msgid "EXIF not supported for this file format."
-#~ msgstr "EXIF ikke understøttet for dette filformat."
-
-#~ msgid "Image loading failed."
-#~ msgstr "Indlæsning af billede mislykkedes."
-
-#~ msgid "No image loaded."
-#~ msgstr "Intet billede indlæst."
-
-#~ msgid "You do not have the permissions necessary to save the file."
-#~ msgstr "Du har ikke de nødvendige rettigheder til at gemme filen."
-
-#~ msgid "Temporary file creation failed."
-#~ msgstr "Oprettelse af midlertidig fil mislykkedes."
-
-#~ msgid "At least two file names are equal."
-#~ msgstr "Mindst to filnavne er identiske."
-
-#~ msgid "Could not display help for Image Viewer"
-#~ msgstr "Kunne ikke vise hjælpetekst for Billedefremviser"
-
-#~ msgid " (invalid Unicode)"
-#~ msgstr " (ugyldig Unicode)"
-
-#~ msgid "Recent"
-#~ msgstr "Seneste"
-
-#~ msgid "No Favorites Found"
-#~ msgstr "Ingen favoritter fundet"
-
-#~ msgid "Load More"
-#~ msgstr "Indlæs flere"
-
-#~ msgid "Loading…"
-#~ msgstr "Indlæser …"
-
-#~ msgid ""
-#~ "<li>View recent local and online photos</li> <li>Access your Flickr "
-#~ "content</li> <li>Send photos to remote DLNA renderers</li> <li>Set as "
-#~ "background</li> <li>Print photos</li> <li>Select favorites</li> <li>Allow "
-#~ "opening full featured editor for more advanced changes</li>"
-#~ msgstr ""
-#~ "<li>Se nylige lokale og online billeder</li> <li>Tilgå dit Flickr-"
-#~ "indhold</li> <li>Sende billeder til fjerne DLNA-renderingsenheder</li> "
-#~ "<li>Sætte som baggrund</li> <li>Udskrive billeder</li> <li>Vælge "
-#~ "favoritter</li> <li>Åbne et fuldt funktionsdygtigt redigeringsprogram for "
-#~ "mere avancerede ændringer</li>"
-
-#~ msgid "Facebook"
-#~ msgstr "Facebook"
-
-#~ msgid "Flickr"
-#~ msgstr "Flickr"
