@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-photos/issues\n"
-"POT-Creation-Date: 2021-01-06 14:13+0000\n"
-"PO-Revision-Date: 2021-02-13 17:16-0800\n"
+"POT-Creation-Date: 2021-03-14 17:25+0000\n"
+"PO-Revision-Date: 2021-03-14 11:01-0700\n"
 "Last-Translator: A S Alam <aalam@satluj.org>\n"
 "Language-Team: Punjabi <kde-i18n-doc@kde.org>\n"
 "Language: pa\n"
@@ -19,8 +19,8 @@ msgstr ""
 "X-Generator: Lokalize 20.08.1\n"
 
 #: data/org.gnome.Photos.appdata.xml.in:7 data/org.gnome.Photos.desktop.in.in:3
-#: src/photos-application.c:3061 src/photos-embed.c:825
-#: src/photos-main-window.c:437 src/photos-search-type-manager.c:144
+#: src/photos-application.c:3030 src/photos-embed.c:823
+#: src/photos-main-window.c:437 src/photos-search-type-manager.c:101
 msgid "Photos"
 msgstr "ਫ਼ੋਟੋ"
 
@@ -122,11 +122,11 @@ msgstr "ਵਿੰਡੋ ਵੱਧੋ-ਵੱਧ ਕੀਤੀ"
 msgid "Window maximized state"
 msgstr "ਵਿੰਡੋ ਵੱਧੋ-ਵੱਧ ਆਕਾਰ ਸਥਿਤੀ"
 
-#: src/photos-application.c:166
+#: src/photos-application.c:168
 msgid "Show the empty state"
 msgstr "ਖਾਲੀ ਹਾਲਤ ਵੇਖਾਓ"
 
-#: src/photos-application.c:167
+#: src/photos-application.c:169
 msgid "Show the application's version"
 msgstr "ਐਪਲੀਕੇਸ਼ਨ ਦਾ ਵਰਜ਼ਨ ਵੇਖੋ"
 
@@ -139,32 +139,32 @@ msgstr "ਐਪਲੀਕੇਸ਼ਨ ਦਾ ਵਰਜ਼ਨ ਵੇਖੋ"
 #. Translators: this is the name of the default album that will be
 #. * created for imported photos.
 #.
-#: src/photos-application.c:1396 src/photos-export-dialog.c:195
+#: src/photos-application.c:1313 src/photos-export-dialog.c:195
 #: src/photos-import-dialog.c:134
 msgid "%-d %B %Y"
 msgstr "%-d %B %Y"
 
-#: src/photos-base-item.c:1037
+#: src/photos-base-item.c:1036
 msgid "Album"
 msgstr "ਐਲਬਮ"
 
-#: src/photos-base-item.c:2833
+#: src/photos-base-item.c:2857
 msgid "Screenshots"
 msgstr "ਸਕਰੀਨਸ਼ਾਟ"
 
-#: src/photos-delete-notification.c:136
+#: src/photos-delete-notification.c:156
 #, c-format
 msgid "“%s” deleted"
 msgstr "“%s” ਨੂੰ ਹਟਾਇਆ"
 
-#: src/photos-delete-notification.c:139
+#: src/photos-delete-notification.c:159
 #, c-format
 msgid "%d item deleted"
 msgid_plural "%d items deleted"
 msgstr[0] "%d ਆਈਟਮ ਨੂੰ ਹਟਾਇਆ"
 msgstr[1] "%d ਆਈਟਮਾਂ ਨੂੰ ਹਟਾਇਆ"
 
-#: src/photos-delete-notification.c:146 src/photos-done-notification.c:119
+#: src/photos-delete-notification.c:166 src/photos-done-notification.c:119
 msgid "Undo"
 msgstr "ਵਾਪਸ"
 
@@ -177,39 +177,42 @@ msgstr "DLNA ਰੈਂਡਰਰ ਜੰਤਰ"
 msgid "“%s” edited"
 msgstr "“%s” ਨੂੰ ਸੋਧਿਆ ਗਿਆ"
 
-#: src/photos-embed.c:832
+#: src/photos-embed.c:828
 msgid "Collection View"
 msgstr "ਭੰਡਾਰ ਝਲਕ"
 
-#: src/photos-embed.c:835 src/photos-search-type-manager.c:129
+#: src/photos-embed.c:831 src/photos-search-type-manager.c:83
 msgid "Albums"
 msgstr "ਐਲਬਮਾਂ"
 
-#: src/photos-embed.c:842 src/photos-search-type-manager.c:137
+#: src/photos-embed.c:836 src/photos-search-type-manager.c:92
 msgid "Favorites"
 msgstr "ਪਸੰਦੀਦਾ"
 
-#: src/photos-embed.c:849
+#: src/photos-embed.c:841
 msgid "Import"
 msgstr "ਇੰਪੋਰਟ ਕਰੋ"
 
-#: src/photos-embed.c:852 src/photos-main-toolbar.c:336
+#: src/photos-embed.c:844 src/photos-main-toolbar.c:336
 msgid "Search"
 msgstr "ਖੋਜ"
 
-#: src/photos-empty-results-box.c:120
-msgid "No albums found"
+#: src/photos-empty-results-box.c:116
+#| msgid "No albums found"
+msgid "No Albums Found"
 msgstr "ਕੋਈ ਐਲਬਮ ਨਹੀਂ ਲੱਭੀ"
 
-#: src/photos-empty-results-box.c:124
-msgid "Starred photos will appear here"
-msgstr "ਤਾਰਾ ਲਗਾਈਆਂ ਫ਼ੋਟੋ ਇੱਥੇ ਦਿਖਾਈ ਦੇਣਗੀਆਂ"
+#: src/photos-empty-results-box.c:120
+#| msgid "Starred photos will appear here"
+msgid "Starred Photos Will Appear Here"
+msgstr "ਤਾਰਾ ਲੱਗੀਆਂ ਫ਼ੋਟੋ ਇੱਥੇ ਦਿਖਾਈ ਦੇਣਗੀਆਂ"
 
-#: src/photos-empty-results-box.c:134
-msgid "No photos found"
+#: src/photos-empty-results-box.c:130
+#| msgid "No photos found"
+msgid "No Photos Found"
 msgstr "ਕੋਈ ਫ਼ੋਟੋ ਨਹੀਂ ਲੱਭੀ"
 
-#: src/photos-empty-results-box.c:163
+#: src/photos-empty-results-box.c:155
 msgid "You can create albums from the Photos view"
 msgstr "ਤੁਸੀਂ ਫ਼ੋਟੋ ਝਲਕ ਤੋਂ ਐਲਬਮਾਂ ਬਣਾ ਸਕਦੇ ਹੋ"
 
@@ -217,7 +220,7 @@ msgstr "ਤੁਸੀਂ ਫ਼ੋਟੋ ਝਲਕ ਤੋਂ ਐਲਬਮਾਂ �
 #. * the "Photos from your Online Accounts and Pictures folder
 #. * will appear here." sentence below.
 #.
-#: src/photos-empty-results-box.c:184
+#: src/photos-empty-results-box.c:176
 msgid "Online Accounts"
 msgstr "ਆਨਲਾਈਨ ਖਾਤੇ"
 
@@ -225,7 +228,7 @@ msgstr "ਆਨਲਾਈਨ ਖਾਤੇ"
 #. * the "Photos from your Online Accounts and Pictures folder
 #. * will appear here." sentence below.
 #.
-#: src/photos-empty-results-box.c:191
+#: src/photos-empty-results-box.c:183
 msgid "Pictures folder"
 msgstr "ਤਸਵੀਰਾਂ ਫੋਲਡਰ"
 
@@ -234,14 +237,15 @@ msgstr "ਤਸਵੀਰਾਂ ਫੋਲਡਰ"
 #. * strings due to markup, and should be translated only in the
 #. * context of this sentence.
 #.
-#: src/photos-empty-results-box.c:198
+#: src/photos-empty-results-box.c:190
 #, c-format
 msgid "Photos from your %s and %s will appear here."
 msgstr "%s ਅਤੇ %s ਤੋਂ ਤੁਹਾਡੀਆਂ ਫ਼ੋਟੋ ਇੱਥੇ ਦਿਖਾਈ ਦੇਣਗੀਆਂ।"
 
-#: src/photos-empty-results-box.c:208
-msgid "Try a different search"
-msgstr "ਵੱਖਰੀ ਖੋਜ ਨਾਲ ਕੋਸ਼ਿਸ਼ ਕਰੋ"
+#: src/photos-empty-results-box.c:200
+#| msgid "Try a different search"
+msgid "Try a different search."
+msgstr "ਹੋਰ ਕੋਈ ਖੋਜ ਕਰਕੇ ਵੇਖੋ।"
 
 #: src/photos-export-dialog.ui:22
 msgctxt "dialog title"
@@ -347,7 +351,6 @@ msgid "Show help"
 msgstr "ਮਦਦ ਵੇਖਾਓ"
 
 #: src/photos-help-overlay.ui:43
-#| msgid "Keyboard Shortcuts"
 msgctxt "shortcut window"
 msgid "Keyboard shortcuts"
 msgstr "ਕੀਬੋਰਡ ਸ਼ਾਰਟਕੱਟ"
@@ -393,15 +396,11 @@ msgid "Select all"
 msgstr "ਸਭ ਨੂੰ ਚੁਣੋ"
 
 #: src/photos-help-overlay.ui:113
-#| msgctxt "shortcut window"
-#| msgid "Export selected photos"
 msgctxt "shortcut window"
 msgid "Export selected photo"
 msgstr "ਚੁਣੀ ਫ਼ੋਟੋ ਨੂੰ ਐਕਸਪੋਰਟ ਕਰੋ"
 
 #: src/photos-help-overlay.ui:120
-#| msgctxt "shortcut window"
-#| msgid "Print selected photos"
 msgctxt "shortcut window"
 msgid "Print selected photo"
 msgstr "ਚੁਣੀ ਫ਼ੋਟੋ ਨੂੰ ਪਰਿੰਟ ਕਰੋ"
@@ -499,29 +498,29 @@ msgstr "ਸ਼ਾਮਲ(_A)"
 #. Translators: %s refers to an online account provider, e.g.,
 #. * "Facebook" or "Flickr".
 #.
-#: src/photos-indexing-notification.c:164
+#: src/photos-indexing-notification.c:163
 #, c-format
 msgid "Fetching photos from %s"
 msgstr "'%s' ਤੋਂ ਫ਼ੋਟੋ ਲਈਆਂ ਜਾ ਰਹੀਆਂ ਹਨ"
 
-#: src/photos-indexing-notification.c:167
+#: src/photos-indexing-notification.c:166
 msgid "Fetching photos from online accounts"
 msgstr "ਆਨਲਾਈਨ ਅਕਾਊਂਟਾਂ ਤੋਂ ਫ਼ੋਟੋ ਲਈਆਂ ਜਾ ਰਹੀਆਂ ਹਨ"
 
-#: src/photos-indexing-notification.c:202
+#: src/photos-indexing-notification.c:214
 msgid "Your photos are being indexed"
 msgstr "ਤੁਹਾਡੀਆਂ ਫ਼ੋਟੋ ਦਾ ਇੰਡੈਕਸ ਤਿਆਰ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ"
 
-#: src/photos-indexing-notification.c:203
+#: src/photos-indexing-notification.c:215
 msgid "Some photos might not be available during this process"
 msgstr "ਕੁਝ ਫ਼ੋਟੋ ਇਸ ਕਾਰਵਾਈ ਦੇ ਦੌਰਾਨ ਸ਼ਾਇਦ ਉਪਲੱਬਧ ਨਾ ਹੋਣ"
 
-#: src/photos-item-manager.c:824
+#: src/photos-item-manager.c:845
 #, c-format
 msgid "Oops! Unable to load “%s”"
 msgstr "ਓਹ! “%s” ਲੋਡ ਕਰਨ ਲਈ ਅਸਮਰੱਥ"
 
-#: src/photos-local-item.c:239 src/photos-source-manager.c:399
+#: src/photos-local-item.c:241 src/photos-source-manager.c:399
 msgid "Local"
 msgstr "ਲੋਕਲ"
 
@@ -829,7 +828,7 @@ msgstr "ਸਾਰੀਆਂ ਸੋਧਾਂ ਅਣਡਿੱਠੀਆਂ ਕਰੋ
 msgid "Devices"
 msgstr "ਡਿਵਾਈਸ"
 
-#: src/photos-search-match-manager.c:155 src/photos-search-type-manager.c:121
+#: src/photos-search-match-manager.c:155 src/photos-search-type-manager.c:74
 #: src/photos-source-manager.c:396
 msgid "All"
 msgstr "ਸਭ"
@@ -856,7 +855,7 @@ msgstr "ਮਿਲਦਾ"
 #. Translators: "Type" refers to a search filter. eg., All, Albums,
 #. * Favorites and Photos.
 #.
-#: src/photos-search-type-manager.c:178
+#: src/photos-search-type-manager.c:126
 msgctxt "Search Filter"
 msgid "Type"
 msgstr "ਕਿਸਮ"
