@@ -74,6 +74,25 @@ photos_delete_notification_destroy (PhotosDeleteNotification *self)
 
 
 static void
+photos_delete_notification_item_trash (GObject *source_object, GAsyncResult *res, gpointer user_data)
+{
+  PhotosBaseItem *item = PHOTOS_BASE_ITEM (source_object);
+
+  {
+    g_autoptr (GError) error = NULL;
+
+    if (!photos_base_item_trash_finish (item, res, &error))
+      {
+        const gchar *uri;
+
+        uri = photos_base_item_get_uri (item);
+        g_warning ("Unable to delete item at %s: %s", uri, error->message);
+      }
+  }
+}
+
+
+static void
 photos_delete_notification_delete_items (PhotosDeleteNotification *self)
 {
   GList *l;
@@ -81,10 +100,8 @@ photos_delete_notification_delete_items (PhotosDeleteNotification *self)
   for (l = self->items; l != NULL; l = l->next)
     {
       PhotosBaseItem *item = PHOTOS_BASE_ITEM (l->data);
-      photos_base_item_trash (item);
+      photos_base_item_trash_async (item, NULL, photos_delete_notification_item_trash, NULL);
     }
-
-  photos_delete_notification_destroy (self);
 }
 
 
@@ -94,7 +111,7 @@ photos_delete_notification_timeout (gpointer user_data)
   PhotosDeleteNotification *self = PHOTOS_DELETE_NOTIFICATION (user_data);
 
   self->timeout_id = 0;
-  photos_delete_notification_delete_items (self);
+  gtk_widget_destroy (GTK_WIDGET (self));
   return G_SOURCE_REMOVE;
 }
 
@@ -159,7 +176,7 @@ photos_delete_notification_constructed (GObject *object)
   gtk_button_set_relief (GTK_BUTTON (close), GTK_RELIEF_NONE);
   gtk_button_set_image (GTK_BUTTON (close), image);
   gtk_container_add (GTK_CONTAINER (self), close);
-  g_signal_connect_swapped (close, "clicked", G_CALLBACK (photos_delete_notification_delete_items), self);
+  g_signal_connect_swapped (close, "clicked", G_CALLBACK (gtk_widget_destroy), self);
 
   photos_notification_manager_add_notification (PHOTOS_NOTIFICATION_MANAGER (self->ntfctn_mngr),
                                                 GTK_WIDGET (self));
@@ -173,6 +190,7 @@ photos_delete_notification_dispose (GObject *object)
 {
   PhotosDeleteNotification *self = PHOTOS_DELETE_NOTIFICATION (object);
 
+  photos_delete_notification_delete_items (self);
   photos_delete_notification_remove_timeout (self);
 
   g_list_free_full (self->items, g_object_unref);
