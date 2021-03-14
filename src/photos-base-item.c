@@ -2754,7 +2754,7 @@ photos_base_item_trash_executed (GObject *source_object, GAsyncResult *res, gpoi
 
     if (!photos_delete_item_job_finish (job, res, &error))
       {
-        g_task_return_error (task, error);
+        g_task_return_error (task, g_steal_pointer (&error));
         goto out;
       }
   }
