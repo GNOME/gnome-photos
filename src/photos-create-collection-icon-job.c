@@ -149,6 +149,9 @@ photos_create_collection_icon_job_run (PhotosCreateCollectionIconJob *self,
 {
   g_autoptr (GTask) task = NULL;
 
+  g_return_if_fail (PHOTOS_IS_CREATE_COLLECTION_ICON_JOB (self));
+  g_return_if_fail (cancellable == NULL || G_IS_CANCELLABLE (cancellable));
+
   task = g_task_new (self, cancellable, callback, user_data);
   g_task_set_source_tag (task, photos_create_collection_icon_job_run);
 
