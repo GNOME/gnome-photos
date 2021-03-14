@@ -196,5 +196,6 @@ photos_base_model_new (PhotosBaseManager *mngr)
 GMenu *
 photos_base_model_get_model (PhotosBaseModel *self)
 {
+  g_return_val_if_fail (PHOTOS_IS_BASE_MODEL (self), NULL);
   return self->model;
 }
