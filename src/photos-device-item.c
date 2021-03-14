@@ -382,7 +382,10 @@ photos_device_item_refresh_icon (PhotosBaseItem *item)
 
 
 static void
-photos_device_item_trash (PhotosBaseItem *item)
+photos_device_item_trash_async (PhotosBaseItem *item,
+                                GCancellable *cancellable,
+                                GAsyncReadyCallback callback,
+                                gpointer user_data)
 {
   g_assert_not_reached ();
 }
@@ -456,5 +459,5 @@ photos_device_item_class_init (PhotosDeviceItemClass *class)
   base_item_class->get_source_widget = photos_device_item_get_source_widget;
   base_item_class->metadata_add_shared = photos_device_item_metadata_add_shared;
   base_item_class->refresh_icon = photos_device_item_refresh_icon;
-  base_item_class->trash = photos_device_item_trash;
+  base_item_class->trash_async = photos_device_item_trash_async;
 }

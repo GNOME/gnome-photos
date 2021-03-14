@@ -31,7 +31,9 @@
 #include <glib.h>
 #include <glib/gi18n.h>
 
+#include "photos-delete-item-job.h"
 #include "photos-error.h"
+#include "photos-filterable.h"
 #include "photos-glib.h"
 #include "photos-local-item.h"
 #include "photos-utils.h"
@@ -381,41 +383,101 @@ photos_local_item_metadata_add_shared (PhotosBaseItem  *item,
 
 
 static void
-photos_local_item_trash_finish (GObject *source_object, GAsyncResult *res, gpointer user_data)
+photos_local_item_trash_executed (GObject *source_object, GAsyncResult *res, gpointer user_data)
+{
+  g_autoptr (GTask) task = G_TASK (user_data);
+  PhotosDeleteItemJob *job = PHOTOS_DELETE_ITEM_JOB (source_object);
+
+  {
+    g_autoptr (GError) error = NULL;
+
+    if (!photos_delete_item_job_finish (job, res, &error))
+      {
+        g_task_return_error (task, g_steal_pointer (&error));
+        goto out;
+      }
+  }
+
+  g_task_return_boolean (task, TRUE);
+
+ out:
+  return;
+}
+
+
+static void
+photos_local_item_trash_trash (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
   GFile *file = G_FILE (source_object);
+  g_autoptr (GTask) task = G_TASK (user_data);
 
   {
     g_autoptr (GError) error = NULL;
 
     if (!g_file_trash_finish (file, res, &error))
       {
-        if (!g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
-          {
-            PhotosLocalItem *self = PHOTOS_LOCAL_ITEM (user_data);
-            const gchar *uri;
-
-            uri = photos_base_item_get_uri (PHOTOS_BASE_ITEM (self));
-            g_warning ("Unable to trash %s: %s", uri, error->message);
-          }
+        g_task_return_error (task, g_steal_pointer (&error));
+        goto out;
       }
   }
+
+  g_task_return_boolean (task, TRUE);
+
+ out:
+  return;
 }
 
 
 static void
-photos_local_item_trash (PhotosBaseItem *item)
+photos_local_item_trash_async (PhotosBaseItem *item,
+                               GCancellable *cancellable,
+                               GAsyncReadyCallback callback,
+                               gpointer user_data)
 {
-  g_autoptr (GFile) file = NULL;
-  const gchar *uri;
   PhotosLocalItem *self = PHOTOS_LOCAL_ITEM (item);
+  g_autoptr (GTask) task = NULL;
+
+  task = g_task_new (self, cancellable, callback, user_data);
+  g_task_set_source_tag (task, photos_local_item_trash_async);
 
   if (photos_base_item_is_collection (item))
-    return;
+    {
+      g_autoptr (PhotosDeleteItemJob) job = NULL;
+      const gchar *id;
 
-  uri = photos_base_item_get_uri (item);
-  file = g_file_new_for_uri (uri);
-  g_file_trash_async (file, G_PRIORITY_DEFAULT, self->cancellable, photos_local_item_trash_finish, self);
+      id = photos_filterable_get_id (PHOTOS_FILTERABLE (self));
+      job = photos_delete_item_job_new (id);
+      photos_delete_item_job_run (job, cancellable, photos_local_item_trash_executed, g_object_ref (task));
+    }
+  else
+    {
+      g_autoptr (GFile) file = NULL;
+      const gchar *uri;
+
+      uri = photos_base_item_get_uri (item);
+      file = g_file_new_for_uri (uri);
+      g_file_trash_async (file,
+                          G_PRIORITY_DEFAULT,
+                          cancellable,
+                          photos_local_item_trash_trash,
+                          g_object_ref (task));
+    }
+}
+
+
+static gboolean
+photos_local_item_trash_finish (PhotosBaseItem *item, GAsyncResult *res, GError **error)
+{
+  PhotosLocalItem *self = PHOTOS_LOCAL_ITEM (item);
+  GTask *task;
+
+  g_return_val_if_fail (g_task_is_valid (res, self), FALSE);
+  task = G_TASK (res);
+
+  g_return_val_if_fail (g_task_get_source_tag (task) == photos_local_item_trash_async, FALSE);
+  g_return_val_if_fail (error == NULL || *error == NULL, FALSE);
+
+  return g_task_propagate_boolean (task, error);
 }
 
 
@@ -477,5 +539,6 @@ photos_local_item_class_init (PhotosLocalItemClass *class)
   base_item_class->download = photos_local_item_download;
   base_item_class->get_source_widget = photos_local_item_get_source_widget;
   base_item_class->metadata_add_shared = photos_local_item_metadata_add_shared;
-  base_item_class->trash = photos_local_item_trash;
+  base_item_class->trash_async = photos_local_item_trash_async;
+  base_item_class->trash_finish = photos_local_item_trash_finish;
 }

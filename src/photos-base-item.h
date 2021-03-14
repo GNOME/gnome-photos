@@ -71,7 +71,11 @@ struct _PhotosBaseItemClass
   void        (*open)                       (PhotosBaseItem *self, GtkWindow *parent, guint32 timestamp);
   void        (*refresh_icon)               (PhotosBaseItem *self);
   void        (*set_favorite)               (PhotosBaseItem *self, gboolean favorite);
-  void        (*trash)                      (PhotosBaseItem *self);
+  void        (*trash_async)                (PhotosBaseItem *self,
+                                             GCancellable *cancellable,
+                                             GAsyncReadyCallback callback,
+                                             gpointer user_data);
+  gboolean    (*trash_finish)               (PhotosBaseItem *self, GAsyncResult *res, GError **error);
   void        (*update_type_description)    (PhotosBaseItem *self);
 
   /* signals */

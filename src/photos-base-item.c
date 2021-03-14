@@ -42,7 +42,6 @@
 #include "photos-base-item.h"
 #include "photos-collection-icon-watcher.h"
 #include "photos-debug.h"
-#include "photos-delete-item-job.h"
 #include "photos-error.h"
 #include "photos-filterable.h"
 #include "photos-gegl.h"
@@ -2743,16 +2742,16 @@ photos_base_item_save_to_stream_load (GObject *source_object, GAsyncResult *res,
 
 
 static void
-photos_base_item_trash_executed (GObject *source_object, GAsyncResult *res, gpointer user_data)
+photos_base_item_trash_trash (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
+  PhotosBaseItem *self = PHOTOS_BASE_ITEM (source_object);
   GApplication *app;
   g_autoptr (GTask) task = G_TASK (user_data);
-  PhotosDeleteItemJob *job = PHOTOS_DELETE_ITEM_JOB (source_object);
 
   {
     g_autoptr (GError) error = NULL;
 
-    if (!photos_delete_item_job_finish (job, res, &error))
+    if (!PHOTOS_BASE_ITEM_GET_CLASS (self)->trash_finish (self, res, &error))
       {
         g_task_return_error (task, g_steal_pointer (&error));
         goto out;
@@ -3264,7 +3263,7 @@ gboolean
 photos_base_item_can_trash (PhotosBaseItem *self)
 {
   g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (self), FALSE);
-  return PHOTOS_BASE_ITEM_GET_CLASS (self)->trash != NULL;
+  return PHOTOS_BASE_ITEM_GET_CLASS (self)->trash_async != NULL;
 }
 
 
@@ -4758,24 +4757,21 @@ photos_base_item_trash_async (PhotosBaseItem *self,
                               GAsyncReadyCallback callback,
                               gpointer user_data)
 {
-  PhotosBaseItemPrivate *priv;
   GApplication *app;
   g_autoptr (GTask) task = NULL;
-  g_autoptr (PhotosDeleteItemJob) job = NULL;
 
   g_return_if_fail (PHOTOS_IS_BASE_ITEM (self));
-  priv = photos_base_item_get_instance_private (self);
+
+  app = g_application_get_default ();
 
   task = g_task_new (self, cancellable, callback, user_data);
   g_task_set_source_tag (task, photos_base_item_trash_async);
 
-  PHOTOS_BASE_ITEM_GET_CLASS (self)->trash (self);
-
-  app = g_application_get_default ();
-  job = photos_delete_item_job_new (priv->id);
-
   g_application_hold (app);
-  photos_delete_item_job_run (job, cancellable, photos_base_item_trash_executed, g_object_ref (task));
+  PHOTOS_BASE_ITEM_GET_CLASS (self)->trash_async (self,
+                                                  cancellable,
+                                                  photos_base_item_trash_trash,
+                                                  g_object_ref (task));
 }
 
 

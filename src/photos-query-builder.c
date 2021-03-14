@@ -321,9 +321,14 @@ photos_query_builder_delete_resource_query (PhotosSearchContextState *state, con
   PhotosQuery *query;
   g_autofree gchar *sparql = NULL;
 
-  sparql = g_strdup_printf ("DELETE { <%s> a rdfs:Resource }", resource);
-  query = photos_query_new (state, sparql);
+  sparql = g_strdup_printf ("DELETE DATA {"
+                            "  GRAPH tracker:Pictures {"
+                            "    <%s> a rdfs:Resource"
+                            "  }"
+                            "}",
+                            resource);
 
+  query = photos_query_new (state, sparql);
   return query;
 }
 
