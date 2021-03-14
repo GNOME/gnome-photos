@@ -127,6 +127,9 @@ photos_delete_notification_undo_clicked (PhotosDeleteNotification *self)
       photos_item_manager_unhide_item (PHOTOS_ITEM_MANAGER (self->item_mngr), item);
     }
 
+  g_list_free_full (self->items, g_object_unref);
+  self->items = NULL;
+
   photos_delete_notification_destroy (self);
 }
 
