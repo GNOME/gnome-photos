@@ -3123,6 +3123,9 @@ photos_application_get_miner (PhotosApplication *self, const gchar *provider_typ
   GList *l;
   GomMiner *ret_val = NULL;
 
+  g_return_val_if_fail (PHOTOS_IS_APPLICATION (self), NULL);
+  g_return_val_if_fail (provider_type != NULL && provider_type[0] != '\0', NULL);
+
   for (l = self->miners; l != NULL; l = l->next)
     {
       GomMiner *miner = GOM_MINER (l->data);
@@ -3153,6 +3156,7 @@ photos_application_get_miner_files_name (PhotosApplication *self)
 GList *
 photos_application_get_miners_running (PhotosApplication *self)
 {
+  g_return_val_if_fail (PHOTOS_IS_APPLICATION (self), NULL);
   return self->miners_running;
 }
 
@@ -3162,6 +3166,8 @@ photos_application_get_scale_factor (PhotosApplication *self)
 {
   GList *windows;
   gint ret_val = 1;
+
+  g_return_val_if_fail (PHOTOS_IS_APPLICATION (self), 1);
 
   /* We do not use self->main_window to allow widgets to use this
    * method while they are being constructed. The widget hierarchy is
