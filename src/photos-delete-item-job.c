@@ -169,6 +169,9 @@ photos_delete_item_job_run (PhotosDeleteItemJob *self,
   g_autoptr (PhotosQuery) query = NULL;
   PhotosSearchContextState *state;
 
+  g_return_if_fail (PHOTOS_IS_DELETE_ITEM_JOB (self));
+  g_return_if_fail (cancellable == NULL || G_IS_CANCELLABLE (cancellable));
+
   task = g_task_new (self, cancellable, callback, user_data);
   g_task_set_source_tag (task, photos_delete_item_job_run);
 
