@@ -2743,6 +2743,31 @@ photos_base_item_save_to_stream_load (GObject *source_object, GAsyncResult *res,
 
 
 static void
+photo_base_item_trash_executed (GObject *source_object, GAsyncResult *res, gpointer user_data)
+{
+  GApplication *app;
+  g_autoptr (GTask) task = G_TASK (user_data);
+  PhotosDeleteItemJob *job = PHOTOS_DELETE_ITEM_JOB (source_object);
+
+  {
+    g_autoptr (GError) error = NULL;
+
+    if (!photos_delete_item_job_finish (job, res, &error))
+      {
+        g_task_return_error (task, error);
+        goto out;
+      }
+  }
+
+  g_task_return_boolean (task, TRUE);
+
+ out:
+  app = g_application_get_default ();
+  g_application_release (app);
+}
+
+
+static void
 photos_base_item_update_info_from_type (PhotosBaseItem *self)
 {
   PhotosBaseItemPrivate *priv;
@@ -4728,18 +4753,46 @@ photos_base_item_set_favorite (PhotosBaseItem *self, gboolean favorite)
 
 
 void
-photos_base_item_trash (PhotosBaseItem *self)
+photos_base_item_trash_async (PhotosBaseItem *self,
+                              GCancellable *cancellable,
+                              GAsyncReadyCallback callback,
+                              gpointer user_data)
 {
   PhotosBaseItemPrivate *priv;
+  GApplication *app;
+  g_autoptr (GTask) task = NULL;
   g_autoptr (PhotosDeleteItemJob) job = NULL;
 
   g_return_if_fail (PHOTOS_IS_BASE_ITEM (self));
   priv = photos_base_item_get_instance_private (self);
 
+  task = g_task_new (self, cancellable, callback, user_data);
+  g_task_set_source_tag (task, photos_base_item_trash_async);
+
   PHOTOS_BASE_ITEM_GET_CLASS (self)->trash (self);
 
+  app = g_application_get_default ();
   job = photos_delete_item_job_new (priv->id);
-  photos_delete_item_job_run (job, NULL, NULL, NULL);
+
+  g_application_hold (app);
+  photos_delete_item_job_run (job, cancellable, photo_base_item_trash_executed, g_object_ref (task));
+}
+
+
+gboolean
+photos_base_item_trash_finish (PhotosBaseItem *self, GAsyncResult *res, GError **error)
+{
+  GTask *task;
+
+  g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (self), FALSE);
+
+  g_return_val_if_fail (g_task_is_valid (res, self), FALSE);
+  task = G_TASK (res);
+
+  g_return_val_if_fail (g_task_get_source_tag (task) == photos_base_item_trash_async, FALSE);
+  g_return_val_if_fail (error == NULL || *error == NULL, FALSE);
+
+  return g_task_propagate_boolean (task, error);
 }
 
 
