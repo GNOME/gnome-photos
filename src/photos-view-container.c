@@ -549,6 +549,8 @@ photos_view_container_activate_result (PhotosViewContainer *self)
   PhotosBaseItem *item;
   PhotosBaseManager *item_mngr_chld;
 
+  g_return_if_fail (PHOTOS_IS_VIEW_CONTAINER (self));
+
   item_mngr_chld = photos_item_manager_get_for_mode (PHOTOS_ITEM_MANAGER (self->item_mngr), self->mode);
   item = PHOTOS_BASE_ITEM (g_list_model_get_object (G_LIST_MODEL (item_mngr_chld), 0));
   photos_base_manager_set_active_object (self->item_mngr, G_OBJECT (item));
@@ -558,5 +560,6 @@ photos_view_container_activate_result (PhotosViewContainer *self)
 const gchar *
 photos_view_container_get_name (PhotosViewContainer *self)
 {
+  g_return_val_if_fail (PHOTOS_IS_VIEW_CONTAINER (self), NULL);
   return self->name;
 }
