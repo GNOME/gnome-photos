@@ -482,6 +482,8 @@ photos_collection_icon_watcher_new (PhotosBaseItem *collection)
 void
 photos_collection_icon_watcher_refresh (PhotosCollectionIconWatcher *self)
 {
+  g_return_if_fail (PHOTOS_IS_COLLECTION_ICON_WATCHER (self));
+
   photos_collection_icon_watcher_destroy (self);
   photos_collection_icon_watcher_start (self);
 }
