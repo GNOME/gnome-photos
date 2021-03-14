@@ -2743,7 +2743,7 @@ photos_base_item_save_to_stream_load (GObject *source_object, GAsyncResult *res,
 
 
 static void
-photo_base_item_trash_executed (GObject *source_object, GAsyncResult *res, gpointer user_data)
+photos_base_item_trash_executed (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
   GApplication *app;
   g_autoptr (GTask) task = G_TASK (user_data);
@@ -4775,7 +4775,7 @@ photos_base_item_trash_async (PhotosBaseItem *self,
   job = photos_delete_item_job_new (priv->id);
 
   g_application_hold (app);
-  photos_delete_item_job_run (job, cancellable, photo_base_item_trash_executed, g_object_ref (task));
+  photos_delete_item_job_run (job, cancellable, photos_base_item_trash_executed, g_object_ref (task));
 }
 
 
