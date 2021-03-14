@@ -333,7 +333,14 @@ void                photos_base_item_set_default_app_name    (PhotosBaseItem *se
 
 void                photos_base_item_set_favorite            (PhotosBaseItem *self, gboolean favorite);
 
-void                photos_base_item_trash                   (PhotosBaseItem *self);
+void                photos_base_item_trash_async             (PhotosBaseItem *self,
+                                                              GCancellable *cancellable,
+                                                              GAsyncReadyCallback callback,
+                                                              gpointer user_data);
+
+gboolean            photos_base_item_trash_finish            (PhotosBaseItem *self,
+                                                              GAsyncResult *res,
+                                                              GError **error);
 
 void                photos_base_item_unmark_busy             (PhotosBaseItem *self);
 
