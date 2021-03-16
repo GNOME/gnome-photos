@@ -30,13 +30,12 @@
 struct _PhotosThumbnailFactory
 {
   GObject parent_instance;
-  GCond cond_thumbnailer;
+  GCond cond;
   GDBusConnection *connection;
   GDBusServer *dbus_server;
   GError *initialization_error;
   GError *thumbnailer_error;
-  GMutex mutex_connection;
-  GMutex mutex_thumbnailer;
+  GMutex mutex;
   PhotosThumbnailerDBus *thumbnailer;
   gboolean is_initialized;
 };
@@ -62,7 +61,7 @@ photos_thumbnail_factory_authorize_authenticated_peer (PhotosThumbnailFactory *s
   gboolean ret_val = FALSE;
   g_autofree gchar *str = NULL;
 
-  g_mutex_lock (&self->mutex_connection);
+  g_mutex_lock (&self->mutex);
 
   str = g_credentials_to_string (credentials);
   photos_debug (PHOTOS_DEBUG_THUMBNAILER, "Received authorization request: %s", str);
@@ -94,7 +93,7 @@ photos_thumbnail_factory_authorize_authenticated_peer (PhotosThumbnailFactory *s
   ret_val = TRUE;
 
  out:
-  g_mutex_unlock (&self->mutex_connection);
+  g_mutex_unlock (&self->mutex);
   return ret_val;
 }
 
@@ -104,7 +103,7 @@ photos_thumbnail_factory_connection_closed (PhotosThumbnailFactory *self,
                                             gboolean remote_peer_vanished,
                                             GError *error)
 {
-  g_mutex_lock (&self->mutex_connection);
+  g_mutex_lock (&self->mutex);
 
   if (error != NULL)
     photos_debug (PHOTOS_DEBUG_THUMBNAILER, "Lost connection to the thumbnailer: %s", error->message);
@@ -114,20 +113,22 @@ photos_thumbnail_factory_connection_closed (PhotosThumbnailFactory *self,
   g_signal_handlers_disconnect_by_func (self->connection, photos_thumbnail_factory_connection_closed, self);
   g_clear_object (&self->connection);
 
-  g_mutex_unlock (&self->mutex_connection);
+  g_clear_error (&self->thumbnailer_error);
+  g_clear_object (&self->thumbnailer);
+
+  g_mutex_unlock (&self->mutex);
 }
 
 
 static gboolean
 photos_thumbnail_factory_new_connection (PhotosThumbnailFactory *self, GDBusConnection *connection)
 {
-  g_mutex_lock (&self->mutex_connection);
-  g_mutex_lock (&self->mutex_thumbnailer);
+  g_mutex_lock (&self->mutex);
 
   g_assert_null (self->connection);
 
-  g_clear_error (&self->thumbnailer_error);
-  g_clear_object (&self->thumbnailer);
+  g_assert (self->thumbnailer_error == NULL);
+  g_assert (self->thumbnailer == NULL);
 
   photos_debug (PHOTOS_DEBUG_THUMBNAILER, "Received new connection");
 
@@ -151,10 +152,8 @@ photos_thumbnail_factory_new_connection (PhotosThumbnailFactory *self, GDBusConn
       self->thumbnailer_error = g_error_copy (error);
   }
 
-  g_mutex_unlock (&self->mutex_connection);
-
-  g_cond_signal (&self->cond_thumbnailer);
-  g_mutex_unlock (&self->mutex_thumbnailer);
+  g_cond_signal (&self->cond);
+  g_mutex_unlock (&self->mutex);
 
   return TRUE;
 }
@@ -201,11 +200,10 @@ photos_thumbnail_factory_finalize (GObject *object)
 {
   PhotosThumbnailFactory *self = PHOTOS_THUMBNAIL_FACTORY (object);
 
-  g_cond_clear (&self->cond_thumbnailer);
+  g_cond_clear (&self->cond);
   g_clear_error (&self->initialization_error);
   g_clear_error (&self->thumbnailer_error);
-  g_mutex_clear (&self->mutex_connection);
-  g_mutex_clear (&self->mutex_thumbnailer);
+  g_mutex_clear (&self->mutex);
 
   G_OBJECT_CLASS (photos_thumbnail_factory_parent_class)->finalize (object);
 }
@@ -214,9 +212,8 @@ photos_thumbnail_factory_finalize (GObject *object)
 static void
 photos_thumbnail_factory_init (PhotosThumbnailFactory *self)
 {
-  g_cond_init (&self->cond_thumbnailer);
-  g_mutex_init (&self->mutex_connection);
-  g_mutex_init (&self->mutex_thumbnailer);
+  g_cond_init (&self->cond);
+  g_mutex_init (&self->mutex);
 }
 
 
@@ -327,7 +324,6 @@ photos_thumbnail_factory_generate_thumbnail (PhotosThumbnailFactory *self,
                                              GError **error)
 {
   GError *local_error = NULL;
-  gboolean mutex_connection_unlocked = FALSE;
   gboolean ret_val = FALSE;
 
   g_return_val_if_fail (PHOTOS_IS_THUMBNAIL_FACTORY (self), FALSE);
@@ -336,7 +332,7 @@ photos_thumbnail_factory_generate_thumbnail (PhotosThumbnailFactory *self,
   g_return_val_if_fail (cancellable == NULL || G_IS_CANCELLABLE (cancellable), FALSE);
   g_return_val_if_fail (error == NULL || *error == NULL, FALSE);
 
-  g_mutex_lock (&self->mutex_connection);
+  g_mutex_lock (&self->mutex);
 
   if (orientation == 0)
     orientation = PHOTOS_ORIENTATION_TOP;
@@ -347,12 +343,8 @@ photos_thumbnail_factory_generate_thumbnail (PhotosThumbnailFactory *self,
       const gchar *address;
       g_autofree gchar *thumbnailer_path = NULL;
 
-      g_mutex_lock (&self->mutex_thumbnailer);
-
-      g_clear_error (&self->thumbnailer_error);
-      g_clear_object (&self->thumbnailer);
-
-      g_mutex_unlock (&self->mutex_thumbnailer);
+      g_assert (self->thumbnailer_error == NULL);
+      g_assert (self->thumbnailer == NULL);
 
       address = g_dbus_server_get_client_address (self->dbus_server);
       thumbnailer_path = g_strconcat (PACKAGE_LIBEXEC_DIR,
@@ -379,15 +371,11 @@ photos_thumbnail_factory_generate_thumbnail (PhotosThumbnailFactory *self,
           }
       }
 
-      g_mutex_unlock (&self->mutex_connection);
-      mutex_connection_unlocked = TRUE;
+      photos_debug (PHOTOS_DEBUG_THUMBNAILER, "Waiting for org.gnome.Photos.Thumbnailer proxy");
+
+      while (self->connection == NULL)
+        g_cond_wait (&self->cond, &self->mutex);
     }
-
-  photos_debug (PHOTOS_DEBUG_THUMBNAILER, "Waiting for org.gnome.Photos.Thumbnailer proxy");
-
-  g_mutex_lock (&self->mutex_thumbnailer);
-  while (self->thumbnailer == NULL && self->thumbnailer_error == NULL)
-    g_cond_wait (&self->cond_thumbnailer, &self->mutex_thumbnailer);
 
   if (self->thumbnailer_error != NULL)
     {
@@ -431,14 +419,8 @@ photos_thumbnail_factory_generate_thumbnail (PhotosThumbnailFactory *self,
             {
               guint32 serial;
 
-              if (mutex_connection_unlocked)
-                g_mutex_lock (&self->mutex_connection);
-
               serial = g_dbus_connection_get_last_serial (self->connection);
               photos_thumbnailer_dbus_call_cancel_sync (self->thumbnailer, (guint) serial, NULL, NULL);
-
-              if (mutex_connection_unlocked)
-                g_mutex_unlock (&self->mutex_connection);
             }
         }
       else
@@ -447,11 +429,8 @@ photos_thumbnail_factory_generate_thumbnail (PhotosThumbnailFactory *self,
         }
     }
 
-  g_mutex_unlock (&self->mutex_thumbnailer);
-
  out:
-  if (!mutex_connection_unlocked)
-    g_mutex_unlock (&self->mutex_connection);
+  g_mutex_unlock (&self->mutex);
 
   if (!ret_val)
     {
