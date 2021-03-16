@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2012 – 2019 Red Hat, Inc.
+ * Copyright © 2012 – 2021 Red Hat, Inc.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -455,7 +455,7 @@ photos_main_window_show_about (PhotosMainWindow *self)
                          "artists", PHOTOS_ARTISTS,
                          "authors", PHOTOS_AUTHORS,
                          "comments", _("Access, organize and share your photos on GNOME"),
-                         "copyright", _("Copyright © 2012 – 2019 Red Hat, Inc.\n"
+                         "copyright", _("Copyright © 2012 – 2021 Red Hat, Inc.\n"
                                         "Copyright © 2015 – 2018 Umang Jain"),
                          "license-type", GTK_LICENSE_GPL_3_0,
                          "logo-icon-name", app_id,
