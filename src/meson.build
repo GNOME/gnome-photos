@@ -21,6 +21,22 @@ libgnome_photos_sources = files(
   'photos-quarks.c',
 )
 
+online_miner_dbus = 'photos-online-miner-dbus'
+
+libgnome_photos_built_sources_online_miner_dbus = gnome.gdbus_codegen(
+  online_miner_dbus,
+  online_miner_dbus + '.xml',
+  interface_prefix: photos_namespace + '.',
+  namespace: 'Photos',
+  annotations: [
+    [photos_namespace + '.OnlineMiner', 'org.gtk.GDBus.C.Name', 'OnlineMinerDBus'],
+  ],
+  autocleanup: 'all',
+)
+
+libgnome_photos_built_headers += libgnome_photos_built_sources_online_miner_dbus[1]
+libgnome_photos_sources += libgnome_photos_built_sources_online_miner_dbus
+
 thumbnailer_dbus = 'photos-thumbnailer-dbus'
 
 libgnome_photos_built_sources_thumbnailer_dbus = gnome.gdbus_codegen(
