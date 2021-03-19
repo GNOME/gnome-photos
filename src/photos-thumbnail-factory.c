@@ -20,7 +20,6 @@
 #include "config.h"
 
 #include "photos-debug.h"
-#include "photos-error.h"
 #include "photos-quarks.h"
 #include "photos-thumbnail-factory.h"
 #include "photos-thumbnailer-dbus.h"
