@@ -41,6 +41,7 @@ photos_debug_init (void)
       { "import", PHOTOS_DEBUG_IMPORT },
       { "memory", PHOTOS_DEBUG_MEMORY },
       { "network", PHOTOS_DEBUG_NETWORK },
+      { "online-miner", PHOTOS_DEBUG_ONLINE_MINER },
       { "thumbnailer", PHOTOS_DEBUG_THUMBNAILER },
       { "tracker", PHOTOS_DEBUG_TRACKER }
     };
