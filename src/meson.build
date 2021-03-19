@@ -160,6 +160,7 @@ gnome_photos_sources = files(
   'photos-offset-import-controller.c',
   'photos-offset-overview-controller.c',
   'photos-offset-search-controller.c',
+  'photos-online-miner-process.c',
   'photos-organize-collection-dialog.c',
   'photos-organize-collection-model.c',
   'photos-organize-collection-view.c',
