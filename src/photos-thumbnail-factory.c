@@ -137,19 +137,13 @@ photos_thumbnail_factory_new_connection (PhotosThumbnailFactory *self, GDBusConn
                             G_CALLBACK (photos_thumbnail_factory_connection_closed),
                             self);
 
-  {
-    g_autoptr (GError) error = NULL;
-
-    self->thumbnailer = photos_thumbnailer_dbus_proxy_new_sync (self->connection,
-                                                                G_DBUS_PROXY_FLAGS_DO_NOT_LOAD_PROPERTIES
-                                                                | G_DBUS_PROXY_FLAGS_DO_NOT_CONNECT_SIGNALS,
-                                                                NULL,
-                                                                THUMBNAILER_PATH,
-                                                                NULL,
-                                                                &error);
-    if (error != NULL)
-      self->thumbnailer_error = g_error_copy (error);
-  }
+  self->thumbnailer = photos_thumbnailer_dbus_proxy_new_sync (self->connection,
+                                                              G_DBUS_PROXY_FLAGS_DO_NOT_LOAD_PROPERTIES
+                                                              | G_DBUS_PROXY_FLAGS_DO_NOT_CONNECT_SIGNALS,
+                                                              NULL,
+                                                              THUMBNAILER_PATH,
+                                                              NULL,
+                                                              &self->thumbnailer_error);
 
   g_cond_signal (&self->cond);
   g_mutex_unlock (&self->mutex);
