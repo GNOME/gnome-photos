@@ -1,6 +1,19 @@
 Overview of changes in 40.rc
 ============================
 
+* Bugs fixed:
+ !154 gegl: Don't exceed arbitrary maximum number of threads
+ !174 build, flatpak: Add an option for installing Flatpak-specific files
+ !175 Unbreak deletion of items from the Tracker database
+  #92 Ensure that items get deleted when app is quit
+
+* Updated translations:
+ Danish
+ Italian
+ Korean
+ Norwegian bokmål
+ Punjabi
+
 
 Overview of changes in 40.beta
 ==============================
