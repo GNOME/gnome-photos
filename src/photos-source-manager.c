@@ -495,6 +495,43 @@ photos_source_manager_get_for_provider_type (PhotosSourceManager *self, const gc
 }
 
 
+const gchar *
+photos_source_manager_get_provider_name_for_provider_type (PhotosSourceManager *self, const gchar *provider_type)
+{
+  g_autolist(GoaObject) accounts = NULL;
+  GList *l;
+  const gchar *ret_val = NULL;
+
+  g_return_val_if_fail (PHOTOS_IS_SOURCE_MANAGER (self), NULL);
+  g_return_val_if_fail (provider_type != NULL && provider_type[0] != '\0', NULL);
+
+  if (self->client == NULL)
+    goto out;
+
+  accounts = goa_client_get_accounts (self->client);
+  for (l = accounts; l != NULL; l = l->next)
+    {
+      GoaAccount *account;
+      GoaObject *object = GOA_OBJECT (l->data);
+      const gchar *account_provider_type;
+
+      account = goa_object_peek_account (object);
+      if (account == NULL)
+        continue;
+
+      account_provider_type = goa_account_get_provider_type (account);
+      if (g_strcmp0 (account_provider_type, provider_type) == 0)
+        {
+          ret_val = goa_account_get_provider_name (account);
+          goto out;
+        }
+    }
+
+ out:
+  return ret_val;
+}
+
+
 gboolean
 photos_source_manager_has_online_sources (PhotosSourceManager *self)
 {

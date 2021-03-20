@@ -35,6 +35,9 @@ PhotosBaseManager        *photos_source_manager_new                (void);
 GList                    *photos_source_manager_get_for_provider_type (PhotosSourceManager *self,
                                                                        const gchar *provider_type);
 
+const gchar              *photos_source_manager_get_provider_name_for_provider_type (PhotosSourceManager *self,
+                                                                                     const gchar *provider_type);
+
 gboolean                  photos_source_manager_has_online_sources    (PhotosSourceManager *self);
 
 gboolean                  photos_source_manager_has_provider_type     (PhotosSourceManager *self,
