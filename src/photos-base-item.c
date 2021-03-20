@@ -553,6 +553,8 @@ photos_base_item_create_thumbnail_async (PhotosBaseItem *self,
 {
   g_autoptr (GTask) task = NULL;
 
+  g_return_if_fail (cancellable == NULL || G_IS_CANCELLABLE (cancellable));
+
   task = g_task_new (self, cancellable, callback, user_data);
   g_task_set_source_tag (task, photos_base_item_create_thumbnail_async);
 
@@ -1398,6 +1400,7 @@ photos_base_item_process_async (PhotosBaseItem *self,
   g_return_if_fail (PHOTOS_IS_BASE_ITEM (self));
   priv = photos_base_item_get_instance_private (self);
 
+  g_return_if_fail (cancellable == NULL || G_IS_CANCELLABLE (cancellable));
   g_return_if_fail (!priv->collection);
 
   pipeline = PHOTOS_PIPELINE (dzl_task_cache_peek (pipeline_cache, self));
@@ -1538,6 +1541,7 @@ photos_base_item_load_buffer_async (PhotosBaseItem *self,
   g_autoptr (GTask) task = NULL;
 
   g_return_if_fail (PHOTOS_IS_BASE_ITEM (self));
+  g_return_if_fail (cancellable == NULL || G_IS_CANCELLABLE (cancellable));
 
   task = g_task_new (self, cancellable, callback, user_data);
   g_task_set_return_on_cancel (task, TRUE);
@@ -1657,6 +1661,7 @@ photos_base_item_load_pipeline_async (PhotosBaseItem *self,
   g_return_if_fail (PHOTOS_IS_BASE_ITEM (self));
   priv = photos_base_item_get_instance_private (self);
 
+  g_return_if_fail (cancellable == NULL || G_IS_CANCELLABLE (cancellable));
   g_return_if_fail (!priv->collection);
 
   task = g_task_new (self, cancellable, callback, user_data);
@@ -2023,6 +2028,8 @@ photos_base_item_save_metadata_async (PhotosBaseItem *self,
 {
   g_autoptr (GTask) task = NULL;
 
+  g_return_if_fail (cancellable == NULL || G_IS_CANCELLABLE (cancellable));
+
   task = g_task_new (self, cancellable, callback, user_data);
   g_task_set_source_tag (task, photos_base_item_save_metadata_async);
   g_task_set_task_data (task, g_object_ref (file), g_object_unref);
@@ -2151,6 +2158,8 @@ photos_base_item_save_buffer_async (PhotosBaseItem *self,
   PhotosBaseItemSaveBufferData *data;
 
   priv = photos_base_item_get_instance_private (self);
+
+  g_return_if_fail (cancellable == NULL || G_IS_CANCELLABLE (cancellable));
 
   data = photos_base_item_save_buffer_data_new (file, stream);
 
@@ -3397,6 +3406,8 @@ photos_base_item_download (PhotosBaseItem *self, GCancellable *cancellable, GErr
   g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (self), NULL);
   priv = photos_base_item_get_instance_private (self);
 
+  g_return_val_if_fail (cancellable == NULL || G_IS_CANCELLABLE (cancellable), NULL);
+
   g_mutex_lock (&priv->mutex_download);
   file = PHOTOS_BASE_ITEM_GET_CLASS (self)->download (self, cancellable, error);
   g_mutex_unlock (&priv->mutex_download);
@@ -3421,6 +3432,7 @@ photos_base_item_download_async (PhotosBaseItem *self,
   g_autoptr (GTask) task = NULL;
 
   g_return_if_fail (PHOTOS_IS_BASE_ITEM (self));
+  g_return_if_fail (cancellable == NULL || G_IS_CANCELLABLE (cancellable));
 
   task = g_task_new (self, cancellable, callback, user_data);
   g_task_set_source_tag (task, photos_base_item_download_async);
@@ -3829,6 +3841,7 @@ photos_base_item_guess_save_sizes_async (PhotosBaseItem *self,
   g_return_if_fail (PHOTOS_IS_BASE_ITEM (self));
   priv = photos_base_item_get_instance_private (self);
 
+  g_return_if_fail (cancellable == NULL || G_IS_CANCELLABLE (cancellable));
   g_return_if_fail (!priv->collection);
 
   task = g_task_new (self, cancellable, callback, user_data);
@@ -3946,6 +3959,7 @@ photos_base_item_load_async (PhotosBaseItem *self,
   g_return_if_fail (PHOTOS_IS_BASE_ITEM (self));
   priv = photos_base_item_get_instance_private (self);
 
+  g_return_if_fail (cancellable == NULL || G_IS_CANCELLABLE (cancellable));
   g_return_if_fail (!priv->collection);
 
   pipeline = PHOTOS_PIPELINE (dzl_task_cache_peek (pipeline_cache, self));
@@ -4024,6 +4038,7 @@ photos_base_item_metadata_add_shared_async (PhotosBaseItem *self,
   g_return_if_fail (provider_type != NULL && provider_type[0] != '\0');
   g_return_if_fail (account_identity != NULL && account_identity[0] != '\0');
   g_return_if_fail (shared_id != NULL && shared_id[0] != '\0');
+  g_return_if_fail (cancellable == NULL || G_IS_CANCELLABLE (cancellable));
 
   data = photos_base_item_metadata_add_shared_data_new (provider_type, account_identity, shared_id);
 
@@ -4077,6 +4092,7 @@ photos_base_item_operation_add_async (PhotosBaseItem *self,
   g_return_if_fail (PHOTOS_IS_BASE_ITEM (self));
   priv = photos_base_item_get_instance_private (self);
 
+  g_return_if_fail (cancellable == NULL || G_IS_CANCELLABLE (cancellable));
   g_return_if_fail (!priv->collection);
 
   pipeline = PHOTOS_PIPELINE (dzl_task_cache_peek (pipeline_cache, self));
@@ -4148,6 +4164,7 @@ photos_base_item_operation_remove_async (PhotosBaseItem *self,
   g_return_if_fail (PHOTOS_IS_BASE_ITEM (self));
   priv = photos_base_item_get_instance_private (self);
 
+  g_return_if_fail (cancellable == NULL || G_IS_CANCELLABLE (cancellable));
   g_return_if_fail (!priv->collection);
 
   pipeline = PHOTOS_PIPELINE (dzl_task_cache_peek (pipeline_cache, self));
@@ -4198,6 +4215,7 @@ photos_base_item_pipeline_is_edited_async (PhotosBaseItem *self,
   g_return_if_fail (PHOTOS_IS_BASE_ITEM (self));
   priv = photos_base_item_get_instance_private (self);
 
+  g_return_if_fail (cancellable == NULL || G_IS_CANCELLABLE (cancellable));
   g_return_if_fail (!priv->collection);
 
   task = g_task_new (self, cancellable, callback, user_data);
@@ -4240,6 +4258,7 @@ photos_base_item_pipeline_revert_async (PhotosBaseItem *self,
   g_return_if_fail (PHOTOS_IS_BASE_ITEM (self));
   priv = photos_base_item_get_instance_private (self);
 
+  g_return_if_fail (cancellable == NULL || G_IS_CANCELLABLE (cancellable));
   g_return_if_fail (!priv->collection);
 
   pipeline = PHOTOS_PIPELINE (dzl_task_cache_peek (pipeline_cache, self));
@@ -4294,6 +4313,7 @@ photos_base_item_pipeline_revert_to_original_async (PhotosBaseItem *self,
   g_return_if_fail (PHOTOS_IS_BASE_ITEM (self));
   priv = photos_base_item_get_instance_private (self);
 
+  g_return_if_fail (cancellable == NULL || G_IS_CANCELLABLE (cancellable));
   g_return_if_fail (!priv->collection);
 
   pipeline = PHOTOS_PIPELINE (dzl_task_cache_peek (pipeline_cache, self));
@@ -4347,6 +4367,7 @@ photos_base_item_pipeline_save_async (PhotosBaseItem *self,
   g_return_if_fail (PHOTOS_IS_BASE_ITEM (self));
   priv = photos_base_item_get_instance_private (self);
 
+  g_return_if_fail (cancellable == NULL || G_IS_CANCELLABLE (cancellable));
   g_return_if_fail (!priv->collection);
 
   pipeline = PHOTOS_PIPELINE (dzl_task_cache_peek (pipeline_cache, self));
@@ -4577,6 +4598,7 @@ photos_base_item_save_to_dir_async (PhotosBaseItem *self,
   g_return_if_fail (!priv->collection);
   g_return_if_fail (G_IS_FILE (dir));
   g_return_if_fail (priv->filename != NULL && priv->filename[0] != '\0');
+  g_return_if_fail (cancellable == NULL || G_IS_CANCELLABLE (cancellable));
 
   data = photos_base_item_save_data_new (dir, NULL, NULL, zoom);
 
@@ -4623,6 +4645,7 @@ photos_base_item_save_to_file_async (PhotosBaseItem *self,
 
   g_return_if_fail (!priv->collection);
   g_return_if_fail (G_IS_FILE (file));
+  g_return_if_fail (cancellable == NULL || G_IS_CANCELLABLE (cancellable));
 
   data = photos_base_item_save_to_file_data_new (file, flags, zoom);
 
@@ -4669,6 +4692,7 @@ photos_base_item_save_to_stream_async (PhotosBaseItem *self,
   g_return_if_fail (!priv->collection);
   g_return_if_fail (G_IS_OUTPUT_STREAM (stream));
   g_return_if_fail (priv->filename != NULL && priv->filename[0] != '\0');
+  g_return_if_fail (cancellable == NULL || G_IS_CANCELLABLE (cancellable));
 
   data = photos_base_item_save_to_stream_data_new (stream, zoom);
 
@@ -4761,6 +4785,7 @@ photos_base_item_trash_async (PhotosBaseItem *self,
   g_autoptr (GTask) task = NULL;
 
   g_return_if_fail (PHOTOS_IS_BASE_ITEM (self));
+  g_return_if_fail (cancellable == NULL || G_IS_CANCELLABLE (cancellable));
 
   app = g_application_get_default ();
 
