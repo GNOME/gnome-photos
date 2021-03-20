@@ -2156,6 +2156,9 @@ photos_application_start_miners_local (PhotosApplication *self)
   g_autoptr (TrackerNotifier) notifier = NULL;
   const gchar *control_name;
 
+  g_return_if_fail (self->miner_files_connection == NULL);
+  g_return_if_fail (self->miner_files_index == NULL);
+
   g_return_if_fail (self->miner_files_name != NULL);
   g_return_if_fail (g_str_equal (self->miner_files_name, MINER_FILES_NAME_SESSION));
 
