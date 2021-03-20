@@ -24,11 +24,11 @@
 #include <gdata/gdata.h>
 #include <glib/gi18n.h>
 
-#include "photos-application.h"
 #include "photos-base-item.h"
 #include "photos-error.h"
 #include "photos-filterable.h"
 #include "photos-item-manager.h"
+#include "photos-online-miner-manager.h"
 #include "photos-search-context.h"
 #include "photos-share-point-google.h"
 #include "photos-source.h"
@@ -41,6 +41,7 @@ struct _PhotosSharePointGoogle
   GDataGoaAuthorizer *authorizer;
   GDataPicasaWebService *service;
   PhotosBaseManager *item_mngr;
+  PhotosOnlineMinerManager *online_miner_manager;
 };
 
 
@@ -112,12 +113,12 @@ static void
 photos_share_point_google_share_insert_shared_content (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
   g_autoptr (GTask) task = G_TASK (user_data);
-  GomMiner *miner = GOM_MINER (source_object);
+  PhotosOnlineMinerManager *online_miner_manager = PHOTOS_ONLINE_MINER_MANAGER (source_object);
 
   {
     g_autoptr (GError) error = NULL;
 
-    if (!gom_miner_call_insert_shared_content_finish (miner, res, &error))
+    if (!photos_online_miner_manager_insert_shared_content_finish (online_miner_manager, res, &error))
       {
         g_task_return_error (task, g_steal_pointer (&error));
         goto out;
@@ -134,11 +135,9 @@ photos_share_point_google_share_insert_shared_content (GObject *source_object, G
 static void
 photos_share_point_google_share_metadata_add_shared_second (PhotosSharePointGoogle *self, GTask *task)
 {
-  GApplication *app;
   GCancellable *cancellable;
   GoaAccount *account;
   GoaObject *object;
-  GomMiner *miner;
   PhotosSource *source;
   PhotosSharePointGoogleShareData *data;
   const gchar *account_id;
@@ -148,31 +147,27 @@ photos_share_point_google_share_metadata_add_shared_second (PhotosSharePointGoog
   cancellable = g_task_get_cancellable (task);
   data = (PhotosSharePointGoogleShareData *) g_task_get_task_data (task);
 
-  app = g_application_get_default ();
+  if (G_UNLIKELY (self->online_miner_manager == NULL))
+    {
+      g_task_return_new_error (task, PHOTOS_ERROR, 0, "No OnlineMinerManager, failed to update the cache");
+      goto out;
+    }
 
   source = photos_share_point_online_get_source (PHOTOS_SHARE_POINT_ONLINE (self));
   object = photos_source_get_goa_object (source);
   account = goa_object_peek_account (object);
-  provider_type = goa_account_get_provider_type (account);
-
-  miner = photos_application_get_miner (PHOTOS_APPLICATION (app), provider_type);
-  if (miner == NULL)
-    {
-      g_task_return_new_error (task, PHOTOS_ERROR, 0, "Unable to find the %s miner", provider_type);
-      goto out;
-    }
-
   account_id = goa_account_get_id (account);
   file_entry_id = gdata_entry_get_id (GDATA_ENTRY (data->file_entry));
+  provider_type = goa_account_get_provider_type (account);
 
-  gom_miner_call_insert_shared_content (miner,
-                                        account_id,
-                                        file_entry_id,
-                                        "photos",
-                                        data->item_id_after_changes,
-                                        cancellable,
-                                        photos_share_point_google_share_insert_shared_content,
-                                        g_object_ref (task));
+  photos_online_miner_manager_insert_shared_content_async (self->online_miner_manager,
+                                                           provider_type,
+                                                           account_id,
+                                                           file_entry_id,
+                                                           data->item_id_after_changes,
+                                                           cancellable,
+                                                           photos_share_point_google_share_insert_shared_content,
+                                                           g_object_ref (task));
 
  out:
   g_object_unref (task);
@@ -486,6 +481,7 @@ photos_share_point_google_dispose (GObject *object)
 
   g_clear_object (&self->authorizer);
   g_clear_object (&self->service);
+  g_clear_object (&self->online_miner_manager);
 
   G_OBJECT_CLASS (photos_share_point_google_parent_class)->dispose (object);
 }
@@ -514,6 +510,14 @@ photos_share_point_google_init (PhotosSharePointGoogle *self)
 
   self->item_mngr = state->item_mngr;
   g_object_add_weak_pointer (G_OBJECT (self->item_mngr), (gpointer *) &self->item_mngr);
+
+  {
+    g_autoptr (GError) error = NULL;
+
+    self->online_miner_manager = photos_online_miner_manager_dup_singleton (NULL, &error);
+    if (G_UNLIKELY (error != NULL))
+      g_warning ("Unable to create PhotosOnlineMinerManager: %s", error->message);
+  }
 }
 
 

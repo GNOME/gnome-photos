@@ -342,16 +342,6 @@ gnome_photos_sources += gnome.gdbus_codegen(
   autocleanup: 'all',
 )
 
-gom_miner = 'photos-gom-miner'
-
-gnome_photos_sources += gnome.gdbus_codegen(
-  gom_miner,
-  gom_miner + '.xml',
-  interface_prefix: 'org.gnome.OnlineMiners.',
-  namespace: 'Gom',
-  autocleanup: 'all',
-)
-
 mpris_player = 'photos-mpris-player'
 
 gnome_photos_sources += gnome.gdbus_codegen(

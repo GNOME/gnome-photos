@@ -28,9 +28,10 @@
 #include <glib/gi18n.h>
 
 #include "photos-application.h"
-#include "photos-gom-miner.h"
 #include "photos-indexing-notification.h"
 #include "photos-notification-manager.h"
+#include "photos-online-miner-manager.h"
+#include "photos-online-miner-process.h"
 #include "photos-tracker-miner.h"
 
 
@@ -42,6 +43,7 @@ struct _PhotosIndexingNotification
   GtkWidget *primary_label;
   GtkWidget *secondary_label;
   GtkWidget *spinner;
+  PhotosOnlineMinerManager *online_miner_manager;
   TrackerMiner *miner_files;
   gboolean closed;
   gboolean on_display;
@@ -139,21 +141,20 @@ static gboolean
 photos_indexing_notification_timeout (gpointer user_data)
 {
   PhotosIndexingNotification *self = PHOTOS_INDEXING_NOTIFICATION (user_data);
-  GApplication *app;
   GList *miners_running;
-  GomMiner *miner = NULL;
+  PhotosOnlineMinerProcess *online_miner = NULL;
   const gchar *provider_name = NULL;
   g_autofree gchar *primary = NULL;
 
   self->timeout_id = 0;
+  g_return_val_if_fail (self->online_miner_manager != NULL, G_SOURCE_REMOVE);
 
-  app = g_application_get_default ();
-  miners_running = photos_application_get_miners_running (PHOTOS_APPLICATION (app));
+  miners_running = photos_online_miner_manager_get_running (self->online_miner_manager);
   if (miners_running != NULL && miners_running->next == NULL) /* length == 1 */
-    miner = GOM_MINER (miners_running->data);
+    online_miner = PHOTOS_ONLINE_MINER_PROCESS (miners_running->data);
 
-  if (miner != NULL)
-    provider_name = gom_miner_get_display_name (miner);
+  if (online_miner != NULL)
+    provider_name = photos_online_miner_process_get_provider_name (online_miner);
 
   if (provider_name != NULL)
     {
@@ -174,18 +175,20 @@ photos_indexing_notification_timeout (gpointer user_data)
 static void
 photos_indexing_notification_update_notification (PhotosIndexingNotification *self, gdouble miner_files_progress)
 {
-  GApplication *app;
-  GList *miners_running;
   gboolean is_indexing_local = FALSE;
   gboolean is_indexing_remote = FALSE;
 
   if (miner_files_progress < 1)
     is_indexing_local = TRUE;
 
-  app = g_application_get_default ();
-  miners_running = photos_application_get_miners_running (PHOTOS_APPLICATION (app));
-  if (miners_running != NULL) /* length > 0 */
-    is_indexing_remote = TRUE;
+  if (G_LIKELY (self->online_miner_manager != NULL))
+    {
+      GList *miners_running;
+
+      miners_running = photos_online_miner_manager_get_running (self->online_miner_manager);
+      if (miners_running != NULL) /* length > 0 */
+        is_indexing_remote = TRUE;
+    }
 
   if (is_indexing_local)
     {
@@ -305,6 +308,7 @@ photos_indexing_notification_dispose (GObject *object)
     }
 
   g_clear_object (&self->ntfctn_mngr);
+  g_clear_object (&self->online_miner_manager);
   g_clear_object (&self->miner_files);
 
   G_OBJECT_CLASS (photos_indexing_notification_parent_class)->dispose (object);
@@ -359,6 +363,23 @@ photos_indexing_notification_init (PhotosIndexingNotification *self)
   gtk_container_add (GTK_CONTAINER (self), close);
   g_signal_connect_swapped (close, "clicked", G_CALLBACK (photos_indexing_notification_close_clicked), self);
 
+  {
+    g_autoptr (GError) error = NULL;
+
+    self->online_miner_manager = photos_online_miner_manager_dup_singleton (NULL, &error);
+    if (G_UNLIKELY (error != NULL))
+      g_warning ("Unable to create PhotosOnlineMinerManager: %s", error->message);
+  }
+
+  if (G_LIKELY (self->online_miner_manager != NULL))
+    {
+      g_signal_connect_object (self->online_miner_manager,
+                               "changed",
+                               G_CALLBACK (photos_indexing_notification_online_miners_changed),
+                               self,
+                               G_CONNECT_SWAPPED);
+    }
+
   /* TODO: should be proxied by the "control" daemon for Flatpaks */
   miner_files_name = photos_application_get_miner_files_name (PHOTOS_APPLICATION (app));
   tracker_miner_proxy_new_for_bus (G_BUS_TYPE_SESSION,
@@ -368,12 +389,6 @@ photos_indexing_notification_init (PhotosIndexingNotification *self)
                                    self->cancellable,
                                    photos_indexing_notification_tracker_miner,
                                    self);
-
-  g_signal_connect_object (app,
-                           "miners-changed",
-                           G_CALLBACK (photos_indexing_notification_online_miners_changed),
-                           self,
-                           G_CONNECT_SWAPPED);
 }
 
 

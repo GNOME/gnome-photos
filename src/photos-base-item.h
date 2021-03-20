@@ -51,9 +51,6 @@ struct _PhotosBaseItemClass
 {
   GObjectClass parent_class;
 
-  const gchar *miner_name;
-  const gchar *miner_object_path;
-
   /* virtual methods */
   gchar      *(*create_filename_fallback)   (PhotosBaseItem *self);
   gchar      *(*create_name_fallback)       (PhotosBaseItem *self);

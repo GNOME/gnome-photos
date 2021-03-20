@@ -53,6 +53,7 @@
 #include "photos-import-dialog.h"
 #include "photos-item-manager.h"
 #include "photos-main-window.h"
+#include "photos-online-miner-manager.h"
 #include "photos-properties-dialog.h"
 #include "photos-query.h"
 #include "photos-search-context.h"
@@ -76,10 +77,6 @@
 struct _PhotosApplication
 {
   GtkApplication parent_instance;
-  GCancellable *create_window_cancellable;
-  GHashTable *refresh_miner_ids;
-  GList *miners;
-  GList *miners_running;
   GSettings *bg_settings;
   GSettings *ss_settings;
   GSimpleAction *blacks_exposure_action;
@@ -124,6 +121,7 @@ struct _PhotosApplication
   GtkWidget *main_window;
   PhotosBaseManager *shr_pnt_mngr;
   PhotosCameraCache *camera_cache;
+  PhotosOnlineMinerManager *online_miner_manager;
   PhotosSearchContextState *state;
   PhotosSearchProvider *search_provider;
   PhotosSelectionController *sel_cntrlr;
@@ -134,21 +132,10 @@ struct _PhotosApplication
   gboolean empty_results;
   gboolean main_window_deleted;
   const gchar *miner_files_name;
-  guint create_miners_count;
   guint init_fishes_id;
   guint use_count;
   guint32 activation_timestamp;
-  gulong source_added_id;
-  gulong source_removed_id;
 };
-
-enum
-{
-  MINERS_CHANGED,
-  LAST_SIGNAL
-};
-
-static guint signals[LAST_SIGNAL] = { 0 };
 
 static void photos_application_search_context_iface_init (PhotosSearchContextInterface *iface);
 
@@ -190,13 +177,6 @@ typedef struct _PhotosApplicationImportWaitForFileData PhotosApplicationImportWa
 typedef struct _PhotosApplicationRefreshData PhotosApplicationRefreshData;
 typedef struct _PhotosApplicationSetBackgroundData PhotosApplicationSetBackgroundData;
 
-struct _PhotosApplicationCreateData
-{
-  PhotosApplication *application;
-  gchar *extension_name;
-  gchar *miner_name;
-};
-
 struct _PhotosApplicationImportData
 {
   PhotosApplication *application;
@@ -208,12 +188,6 @@ struct _PhotosApplicationImportData
   gint64 ctime_latest;
 };
 
-struct _PhotosApplicationRefreshData
-{
-  PhotosApplication *application;
-  GomMiner *miner;
-};
-
 struct _PhotosApplicationSetBackgroundData
 {
   PhotosApplication *application;
@@ -222,36 +196,7 @@ struct _PhotosApplicationSetBackgroundData
 };
 
 static void photos_application_import_file_copy (GObject *source_object, GAsyncResult *res, gpointer user_data);
-static void photos_application_refresh_miner_now (PhotosApplication *self, GomMiner *miner);
 static void photos_application_start_miners (PhotosApplication *self);
-static void photos_application_start_miners_second (PhotosApplication *self);
-static void photos_application_stop_miners (PhotosApplication *self);
-
-
-static PhotosApplicationCreateData *
-photos_application_create_data_new (PhotosApplication *application,
-                                    const gchar *extension_name,
-                                    const gchar *miner_name)
-{
-  PhotosApplicationCreateData *data;
-
-  data = g_slice_new0 (PhotosApplicationCreateData);
-  g_application_hold (G_APPLICATION (application));
-  data->application = application;
-  data->extension_name = g_strdup (extension_name);
-  data->miner_name = g_strdup (miner_name);
-  return data;
-}
-
-
-static void
-photos_application_create_data_free (PhotosApplicationCreateData *data)
-{
-  g_application_release (G_APPLICATION (data->application));
-  g_free (data->extension_name);
-  g_free (data->miner_name);
-  g_slice_free (PhotosApplicationCreateData, data);
-}
 
 
 static PhotosApplicationImportData *
@@ -290,28 +235,6 @@ photos_application_import_data_free (PhotosApplicationImportData *data)
 
 
 G_DEFINE_AUTOPTR_CLEANUP_FUNC (PhotosApplicationImportData, photos_application_import_data_free);
-
-
-static PhotosApplicationRefreshData *
-photos_application_refresh_data_new (PhotosApplication *application, GomMiner *miner)
-{
-  PhotosApplicationRefreshData *data;
-
-  data = g_slice_new0 (PhotosApplicationRefreshData);
-  g_application_hold (G_APPLICATION (application));
-  data->application = application;
-  data->miner = g_object_ref (miner);
-  return data;
-}
-
-
-static void
-photos_application_refresh_data_free (PhotosApplicationRefreshData *data)
-{
-  g_application_release (G_APPLICATION (data->application));
-  g_object_unref (data->miner);
-  g_slice_free (PhotosApplicationRefreshData, data);
-}
 
 
 static PhotosApplicationSetBackgroundData *
@@ -606,98 +529,8 @@ photos_application_delete_event (PhotosApplication *self)
 static void
 photos_application_destroy (PhotosApplication *self)
 {
-  GHashTableIter iter;
-  gpointer refresh_miner_id_data;
-
   self->main_window = NULL;
-
-  g_hash_table_iter_init (&iter, self->refresh_miner_ids);
-  while (g_hash_table_iter_next (&iter, NULL, &refresh_miner_id_data))
-    {
-      guint refresh_miner_id = GPOINTER_TO_UINT (refresh_miner_id_data);
-      g_source_remove (refresh_miner_id);
-    }
-
-  g_hash_table_remove_all (self->refresh_miner_ids);
-
-  g_cancellable_cancel (self->create_window_cancellable);
-  g_clear_object (&self->create_window_cancellable);
-  self->create_window_cancellable = g_cancellable_new ();
-
-  photos_application_stop_miners (self);
-}
-
-
-static void
-photos_application_gom_miner (GObject *source_object, GAsyncResult *res, gpointer user_data)
-{
-  PhotosApplicationCreateData *data = (PhotosApplicationCreateData *) user_data;
-  PhotosApplication *self = data->application;
-  g_autoptr (GomMiner) miner = NULL;
-
-  {
-    g_autoptr (GError) error = NULL;
-
-    miner = gom_miner_proxy_new_for_bus_finish (res, &error);
-    if (error != NULL)
-      {
-        if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
-          {
-            goto out;
-          }
-        else
-          {
-            g_warning ("Unable to create GomMiner proxy for %s: %s", data->miner_name, error->message);
-            goto maybe_continue;
-          }
-      }
-  }
-
-  g_object_set_data_full (G_OBJECT (miner), "provider-type", g_strdup (data->extension_name), g_free);
-  self->miners = g_list_prepend (self->miners, g_object_ref (miner));
-
- maybe_continue:
-  if (self->create_miners_count == 1)
-    photos_application_start_miners_second (self);
-
- out:
-  self->create_miners_count--;
-  photos_application_create_data_free (data);
-}
-
-
-static void
-photos_application_create_online_miners (PhotosApplication *self)
-{
-  GIOExtensionPoint *extension_point;
-  GList *extensions;
-  GList *l;
-
-  extension_point = g_io_extension_point_lookup (PHOTOS_BASE_ITEM_EXTENSION_POINT_NAME);
-  extensions = g_io_extension_point_get_extensions (extension_point);
-  for (l = extensions; l != NULL; l = l->next)
-    {
-      GIOExtension *extension = (GIOExtension *) l->data;
-      PhotosApplicationCreateData *data;
-      g_autoptr (PhotosBaseItemClass) base_item_class = NULL;
-
-      base_item_class = PHOTOS_BASE_ITEM_CLASS (g_io_extension_ref_class (extension));
-      if (base_item_class->miner_name != NULL && base_item_class->miner_object_path != NULL)
-        {
-          const gchar *extension_name;
-
-          extension_name = g_io_extension_get_name (extension);
-          data = photos_application_create_data_new (self, extension_name, base_item_class->miner_name);
-          gom_miner_proxy_new_for_bus (G_BUS_TYPE_SESSION,
-                                       G_DBUS_PROXY_FLAGS_NONE,
-                                       base_item_class->miner_name,
-                                       base_item_class->miner_object_path,
-                                       self->create_window_cancellable,
-                                       photos_application_gom_miner,
-                                       data);
-          self->create_miners_count++;
-        }
-    }
+  g_clear_object (&self->online_miner_manager);
 }
 
 
@@ -1734,126 +1567,6 @@ photos_application_properties (PhotosApplication *self)
 }
 
 
-static gboolean
-photos_application_refresh_miner_timeout (gpointer user_data)
-{
-  PhotosApplicationRefreshData *data = (PhotosApplicationRefreshData *) user_data;
-  PhotosApplication *self = data->application;
-
-  g_hash_table_remove (self->refresh_miner_ids, data->miner);
-  photos_application_refresh_miner_now (self, data->miner);
-  return G_SOURCE_REMOVE;
-}
-
-
-static void
-photos_application_refresh_db (GObject *source_object, GAsyncResult *res, gpointer user_data)
-{
-  PhotosApplication *self = PHOTOS_APPLICATION (user_data);
-  GList *miner_link;
-  g_autoptr (GomMiner) miner = GOM_MINER (source_object);
-  PhotosApplicationRefreshData *data;
-  const gchar *name;
-  gpointer refresh_miner_id_data;
-  guint refresh_miner_id;
-
-  name = g_dbus_proxy_get_name (G_DBUS_PROXY (miner));
-  photos_debug (PHOTOS_DEBUG_NETWORK, "Finished RefreshDB for %s (%p)", name, miner);
-
-  refresh_miner_id_data = g_hash_table_lookup (self->refresh_miner_ids, miner);
-  g_assert_null (refresh_miner_id_data);
-
-  miner_link = g_list_find (self->miners_running, miner);
-  g_assert_nonnull (miner_link);
-
-  self->miners_running = g_list_remove_link (self->miners_running, miner_link);
-  g_signal_emit (self, signals[MINERS_CHANGED], 0, self->miners_running);
-
-  {
-    g_autoptr (GError) error = NULL;
-
-    if (!gom_miner_call_refresh_db_finish (miner, res, &error))
-      {
-        if (!g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
-          g_warning ("Unable to update the cache: %s", error->message);
-
-        goto out;
-      }
-  }
-
-  data = photos_application_refresh_data_new (self, miner);
-  refresh_miner_id = g_timeout_add_seconds_full (G_PRIORITY_DEFAULT,
-                                                 MINER_REFRESH_TIMEOUT,
-                                                 photos_application_refresh_miner_timeout,
-                                                 data,
-                                                 (GDestroyNotify) photos_application_refresh_data_free);
-  g_hash_table_insert (self->refresh_miner_ids, miner, GUINT_TO_POINTER (refresh_miner_id));
-
-  photos_debug (PHOTOS_DEBUG_NETWORK, "Added timeout for %s (%p)", name, miner);
-
- out:
-  g_application_release (G_APPLICATION (self));
-}
-
-
-static void
-photos_application_refresh_miner_now (PhotosApplication *self, GomMiner *miner)
-{
-  GCancellable *cancellable;
-  const gchar *const index_types[] = {"photos", NULL};
-  const gchar *name;
-  gpointer refresh_miner_id_data;
-
-  if (g_getenv ("GNOME_PHOTOS_DISABLE_MINERS") != NULL)
-    return;
-
-  name = g_dbus_proxy_get_name (G_DBUS_PROXY (miner));
-
-  if (g_list_find (self->miners_running, miner) != NULL)
-    {
-      photos_debug (PHOTOS_DEBUG_NETWORK, "Skipped %s (%p): already running", name, miner);
-      return;
-    }
-
-  refresh_miner_id_data = g_hash_table_lookup (self->refresh_miner_ids, miner);
-  if (refresh_miner_id_data != NULL)
-    {
-      guint refresh_miner_id = GPOINTER_TO_UINT (refresh_miner_id_data);
-
-      g_source_remove (refresh_miner_id);
-      g_hash_table_remove (self->refresh_miner_ids, miner);
-      photos_debug (PHOTOS_DEBUG_NETWORK, "Removed timeout for %s (%p)", name, miner);
-    }
-
-  self->miners_running = g_list_prepend (self->miners_running, g_object_ref (miner));
-  g_signal_emit (self, signals[MINERS_CHANGED], 0, self->miners_running);
-
-  cancellable = g_cancellable_new ();
-  g_object_set_data_full (G_OBJECT (miner), "cancellable", cancellable, g_object_unref);
-  g_application_hold (G_APPLICATION (self));
-  gom_miner_call_refresh_db (miner, index_types, cancellable, photos_application_refresh_db, self);
-
-  photos_debug (PHOTOS_DEBUG_NETWORK, "Called RefreshDB for %s (%p)", name, miner);
-}
-
-
-static void
-photos_application_refresh_miners (PhotosApplication *self)
-{
-  GList *l;
-
-  for (l = self->miners; l != NULL; l = l->next)
-    {
-      GomMiner *miner = GOM_MINER (l->data);
-      const gchar *provider_type;
-
-      provider_type = g_object_get_data (G_OBJECT (miner), "provider-type");
-      if (photos_source_manager_has_provider_type (PHOTOS_SOURCE_MANAGER (self->state->src_mngr), provider_type))
-        photos_application_refresh_miner_now (self, miner);
-    }
-}
-
-
 static void
 photos_application_remote_display_current (PhotosApplication *self)
 {
@@ -2230,57 +1943,17 @@ photos_application_start_miners_local (PhotosApplication *self)
 static void
 photos_application_start_miners (PhotosApplication *self)
 {
+  g_return_if_fail (self->online_miner_manager == NULL);
+
   photos_application_start_miners_local (self);
-  photos_application_create_online_miners (self);
-}
 
+  {
+    g_autoptr (GError) error = NULL;
 
-static void
-photos_application_start_miners_second (PhotosApplication *self)
-{
-  photos_application_refresh_miners (self);
-
-  self->source_added_id = g_signal_connect_object (self->state->src_mngr,
-                                                   "object-added",
-                                                   G_CALLBACK (photos_application_refresh_miners),
-                                                   self,
-                                                   G_CONNECT_SWAPPED);
-  self->source_removed_id = g_signal_connect_object (self->state->src_mngr,
-                                                     "object-removed",
-                                                     G_CALLBACK (photos_application_refresh_miners),
-                                                     self,
-                                                     G_CONNECT_SWAPPED);
-}
-
-
-static void
-photos_application_stop_miners (PhotosApplication *self)
-{
-  GList *l;
-
-  for (l = self->miners_running; l != NULL; l = l->next)
-    {
-      GomMiner *miner = GOM_MINER (l->data);
-      GCancellable *cancellable;
-
-      cancellable = g_object_get_data (G_OBJECT (miner), "cancellable");
-      g_cancellable_cancel (cancellable);
-    }
-
-  if (self->source_added_id != 0)
-    {
-      g_signal_handler_disconnect (self->state->src_mngr, self->source_added_id);
-      self->source_added_id = 0;
-    }
-
-  if (self->source_removed_id != 0)
-    {
-      g_signal_handler_disconnect (self->state->src_mngr, self->source_removed_id);
-      self->source_removed_id = 0;
-    }
-
-  g_list_free_full (self->miners, g_object_unref);
-  self->miners = NULL;
+    self->online_miner_manager = photos_online_miner_manager_dup_singleton (NULL, &error);
+    if (G_UNLIKELY (error != NULL))
+      g_warning ("Unable to create PhotosOnlineMinerManager: %s", error->message);
+  }
 }
 
 
@@ -2563,20 +2236,14 @@ static void
 photos_application_shutdown (GApplication *application)
 {
   PhotosApplication *self = PHOTOS_APPLICATION (application);
-  guint refresh_miner_ids_size;
 
   photos_debug (PHOTOS_DEBUG_APPLICATION, "PhotosApplication::shutdown");
-
-  refresh_miner_ids_size = g_hash_table_size (self->refresh_miner_ids);
-  g_assert (refresh_miner_ids_size == 0);
 
   if (self->init_fishes_id != 0)
     {
       g_source_remove (self->init_fishes_id);
       self->init_fishes_id = 0;
     }
-
-  g_clear_pointer (&self->refresh_miner_ids, g_hash_table_unref);
 
   G_APPLICATION_CLASS (photos_application_parent_class)->shutdown (application);
 }
@@ -2633,9 +2300,6 @@ photos_application_startup (GApplication *application)
           g_warning ("Unable to activate Grilo's Flickr plugin: %s", error->message);
       }
     }
-
-  self->create_window_cancellable = g_cancellable_new ();
-  self->refresh_miner_ids = g_hash_table_new (g_direct_hash, g_direct_equal);
 
   self->bg_settings = g_settings_new (DESKTOP_BACKGROUND_SCHEMA);
   self->ss_settings = g_settings_new (DESKTOP_SCREENSAVER_SCHEMA);
@@ -2930,21 +2594,9 @@ photos_application_dispose (GObject *object)
 {
   PhotosApplication *self = PHOTOS_APPLICATION (object);
 
+  g_assert (self->online_miner_manager == NULL);
   g_assert_null (self->search_provider);
 
-  if (self->miners_running != NULL)
-    {
-      g_list_free_full (self->miners_running, g_object_unref);
-      self->miners_running = NULL;
-    }
-
-  if (self->miners != NULL)
-    {
-      g_list_free_full (self->miners, g_object_unref);
-      self->miners = NULL;
-    }
-
-  g_clear_object (&self->create_window_cancellable);
   g_clear_object (&self->bg_settings);
   g_clear_object (&self->ss_settings);
   g_clear_object (&self->blacks_exposure_action);
@@ -3009,8 +2661,6 @@ photos_application_finalize (GObject *object)
 {
   PhotosApplication *self = PHOTOS_APPLICATION (object);
 
-  g_assert (self->create_miners_count == 0);
-
   if (g_application_get_is_registered (G_APPLICATION (self)) && !g_application_get_is_remote (G_APPLICATION (self)))
     gegl_exit ();
 
@@ -3064,17 +2714,6 @@ photos_application_class_init (PhotosApplicationClass *class)
   application_class->handle_local_options = photos_application_handle_local_options;
   application_class->shutdown = photos_application_shutdown;
   application_class->startup = photos_application_startup;
-
-  signals[MINERS_CHANGED] = g_signal_new ("miners-changed",
-                                          G_TYPE_FROM_CLASS (class),
-                                          G_SIGNAL_RUN_LAST,
-                                          0,
-                                          NULL, /* accumulator */
-                                          NULL, /* accu_data */
-                                          g_cclosure_marshal_VOID__POINTER,
-                                          G_TYPE_NONE,
-                                          1,
-                                          G_TYPE_POINTER);
 }
 
 
@@ -3117,32 +2756,6 @@ photos_application_get_empty_results (PhotosApplication *self)
 }
 
 
-GomMiner *
-photos_application_get_miner (PhotosApplication *self, const gchar *provider_type)
-{
-  GList *l;
-  GomMiner *ret_val = NULL;
-
-  g_return_val_if_fail (PHOTOS_IS_APPLICATION (self), NULL);
-  g_return_val_if_fail (provider_type != NULL && provider_type[0] != '\0', NULL);
-
-  for (l = self->miners; l != NULL; l = l->next)
-    {
-      GomMiner *miner = GOM_MINER (l->data);
-      const gchar *miner_provider_type;
-
-      miner_provider_type = g_object_get_data (G_OBJECT (miner), "provider-type");
-      if (g_strcmp0 (provider_type, miner_provider_type) == 0)
-        {
-          ret_val = miner;
-          break;
-        }
-    }
-
-  return ret_val;
-}
-
-
 const gchar *
 photos_application_get_miner_files_name (PhotosApplication *self)
 {
@@ -3150,14 +2763,6 @@ photos_application_get_miner_files_name (PhotosApplication *self)
   g_return_val_if_fail (self->miner_files_name != NULL, NULL);
 
   return self->miner_files_name;
-}
-
-
-GList *
-photos_application_get_miners_running (PhotosApplication *self)
-{
-  g_return_val_if_fail (PHOTOS_IS_APPLICATION (self), NULL);
-  return self->miners_running;
 }
 
 
