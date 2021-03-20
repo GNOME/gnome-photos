@@ -179,7 +179,6 @@ photos_indexing_notification_check_notification_get_progress (GObject *source_ob
   PhotosIndexingNotification *self;
   GApplication *app;
   GList *miners_running;
-  GSList *running = NULL;
   TrackerMiner *miner_files = TRACKER_MINER (source_object);
   gboolean is_indexing_local = FALSE;
   gboolean is_indexing_remote = FALSE;
@@ -223,7 +222,7 @@ photos_indexing_notification_check_notification_get_progress (GObject *source_ob
     photos_indexing_notification_destroy (self, FALSE);
 
  out:
-  g_slist_free_full (running, g_free);
+  return;
 }
 
 
