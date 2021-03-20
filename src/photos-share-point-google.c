@@ -457,6 +457,8 @@ photos_share_point_google_constructed (GObject *object)
 
   source = photos_share_point_online_get_source (PHOTOS_SHARE_POINT_ONLINE (self));
   goa_object = photos_source_get_goa_object (source);
+  g_assert (GOA_IS_OBJECT (goa_object));
+
   self->authorizer = gdata_goa_authorizer_new (goa_object);
   self->service = gdata_picasaweb_service_new (GDATA_AUTHORIZER (self->authorizer));
 }
