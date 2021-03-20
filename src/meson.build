@@ -23,7 +23,7 @@ libgnome_photos_sources = files(
 
 thumbnailer_dbus = 'photos-thumbnailer-dbus'
 
-libgnome_photos_built_sources_gdbus = gnome.gdbus_codegen(
+libgnome_photos_built_sources_thumbnailer_dbus = gnome.gdbus_codegen(
   thumbnailer_dbus,
   thumbnailer_dbus + '.xml',
   interface_prefix: photos_namespace + '.',
@@ -35,8 +35,8 @@ libgnome_photos_built_sources_gdbus = gnome.gdbus_codegen(
   autocleanup: 'all',
 )
 
-libgnome_photos_built_headers += libgnome_photos_built_sources_gdbus[1]
-libgnome_photos_sources += libgnome_photos_built_sources_gdbus
+libgnome_photos_built_headers += libgnome_photos_built_sources_thumbnailer_dbus[1]
+libgnome_photos_sources += libgnome_photos_built_sources_thumbnailer_dbus
 
 enum_headers = files(
   'photos-operation-insta-common.h',
