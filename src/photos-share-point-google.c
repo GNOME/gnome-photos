@@ -111,16 +111,18 @@ photos_share_point_google_parse_error (PhotosSharePoint *self, GError *error)
 static void
 photos_share_point_google_share_insert_shared_content (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
-  GError *error;
   g_autoptr (GTask) task = G_TASK (user_data);
   GomMiner *miner = GOM_MINER (source_object);
 
-  error = NULL;
-  if (!gom_miner_call_insert_shared_content_finish (miner, res, &error))
-    {
-      g_task_return_error (task, error);
-      goto out;
-    }
+  {
+    g_autoptr (GError) error = NULL;
+
+    if (!gom_miner_call_insert_shared_content_finish (miner, res, &error))
+      {
+        g_task_return_error (task, g_steal_pointer (&error));
+        goto out;
+      }
+  }
 
   g_task_return_boolean (task, TRUE);
 
@@ -255,7 +257,6 @@ photos_share_point_google_share_save_to_stream (GObject *source_object, GAsyncRe
 {
   PhotosSharePointGoogle *self;
   GCancellable *cancellable;
-  GError *error;
   g_autoptr (GTask) task = G_TASK (user_data);
   g_autoptr (GDataPicasaWebFile) file_entry = NULL;
   GoaAccount *account;
@@ -272,22 +273,28 @@ photos_share_point_google_share_save_to_stream (GObject *source_object, GAsyncRe
   cancellable = g_task_get_cancellable (task);
   data = (PhotosSharePointGoogleShareData *) g_task_get_task_data (task);
 
-  error = NULL;
-  if (!photos_base_item_save_to_stream_finish (item, res, &error))
-    {
-      g_task_return_error (task, error);
-      goto out;
-    }
+  {
+    g_autoptr (GError) error = NULL;
 
-  error = NULL;
-  file_entry = gdata_picasaweb_service_finish_file_upload (GDATA_PICASAWEB_SERVICE (self->service),
-                                                           data->stream,
-                                                           &error);
-  if (error != NULL)
-    {
-      g_task_return_error (task, error);
-      goto out;
-    }
+    if (!photos_base_item_save_to_stream_finish (item, res, &error))
+      {
+        g_task_return_error (task, g_steal_pointer (&error));
+        goto out;
+      }
+  }
+
+  {
+    g_autoptr (GError) error = NULL;
+
+    file_entry = gdata_picasaweb_service_finish_file_upload (GDATA_PICASAWEB_SERVICE (self->service),
+                                                             data->stream,
+                                                             &error);
+    if (error != NULL)
+      {
+        g_task_return_error (task, g_steal_pointer (&error));
+        goto out;
+      }
+  }
 
   g_assert_null (data->file_entry);
   data->file_entry = g_object_ref (file_entry);
@@ -339,7 +346,6 @@ photos_share_point_google_share_refresh_authorization (GObject *source_object,
 {
   PhotosSharePointGoogle *self;
   GCancellable *cancellable;
-  GError *error;
   g_autoptr (GTask) task = G_TASK (user_data);
   GDataAuthorizer *authorizer = GDATA_AUTHORIZER (source_object);
   g_autoptr (GDataPicasaWebFile) file_entry = NULL;
@@ -353,12 +359,15 @@ photos_share_point_google_share_refresh_authorization (GObject *source_object,
   cancellable = g_task_get_cancellable (task);
   data = (PhotosSharePointGoogleShareData *) g_task_get_task_data (task);
 
-  error = NULL;
-  if (!gdata_authorizer_refresh_authorization_finish (authorizer, res, &error))
-    {
-      g_task_return_error (task, error);
-      goto out;
-    }
+  {
+    g_autoptr (GError) error = NULL;
+
+    if (!gdata_authorizer_refresh_authorization_finish (authorizer, res, &error))
+      {
+        g_task_return_error (task, g_steal_pointer (&error));
+        goto out;
+      }
+  }
 
   file_entry = gdata_picasaweb_file_new (NULL);
   name = photos_base_item_get_name_with_fallback (data->item);
@@ -367,19 +376,22 @@ photos_share_point_google_share_refresh_authorization (GObject *source_object,
   filename = photos_base_item_get_filename (data->item);
   mime_type = photos_base_item_get_mime_type (data->item);
 
-  error = NULL;
-  stream = gdata_picasaweb_service_upload_file (self->service,
-                                                NULL,
-                                                file_entry,
-                                                filename,
-                                                mime_type,
-                                                cancellable,
-                                                &error);
-  if (error != NULL)
-    {
-      g_task_return_error (task, error);
-      goto out;
-    }
+  {
+    g_autoptr (GError) error = NULL;
+
+    stream = gdata_picasaweb_service_upload_file (self->service,
+                                                  NULL,
+                                                  file_entry,
+                                                  filename,
+                                                  mime_type,
+                                                  cancellable,
+                                                  &error);
+    if (error != NULL)
+      {
+        g_task_return_error (task, g_steal_pointer (&error));
+        goto out;
+      }
+  }
 
   g_assert_null (data->stream);
   data->stream = g_object_ref (stream);
