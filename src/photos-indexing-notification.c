@@ -142,7 +142,7 @@ photos_indexing_notification_timeout (gpointer user_data)
   GApplication *app;
   GList *miners_running;
   GomMiner *miner = NULL;
-  const gchar *display_name = NULL;
+  const gchar *provider_name = NULL;
   g_autofree gchar *primary = NULL;
 
   self->timeout_id = 0;
@@ -153,14 +153,14 @@ photos_indexing_notification_timeout (gpointer user_data)
     miner = GOM_MINER (miners_running->data);
 
   if (miner != NULL)
-    display_name = gom_miner_get_display_name (miner);
+    provider_name = gom_miner_get_display_name (miner);
 
-  if (display_name != NULL)
+  if (provider_name != NULL)
     {
       /* Translators: %s refers to an online account provider, e.g.,
        * "Facebook" or "Flickr".
        */
-      primary = g_strdup_printf (_("Fetching photos from %s"), display_name);
+      primary = g_strdup_printf (_("Fetching photos from %s"), provider_name);
     }
   else
     primary = g_strdup (_("Fetching photos from online accounts"));
