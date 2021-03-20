@@ -1,6 +1,6 @@
 libgnome_photos_built_headers = []
 
-sources = files(
+libgnome_photos_sources = files(
   'photos-debug.c',
   'photos-error.c',
   'photos-gegl.c',
@@ -36,7 +36,7 @@ libgnome_photos_built_sources_gdbus = gnome.gdbus_codegen(
 )
 
 libgnome_photos_built_headers += libgnome_photos_built_sources_gdbus[1]
-sources += libgnome_photos_built_sources_gdbus
+libgnome_photos_sources += libgnome_photos_built_sources_gdbus
 
 enum_headers = files(
   'photos-operation-insta-common.h',
@@ -52,7 +52,7 @@ libgnome_photos_built_sources_enums = gnome.mkenums(
 )
 
 libgnome_photos_built_headers += libgnome_photos_built_sources_enums[1]
-sources += libgnome_photos_built_sources_enums
+libgnome_photos_sources += libgnome_photos_built_sources_enums
 
 resource_data = files('../data/vignette.png')
 
@@ -66,7 +66,7 @@ libgnome_photos_built_sources_resources = gnome.compile_resources(
 )
 
 libgnome_photos_built_headers += libgnome_photos_built_sources_resources[1]
-sources += libgnome_photos_built_sources_resources
+libgnome_photos_sources += libgnome_photos_built_sources_resources
 
 deps = [
   babl_dep,
@@ -84,7 +84,7 @@ deps = [
 
 libgnome_photos = shared_library(
   meson.project_name(),
-  sources,
+  libgnome_photos_sources,
   dependencies: deps,
   include_directories: top_inc,
   install: true,
