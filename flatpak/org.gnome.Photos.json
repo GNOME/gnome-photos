@@ -20,6 +20,7 @@
         "--talk-name=org.freedesktop.Tracker3.Miner.Files.Control",
         "--talk-name=com.intel.dleyna-renderer",
         "--talk-name=org.gnome.ControlCenter",
+        "--talk-name=org.gnome.OnlineAccounts",
         "--talk-name=org.gnome.SettingsDaemon",
         "--talk-name=org.gnome.SettingsDaemon.Housekeeping",
         "--talk-name=org.gtk.vfs",
