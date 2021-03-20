@@ -104,7 +104,7 @@ common_deps = [
   libgnome_photos_dep,
 ]
 
-sources = files(
+gnome_photos_sources = files(
   'photos-application.c',
   'photos-base-manager.c',
   'photos-base-model.c',
@@ -222,7 +222,7 @@ photos_generate_about = find_program('photos-generate-about')
 
 about_header = 'photos-about-data.h'
 
-sources += custom_target(
+gnome_photos_sources += custom_target(
   about_header,
   output: about_header,
   capture: true,
@@ -231,7 +231,7 @@ sources += custom_target(
 
 about_source = 'photos-about-data.c'
 
-sources += custom_target(
+gnome_photos_sources += custom_target(
   about_source,
   output: about_source,
   capture: true,
@@ -246,7 +246,7 @@ enum_headers = files(
 
 enum = 'photos-enums'
 
-sources += gnome.mkenums(
+gnome_photos_sources += gnome.mkenums(
   enum,
   sources: enum_headers,
   c_template: enum + '.c.template',
@@ -255,7 +255,7 @@ sources += gnome.mkenums(
 
 marshal = 'photos-marshalers'
 
-sources += gnome.genmarshal(
+gnome_photos_sources += gnome.genmarshal(
   marshal,
   sources: marshal + '.list',
   prefix: '_photos_marshal',
@@ -293,7 +293,7 @@ resource_data = files(
   'photos-zoom-controls.ui',
 )
 
-sources += gnome.compile_resources(
+gnome_photos_sources += gnome.compile_resources(
   'photos-resources',
   'photos.gresource.xml',
   source_dir: '.',
@@ -304,7 +304,7 @@ sources += gnome.compile_resources(
 
 dleyna_device = 'photos-dleyna-renderer-device'
 
-sources += gnome.gdbus_codegen(
+gnome_photos_sources += gnome.gdbus_codegen(
   dleyna_device,
   dleyna_device + '.xml',
   interface_prefix: 'com.intel.dLeynaRenderer.',
@@ -317,7 +317,7 @@ sources += gnome.gdbus_codegen(
 
 dleyna_manager = 'photos-dleyna-renderer-manager'
 
-sources += gnome.gdbus_codegen(
+gnome_photos_sources += gnome.gdbus_codegen(
   dleyna_manager,
   dleyna_manager + '.xml',
   interface_prefix: 'com.intel.dLeynaRenderer.',
@@ -327,7 +327,7 @@ sources += gnome.gdbus_codegen(
 
 dleyna_push_host = 'photos-dleyna-renderer-push-host'
 
-sources += gnome.gdbus_codegen(
+gnome_photos_sources += gnome.gdbus_codegen(
   dleyna_push_host,
   dleyna_push_host + '.xml',
   interface_prefix: 'com.intel.dLeynaRenderer.',
@@ -337,7 +337,7 @@ sources += gnome.gdbus_codegen(
 
 gom_miner = 'photos-gom-miner'
 
-sources += gnome.gdbus_codegen(
+gnome_photos_sources += gnome.gdbus_codegen(
   gom_miner,
   gom_miner + '.xml',
   interface_prefix: 'org.gnome.OnlineMiners.',
@@ -347,7 +347,7 @@ sources += gnome.gdbus_codegen(
 
 mpris_player = 'photos-mpris-player'
 
-sources += gnome.gdbus_codegen(
+gnome_photos_sources += gnome.gdbus_codegen(
   mpris_player,
   mpris_player + '.xml',
   interface_prefix: 'org.mpris.MediaPlayer2.',
@@ -355,7 +355,7 @@ sources += gnome.gdbus_codegen(
   autocleanup: 'all',
 )
 
-sources += gnome.gdbus_codegen(
+gnome_photos_sources += gnome.gdbus_codegen(
   'photos-shell-search-provider2',
   'org.gnome.ShellSearchProvider2.xml',
   interface_prefix: 'org.gnome.Shell.',
@@ -363,7 +363,7 @@ sources += gnome.gdbus_codegen(
   autocleanup: 'all',
 )
 
-sources += gnome.gdbus_codegen(
+gnome_photos_sources += gnome.gdbus_codegen(
   'photos-tracker-miner',
   'org.freedesktop.Tracker3.Miner.xml',
   interface_prefix: 'org.freedesktop.Tracker3.',
@@ -371,7 +371,7 @@ sources += gnome.gdbus_codegen(
   autocleanup: 'all',
 )
 
-sources += gnome.gdbus_codegen(
+gnome_photos_sources += gnome.gdbus_codegen(
   'photos-tracker-miner-files-index',
   'org.freedesktop.Tracker3.Miner.Files.Index.xml',
   interface_prefix: 'org.freedesktop.Tracker3.',
@@ -404,7 +404,7 @@ cflags = [
 
 executable(
   meson.project_name(),
-  sources,
+  gnome_photos_sources,
   include_directories: top_inc,
   dependencies: deps,
   c_args: cflags,
