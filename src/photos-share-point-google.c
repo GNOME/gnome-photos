@@ -141,23 +141,26 @@ photos_share_point_google_share_metadata_add_shared_second (PhotosSharePointGoog
   PhotosSharePointGoogleShareData *data;
   const gchar *account_id;
   const gchar *file_entry_id;
+  const gchar *provider_type;
 
   cancellable = g_task_get_cancellable (task);
   data = (PhotosSharePointGoogleShareData *) g_task_get_task_data (task);
 
   app = g_application_get_default ();
-  miner = photos_application_get_miner (PHOTOS_APPLICATION (app), "google");
-  if (miner == NULL)
-    {
-      g_task_return_new_error (task, PHOTOS_ERROR, 0, "Unable to find the google miner");
-      goto out;
-    }
 
   source = photos_share_point_online_get_source (PHOTOS_SHARE_POINT_ONLINE (self));
   object = photos_source_get_goa_object (source);
   account = goa_object_peek_account (object);
-  account_id = goa_account_get_id (account);
+  provider_type = goa_account_get_provider_type (account);
 
+  miner = photos_application_get_miner (PHOTOS_APPLICATION (app), provider_type);
+  if (miner == NULL)
+    {
+      g_task_return_new_error (task, PHOTOS_ERROR, 0, "Unable to find the %s miner", provider_type);
+      goto out;
+    }
+
+  account_id = goa_account_get_id (account);
   file_entry_id = gdata_entry_get_id (GDATA_ENTRY (data->file_entry));
 
   gom_miner_call_insert_shared_content (miner,
