@@ -413,7 +413,7 @@ executable(
   install_rpath: photos_libdir,
 )
 
-sources = files(
+gnome_photos_thumbnailer_sources = files(
   'photos-pixbuf.c',
   'photos-thumbnailer.c',
   'photos-thumbnailer-main.c',
@@ -421,7 +421,7 @@ sources = files(
 
 executable(
   meson.project_name() + '-thumbnailer',
-  sources,
+  gnome_photos_thumbnailer_sources,
   include_directories: top_inc,
   dependencies: common_deps,
   c_args: cflags,
