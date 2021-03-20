@@ -93,17 +93,6 @@ libgnome_photos = shared_library(
 
 libgnome_photos_dep = declare_dependency(link_with: libgnome_photos, sources: libgnome_photos_built_headers)
 
-common_deps = [
-  gdk_pixbuf_dep,
-  gegl_dep,
-  gio_dep,
-  gio_unix_dep,
-  glib_dep,
-  gobject_dep,
-  libdazzle_dep,
-  libgnome_photos_dep,
-]
-
 gnome_photos_sources = files(
   'photos-application.c',
   'photos-base-manager.c',
@@ -379,19 +368,27 @@ gnome_photos_sources += gnome.gdbus_codegen(
   autocleanup: 'all',
 )
 
-deps = common_deps + [
+deps = [
   babl_dep,
   cairo_dep,
+  gdk_pixbuf_dep,
+  gegl_dep,
   geocode_glib_dep,
   gexiv_dep,
+  gio_dep,
+  gio_unix_dep,
+  glib_dep,
   goa_dep,
+  gobject_dep,
   grilo_dep,
   gsettings_desktop_schemas_dep,
   gtk_dep,
   gtk_unix_print_dep,
+  libdazzle_dep,
   libgd_dep,
   libgdata_dep,
   libgfgraph_dep,
+  libgnome_photos_dep,
   libhandy_dep,
   m_dep,
   tracker_sparql_dep,
@@ -419,11 +416,22 @@ gnome_photos_thumbnailer_sources = files(
   'photos-thumbnailer-main.c',
 )
 
+deps = [
+  gdk_pixbuf_dep,
+  gegl_dep,
+  gio_dep,
+  gio_unix_dep,
+  glib_dep,
+  gobject_dep,
+  libdazzle_dep,
+  libgnome_photos_dep,
+]
+
 executable(
   meson.project_name() + '-thumbnailer',
   gnome_photos_thumbnailer_sources,
   include_directories: top_inc,
-  dependencies: common_deps,
+  dependencies: deps,
   c_args: cflags,
   install: true,
   install_dir: photos_libexecdir,
