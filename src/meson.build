@@ -93,8 +93,6 @@ libgnome_photos = shared_library(
 
 libgnome_photos_dep = declare_dependency(link_with: libgnome_photos, sources: libgnome_photos_built_headers)
 
-common_sources = []
-
 common_deps = [
   gdk_pixbuf_dep,
   gegl_dep,
@@ -106,7 +104,7 @@ common_deps = [
   libgnome_photos_dep,
 ]
 
-sources = common_sources + files(
+sources = files(
   'photos-application.c',
   'photos-base-manager.c',
   'photos-base-model.c',
@@ -415,7 +413,7 @@ executable(
   install_rpath: photos_libdir,
 )
 
-sources = common_sources + files(
+sources = files(
   'photos-pixbuf.c',
   'photos-thumbnailer.c',
   'photos-thumbnailer-main.c',
