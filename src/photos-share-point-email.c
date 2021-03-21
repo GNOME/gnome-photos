@@ -97,14 +97,14 @@ static void
 photos_share_point_email_share_save_to_dir (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
   PhotosSharePointEmail *self;
-  GAppLaunchContext *ctx = NULL;
+  g_autoptr (GAppLaunchContext) ctx = NULL;
   GError *error;
-  GFile *file = NULL;
-  GTask *task = G_TASK (user_data);
+  g_autoptr (GFile) file = NULL;
+  g_autoptr (GTask) task = G_TASK (user_data);
   PhotosBaseItem *item = PHOTOS_BASE_ITEM (source_object);
-  gchar *escaped_path = NULL;
-  gchar *path = NULL;
-  gchar *uri = NULL;
+  g_autofree gchar *escaped_path = NULL;
+  g_autofree gchar *path = NULL;
+  g_autofree gchar *uri = NULL;
 
   self = PHOTOS_SHARE_POINT_EMAIL (g_task_get_source_object (task));
 
@@ -132,12 +132,7 @@ photos_share_point_email_share_save_to_dir (GObject *source_object, GAsyncResult
   g_task_return_boolean (task, TRUE);
 
  out:
-  g_free (escaped_path);
-  g_free (path);
-  g_free (uri);
-  g_clear_object (&ctx);
-  g_clear_object (&file);
-  g_object_unref (task);
+  return;
 }
 
 
@@ -149,11 +144,11 @@ photos_share_point_email_share_async (PhotosSharePoint *share_point,
                                       gpointer user_data)
 {
   PhotosSharePointEmail *self = PHOTOS_SHARE_POINT_EMAIL (share_point);
-  GFile *export = NULL;
-  GTask *task;
+  g_autoptr (GFile) export = NULL;
+  g_autoptr (GTask) task = NULL;
   const gchar *user_name;
-  gchar *export_dir = NULL;
-  gchar *template = NULL;
+  g_autofree gchar *export_dir = NULL;
+  g_autofree gchar *template = NULL;
 
   task = g_task_new (self, cancellable, callback, user_data);
   g_task_set_source_tag (task, photos_share_point_email_share_async);
@@ -170,11 +165,6 @@ photos_share_point_email_share_async (PhotosSharePoint *share_point,
                                       cancellable,
                                       photos_share_point_email_share_save_to_dir,
                                       g_object_ref (task));
-
-  g_free (export_dir);
-  g_free (template);
-  g_object_unref (export);
-  g_object_unref (task);
 }
 
 
