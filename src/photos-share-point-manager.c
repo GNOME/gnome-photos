@@ -78,7 +78,7 @@ photos_share_point_manager_create_share_point_online (PhotosSharePointManager *s
 static void
 photos_share_point_manager_refresh_share_points (PhotosSharePointManager *self)
 {
-  GHashTable *new_share_points;
+  g_autoptr (GHashTable) new_share_points = NULL;
   GList *extensions;
   GList *l;
   guint i;
@@ -89,26 +89,27 @@ photos_share_point_manager_refresh_share_points (PhotosSharePointManager *self)
   extensions = g_io_extension_point_get_extensions (self->extension_point);
   for (l = extensions; l != NULL; l = l->next)
     {
-      GError *error;
       GIOExtension *extension = (GIOExtension *) l->data;
       GType type;
-      PhotosSharePoint *share_point;
+      g_autoptr (PhotosSharePoint) share_point = NULL;
       const gchar *id;
 
       type = g_io_extension_get_type (extension);
       if (g_type_is_a (type, G_TYPE_INITABLE))
         {
-          error = NULL;
-          share_point = PHOTOS_SHARE_POINT (g_initable_new (type, NULL, &error, NULL));
-          if (share_point == NULL)
-            {
-              const gchar *name;
+          {
+            g_autoptr (GError) error = NULL;
 
-              name = g_io_extension_get_name (extension);
-              g_debug ("Unable to initialize share point %s: %s", name, error->message);
-              g_error_free (error);
-              continue;
-            }
+            share_point = PHOTOS_SHARE_POINT (g_initable_new (type, NULL, &error, NULL));
+            if (share_point == NULL)
+              {
+                const gchar *name;
+
+                name = g_io_extension_get_name (extension);
+                g_debug ("Unable to initialize share point %s: %s", name, error->message);
+                continue;
+              }
+          }
         }
       else
         {
@@ -117,14 +118,13 @@ photos_share_point_manager_refresh_share_points (PhotosSharePointManager *self)
 
       id = photos_filterable_get_id (PHOTOS_FILTERABLE (share_point));
       g_hash_table_insert (new_share_points, g_strdup (id), g_object_ref (share_point));
-      g_object_unref (share_point);
     }
 
   n_items = g_list_model_get_n_items (G_LIST_MODEL (self->src_mngr));
   for (i = 0; i < n_items; i++)
     {
-      PhotosSharePoint *share_point = NULL;
-      PhotosSource *source;
+      g_autoptr (PhotosSharePoint) share_point = NULL;
+      g_autoptr (PhotosSource) source = NULL;
 
       source = PHOTOS_SOURCE (g_list_model_get_object (G_LIST_MODEL (self->src_mngr), i));
       share_point = photos_share_point_manager_create_share_point_online (self, source);
@@ -135,13 +135,9 @@ photos_share_point_manager_refresh_share_points (PhotosSharePointManager *self)
           id = photos_filterable_get_id (PHOTOS_FILTERABLE (share_point));
           g_hash_table_insert (new_share_points, g_strdup (id), g_object_ref (share_point));
         }
-
-      g_clear_object (&share_point);
-      g_object_unref (source);
     }
 
   photos_base_manager_process_new_objects (PHOTOS_BASE_MANAGER (self), new_share_points);
-  g_hash_table_unref (new_share_points);
 }
 
 
@@ -232,7 +228,7 @@ photos_share_point_manager_dup_singleton (void)
 gboolean
 photos_share_point_manager_can_share (PhotosSharePointManager *self, PhotosBaseItem *item)
 {
-  GList *share_points = NULL;
+  g_autolist (PhotosSharePoint) share_points = NULL;
   gboolean ret_val;
 
   g_return_val_if_fail (PHOTOS_IS_SHARE_POINT_MANAGER (self), FALSE);
@@ -240,8 +236,6 @@ photos_share_point_manager_can_share (PhotosSharePointManager *self, PhotosBaseI
 
   share_points = photos_share_point_manager_get_for_item (self, item);
   ret_val = share_points != NULL;
-
-  g_list_free_full (share_points, g_object_unref);
   return ret_val;
 }
 
@@ -265,7 +259,7 @@ photos_share_point_manager_get_for_item (PhotosSharePointManager *self, PhotosBa
   n_items = g_list_model_get_n_items (G_LIST_MODEL (self));
   for (i = 0; i < n_items; i++)
     {
-      PhotosSharePoint *share_point;
+      g_autoptr (PhotosSharePoint) share_point = NULL;
       const gchar *share_point_id;
 
       share_point = PHOTOS_SHARE_POINT (g_list_model_get_object (G_LIST_MODEL (self), i));
@@ -273,8 +267,6 @@ photos_share_point_manager_get_for_item (PhotosSharePointManager *self, PhotosBa
 
       if (g_strcmp0 (resource_urn, share_point_id) != 0)
         ret_val = g_list_prepend (ret_val, g_object_ref (share_point));
-
-      g_object_unref (share_point);
     }
 
  out:
