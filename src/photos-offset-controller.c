@@ -123,13 +123,16 @@ photos_offset_controller_reset_count_query_executed (GObject *source_object, GAs
 
     cursor = tracker_sparql_connection_query_finish (connection, res, &error);
     if (error != NULL)
-      return;
+      goto out;
   }
 
   tracker_sparql_cursor_next_async (cursor,
                                     priv->cancellable,
                                     photos_offset_controller_cursor_next,
                                     self);
+
+ out:
+  return;
 }
 
 
@@ -264,10 +267,13 @@ photos_offset_controller_increase_offset (PhotosOffsetController *self)
 
   remaining = photos_offset_controller_get_remaining (self);
   if (remaining <= 0)
-    return;
+    goto out;
 
   priv->offset += OFFSET_STEP;
   g_signal_emit (self, signals[OFFSET_CHANGED], 0, priv->offset);
+
+ out:
+  return;
 }
 
 
