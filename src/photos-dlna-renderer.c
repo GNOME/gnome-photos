@@ -248,7 +248,7 @@ photos_dlna_renderer_device_proxy_new_cb (GObject *source_object,
                                           GAsyncResult *res,
                                           gpointer user_data)
 {
-  GTask *init_task = G_TASK (user_data);
+  g_autoptr (GTask) init_task = G_TASK (user_data);
   PhotosDlnaRenderer *self;
   GError *error = NULL;
 
@@ -259,12 +259,10 @@ photos_dlna_renderer_device_proxy_new_cb (GObject *source_object,
     {
       g_warning ("%s: Unable to load the RendererDevice interface: %s", G_STRFUNC, error->message);
       g_task_return_error (init_task, error);
-      g_object_unref (init_task);
       return;
     }
 
   g_task_return_boolean (init_task, TRUE);
-  g_object_unref (init_task);
 }
 
 
@@ -276,7 +274,7 @@ photos_dlna_renderer_init_async (GAsyncInitable *initable,
                                  gpointer user_data)
 {
   PhotosDlnaRenderer *self = PHOTOS_DLNA_RENDERER (initable);
-  GTask *init_task;
+  g_autoptr (GTask) init_task = NULL;
   GError *error = NULL;
 
   init_task = g_task_new (initable, cancellable, callback, user_data);
@@ -293,7 +291,6 @@ photos_dlna_renderer_init_async (GAsyncInitable *initable,
     {
       g_warning ("%s: Unable to load the PushHost interface: %s", G_STRFUNC, error->message);
       g_task_return_error (init_task, error);
-      g_object_unref (init_task);
       return;
     }
 
@@ -308,7 +305,6 @@ photos_dlna_renderer_init_async (GAsyncInitable *initable,
     {
       g_warning ("%s: Unable to load the Player interface: %s", G_STRFUNC, error->message);
       g_task_return_error (init_task, error);
-      g_object_unref (init_task);
       return;
     }
 
@@ -318,7 +314,7 @@ photos_dlna_renderer_init_async (GAsyncInitable *initable,
                                             self->object_path,
                                             cancellable,
                                             photos_dlna_renderer_device_proxy_new_cb,
-                                            init_task);
+                                            g_object_ref (init_task));
 }
 
 
@@ -326,13 +322,12 @@ PhotosDlnaRenderer*
 photos_dlna_renderer_new_for_bus_finish (GAsyncResult *result,
                                          GError **error)
 {
-  GObject *object, *source_object;
+  GObject *object;
+  g_autoptr (GObject) source_object = NULL;
   GError *err = NULL;
 
   source_object = g_async_result_get_source_object (result);
   object = g_async_initable_new_finish (G_ASYNC_INITABLE (source_object), result, &err);
-  g_object_unref (source_object);
-
   if (err != NULL)
     {
       g_clear_object (&object);
@@ -363,7 +358,7 @@ photos_dlna_renderer_share_play_cb (GObject *source_object,
                                     GAsyncResult *res,
                                     gpointer user_data)
 {
-  GTask *task = G_TASK (user_data);
+  g_autoptr (GTask) task = G_TASK (user_data);
   PhotosBaseItem *item;
   GError *error = NULL;
 
@@ -372,13 +367,11 @@ photos_dlna_renderer_share_play_cb (GObject *source_object,
     {
       g_warning ("%s: Failed to call the Play method: %s", G_STRFUNC, error->message);
       g_task_return_error (task, error);
-      g_object_unref (task);
       return;
     }
 
   item = g_object_get_data (G_OBJECT (task), "item");
   g_task_return_pointer (task, g_object_ref (item), g_object_unref);
-  g_object_unref (task);
 }
 
 
@@ -387,7 +380,7 @@ photos_dlna_renderer_share_open_uri_cb (GObject *source_object,
                                         GAsyncResult *res,
                                         gpointer user_data)
 {
-  GTask *task = G_TASK (user_data);
+  g_autoptr (GTask) task = G_TASK (user_data);
   PhotosDlnaRenderer *self;
   GError *error = NULL;
 
@@ -398,7 +391,6 @@ photos_dlna_renderer_share_open_uri_cb (GObject *source_object,
     {
       g_warning ("%s: Failed to call the OpenUri method: %s", G_STRFUNC, error->message);
       g_task_return_error (task, error);
-      g_object_unref (task);
       return;
     }
 
@@ -406,7 +398,7 @@ photos_dlna_renderer_share_open_uri_cb (GObject *source_object,
   mpris_player_call_play (self->player,
                           g_task_get_cancellable (task),
                           photos_dlna_renderer_share_play_cb,
-                          task);
+                          g_object_ref (task));
 }
 
 
@@ -415,7 +407,7 @@ photos_dlna_renderer_share_host_file_cb (GObject *source_object,
                                          GAsyncResult *res,
                                          gpointer user_data)
 {
-  GTask *task = G_TASK (user_data);
+  g_autoptr (GTask) task = G_TASK (user_data);
   PhotosDlnaRenderer *self;
   PhotosBaseItem *item;
   gchar *hosted_url;
@@ -431,7 +423,6 @@ photos_dlna_renderer_share_host_file_cb (GObject *source_object,
     {
       g_warning ("%s: Failed to call the HostFile method: %s", G_STRFUNC, error->message);
       g_task_return_error (task, error);
-      g_object_unref (task);
       return;
     }
 
@@ -444,7 +435,7 @@ photos_dlna_renderer_share_host_file_cb (GObject *source_object,
   mpris_player_call_open_uri (self->player, hosted_url,
                               g_task_get_cancellable (task),
                               photos_dlna_renderer_share_open_uri_cb,
-                              task);
+                              g_object_ref (task));
 }
 
 
@@ -455,9 +446,9 @@ photos_dlna_renderer_share_download_cb (GObject *source_object,
 {
   PhotosDlnaRenderer *self;
   GError *error;
-  GFile *file = NULL;
-  GTask *task = G_TASK (user_data);
-  gchar *filename;
+  g_autoptr (GFile) file = NULL;
+  g_autoptr (GTask) task = G_TASK (user_data);
+  g_autofree gchar *filename = NULL;
 
   self = PHOTOS_DLNA_RENDERER (g_task_get_source_object (task));
 
@@ -467,7 +458,6 @@ photos_dlna_renderer_share_download_cb (GObject *source_object,
     {
       g_warning ("%s: Unable to extract the local filename for the shared item: %s", G_STRFUNC, error->message);
       g_task_return_error (task, error);
-      g_object_unref (task);
       return;
     }
 
@@ -487,9 +477,7 @@ photos_dlna_renderer_share_download_cb (GObject *source_object,
                                             filename,
                                             g_task_get_cancellable (task),
                                             photos_dlna_renderer_share_host_file_cb,
-                                            task);
-  g_free (filename);
-  g_object_unref (file);
+                                            g_object_ref (task));
 }
 
 
@@ -537,31 +525,31 @@ photos_dlna_renderer_unshare_remove_file_cb (GObject *source_object,
                                              GAsyncResult *res,
                                              gpointer user_data)
 {
-  GTask *task = G_TASK (user_data);
+  g_autoptr (GTask) task = G_TASK (user_data);
   PhotosDlnaRenderer *self = PHOTOS_DLNA_RENDERER (g_task_get_source_object (task));
   PhotosBaseItem *item;
   gboolean success = TRUE;
-  GError *error = NULL;
 
   item = g_object_get_data (G_OBJECT (task), "item");
   g_hash_table_foreach_remove (self->urls_to_item, photos_dlna_renderer_match_by_item_value, item);
   g_object_notify (G_OBJECT (self), "shared-count");
 
-  dleyna_renderer_push_host_call_remove_file_finish (DLEYNA_RENDERER_PUSH_HOST (source_object), res, &error);
-  if (error != NULL)
-    {
-      /* Assume that ignoring RemoveFile() errors is safe, since they
-       * are likely caused by the file being already removed or the
-       * DBus service having been restarted.
-       */
-      g_warning ("Failed to call the RemoveFile method: %s", error->message);
-      g_error_free (error);
-      success = FALSE;
-    }
+  {
+    g_autoptr (GError) error = NULL;
+
+    dleyna_renderer_push_host_call_remove_file_finish (DLEYNA_RENDERER_PUSH_HOST (source_object), res, &error);
+    if (error != NULL)
+      {
+        /* Assume that ignoring RemoveFile() errors is safe, since they
+         * are likely caused by the file being already removed or the
+         * DBus service having been restarted.
+         */
+        g_warning ("Failed to call the RemoveFile method: %s", error->message);
+        success = FALSE;
+      }
+  }
 
   g_task_return_boolean (task, success);
-
-  g_object_unref (task);
 }
 
 
@@ -572,9 +560,9 @@ photos_dlna_renderer_unshare_download_cb (GObject *source_object,
 {
   PhotosDlnaRenderer *self;
   GError *error;
-  GFile *file = NULL;
-  GTask *task = G_TASK (user_data);
-  gchar *filename;
+  g_autoptr (GFile) file = NULL;
+  g_autoptr (GTask) task = G_TASK (user_data);
+  g_autofree gchar *filename = NULL;
 
   self = PHOTOS_DLNA_RENDERER (g_task_get_source_object (task));
 
@@ -584,7 +572,6 @@ photos_dlna_renderer_unshare_download_cb (GObject *source_object,
     {
       g_warning ("%s: Unable to extract the local filename for the shared item: %s", G_STRFUNC, error->message);
       g_task_return_error (task, error);
-      g_object_unref (task);
       return;
     }
 
@@ -593,9 +580,7 @@ photos_dlna_renderer_unshare_download_cb (GObject *source_object,
                                               filename,
                                               g_task_get_cancellable (task),
                                               photos_dlna_renderer_unshare_remove_file_cb,
-                                              task);
-  g_free (filename);
-  g_object_unref (file);
+                                              g_object_ref (task));
 }
 
 
@@ -632,7 +617,7 @@ photos_dlna_renderer_unshare_all_unshare_cb (GObject *source_object,
                                              gpointer user_data)
 {
   PhotosDlnaRenderer *self = PHOTOS_DLNA_RENDERER (source_object);
-  GTask *task = G_TASK (user_data);
+  g_autoptr (GTask) task = G_TASK (user_data);
   guint remaining;
   GError *error = NULL;
 
@@ -648,7 +633,6 @@ photos_dlna_renderer_unshare_all_unshare_cb (GObject *source_object,
   if (remaining == 0)
     {
       g_task_return_boolean (task, TRUE);
-      g_object_unref (task);
       return;
     }
 }
@@ -659,8 +643,9 @@ photos_dlna_renderer_unshare_all (PhotosDlnaRenderer  *self,
                                   GAsyncReadyCallback callback,
                                   gpointer user_data)
 {
-  GTask *task;
-  GList *items, *item;
+  GList *item;
+  g_autoptr (GList) items = NULL;
+  g_autoptr (GTask) task = NULL;
   guint remaining;
 
   task = g_task_new (self, cancellable, callback, user_data);
@@ -672,9 +657,7 @@ photos_dlna_renderer_unshare_all (PhotosDlnaRenderer  *self,
 
   for (item = items; item != NULL; item = g_list_next (item))
     photos_dlna_renderer_unshare (self, PHOTOS_BASE_ITEM (item->data), cancellable,
-                                  photos_dlna_renderer_unshare_all_unshare_cb, task);
-
-  g_list_free (items);
+                                  photos_dlna_renderer_unshare_all_unshare_cb, g_object_ref (task));
 }
 
 
@@ -694,12 +677,12 @@ photos_dlna_renderer_device_get_icon_cb (GObject *source_object,
                                          GAsyncResult *res,
                                          gpointer user_data)
 {
-  GTask *task = G_TASK (user_data);
-  GInputStream *icon_stream;
+  g_autoptr (GTask) task = G_TASK (user_data);
+  g_autoptr (GInputStream) icon_stream = NULL;
   GdkPixbuf *pixbuf;
   GtkIconSize size;
-  GVariant *icon_variant;
-  GBytes *icon_bytes;
+  g_autoptr (GBytes) icon_bytes = NULL;
+  g_autoptr (GVariant) icon_variant = NULL;
   const gchar *icon_data;
   gint height = -1;
   gint width = -1;
@@ -716,7 +699,6 @@ photos_dlna_renderer_device_get_icon_cb (GObject *source_object,
     {
       g_warning ("%s: Failed to call the GetIcon method: %s", G_STRFUNC, error->message);
       g_task_return_error (task, error);
-      g_object_unref (task);
       return;
     }
 
@@ -724,10 +706,7 @@ photos_dlna_renderer_device_get_icon_cb (GObject *source_object,
    * array 'ay' is the byte array itself.
    */
   icon_bytes = g_variant_get_data_as_bytes (icon_variant);
-  g_variant_unref (icon_variant);
-
   icon_data = g_bytes_get_data (icon_bytes, &icon_data_size);
-  g_bytes_unref (icon_bytes);
 
   size = (GtkIconSize) GPOINTER_TO_INT (g_task_get_task_data (task));
   gtk_icon_size_lookup (size, &width, &height);
@@ -739,19 +718,14 @@ photos_dlna_renderer_device_get_icon_cb (GObject *source_object,
                                                 TRUE,
                                                 g_task_get_cancellable (task),
                                                 &error);
-  g_object_unref (icon_stream);
-
   if (error != NULL)
     {
       g_warning ("%s: Failed to parse icon data: %s", G_STRFUNC, error->message);
       g_task_return_error (task, error);
-      g_object_unref (task);
       return;
     }
 
   g_task_return_pointer (task, pixbuf, g_object_unref);
-
-  g_object_unref (task);
 }
 
 
