@@ -59,18 +59,6 @@ G_DEFINE_TYPE_WITH_CODE (PhotosDlnaRenderer, photos_dlna_renderer, G_TYPE_OBJECT
                                                 photos_dlna_renderer_async_initable_iface_init));
 
 
-#define RETURN_ON_ERROR(task, error, msg) \
-  G_STMT_START { \
-    if (error != NULL) \
-      { \
-        g_warning ("%s: %s: %s", G_STRFUNC, msg, error->message); \
-        g_task_return_error (task, error); \
-        g_object_unref (task); \
-        return; \
-      } \
-  } G_STMT_END
-
-
 static void
 photos_dlna_renderer_dispose (GObject *object)
 {
@@ -267,7 +255,13 @@ photos_dlna_renderer_device_proxy_new_cb (GObject *source_object,
   self = PHOTOS_DLNA_RENDERER (g_task_get_source_object (init_task));
 
   self->device = dleyna_renderer_device_proxy_new_for_bus_finish (res, &error);
-  RETURN_ON_ERROR (init_task, error, "Unable to load the RendererDevice interface");
+  if (error != NULL)
+    {
+      g_warning ("%s: Unable to load the RendererDevice interface: %s", G_STRFUNC, error->message);
+      g_task_return_error (init_task, error);
+      g_object_unref (init_task);
+      return;
+    }
 
   g_task_return_boolean (init_task, TRUE);
   g_object_unref (init_task);
@@ -295,7 +289,13 @@ photos_dlna_renderer_init_async (GAsyncInitable *initable,
                                                                       self->object_path,
                                                                       NULL,
                                                                       &error);
-  RETURN_ON_ERROR (init_task, error, "Unable to load the PushHost interface");
+  if (error != NULL)
+    {
+      g_warning ("%s: Unable to load the PushHost interface: %s", G_STRFUNC, error->message);
+      g_task_return_error (init_task, error);
+      g_object_unref (init_task);
+      return;
+    }
 
   self->player = mpris_player_proxy_new_for_bus_sync (self->bus_type,
                                                       G_DBUS_PROXY_FLAGS_DO_NOT_LOAD_PROPERTIES
@@ -304,7 +304,13 @@ photos_dlna_renderer_init_async (GAsyncInitable *initable,
                                                       self->object_path,
                                                       NULL,
                                                       &error);
-  RETURN_ON_ERROR (init_task, error, "Unable to load the Player interface");
+  if (error != NULL)
+    {
+      g_warning ("%s: Unable to load the Player interface: %s", G_STRFUNC, error->message);
+      g_task_return_error (init_task, error);
+      g_object_unref (init_task);
+      return;
+    }
 
   dleyna_renderer_device_proxy_new_for_bus (self->bus_type,
                                             G_DBUS_PROXY_FLAGS_NONE,
@@ -362,7 +368,13 @@ photos_dlna_renderer_share_play_cb (GObject *source_object,
   GError *error = NULL;
 
   mpris_player_call_play_finish (MPRIS_PLAYER (source_object), res, &error);
-  RETURN_ON_ERROR (task, error, "Failed to call the Play method");
+  if (error != NULL)
+    {
+      g_warning ("%s: Failed to call the Play method: %s", G_STRFUNC, error->message);
+      g_task_return_error (task, error);
+      g_object_unref (task);
+      return;
+    }
 
   item = g_object_get_data (G_OBJECT (task), "item");
   g_task_return_pointer (task, g_object_ref (item), g_object_unref);
@@ -382,7 +394,13 @@ photos_dlna_renderer_share_open_uri_cb (GObject *source_object,
   self = PHOTOS_DLNA_RENDERER (g_task_get_source_object (task));
 
   mpris_player_call_open_uri_finish (MPRIS_PLAYER (source_object), res, &error);
-  RETURN_ON_ERROR (task, error, "Failed to call the OpenUri method");
+  if (error != NULL)
+    {
+      g_warning ("%s: Failed to call the OpenUri method: %s", G_STRFUNC, error->message);
+      g_task_return_error (task, error);
+      g_object_unref (task);
+      return;
+    }
 
   /* 3) Mpris.Player.Play() */
   mpris_player_call_play (self->player,
@@ -409,7 +427,13 @@ photos_dlna_renderer_share_host_file_cb (GObject *source_object,
                                                    &hosted_url,
                                                    res,
                                                    &error);
-  RETURN_ON_ERROR (task, error, "Failed to call the HostFile method");
+  if (error != NULL)
+    {
+      g_warning ("%s: Failed to call the HostFile method: %s", G_STRFUNC, error->message);
+      g_task_return_error (task, error);
+      g_object_unref (task);
+      return;
+    }
 
   item = g_object_get_data (G_OBJECT (task), "item");
   g_hash_table_replace (self->urls_to_item, hosted_url, g_object_ref (item));
@@ -439,7 +463,13 @@ photos_dlna_renderer_share_download_cb (GObject *source_object,
 
   error = NULL;
   file = photos_base_item_download_finish (PHOTOS_BASE_ITEM (source_object), res, &error);
-  RETURN_ON_ERROR (task, error, "Unable to extract the local filename for the shared item");
+  if (error != NULL)
+    {
+      g_warning ("%s: Unable to extract the local filename for the shared item: %s", G_STRFUNC, error->message);
+      g_task_return_error (task, error);
+      g_object_unref (task);
+      return;
+    }
 
   /* This will call a sequence of DBus methods to send the item to the DMR:
    * 1) DleynaRenderer.PushHost.HostFile (filename)
@@ -550,7 +580,13 @@ photos_dlna_renderer_unshare_download_cb (GObject *source_object,
 
   error = NULL;
   file = photos_base_item_download_finish (PHOTOS_BASE_ITEM (source_object), res, &error);
-  RETURN_ON_ERROR (task, error, "Unable to extract the local filename for the shared item");
+  if (error != NULL)
+    {
+      g_warning ("%s: Unable to extract the local filename for the shared item: %s", G_STRFUNC, error->message);
+      g_task_return_error (task, error);
+      g_object_unref (task);
+      return;
+    }
 
   filename = g_file_get_path (file);
   dleyna_renderer_push_host_call_remove_file (self->push_host,
@@ -676,7 +712,13 @@ photos_dlna_renderer_device_get_icon_cb (GObject *source_object,
    */
   dleyna_renderer_device_call_get_icon_finish (DLEYNA_RENDERER_DEVICE (source_object),
                                                &icon_variant, NULL, res, &error);
-  RETURN_ON_ERROR (task, error, "Failed to call the GetIcon method");
+  if (error != NULL)
+    {
+      g_warning ("%s: Failed to call the GetIcon method: %s", G_STRFUNC, error->message);
+      g_task_return_error (task, error);
+      g_object_unref (task);
+      return;
+    }
 
   /* We know that the serialization of variant containing just a byte
    * array 'ay' is the byte array itself.
@@ -699,7 +741,14 @@ photos_dlna_renderer_device_get_icon_cb (GObject *source_object,
                                                 &error);
   g_object_unref (icon_stream);
 
-  RETURN_ON_ERROR (task, error, "Failed to parse icon data");
+  if (error != NULL)
+    {
+      g_warning ("%s: Failed to parse icon data: %s", G_STRFUNC, error->message);
+      g_task_return_error (task, error);
+      g_object_unref (task);
+      return;
+    }
+
   g_task_return_pointer (task, pixbuf, g_object_unref);
 
   g_object_unref (task);
