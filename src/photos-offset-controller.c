@@ -69,22 +69,24 @@ photos_offset_controller_cursor_next (GObject *source_object, GAsyncResult *res,
 {
   PhotosOffsetController *self;
   PhotosOffsetControllerPrivate *priv;
-  GError *error;
   TrackerSparqlCursor *cursor = TRACKER_SPARQL_CURSOR (source_object);
   gboolean success;
 
-  error = NULL;
-  /* Note that tracker_sparql_cursor_next_finish can return FALSE even without
-   * an error
-   */
-  success = tracker_sparql_cursor_next_finish (cursor, res, &error);
-  if (error != NULL)
-    {
-      if (!g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
-        g_warning ("Unable to query the item count: %s", error->message);
-      g_error_free (error);
-      goto out;
-    }
+  {
+    g_autoptr (GError) error = NULL;
+
+    /* Note that tracker_sparql_cursor_next_finish can return FALSE even without
+     * an error
+     */
+    success = tracker_sparql_cursor_next_finish (cursor, res, &error);
+    if (error != NULL)
+      {
+        if (!g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
+          g_warning ("Unable to query the item count: %s", error->message);
+
+        goto out;
+      }
+  }
 
   self = PHOTOS_OFFSET_CONTROLLER (user_data);
   priv = photos_offset_controller_get_instance_private (self);
@@ -112,24 +114,22 @@ photos_offset_controller_reset_count_query_executed (GObject *source_object, GAs
   PhotosOffsetController *self = PHOTOS_OFFSET_CONTROLLER (user_data);
   PhotosOffsetControllerPrivate *priv;
   TrackerSparqlConnection *connection = TRACKER_SPARQL_CONNECTION (source_object);
-  TrackerSparqlCursor *cursor;
-  GError *error;
+  g_autoptr (TrackerSparqlCursor) cursor = NULL;
 
   priv = photos_offset_controller_get_instance_private (self);
 
-  error = NULL;
-  cursor = tracker_sparql_connection_query_finish (connection, res, &error);
-  if (error != NULL)
-    {
-      g_error_free (error);
+  {
+    g_autoptr (GError) error = NULL;
+
+    cursor = tracker_sparql_connection_query_finish (connection, res, &error);
+    if (error != NULL)
       return;
-    }
+  }
 
   tracker_sparql_cursor_next_async (cursor,
                                     priv->cancellable,
                                     photos_offset_controller_cursor_next,
                                     self);
-  g_object_unref (cursor);
 }
 
 
@@ -275,9 +275,9 @@ void
 photos_offset_controller_reset_count (PhotosOffsetController *self)
 {
   PhotosOffsetControllerPrivate *priv;
-  PhotosQuery *query = NULL;
+  g_autoptr (PhotosQuery) query = NULL;
   const gchar *type_name;
-  gchar *tag = NULL;
+  g_autofree gchar *tag = NULL;
 
   priv = photos_offset_controller_get_instance_private (self);
 
@@ -299,8 +299,7 @@ photos_offset_controller_reset_count (PhotosOffsetController *self)
                                g_object_unref);
 
  out:
-  g_clear_object (&query);
-  g_free (tag);
+  return;
 }
 
 
