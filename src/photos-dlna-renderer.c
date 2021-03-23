@@ -682,10 +682,8 @@ photos_dlna_renderer_device_get_icon_cb (GObject *source_object,
   GtkIconSize size;
   g_autoptr (GBytes) icon_bytes = NULL;
   g_autoptr (GVariant) icon_variant = NULL;
-  const gchar *icon_data;
   gint height = -1;
   gint width = -1;
-  gsize icon_data_size;
   GError *error = NULL;
 
   /* The icon data is forced to be a GVariant since the GDBus bindings
@@ -705,12 +703,11 @@ photos_dlna_renderer_device_get_icon_cb (GObject *source_object,
    * array 'ay' is the byte array itself.
    */
   icon_bytes = g_variant_get_data_as_bytes (icon_variant);
-  icon_data = g_bytes_get_data (icon_bytes, &icon_data_size);
 
   size = (GtkIconSize) GPOINTER_TO_INT (g_task_get_task_data (task));
   gtk_icon_size_lookup (size, &width, &height);
 
-  icon_stream = g_memory_input_stream_new_from_data (icon_data, icon_data_size, NULL);
+  icon_stream = g_memory_input_stream_new_from_bytes (icon_bytes);
   pixbuf = gdk_pixbuf_new_from_stream_at_scale (icon_stream,
                                                 width,
                                                 height,
