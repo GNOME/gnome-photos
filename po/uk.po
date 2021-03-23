@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-photos/issues\n"
-"POT-Creation-Date: 2021-02-15 19:24+0000\n"
-"PO-Revision-Date: 2021-02-15 22:30+0200\n"
+"POT-Creation-Date: 2021-03-18 22:08+0000\n"
+"PO-Revision-Date: 2021-03-23 19:59+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
 "Language: uk\n"
@@ -19,8 +19,8 @@ msgstr ""
 "X-Project-Style: gnome\n"
 
 #: data/org.gnome.Photos.appdata.xml.in:7 data/org.gnome.Photos.desktop.in.in:3
-#: src/photos-application.c:3061 src/photos-embed.c:823
-#: src/photos-main-window.c:437 src/photos-search-type-manager.c:144
+#: src/photos-application.c:3030 src/photos-embed.c:823
+#: src/photos-main-window.c:437 src/photos-search-type-manager.c:101
 msgid "Photos"
 msgstr "Світлини"
 
@@ -120,11 +120,11 @@ msgstr "Вікно розгорнуто"
 msgid "Window maximized state"
 msgstr "Стан розгорнутого вікна"
 
-#: src/photos-application.c:166
+#: src/photos-application.c:168
 msgid "Show the empty state"
 msgstr "Показувати порожній стан"
 
-#: src/photos-application.c:167
+#: src/photos-application.c:169
 msgid "Show the application's version"
 msgstr "Показати версію програми"
 
@@ -137,25 +137,25 @@ msgstr "Показати версію програми"
 #. Translators: this is the name of the default album that will be
 #. * created for imported photos.
 #.
-#: src/photos-application.c:1396 src/photos-export-dialog.c:195
+#: src/photos-application.c:1313 src/photos-export-dialog.c:195
 #: src/photos-import-dialog.c:134
 msgid "%-d %B %Y"
 msgstr "%-d %B %Y"
 
-#: src/photos-base-item.c:1037
+#: src/photos-base-item.c:1036
 msgid "Album"
 msgstr "Альбом"
 
-#: src/photos-base-item.c:2833
+#: src/photos-base-item.c:2857
 msgid "Screenshots"
 msgstr "Знімки екрана"
 
-#: src/photos-delete-notification.c:136
+#: src/photos-delete-notification.c:156
 #, c-format
 msgid "“%s” deleted"
 msgstr "«%s» вилучено"
 
-#: src/photos-delete-notification.c:139
+#: src/photos-delete-notification.c:159
 #, c-format
 msgid "%d item deleted"
 msgid_plural "%d items deleted"
@@ -163,7 +163,7 @@ msgstr[0] "%d об'єкт вилучено"
 msgstr[1] "%d об'єкти вилучено"
 msgstr[2] "%d об'єктів вилучено"
 
-#: src/photos-delete-notification.c:146 src/photos-done-notification.c:119
+#: src/photos-delete-notification.c:166 src/photos-done-notification.c:119
 msgid "Undo"
 msgstr "Повернути"
 
@@ -180,11 +180,11 @@ msgstr "«%s» редаговано"
 msgid "Collection View"
 msgstr "Панель збірок"
 
-#: src/photos-embed.c:831 src/photos-search-type-manager.c:129
+#: src/photos-embed.c:831 src/photos-search-type-manager.c:83
 msgid "Albums"
 msgstr "Альбоми"
 
-#: src/photos-embed.c:836 src/photos-search-type-manager.c:137
+#: src/photos-embed.c:836 src/photos-search-type-manager.c:92
 msgid "Favorites"
 msgstr "Улюблене"
 
@@ -197,17 +197,14 @@ msgid "Search"
 msgstr "Пошук"
 
 #: src/photos-empty-results-box.c:116
-#| msgid "No albums found"
 msgid "No Albums Found"
 msgstr "Не знайдено жодного альбому"
 
 #: src/photos-empty-results-box.c:120
-#| msgid "Starred photos will appear here"
 msgid "Starred Photos Will Appear Here"
 msgstr "Світлини із зірками з'являтимуться тут"
 
 #: src/photos-empty-results-box.c:130
-#| msgid "No photos found"
 msgid "No Photos Found"
 msgstr "Світлин не знайдено"
 
@@ -242,7 +239,6 @@ msgid "Photos from your %s and %s will appear here."
 msgstr "Світлини з вашого %s і %s буде показано тут."
 
 #: src/photos-empty-results-box.c:200
-#| msgid "Try a different search"
 msgid "Try a different search."
 msgstr "Спробуйте інші критерії пошуку."
 
@@ -498,29 +494,29 @@ msgstr "_Додати"
 #. Translators: %s refers to an online account provider, e.g.,
 #. * "Facebook" or "Flickr".
 #.
-#: src/photos-indexing-notification.c:164
+#: src/photos-indexing-notification.c:163
 #, c-format
 msgid "Fetching photos from %s"
 msgstr "Одержання світлин з %s"
 
-#: src/photos-indexing-notification.c:167
+#: src/photos-indexing-notification.c:166
 msgid "Fetching photos from online accounts"
 msgstr "Одержання світлин з мережевих облікових записів"
 
-#: src/photos-indexing-notification.c:202
+#: src/photos-indexing-notification.c:214
 msgid "Your photos are being indexed"
 msgstr "Ваші фотографії індексуються"
 
-#: src/photos-indexing-notification.c:203
+#: src/photos-indexing-notification.c:215
 msgid "Some photos might not be available during this process"
 msgstr "Деякі фотографії можуть бути недоступними протягом цього процесу"
 
-#: src/photos-item-manager.c:824
+#: src/photos-item-manager.c:845
 #, c-format
 msgid "Oops! Unable to load “%s”"
 msgstr "Отакої! Неможливо завантажити «%s»"
 
-#: src/photos-local-item.c:239 src/photos-source-manager.c:399
+#: src/photos-local-item.c:241 src/photos-source-manager.c:399
 msgid "Local"
 msgstr "Локальне"
 
@@ -581,11 +577,14 @@ msgid "_Select"
 msgstr "_Вибрати"
 
 #: src/photos-main-window.c:458
+#| msgid ""
+#| "Copyright © 2012 – 2019 Red Hat, Inc.\n"
+#| "Copyright © 2015 – 2018 Umang Jain"
 msgid ""
-"Copyright © 2012 – 2019 Red Hat, Inc.\n"
+"Copyright © 2012 – 2021 Red Hat, Inc.\n"
 "Copyright © 2015 – 2018 Umang Jain"
 msgstr ""
-"©  Red Hat, Inc., 2012–2019\n"
+"©  Red Hat, Inc., 2012–2021\n"
 "© Umang Jain, 2015–2018"
 
 #. Translators: Put your names here
@@ -829,7 +828,7 @@ msgstr "Відкинути всі зміни"
 msgid "Devices"
 msgstr "Пристрої"
 
-#: src/photos-search-match-manager.c:155 src/photos-search-type-manager.c:121
+#: src/photos-search-match-manager.c:155 src/photos-search-type-manager.c:74
 #: src/photos-source-manager.c:396
 msgid "All"
 msgstr "Все"
@@ -856,7 +855,7 @@ msgstr "Звірити"
 #. Translators: "Type" refers to a search filter. eg., All, Albums,
 #. * Favorites and Photos.
 #.
-#: src/photos-search-type-manager.c:178
+#: src/photos-search-type-manager.c:126
 msgctxt "Search Filter"
 msgid "Type"
 msgstr "Тип"
