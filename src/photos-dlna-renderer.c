@@ -528,7 +528,6 @@ photos_dlna_renderer_unshare_remove_file_cb (GObject *source_object,
   g_autoptr (GTask) task = G_TASK (user_data);
   PhotosDlnaRenderer *self = PHOTOS_DLNA_RENDERER (g_task_get_source_object (task));
   PhotosBaseItem *item;
-  gboolean success = TRUE;
 
   item = g_object_get_data (G_OBJECT (task), "item");
   g_hash_table_foreach_remove (self->urls_to_item, photos_dlna_renderer_match_by_item_value, item);
@@ -545,11 +544,10 @@ photos_dlna_renderer_unshare_remove_file_cb (GObject *source_object,
          * DBus service having been restarted.
          */
         g_warning ("Failed to call the RemoveFile method: %s", error->message);
-        success = FALSE;
       }
   }
 
-  g_task_return_boolean (task, success);
+  g_task_return_boolean (task, TRUE);
 }
 
 
