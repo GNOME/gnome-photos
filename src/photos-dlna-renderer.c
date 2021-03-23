@@ -619,16 +619,18 @@ photos_dlna_renderer_unshare_all_unshare_cb (GObject *source_object,
   PhotosDlnaRenderer *self = PHOTOS_DLNA_RENDERER (source_object);
   g_autoptr (GTask) task = G_TASK (user_data);
   guint remaining;
-  GError *error = NULL;
 
   /* decrement the remaining count */
   remaining = GPOINTER_TO_UINT (g_task_get_task_data (task));
   g_task_set_task_data (task, GUINT_TO_POINTER (--remaining), NULL);
 
-  photos_dlna_renderer_unshare_finish (self, res, &error);
+  {
+    g_autoptr (GError) error = NULL;
 
-  if (error != NULL)
-    g_warning ("Unable to unshare item: %s", error->message);
+    photos_dlna_renderer_unshare_finish (self, res, &error);
+    if (error != NULL)
+      g_warning ("Unable to unshare item: %s", error->message);
+  }
 
   if (remaining == 0)
     {
