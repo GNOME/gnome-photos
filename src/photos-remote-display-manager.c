@@ -203,8 +203,7 @@ photos_remote_display_manager_unshare_all_cb (GObject *source_object, GAsyncResu
   {
     g_autoptr (GError) error = NULL;
 
-    photos_dlna_renderer_unshare_all_finish (renderer, res, &error);
-    if (error != NULL)
+    if (!photos_dlna_renderer_unshare_all_finish (renderer, res, &error))
       g_warning ("Error while unsharing: %s", error->message);
   }
 
