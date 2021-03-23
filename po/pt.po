@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: gnome-photos gnome-3-10\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-photos/issues\n"
 "POT-Creation-Date: 2021-03-14 18:43+0000\n"
-"PO-Revision-Date: 2021-03-23 21:59+0000\n"
+"PO-Revision-Date: 2021-03-23 22:04+0000\n"
 "Last-Translator: Hugo Carvalho <hugokarvalho@hotmail.com>\n"
 "Language-Team: Portuguese < >\n"
 "Language: pt\n"
@@ -83,7 +83,7 @@ msgstr "Imprimir fotos"
 
 #: data/org.gnome.Photos.appdata.xml.in:25
 msgid "Select favorites"
-msgstr "Selecionar os favoritos"
+msgstr "Selecionar as favoritas"
 
 #: data/org.gnome.Photos.appdata.xml.in:26
 msgid ""
@@ -195,7 +195,7 @@ msgstr "Álbuns"
 
 #: src/photos-embed.c:836 src/photos-search-type-manager.c:92
 msgid "Favorites"
-msgstr "Favoritos"
+msgstr "Favoritas"
 
 #: src/photos-embed.c:841
 msgid "Import"
@@ -568,11 +568,11 @@ msgstr "Abrir com %s"
 
 #: src/photos-main-toolbar.c:442 src/photos-selection-toolbar.c:248
 msgid "Remove from favorites"
-msgstr "Remover dos favoritos"
+msgstr "Remover das favoritas"
 
 #: src/photos-main-toolbar.c:447 src/photos-selection-toolbar.c:253
 msgid "Add to favorites"
-msgstr "Adicionar aos favoritos"
+msgstr "Adicionar às favoritas"
 
 #: src/photos-main-toolbar.c:492
 msgid "Done"
