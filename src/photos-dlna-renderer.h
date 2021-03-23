@@ -59,7 +59,7 @@ void                  photos_dlna_renderer_unshare            (PhotosDlnaRendere
                                                                GAsyncReadyCallback  callback,
                                                                gpointer             user_data);
 
-void                  photos_dlna_renderer_unshare_finish     (PhotosDlnaRenderer  *self,
+gboolean              photos_dlna_renderer_unshare_finish     (PhotosDlnaRenderer  *self,
                                                                GAsyncResult        *res,
                                                                GError             **error);
 

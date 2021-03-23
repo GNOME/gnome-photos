@@ -598,14 +598,14 @@ photos_dlna_renderer_unshare (PhotosDlnaRenderer *self,
 }
 
 
-void
+gboolean
 photos_dlna_renderer_unshare_finish (PhotosDlnaRenderer *self,
                                      GAsyncResult *res,
                                      GError **error)
 {
-  g_return_if_fail (g_task_is_valid (res, self));
+  g_return_val_if_fail (g_task_is_valid (res, self), FALSE);
 
-  g_task_propagate_boolean (G_TASK (res), error);
+  return g_task_propagate_boolean (G_TASK (res), error);
 }
 
 
@@ -625,8 +625,7 @@ photos_dlna_renderer_unshare_all_unshare_cb (GObject *source_object,
   {
     g_autoptr (GError) error = NULL;
 
-    photos_dlna_renderer_unshare_finish (self, res, &error);
-    if (error != NULL)
+    if (!photos_dlna_renderer_unshare_finish (self, res, &error))
       g_warning ("Unable to unshare item: %s", error->message);
   }
 
