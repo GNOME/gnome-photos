@@ -488,12 +488,12 @@ photos_dlna_renderer_share (PhotosDlnaRenderer *self,
                             GAsyncReadyCallback callback,
                             gpointer user_data)
 {
-  GTask *task;
+  g_autoptr (GTask) task = NULL;
 
   task = g_task_new (self, cancellable, callback, user_data);
   g_object_set_data_full (G_OBJECT (task), "item", g_object_ref (item), g_object_unref);
 
-  photos_base_item_download_async (item, cancellable, photos_dlna_renderer_share_download_cb, task);
+  photos_base_item_download_async (item, cancellable, photos_dlna_renderer_share_download_cb, g_object_ref (task));
 }
 
 
@@ -589,12 +589,15 @@ photos_dlna_renderer_unshare (PhotosDlnaRenderer *self,
                               GAsyncReadyCallback callback,
                               gpointer user_data)
 {
-  GTask *task;
+  g_autoptr (GTask) task = NULL;
 
   task = g_task_new (self, cancellable, callback, user_data);
   g_object_set_data_full (G_OBJECT (task), "item", g_object_ref (item), g_object_unref);
 
-  photos_base_item_download_async (item, cancellable, photos_dlna_renderer_unshare_download_cb, task);
+  photos_base_item_download_async (item,
+                                   cancellable,
+                                   photos_dlna_renderer_unshare_download_cb,
+                                   g_object_ref (task));
 }
 
 
@@ -749,14 +752,14 @@ photos_dlna_renderer_get_icon (PhotosDlnaRenderer *self,
                                GAsyncReadyCallback callback,
                                gpointer user_data)
 {
-  GTask *task;
+  g_autoptr (GTask) task = NULL;
 
   task = g_task_new (self, cancellable, callback, user_data);
   g_task_set_task_data (task, GINT_TO_POINTER (size), NULL);
 
   dleyna_renderer_device_call_get_icon (self->device, requested_mimetype, resolution,
                                         cancellable, photos_dlna_renderer_device_get_icon_cb,
-                                        task);
+                                        g_object_ref (task));
 }
 
 
