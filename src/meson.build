@@ -418,6 +418,35 @@ executable(
   install_rpath: photos_libdir,
 )
 
+gnome_photos_online_miner_google_sources = files(
+  'photos-online-miner.c',
+  'photos-online-miner-google.c',
+  'photos-online-miner-google-main.c',
+)
+
+deps = [
+  gio_dep,
+  gio_unix_dep,
+  glib_dep,
+  gobject_dep,
+  goa_dep,
+  libdazzle_dep,
+  libgdata_dep,
+  libgnome_photos_dep,
+  tracker_sparql_dep,
+]
+
+executable(
+  meson.project_name() + '-online-miner-google',
+  gnome_photos_online_miner_google_sources,
+  include_directories: top_inc,
+  dependencies: deps,
+  c_args: cflags,
+  install: true,
+  install_dir: photos_libexecdir,
+  install_rpath: photos_libdir,
+)
+
 gnome_photos_thumbnailer_sources = files(
   'photos-pixbuf.c',
   'photos-thumbnailer.c',
