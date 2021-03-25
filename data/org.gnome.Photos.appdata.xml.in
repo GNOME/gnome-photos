@@ -23,7 +23,8 @@
       <li>Set pictures as your desktop background</li>
       <li>Print photos</li>
       <li>Select favorites</li>
-      <li>Easily edit your pictures in the app, or send to a full featured editor for more advanced changes</li>
+      <li>Easily edit your pictures in the app, or send to a full featured
+          editor for more advanced changes</li>
     </ul>
   </description>
   <kudos>
@@ -37,7 +38,8 @@
     <release version="3.38.0" date="2020-09-23">
       <description>
         <ul>
-          <li>Add a new magic filter, Trencin, very similar to Instagram's Clarendon filter</li>
+          <li>Add a new magic filter, Trencin, very similar to Instagram's
+              Clarendon filter</li>
           <li>Switch to private instances of the Tracker 2.x daemons</li>
         </ul>
       </description>
@@ -62,7 +64,8 @@
     <release version="3.30.0" date="2018-09-06">
       <description>
         <ul>
-          <li>Delete *.gnome-photos files with XML depicting an empty GEGL graph</li>
+          <li>Delete *.gnome-photos files with XML depicting an empty GEGL
+              graph</li>
           <li>Launch Settings in a Flatpak-friendly way</li>
           <li>Port to the Meson build system</li>
           <li>Reduce memory fragmentation in ImageView</li>
