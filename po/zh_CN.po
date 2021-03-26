@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-photos/issues\n"
-"POT-Creation-Date: 2020-07-03 05:34+0000\n"
-"PO-Revision-Date: 2020-07-10 23:31-0400\n"
+"POT-Creation-Date: 2021-03-14 18:43+0000\n"
+"PO-Revision-Date: 2021-03-26 11:07-0400\n"
 "Last-Translator: Dingzhong Chen <wsxy162@gmail.com>\n"
 "Language-Team: Chinese (China) <i18n-zh@googlegroups.com>\n"
 "Language: zh_CN\n"
@@ -21,11 +21,11 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 2.3.1\n"
+"X-Generator: Poedit 2.4.2\n"
 
 #: data/org.gnome.Photos.appdata.xml.in:7 data/org.gnome.Photos.desktop.in.in:3
-#: src/photos-application.c:3040 src/photos-embed.c:825
-#: src/photos-main-window.c:437 src/photos-search-type-manager.c:144
+#: src/photos-application.c:3030 src/photos-embed.c:823
+#: src/photos-main-window.c:437 src/photos-search-type-manager.c:101
 msgid "Photos"
 msgstr "照片"
 
@@ -82,7 +82,7 @@ msgid ""
 "more advanced changes"
 msgstr "在应用中轻松地编辑，或者发送到全功能的编辑器进行更高级的修改"
 
-#: data/org.gnome.Photos.appdata.xml.in:81
+#: data/org.gnome.Photos.appdata.xml.in:89
 msgid "The GNOME Project"
 msgstr "GNOME 项目"
 
@@ -119,11 +119,11 @@ msgstr "窗口最大化"
 msgid "Window maximized state"
 msgstr "窗口最大化状态"
 
-#: src/photos-application.c:164
+#: src/photos-application.c:168
 msgid "Show the empty state"
 msgstr "显示空状态"
 
-#: src/photos-application.c:165
+#: src/photos-application.c:169
 msgid "Show the application's version"
 msgstr "显示应用程序版本"
 
@@ -136,31 +136,31 @@ msgstr "显示应用程序版本"
 #. Translators: this is the name of the default album that will be
 #. * created for imported photos.
 #.
-#: src/photos-application.c:1398 src/photos-export-dialog.c:195
+#: src/photos-application.c:1313 src/photos-export-dialog.c:195
 #: src/photos-import-dialog.c:134
 msgid "%-d %B %Y"
 msgstr "%Y 年 %-m 月 %-d 日"
 
-#: src/photos-base-item.c:1037
+#: src/photos-base-item.c:1036
 msgid "Album"
 msgstr "相册"
 
-#: src/photos-base-item.c:2845
+#: src/photos-base-item.c:2857
 msgid "Screenshots"
 msgstr "截图"
 
-#: src/photos-delete-notification.c:136
+#: src/photos-delete-notification.c:156
 #, c-format
 msgid "“%s” deleted"
 msgstr "已删除 %s"
 
-#: src/photos-delete-notification.c:139
+#: src/photos-delete-notification.c:159
 #, c-format
 msgid "%d item deleted"
 msgid_plural "%d items deleted"
 msgstr[0] "%d 项已经删除"
 
-#: src/photos-delete-notification.c:146 src/photos-done-notification.c:119
+#: src/photos-delete-notification.c:166 src/photos-done-notification.c:119
 msgid "Undo"
 msgstr "撤销"
 
@@ -173,39 +173,39 @@ msgstr "DLNA 渲染设备"
 msgid "“%s” edited"
 msgstr "%s 已被编辑"
 
-#: src/photos-embed.c:829
+#: src/photos-embed.c:828
 msgid "Collection View"
 msgstr "集锦视图"
 
-#: src/photos-embed.c:832 src/photos-search-type-manager.c:129
+#: src/photos-embed.c:831 src/photos-search-type-manager.c:83
 msgid "Albums"
 msgstr "相册"
 
-#: src/photos-embed.c:836 src/photos-search-type-manager.c:137
+#: src/photos-embed.c:836 src/photos-search-type-manager.c:92
 msgid "Favorites"
 msgstr "收藏"
 
-#: src/photos-embed.c:840
+#: src/photos-embed.c:841
 msgid "Import"
 msgstr "导入"
 
-#: src/photos-embed.c:843 src/photos-main-toolbar.c:335
+#: src/photos-embed.c:844 src/photos-main-toolbar.c:336
 msgid "Search"
 msgstr "搜索"
 
-#: src/photos-empty-results-box.c:120
-msgid "No albums found"
+#: src/photos-empty-results-box.c:116
+msgid "No Albums Found"
 msgstr "未找到相册"
 
-#: src/photos-empty-results-box.c:124
-msgid "Starred photos will appear here"
+#: src/photos-empty-results-box.c:120
+msgid "Starred Photos Will Appear Here"
 msgstr "有星标的照片将显示在此处"
 
-#: src/photos-empty-results-box.c:134
-msgid "No photos found"
+#: src/photos-empty-results-box.c:130
+msgid "No Photos Found"
 msgstr "未找到照片"
 
-#: src/photos-empty-results-box.c:163
+#: src/photos-empty-results-box.c:155
 msgid "You can create albums from the Photos view"
 msgstr "您可以从照片视图创建相册"
 
@@ -213,7 +213,7 @@ msgstr "您可以从照片视图创建相册"
 #. * the "Photos from your Online Accounts and Pictures folder
 #. * will appear here." sentence below.
 #.
-#: src/photos-empty-results-box.c:184
+#: src/photos-empty-results-box.c:176
 msgid "Online Accounts"
 msgstr "在线帐号"
 
@@ -221,7 +221,7 @@ msgstr "在线帐号"
 #. * the "Photos from your Online Accounts and Pictures folder
 #. * will appear here." sentence below.
 #.
-#: src/photos-empty-results-box.c:191
+#: src/photos-empty-results-box.c:183
 msgid "Pictures folder"
 msgstr "图片文件夹"
 
@@ -230,14 +230,14 @@ msgstr "图片文件夹"
 #. * strings due to markup, and should be translated only in the
 #. * context of this sentence.
 #.
-#: src/photos-empty-results-box.c:198
+#: src/photos-empty-results-box.c:190
 #, c-format
 msgid "Photos from your %s and %s will appear here."
 msgstr "您在 %s 和 %s 中的照片将在此处显示。"
 
-#: src/photos-empty-results-box.c:208
-msgid "Try a different search"
-msgstr "尝试不同的搜索关键字"
+#: src/photos-empty-results-box.c:200
+msgid "Try a different search."
+msgstr "尝试不同的搜索关键字。"
 
 #: src/photos-export-dialog.ui:22
 msgctxt "dialog title"
@@ -261,8 +261,8 @@ msgid "_Reduced"
 msgstr "缩减(_R)"
 
 #: src/photos-export-dialog.ui:160 src/photos-import-dialog.ui:185
-#: src/photos-main-toolbar.c:487 src/photos-main-toolbar.c:523
-#: src/photos-main-toolbar.c:634
+#: src/photos-main-toolbar.c:488 src/photos-main-toolbar.c:524
+#: src/photos-main-toolbar.c:635
 msgid "_Cancel"
 msgstr "取消(_C)"
 
@@ -489,81 +489,81 @@ msgstr "添加(_A)"
 #. Translators: %s refers to an online account provider, e.g.,
 #. * "Facebook" or "Flickr".
 #.
-#: src/photos-indexing-notification.c:164
+#: src/photos-indexing-notification.c:163
 #, c-format
 msgid "Fetching photos from %s"
 msgstr "从 %s 获取在线照片"
 
-#: src/photos-indexing-notification.c:167
+#: src/photos-indexing-notification.c:166
 msgid "Fetching photos from online accounts"
 msgstr "从在线账户获取照片"
 
-#: src/photos-indexing-notification.c:202
+#: src/photos-indexing-notification.c:214
 msgid "Your photos are being indexed"
 msgstr "正在索引您的照片"
 
-#: src/photos-indexing-notification.c:203
+#: src/photos-indexing-notification.c:215
 msgid "Some photos might not be available during this process"
 msgstr "此过程中部分照片可能无法查看"
 
-#: src/photos-item-manager.c:824
+#: src/photos-item-manager.c:845
 #, c-format
 msgid "Oops! Unable to load “%s”"
 msgstr "糟糕！无法载入“%s”"
 
-#: src/photos-local-item.c:239 src/photos-source-manager.c:399
+#: src/photos-local-item.c:241 src/photos-source-manager.c:399
 msgid "Local"
 msgstr "本地"
 
-#: src/photos-main-toolbar.c:79
+#: src/photos-main-toolbar.c:80
 msgid "Click on items to select them"
 msgstr "点击条目以选中它们"
 
-#: src/photos-main-toolbar.c:81
+#: src/photos-main-toolbar.c:82
 #, c-format
 msgid "%d selected"
 msgid_plural "%d selected"
 msgstr[0] "已选中 %d 张"
 
-#: src/photos-main-toolbar.c:169
+#: src/photos-main-toolbar.c:170
 msgid "Select items for import"
 msgstr "选择要导入的项目"
 
-#: src/photos-main-toolbar.c:173
+#: src/photos-main-toolbar.c:174
 #, c-format
 msgid "Select items for import (%u selected)"
 msgid_plural "Select items for import (%u selected)"
 msgstr[0] "选择要导入的项目（已选中 %u 项）"
 
-#: src/photos-main-toolbar.c:216
+#: src/photos-main-toolbar.c:217
 msgid "Back"
 msgstr "返回"
 
-#: src/photos-main-toolbar.c:350
+#: src/photos-main-toolbar.c:351
 msgid "Select Items"
 msgstr "选择项目"
 
 #. length == 1
 #. Translators: this is the Open action in a context menu
-#: src/photos-main-toolbar.c:410 src/photos-selection-toolbar.c:237
+#: src/photos-main-toolbar.c:411 src/photos-selection-toolbar.c:237
 #: src/photos-share-notification.c:165
 #, c-format
 msgid "Open with %s"
 msgstr "用 %s 打开"
 
-#: src/photos-main-toolbar.c:441 src/photos-selection-toolbar.c:248
+#: src/photos-main-toolbar.c:442 src/photos-selection-toolbar.c:248
 msgid "Remove from favorites"
 msgstr "从收藏移除"
 
-#: src/photos-main-toolbar.c:446 src/photos-selection-toolbar.c:253
+#: src/photos-main-toolbar.c:447 src/photos-selection-toolbar.c:253
 msgid "Add to favorites"
 msgstr "添加到收藏"
 
-#: src/photos-main-toolbar.c:491
+#: src/photos-main-toolbar.c:492
 msgid "Done"
 msgstr "完成"
 
-#: src/photos-main-toolbar.c:527
+#: src/photos-main-toolbar.c:528
 msgid "_Select"
 msgstr "选择(_S)"
 
@@ -819,7 +819,7 @@ msgstr "放弃所有编辑"
 msgid "Devices"
 msgstr "设备"
 
-#: src/photos-search-match-manager.c:155 src/photos-search-type-manager.c:121
+#: src/photos-search-match-manager.c:155 src/photos-search-type-manager.c:74
 #: src/photos-source-manager.c:396
 msgid "All"
 msgstr "全部"
@@ -846,7 +846,7 @@ msgstr "匹配"
 #. Translators: "Type" refers to a search filter. eg., All, Albums,
 #. * Favorites and Photos.
 #.
-#: src/photos-search-type-manager.c:178
+#: src/photos-search-type-manager.c:126
 msgctxt "Search Filter"
 msgid "Type"
 msgstr "类型"
