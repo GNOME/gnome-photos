@@ -73,6 +73,8 @@ static GtkTreeIter *
 photos_organize_collection_model_find_collection_iter (PhotosOrganizeCollectionModel *self,
                                                        PhotosBaseItem *collection)
 {
+  GtkTreeIter *ret_val = NULL;
+
   gtk_tree_model_foreach (GTK_TREE_MODEL (self), photos_organize_collection_model_foreach, collection);
   if (self->coll_path != NULL)
     {
@@ -80,10 +82,12 @@ photos_organize_collection_model_find_collection_iter (PhotosOrganizeCollectionM
 
       gtk_tree_model_get_iter (GTK_TREE_MODEL (self), &iter, self->coll_path);
       g_clear_pointer (&self->coll_path, gtk_tree_path_free);
-      return gtk_tree_iter_copy (&iter);
+      ret_val = gtk_tree_iter_copy (&iter);
+      goto out;
     }
 
-  return NULL;
+ out:
+  return ret_val;
 }
 
 
@@ -155,9 +159,12 @@ photos_organize_collection_model_object_removed (PhotosBaseManager *manager, GOb
 
   iter = photos_organize_collection_model_find_collection_iter (self, PHOTOS_BASE_ITEM (object));
   if (iter == NULL)
-    return;
+    goto out;
 
   gtk_list_store_remove (GTK_LIST_STORE (self), iter);
+
+ out:
+  return;
 }
 
 
@@ -286,11 +293,14 @@ photos_organize_collection_model_remove_placeholder (PhotosOrganizeCollectionMod
   g_autoptr (GtkTreePath) placeholder_path = NULL;
 
   if (self->placeholder_ref == NULL)
-    return;
+    goto out;
 
   placeholder_path = gtk_tree_row_reference_get_path (self->placeholder_ref);
   if (gtk_tree_model_get_iter (GTK_TREE_MODEL (self), &placeholder_iter, placeholder_path))
     gtk_list_store_remove (GTK_LIST_STORE (self), &placeholder_iter);
 
   g_clear_pointer (&self->placeholder_ref, gtk_tree_row_reference_free);
+
+ out:
+  return;
 }
