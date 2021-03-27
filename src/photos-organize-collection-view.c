@@ -81,7 +81,9 @@ photos_organize_collection_view_check_cell (GtkTreeViewColumn *tree_column,
 
 
 static void
-photos_organize_collection_view_set_collection_executed (GObject *source_object, GAsyncResult *res, gpointer user_data)
+photos_organize_collection_view_set_collection_executed (GObject *source_object,
+                                                         GAsyncResult *res,
+                                                         gpointer user_data)
 {
   PhotosOrganizeCollectionView *self;
   PhotosSetCollectionJob *job = PHOTOS_SET_COLLECTION_JOB (source_object);
@@ -139,14 +141,16 @@ photos_organize_collection_view_check_toggled (PhotosOrganizeCollectionView *sel
 
 
 static void
-photos_organize_collection_view_create_collection_executed (GObject *source_object, GAsyncResult *res, gpointer user_data)
+photos_organize_collection_view_create_collection_executed (GObject *source_object,
+                                                            GAsyncResult *res,
+                                                            gpointer user_data)
 {
   PhotosOrganizeCollectionView *self;
-  PhotosCreateCollectionJob *col_job = PHOTOS_CREATE_COLLECTION_JOB (source_object);
   GApplication *app;
   GList *urns;
   GtkTreeIter iter;
   g_autoptr (GtkTreePath) path = NULL;
+  PhotosCreateCollectionJob *col_job = PHOTOS_CREATE_COLLECTION_JOB (source_object);
   PhotosSearchContextState *state;
   g_autoptr (PhotosSetCollectionJob) set_job = NULL;
   g_autofree gchar *created_urn = NULL;
@@ -244,7 +248,7 @@ photos_organize_collection_view_text_edited_real (PhotosOrganizeCollectionView *
     {
       /* Don't insert collections with empty names. */
       photos_organize_collection_model_remove_placeholder (PHOTOS_ORGANIZE_COLLECTION_MODEL (self->model));
-      return;
+      goto out;
     }
 
   gtk_tree_model_get_iter (GTK_TREE_MODEL (self->model), &iter, path);
@@ -255,6 +259,9 @@ photos_organize_collection_view_text_edited_real (PhotosOrganizeCollectionView *
                                     self->cancellable,
                                     photos_organize_collection_view_create_collection_executed,
                                     self);
+
+ out:
+  return;
 }
 
 
