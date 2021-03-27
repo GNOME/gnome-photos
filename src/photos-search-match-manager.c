@@ -54,10 +54,10 @@ photos_search_match_manager_get_filter (PhotosBaseManager *mngr, gint flags)
 {
   PhotosSearchMatchManager *self = PHOTOS_SEARCH_MATCH_MANAGER (mngr);
   const gchar *blank = "(true)";
-  gchar *filter = NULL;
+  g_autofree gchar *filter = NULL;
   gchar *ret_val = NULL;
-  gchar **filters = NULL;
-  gchar **terms = NULL;
+  g_auto (GStrv) filters = NULL;
+  g_auto (GStrv) terms = NULL;
   guint i;
   guint n_terms;
 
@@ -73,7 +73,7 @@ photos_search_match_manager_get_filter (PhotosBaseManager *mngr, gint flags)
 
   for (i = 0; terms[i] != NULL; i++)
     {
-      PhotosSearchMatch *search_match;
+      PhotosSearchMatch *active_search_match;
       const gchar *id;
       guint j;
       guint n_items;
@@ -81,29 +81,26 @@ photos_search_match_manager_get_filter (PhotosBaseManager *mngr, gint flags)
       n_items = g_list_model_get_n_items (G_LIST_MODEL (self));
       for (j = 0; j < n_items; j++)
         {
+          g_autoptr (PhotosSearchMatch) search_match = NULL;
+
           search_match = PHOTOS_SEARCH_MATCH (g_list_model_get_object (G_LIST_MODEL (self), j));
           photos_search_match_set_filter_term (search_match, terms[i]);
-          g_object_unref (search_match);
         }
 
-      search_match = PHOTOS_SEARCH_MATCH (photos_base_manager_get_active_object (PHOTOS_BASE_MANAGER (self)));
-      id = photos_filterable_get_id (PHOTOS_FILTERABLE (search_match));
+      active_search_match = PHOTOS_SEARCH_MATCH (photos_base_manager_get_active_object (PHOTOS_BASE_MANAGER (self)));
+      id = photos_filterable_get_id (PHOTOS_FILTERABLE (active_search_match));
       if (g_strcmp0 (id, PHOTOS_SEARCH_MATCH_STOCK_ALL) == 0)
         filter = photos_base_manager_get_all_filter (PHOTOS_BASE_MANAGER (self));
       else
-        filter = photos_filterable_get_filter (PHOTOS_FILTERABLE (search_match));
+        filter = photos_filterable_get_filter (PHOTOS_FILTERABLE (active_search_match));
 
-      filters[i] = filter;
-      filter = NULL;
+      filters[i] = g_steal_pointer (&filter);
     }
 
   filter = g_strjoinv (" && ", filters);
   ret_val = g_strconcat ("(", filter, ")", NULL);
 
  out:
-  g_free (filter);
-  g_strfreev (filters);
-  g_strfreev (terms);
   return (ret_val == NULL) ? g_strdup (blank) : ret_val;
 }
 
@@ -172,13 +169,12 @@ photos_search_match_manager_init (PhotosSearchMatchManager *self)
 
   for (i = 0; i < G_N_ELEMENTS (search_matches); i++)
     {
-      PhotosSearchMatch *search_match = NULL;
+      g_autoptr (PhotosSearchMatch) search_match = NULL;
       const gchar *name;
 
       name = g_dpgettext2 (NULL, "Search Filter", search_matches[i].name);
       search_match = photos_search_match_new (search_matches[i].id, name, search_matches[i].filter);
       photos_base_manager_add_object (PHOTOS_BASE_MANAGER (self), G_OBJECT (search_match));
-      g_object_unref (search_match);
     }
 
   photos_base_manager_set_active_object_by_id (PHOTOS_BASE_MANAGER (self), PHOTOS_SEARCH_MATCH_STOCK_ALL);
