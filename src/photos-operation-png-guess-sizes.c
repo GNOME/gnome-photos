@@ -71,7 +71,7 @@ photos_operation_png_guess_sizes_count (GeglBuffer *buffer,
   const Babl *format_buffer;
   gsize ret_val = 0;
   gsize size;
-  guchar *pixels = NULL;
+  g_autofree guchar *pixels = NULL;
   png_infop info_ptr = NULL;
   png_structp png_ptr = NULL;
 
@@ -182,7 +182,6 @@ photos_operation_png_guess_sizes_count (GeglBuffer *buffer,
   ret_val = size;
 
  out:
-  g_free (pixels);
   png_destroy_write_struct (&png_ptr, &info_ptr);
   return ret_val;
 }
