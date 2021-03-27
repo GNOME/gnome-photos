@@ -119,7 +119,7 @@ photos_organize_collection_view_check_toggled (PhotosOrganizeCollectionView *sel
   GApplication *app;
   GList *urns;
   GtkTreeIter iter;
-  GtkTreePath *tree_path;
+  g_autoptr (GtkTreePath) tree_path = NULL;
   PhotosSearchContextState *state;
   PhotosSetCollectionJob *job;
   gboolean active;
