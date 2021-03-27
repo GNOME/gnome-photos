@@ -54,7 +54,7 @@ photos_organize_collection_model_foreach (GtkTreeModel *model,
   PhotosOrganizeCollectionModel *self = PHOTOS_ORGANIZE_COLLECTION_MODEL (model);
   PhotosBaseItem *collection = PHOTOS_BASE_ITEM (user_data);
   gboolean ret_val = FALSE;
-  gchar *id;
+  g_autofree gchar *id = NULL;
 
   gtk_tree_model_get (GTK_TREE_MODEL (self), iter, PHOTOS_ORGANIZE_MODEL_ID, &id, -1);
   if (g_strcmp0 (photos_filterable_get_id (PHOTOS_FILTERABLE (collection)), id) == 0)
@@ -65,7 +65,6 @@ photos_organize_collection_model_foreach (GtkTreeModel *model,
     }
 
  out:
-  g_free (id);
   return ret_val;
 }
 
@@ -91,7 +90,7 @@ photos_organize_collection_model_find_collection_iter (PhotosOrganizeCollectionM
 static void
 photos_organize_collection_model_fetch_collection_state_executed (GHashTable *collection_state, gpointer user_data)
 {
-  PhotosOrganizeCollectionModel *self = PHOTOS_ORGANIZE_COLLECTION_MODEL (user_data);
+  g_autoptr (PhotosOrganizeCollectionModel) self = PHOTOS_ORGANIZE_COLLECTION_MODEL (user_data);
   GHashTableIter collection_state_iter;
   const gchar *idx;
   gpointer value;
@@ -101,7 +100,7 @@ photos_organize_collection_model_fetch_collection_state_executed (GHashTable *co
   g_hash_table_iter_init (&collection_state_iter, collection_state);
   while (g_hash_table_iter_next (&collection_state_iter, (gpointer) &idx, (gpointer) &value))
     {
-      GtkTreeIter *iter;
+      g_autoptr (GtkTreeIter) iter = NULL;
       PhotosBaseItem *collection;
       gint state = GPOINTER_TO_INT (value);
 
@@ -124,10 +123,7 @@ photos_organize_collection_model_fetch_collection_state_executed (GHashTable *co
                           PHOTOS_ORGANIZE_MODEL_NAME, photos_base_item_get_name (collection),
                           PHOTOS_ORGANIZE_MODEL_STATE, state,
                           -1);
-      gtk_tree_iter_free (iter);
     }
-
-  g_object_unref (self);
 }
 
 
@@ -155,14 +151,13 @@ static void
 photos_organize_collection_model_object_removed (PhotosBaseManager *manager, GObject *object, gpointer user_data)
 {
   PhotosOrganizeCollectionModel *self = PHOTOS_ORGANIZE_COLLECTION_MODEL (user_data);
-  GtkTreeIter *iter;
+  g_autoptr (GtkTreeIter) iter = NULL;
 
   iter = photos_organize_collection_model_find_collection_iter (self, PHOTOS_BASE_ITEM (object));
   if (iter == NULL)
     return;
 
   gtk_list_store_remove (GTK_LIST_STORE (self), iter);
-  gtk_tree_iter_free (iter);
 }
 
 
@@ -291,7 +286,7 @@ void
 photos_organize_collection_model_remove_placeholder (PhotosOrganizeCollectionModel *self)
 {
   GtkTreeIter placeholder_iter;
-  GtkTreePath *placeholder_path;
+  g_autoptr (GtkTreePath) placeholder_path = NULL;
 
   if (self->placeholder_ref == NULL)
     return;
@@ -300,7 +295,6 @@ photos_organize_collection_model_remove_placeholder (PhotosOrganizeCollectionMod
   if (gtk_tree_model_get_iter (GTK_TREE_MODEL (self), &placeholder_iter, placeholder_path))
     gtk_list_store_remove (GTK_LIST_STORE (self), &placeholder_iter);
 
-  gtk_tree_path_free (placeholder_path);
   gtk_tree_row_reference_free (self->placeholder_ref);
   self->placeholder_ref = NULL;
 }
