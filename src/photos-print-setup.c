@@ -701,7 +701,7 @@ photos_print_setup_wrap_in_frame (const gchar *label, GtkWidget *child)
 {
   GtkWidget *frame;
   GtkWidget *label_widget;
-  gchar *bold_text;
+  g_autofree gchar *bold_text = NULL;
 
   label_widget = gtk_label_new ("");
   gtk_label_set_xalign (GTK_LABEL (label_widget), 0.0);
@@ -709,7 +709,6 @@ photos_print_setup_wrap_in_frame (const gchar *label, GtkWidget *child)
 
   bold_text = g_markup_printf_escaped ("<b>%s</b>", label);
   gtk_label_set_markup (GTK_LABEL (label_widget), bold_text);
-  g_free (bold_text);
 
   frame = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
   gtk_box_pack_start (GTK_BOX (frame), label_widget, FALSE, FALSE, 0);
@@ -838,15 +837,12 @@ photos_print_setup_set_property (GObject *object, guint prop_id, const GValue *v
     {
     case PROP_NODE:
       {
-        GdkPixbuf *pixbuf;
+        g_autoptr (GdkPixbuf) pixbuf = NULL;
 
         self->node = GEGL_NODE (g_value_dup_object (value));
         pixbuf = photos_gegl_create_pixbuf_from_node (self->node);
         if (pixbuf != NULL)
-          {
-            g_object_set (self->preview, "pixbuf", pixbuf, NULL);
-            g_object_unref (pixbuf);
-          }
+          g_object_set (self->preview, "pixbuf", pixbuf, NULL);
       }
       break;
 
