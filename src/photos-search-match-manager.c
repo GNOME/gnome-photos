@@ -140,36 +140,46 @@ photos_search_match_manager_set_property (GObject *object, guint prop_id, const 
 static void
 photos_search_match_manager_init (PhotosSearchMatchManager *self)
 {
-  PhotosSearchMatch *search_match;
-  const gchar *author_filter;
-  const gchar *title_filter;
+  const struct
+  {
+    const gchar *id;
+    const gchar *name;
+    const gchar *filter;
+  } search_matches[] =
+  {
+    {
+      PHOTOS_SEARCH_MATCH_STOCK_ALL,
+      N_("All"),
+      "(false)" /* unused */
+    },
+    {
+      PHOTOS_SEARCH_MATCH_STOCK_TITLE,
+      /* Translators: "Title" refers to "Match Title" when searching. */
+      NC_("Search Filter", "Title"),
+      "fn:contains (tracker:case-fold (tracker:coalesce (nie:title (?urn), nfo:fileName(?file))), \"%s\")"
+    },
+    {
+      PHOTOS_SEARCH_MATCH_STOCK_AUTHOR,
+      /* Translators: "Author" refers to "Match Author" when searching. */
+      NC_("Search Filter", "Author"),
+      "fn:contains ("
+      "  tracker:case-fold (tracker:coalesce (nco:fullname (?creator), nco:fullname(?publisher))),"
+      "  \"%s\")"
+    }
+  };
 
-  author_filter = "fn:contains ("
-                  "  tracker:case-fold (tracker:coalesce (nco:fullname (?creator), nco:fullname(?publisher))),"
-                  "  \"%s\")";
-  title_filter = "fn:contains ("
-                 "  tracker:case-fold (tracker:coalesce (nie:title (?urn), nfo:fileName(?file))),"
-                 "  \"%s\")";
+  guint i;
 
-  search_match = photos_search_match_new (PHOTOS_SEARCH_MATCH_STOCK_ALL,
-                                          _("All"),
-                                          "(false)"); /* unused */
-  photos_base_manager_add_object (PHOTOS_BASE_MANAGER (self), G_OBJECT (search_match));
-  g_object_unref (search_match);
+  for (i = 0; i < G_N_ELEMENTS (search_matches); i++)
+    {
+      PhotosSearchMatch *search_match = NULL;
+      const gchar *name;
 
-  search_match = photos_search_match_new (PHOTOS_SEARCH_MATCH_STOCK_TITLE,
-                                          /* Translators: "Title" refers to "Match Title" when searching. */
-                                          C_("Search Filter", "Title"),
-                                          title_filter);
-  photos_base_manager_add_object (PHOTOS_BASE_MANAGER (self), G_OBJECT (search_match));
-  g_object_unref (search_match);
-
-  search_match = photos_search_match_new (PHOTOS_SEARCH_MATCH_STOCK_AUTHOR,
-                                          /* Translators: "Author" refers to "Match Author" when searching. */
-                                          C_("Search Filter", "Author"),
-                                          author_filter);
-  photos_base_manager_add_object (PHOTOS_BASE_MANAGER (self), G_OBJECT (search_match));
-  g_object_unref (search_match);
+      name = g_dpgettext2 (NULL, "Search Filter", search_matches[i].name);
+      search_match = photos_search_match_new (search_matches[i].id, name, search_matches[i].filter);
+      photos_base_manager_add_object (PHOTOS_BASE_MANAGER (self), G_OBJECT (search_match));
+      g_object_unref (search_match);
+    }
 
   photos_base_manager_set_active_object_by_id (PHOTOS_BASE_MANAGER (self), PHOTOS_SEARCH_MATCH_STOCK_ALL);
 }
