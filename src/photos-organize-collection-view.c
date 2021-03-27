@@ -66,7 +66,7 @@ photos_organize_collection_view_check_cell (GtkTreeViewColumn *tree_column,
                                             GtkTreeIter *iter,
                                             gpointer user_data)
 {
-  gchar *id;
+  g_autofree gchar *id = NULL;
   gint state;
 
   gtk_tree_model_get (tree_model, iter, PHOTOS_ORGANIZE_MODEL_ID, &id, PHOTOS_ORGANIZE_MODEL_STATE, &state, -1);
@@ -77,8 +77,6 @@ photos_organize_collection_view_check_cell (GtkTreeViewColumn *tree_column,
                 "inconsistent", (state & PHOTOS_COLLECTION_STATE_INCONSISTENT) != 0,
                 NULL);
   gtk_cell_renderer_set_visible (cell_renderer, g_strcmp0 (id, PHOTOS_COLLECTION_PLACEHOLDER_ID));
-
-  g_free (id);
 }
 
 
@@ -86,23 +84,19 @@ static void
 photos_organize_collection_view_set_collection_executed (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
   PhotosOrganizeCollectionView *self;
-  GError *error;
   PhotosSetCollectionJob *job = PHOTOS_SET_COLLECTION_JOB (source_object);
 
-  error = NULL;
-  if (!photos_set_collection_job_finish (job, res, &error))
-    {
-      if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
-        {
-          g_error_free (error);
+  {
+    g_autoptr (GError) error = NULL;
+
+    if (!photos_set_collection_job_finish (job, res, &error))
+      {
+        if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
           goto out;
-        }
-      else
-        {
-          g_warning ("Unable to set collection: %s", error->message);
-          g_error_free (error);
-        }
-    }
+
+        g_warning ("Unable to set collection: %s", error->message);
+      }
+  }
 
   self = PHOTOS_ORGANIZE_COLLECTION_VIEW (user_data);
 
@@ -121,9 +115,9 @@ photos_organize_collection_view_check_toggled (PhotosOrganizeCollectionView *sel
   GtkTreeIter iter;
   g_autoptr (GtkTreePath) tree_path = NULL;
   PhotosSearchContextState *state;
-  PhotosSetCollectionJob *job;
+  g_autoptr (PhotosSetCollectionJob) job = NULL;
   gboolean active;
-  gchar *coll_urn;
+  g_autofree gchar *coll_urn = NULL;
 
   app = g_application_get_default ();
   state = photos_search_context_get_state (PHOTOS_SEARCH_CONTEXT (app));
@@ -141,9 +135,6 @@ photos_organize_collection_view_check_toggled (PhotosOrganizeCollectionView *sel
                                  self->cancellable,
                                  photos_organize_collection_view_set_collection_executed,
                                  self);
-  g_object_unref (job);
-
-  g_free (coll_urn);
 }
 
 
@@ -152,30 +143,26 @@ photos_organize_collection_view_create_collection_executed (GObject *source_obje
 {
   PhotosOrganizeCollectionView *self;
   PhotosCreateCollectionJob *col_job = PHOTOS_CREATE_COLLECTION_JOB (source_object);
-  PhotosSetCollectionJob *set_job = NULL;
   GApplication *app;
-  GError *error;
   GList *urns;
   GtkTreeIter iter;
-  GtkTreePath *path = NULL;
+  g_autoptr (GtkTreePath) path = NULL;
   PhotosSearchContextState *state;
-  gchar *created_urn = NULL;
+  g_autoptr (PhotosSetCollectionJob) set_job = NULL;
+  g_autofree gchar *created_urn = NULL;
 
-  error = NULL;
-  created_urn = photos_create_collection_job_finish (col_job, res, &error);
-  if (error != NULL)
-    {
-      if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
-        {
-          g_error_free (error);
+  {
+    g_autoptr (GError) error = NULL;
+
+    created_urn = photos_create_collection_job_finish (col_job, res, &error);
+    if (error != NULL)
+      {
+        if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
           goto out;
-        }
-      else
-        {
-          g_warning ("Unable to create collection: %s", error->message);
-          g_error_free (error);
-        }
-    }
+
+        g_warning ("Unable to create collection: %s", error->message);
+      }
+  }
 
   self = PHOTOS_ORGANIZE_COLLECTION_VIEW (user_data);
 
@@ -200,9 +187,7 @@ photos_organize_collection_view_create_collection_executed (GObject *source_obje
   photos_set_collection_job_run (set_job, state, urns, NULL, NULL, NULL);
 
  out:
-  g_clear_object (&set_job);
-  g_free (created_urn);
-  gtk_tree_path_free (path);
+  return;
 }
 
 
@@ -216,7 +201,7 @@ photos_organize_collection_view_detail_cell (GtkTreeViewColumn *tree_column,
   PhotosOrganizeCollectionView *self = PHOTOS_ORGANIZE_COLLECTION_VIEW (user_data);
   GObject *object;
   const gchar *identifier = NULL;
-  gchar *id;
+  g_autofree gchar *id = NULL;
 
   gtk_tree_model_get (GTK_TREE_MODEL (self->model), iter, PHOTOS_ORGANIZE_MODEL_ID, &id, -1);
   object = photos_base_manager_get_object_by_id (self->item_mngr, id);
@@ -241,8 +226,6 @@ photos_organize_collection_view_detail_cell (GtkTreeViewColumn *tree_column,
       g_object_set (cell_renderer, "text", "", NULL);
       gtk_cell_renderer_set_visible (cell_renderer, FALSE);
     }
-
-  g_free (id);
 }
 
 
@@ -253,7 +236,7 @@ photos_organize_collection_view_text_edited_real (PhotosOrganizeCollectionView *
                                                   const gchar *new_text)
 {
   GtkTreeIter iter;
-  PhotosCreateCollectionJob *job;
+  g_autoptr (PhotosCreateCollectionJob) job = NULL;
 
   g_object_set (cell_renderer, "editable", FALSE, NULL);
 
@@ -272,21 +255,19 @@ photos_organize_collection_view_text_edited_real (PhotosOrganizeCollectionView *
                                     self->cancellable,
                                     photos_organize_collection_view_create_collection_executed,
                                     self);
-  g_object_unref (job);
 }
 
 
 static void
 photos_organize_collection_view_text_edited (PhotosOrganizeCollectionView *self, gchar *path, gchar *new_text)
 {
-  GtkTreePath *tree_path;
+  g_autoptr (GtkTreePath) tree_path = NULL;
 
   tree_path = gtk_tree_path_new_from_string (path);
   photos_organize_collection_view_text_edited_real (self,
                                                     GTK_CELL_RENDERER_TEXT (self->renderer_text),
                                                     tree_path,
                                                     new_text);
-  gtk_tree_path_free (tree_path);
 }
 
 
@@ -295,15 +276,14 @@ photos_organize_collection_view_text_editing_canceled (PhotosOrganizeCollectionV
 {
   if (self->choice_confirmed)
     {
-      GtkCellArea *cell_area;
+      g_autoptr (GtkCellArea) cell_area = NULL;
       GtkCellEditable *entry;
-      GtkTreePath *path;
+      g_autoptr (GtkTreePath) path = NULL;
 
       self->choice_confirmed = FALSE;
 
       g_object_get (self->view_col, "cell-area", &cell_area, NULL);
       entry = gtk_cell_area_get_edit_widget (cell_area);
-      g_object_unref (cell_area);
 
       path = photos_organize_collection_model_get_placeholder (PHOTOS_ORGANIZE_COLLECTION_MODEL (self->model),
                                                                FALSE);
@@ -318,8 +298,6 @@ photos_organize_collection_view_text_editing_canceled (PhotosOrganizeCollectionV
                                                             path,
                                                             text);
         }
-
-      gtk_tree_path_free (path);
     }
   else
     photos_organize_collection_model_remove_placeholder (PHOTOS_ORGANIZE_COLLECTION_MODEL (self->model));
@@ -428,7 +406,7 @@ photos_organize_collection_view_new (void)
 void
 photos_organize_collection_view_add_collection (PhotosOrganizeCollectionView *self)
 {
-  GtkTreePath *path;
+  g_autoptr (GtkTreePath) path = NULL;
 
   path = photos_organize_collection_model_add_placeholder (PHOTOS_ORGANIZE_COLLECTION_MODEL (self->model));
   if (path == NULL)
@@ -438,7 +416,7 @@ photos_organize_collection_view_add_collection (PhotosOrganizeCollectionView *se
   gtk_tree_view_set_cursor_on_cell (GTK_TREE_VIEW (self), path, self->view_col, self->renderer_text, TRUE);
 
  out:
-  gtk_tree_path_free (path);
+  return;
 }
 
 
