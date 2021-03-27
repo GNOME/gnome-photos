@@ -134,7 +134,7 @@ photos_organize_collection_model_fetch_collection_state_executed (GHashTable *co
 static void
 photos_organize_collection_model_refresh_state (PhotosOrganizeCollectionModel *self)
 {
-  PhotosFetchCollectionStateJob *job;
+  g_autoptr (PhotosFetchCollectionStateJob) job = NULL;
 
   job = photos_fetch_collection_state_job_new ();
   photos_fetch_collection_state_job_run (job,
