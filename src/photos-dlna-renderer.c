@@ -668,7 +668,7 @@ photos_dlna_renderer_unshare_all_finish (PhotosDlnaRenderer *self,
                                          GAsyncResult *res,
                                          GError **error)
 {
-  g_return_if_fail (g_task_is_valid (res, self));
+  g_return_val_if_fail (g_task_is_valid (res, self), FALSE);
 
   return g_task_propagate_boolean (G_TASK (res), error);
 }
