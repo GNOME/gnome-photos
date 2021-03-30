@@ -1129,6 +1129,7 @@ photos_application_import_single_item (GObject *source_object, GAsyncResult *res
   photos_application_import_copy_next_file (self, g_steal_pointer (&data));
 
  out:
+  g_clear_object (&cursor);
   g_application_unmark_busy (G_APPLICATION (self));
 }
 
