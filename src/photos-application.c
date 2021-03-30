@@ -679,7 +679,7 @@ photos_application_create_online_miners (PhotosApplication *self)
     {
       GIOExtension *extension = (GIOExtension *) l->data;
       PhotosApplicationCreateData *data;
-      PhotosBaseItemClass *base_item_class; /* TODO: use g_autoptr */
+      g_autoptr (PhotosBaseItemClass) base_item_class = NULL;
 
       base_item_class = PHOTOS_BASE_ITEM_CLASS (g_io_extension_ref_class (extension));
       if (base_item_class->miner_name != NULL && base_item_class->miner_object_path != NULL)
@@ -697,8 +697,6 @@ photos_application_create_online_miners (PhotosApplication *self)
                                        data);
           self->create_miners_count++;
         }
-
-      g_type_class_unref (base_item_class);
     }
 }
 
@@ -829,7 +827,7 @@ photos_application_activate_query_executed (GObject *source_object, GAsyncResult
   PhotosApplication *self = PHOTOS_APPLICATION (user_data);
   GObject *item;
   PhotosSingleItemJob *job = PHOTOS_SINGLE_ITEM_JOB (source_object);
-  TrackerSparqlCursor *cursor = NULL; /* TODO: use g_autoptr */
+  g_autoptr (TrackerSparqlCursor) cursor = NULL;
   const gchar *identifier;
 
   {
@@ -854,7 +852,6 @@ photos_application_activate_query_executed (GObject *source_object, GAsyncResult
   photos_application_activate_item (self, item);
 
  out:
-  g_clear_object (&cursor);
   g_application_release (G_APPLICATION (self));
 }
 
@@ -1098,7 +1095,7 @@ photos_application_import_single_item (GObject *source_object, GAsyncResult *res
   PhotosApplication *self = data->application;
   PhotosBaseItem *collection;
   PhotosSingleItemJob *job = PHOTOS_SINGLE_ITEM_JOB (source_object);
-  TrackerSparqlCursor *cursor = NULL; /* TODO: use g_autoptr */
+  g_autoptr (TrackerSparqlCursor) cursor = NULL;
 
   {
     g_autoptr (GError) error = NULL;
@@ -1129,7 +1126,6 @@ photos_application_import_single_item (GObject *source_object, GAsyncResult *res
   photos_application_import_copy_next_file (self, g_steal_pointer (&data));
 
  out:
-  g_clear_object (&cursor);
   g_application_unmark_busy (G_APPLICATION (self));
 }
 
