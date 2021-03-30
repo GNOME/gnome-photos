@@ -47,7 +47,6 @@ photos_camera_cache_cursor_next (GObject *source_object, GAsyncResult *res, gpoi
   g_autoptr (GTask) task = G_TASK (user_data);
   PhotosCameraCache *self;
   TrackerSparqlCursor *cursor = TRACKER_SPARQL_CURSOR (source_object);
-  GError *error;
   gboolean success;
   const gchar *manufacturer;
   const gchar *model;
@@ -56,16 +55,19 @@ photos_camera_cache_cursor_next (GObject *source_object, GAsyncResult *res, gpoi
 
   self = PHOTOS_CAMERA_CACHE (g_task_get_source_object (task));
 
-  error = NULL;
-  /* Note that tracker_sparql_cursor_next_finish can return FALSE even
-   * without an error.
-   */
-  success = tracker_sparql_cursor_next_finish (cursor, res, &error);
-  if (error != NULL)
-    {
-      g_task_return_error (task, error);
-      goto out;
-    }
+  {
+    g_autoptr (GError) error = NULL;
+
+    /* Note that tracker_sparql_cursor_next_finish can return FALSE even
+     * without an error.
+     */
+    success = tracker_sparql_cursor_next_finish (cursor, res, &error);
+    if (error != NULL)
+      {
+        g_task_return_error (task, g_steal_pointer (&error));
+        goto out;
+      }
+  }
 
   /* Note that the following SPARQL query:
    *   SELECT nfo:manufacturer (<(foo)>) nfo:model (<(foo)>) WHERE {}
@@ -106,15 +108,17 @@ photos_camera_cache_equipment_query_executed (GObject *source_object, GAsyncResu
   GTask *task = G_TASK (user_data);
   TrackerSparqlConnection *connection = TRACKER_SPARQL_CONNECTION (source_object);
   g_autoptr (TrackerSparqlCursor) cursor = NULL;
-  GError *error;
 
-  error = NULL;
-  cursor = tracker_sparql_connection_query_finish (connection, res, &error);
-  if (error != NULL)
-    {
-      g_task_return_error (task, error);
-      goto out;
-    }
+  {
+    g_autoptr (GError) error = NULL;
+
+    cursor = tracker_sparql_connection_query_finish (connection, res, &error);
+    if (error != NULL)
+      {
+        g_task_return_error (task, g_steal_pointer (&error));
+        goto out;
+      }
+  }
 
   tracker_sparql_cursor_next_async (cursor, NULL, photos_camera_cache_cursor_next, g_object_ref (task));
 
