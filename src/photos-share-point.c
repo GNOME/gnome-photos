@@ -87,6 +87,7 @@ photos_share_point_share_async (PhotosSharePoint *self,
 {
   g_return_if_fail (PHOTOS_IS_SHARE_POINT (self));
   g_return_if_fail (PHOTOS_IS_BASE_ITEM (item));
+  g_return_if_fail (cancellable == NULL || G_IS_CANCELLABLE (cancellable));
 
   PHOTOS_SHARE_POINT_GET_CLASS (self)->share_async (self, item, cancellable, callback, user_data);
 }
