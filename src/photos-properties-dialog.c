@@ -213,7 +213,7 @@ photos_properties_dialog_location_query_executed (GObject *source_object, GAsync
 {
   PhotosPropertiesDialog *self = PHOTOS_PROPERTIES_DIALOG (user_data);
   TrackerSparqlConnection *connection = TRACKER_SPARQL_CONNECTION (source_object);
-  TrackerSparqlCursor *cursor = NULL; /* TODO: use g_autoptr */
+  g_autoptr (TrackerSparqlCursor) cursor = NULL;
 
   {
     g_autoptr (GError) error = NULL;
@@ -232,7 +232,7 @@ photos_properties_dialog_location_query_executed (GObject *source_object, GAsync
                                     self);
 
  out:
-  g_clear_object (&cursor);
+  return;
 }
 
 
