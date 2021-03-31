@@ -73,7 +73,7 @@ static void
 photos_collection_icon_watcher_create_collection_icon (PhotosCollectionIconWatcher *self)
 {
   g_autoptr (GIcon) icon = NULL;
-  GList *icons = NULL;
+  g_autolist (GdkPixbuf) icons = NULL;
   GList *l;
   gint size;
 
@@ -93,8 +93,6 @@ photos_collection_icon_watcher_create_collection_icon (PhotosCollectionIconWatch
 
   if (self->collection != NULL)
     g_signal_emit (self, signals[ICON_UPDATED], 0, icon);
-
-  g_list_free_full (icons, g_object_unref);
 }
 
 
@@ -162,7 +160,7 @@ photos_collection_icon_watcher_to_query_executed (GObject *source_object, GAsync
 {
   g_autoptr (PhotosCollectionIconWatcher) self = PHOTOS_COLLECTION_ICON_WATCHER (user_data);
   PhotosSingleItemJob *job = PHOTOS_SINGLE_ITEM_JOB (source_object);
-  TrackerSparqlCursor *cursor = NULL; /* TODO: use g_autoptr */
+  g_autoptr (TrackerSparqlCursor) cursor = NULL;
 
   {
     g_autoptr (GError) error = NULL;
@@ -181,7 +179,6 @@ photos_collection_icon_watcher_to_query_executed (GObject *source_object, GAsync
     }
 
   photos_collection_icon_watcher_to_query_collector (self);
-  g_clear_object (&cursor);
 }
 
 
@@ -292,7 +289,7 @@ photos_collection_icon_watcher_query_executed (GObject *source_object, GAsyncRes
 {
   PhotosCollectionIconWatcher *self = PHOTOS_COLLECTION_ICON_WATCHER (user_data);
   TrackerSparqlConnection *connection = TRACKER_SPARQL_CONNECTION (source_object);
-  TrackerSparqlCursor *cursor = NULL; /* TODO: use g_autoptr */
+  g_autoptr (TrackerSparqlCursor) cursor = NULL;
 
   {
     g_autoptr (GError) error = NULL;
@@ -311,7 +308,7 @@ photos_collection_icon_watcher_query_executed (GObject *source_object, GAsyncRes
                                     self);
 
  out:
-  g_clear_object (&cursor);
+  return;
 }
 
 
