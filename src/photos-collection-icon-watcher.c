@@ -172,10 +172,10 @@ photos_collection_icon_watcher_to_query_executed (GObject *source_object, GAsync
 
   if (cursor != NULL && self->item_mngr != NULL)
     {
-      PhotosBaseItem *item;
+      g_autoptr (PhotosBaseItem) item = NULL;
 
       item = photos_item_manager_create_item (PHOTOS_ITEM_MANAGER (self->item_mngr), G_TYPE_NONE, cursor, TRUE);
-      self->items = g_list_prepend (self->items, item);
+      self->items = g_list_prepend (self->items, g_object_ref (item));
     }
 
   photos_collection_icon_watcher_to_query_collector (self);
