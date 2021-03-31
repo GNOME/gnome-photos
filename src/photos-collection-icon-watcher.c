@@ -245,7 +245,6 @@ photos_collection_icon_watcher_cursor_next (GObject *source_object, GAsyncResult
   PhotosCollectionIconWatcher *self;
   TrackerSparqlCursor *cursor = TRACKER_SPARQL_CURSOR (source_object);
   gboolean success;
-  gchar *urn;
 
   {
     g_autoptr (GError) error = NULL;
@@ -267,8 +266,10 @@ photos_collection_icon_watcher_cursor_next (GObject *source_object, GAsyncResult
 
   if (success)
     {
-      urn = g_strdup (tracker_sparql_cursor_get_string (cursor, 0, NULL));
-      self->urns = g_list_prepend (self->urns, urn);
+      const gchar *urn;
+
+      urn = tracker_sparql_cursor_get_string (cursor, 0, NULL);
+      self->urns = g_list_prepend (self->urns, g_strdup (urn));
 
       tracker_sparql_cursor_next_async (cursor,
                                         self->cancellable,
