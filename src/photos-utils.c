@@ -402,7 +402,7 @@ photos_utils_create_thumbnail (GFile *file,
 GVariant *
 photos_utils_create_zoom_target_value (gdouble delta, PhotosZoomEvent event)
 {
-  GEnumClass *zoom_event_class = NULL; /* TODO: use g_autoptr */
+  g_autoptr (GEnumClass) zoom_event_class = NULL;
   GEnumValue *event_value;
   GVariant *delta_value;
   GVariant *event_nick_value;
@@ -427,7 +427,6 @@ photos_utils_create_zoom_target_value (gdouble delta, PhotosZoomEvent event)
 
   ret_val = g_variant_builder_end (&builder);
 
-  g_type_class_unref (zoom_event_class);
   g_return_val_if_fail (g_variant_is_floating (ret_val), ret_val);
   return ret_val;
 }
@@ -544,7 +543,7 @@ photos_utils_get_zoom_delta (GVariant *dictionary)
 PhotosZoomEvent
 photos_utils_get_zoom_event (GVariant *dictionary)
 {
-  GEnumClass *zoom_event_class = NULL;
+  g_autoptr (GEnumClass) zoom_event_class = NULL;
   GEnumValue *event_value;
   PhotosZoomEvent ret_val = PHOTOS_ZOOM_EVENT_NONE;
   const gchar *event_str;
@@ -566,7 +565,6 @@ photos_utils_get_zoom_event (GVariant *dictionary)
   ret_val = (PhotosZoomEvent) event_value->value;
 
  out:
-  g_clear_pointer (&zoom_event_class, g_type_class_unref);
   g_return_val_if_fail (ret_val != PHOTOS_ZOOM_EVENT_NONE, PHOTOS_ZOOM_EVENT_NONE);
   return ret_val;
 }
