@@ -366,8 +366,7 @@ photos_collection_icon_watcher_dispose (GObject *object)
   if (self->item_connections != NULL)
     {
       photos_collection_icon_watcher_destroy (self);
-      g_hash_table_unref (self->item_connections);
-      self->item_connections = NULL;
+      g_clear_pointer (&self->item_connections, g_hash_table_unref);
     }
 
   g_list_free_full (self->items, g_object_unref);
