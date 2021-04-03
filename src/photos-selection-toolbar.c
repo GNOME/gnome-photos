@@ -98,7 +98,7 @@ photos_selection_toolbar_collection_clicked (GtkButton *button, gpointer user_da
 static void
 photos_selection_toolbar_delete (PhotosSelectionToolbar *self)
 {
-  GList *items = NULL;
+  g_autolist (PhotosBaseItem) items = NULL;
   GList *selection;
   GList *l;
   GVariant *new_state;
@@ -129,8 +129,6 @@ photos_selection_toolbar_delete (PhotosSelectionToolbar *self)
 
   new_state = g_variant_new ("b", FALSE);
   g_action_change_state (self->selection_mode_action, new_state);
-
-  g_list_free_full (items, g_object_unref);
 }
 
 
@@ -146,7 +144,7 @@ static void
 photos_selection_toolbar_favorite_clicked (GtkButton *button, gpointer user_data)
 {
   PhotosSelectionToolbar *self = PHOTOS_SELECTION_TOOLBAR (user_data);
-  GList *items = NULL;
+  g_autolist (PhotosBaseItem) items = NULL;
   GList *selection;
   GList *l;
   GVariant *new_state;
@@ -180,8 +178,6 @@ photos_selection_toolbar_favorite_clicked (GtkButton *button, gpointer user_data
 
   new_state = g_variant_new ("b", FALSE);
   g_action_change_state (G_ACTION (self->selection_mode_action), new_state);
-
-  g_list_free_full (items, g_object_unref);
 }
 
 
@@ -195,8 +191,8 @@ photos_selection_toolbar_set_item_visibility (PhotosSelectionToolbar *self)
   gboolean has_selection;
   gboolean enable_collection;
   gboolean enable_favorite;
-  gchar *favorite_label;
-  gchar *open_label;
+  g_autofree gchar *favorite_label = NULL;
+  g_autofree gchar *open_label = NULL;
   guint fav_count = 0;
   guint sel_length = 0;
 
@@ -240,7 +236,6 @@ photos_selection_toolbar_set_item_visibility (PhotosSelectionToolbar *self)
     open_label = g_strdup (_("Open"));
 
   gtk_button_set_label (GTK_BUTTON (self->toolbar_open), open_label);
-  g_free (open_label);
   g_list_free_full (apps, g_free);
 
   if (enable_favorite && fav_count == sel_length)
@@ -256,7 +251,6 @@ photos_selection_toolbar_set_item_visibility (PhotosSelectionToolbar *self)
 
   gtk_button_set_image (GTK_BUTTON (self->toolbar_favorite), image);
   gtk_widget_set_tooltip_text (self->toolbar_favorite, favorite_label);
-  g_free (favorite_label);
 
   gtk_widget_set_sensitive (self->toolbar_collection, enable_collection);
   gtk_widget_set_sensitive (self->toolbar_favorite, enable_favorite);
