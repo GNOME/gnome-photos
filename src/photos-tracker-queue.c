@@ -36,7 +36,7 @@ struct _PhotosTrackerQueue
   GObject parent_instance;
   GError *initialization_error;
   GQueue *queue;
-  TrackerSparqlConnection *connection;
+  TrackerSparqlConnection *connection_private;
   gboolean is_initialized;
   gboolean running;
 };
@@ -178,7 +178,7 @@ photos_tracker_queue_check (PhotosTrackerQueue *self)
   switch (data->query_type)
     {
     case PHOTOS_TRACKER_QUERY_SELECT:
-      tracker_sparql_connection_query_async (self->connection,
+      tracker_sparql_connection_query_async (self->connection_private,
                                              sparql,
                                              data->cancellable,
                                              photos_tracker_queue_collector,
@@ -186,7 +186,7 @@ photos_tracker_queue_check (PhotosTrackerQueue *self)
       break;
 
     case PHOTOS_TRACKER_QUERY_UPDATE:
-      tracker_sparql_connection_update_async (self->connection,
+      tracker_sparql_connection_update_async (self->connection_private,
                                               sparql,
                                               data->cancellable,
                                               photos_tracker_queue_collector,
@@ -194,7 +194,7 @@ photos_tracker_queue_check (PhotosTrackerQueue *self)
       break;
 
     case PHOTOS_TRACKER_QUERY_UPDATE_BLANK:
-      tracker_sparql_connection_update_blank_async (self->connection,
+      tracker_sparql_connection_update_blank_async (self->connection_private,
                                                     sparql,
                                                     data->cancellable,
                                                     photos_tracker_queue_collector,
@@ -231,7 +231,7 @@ photos_tracker_queue_dispose (GObject *object)
 {
   PhotosTrackerQueue *self = PHOTOS_TRACKER_QUEUE (object);
 
-  g_clear_object (&self->connection);
+  g_clear_object (&self->connection_private);
 
   G_OBJECT_CLASS (photos_tracker_queue_parent_class)->dispose (object);
 }
@@ -272,17 +272,17 @@ photos_tracker_queue_initable_init (GInitable *initable, GCancellable *cancellab
 {
   PhotosTrackerQueue *self = PHOTOS_TRACKER_QUEUE (initable);
   g_autoptr (GFile) ontology = NULL;
-  g_autoptr (GFile) store = NULL;
+  g_autoptr (GFile) store_private = NULL;
   TrackerSparqlConnectionFlags tracker_flags;
   gboolean ret_val = FALSE;
   const gchar *data_dir;
-  const gchar *store_path;
+  const gchar *store_private_path;
 
   G_LOCK (init_lock);
 
   if (self->is_initialized)
     {
-      if (self->connection != NULL)
+      if (self->connection_private != NULL)
         ret_val = TRUE;
       else
         g_assert_nonnull (self->initialization_error);
@@ -302,18 +302,18 @@ photos_tracker_queue_initable_init (GInitable *initable, GCancellable *cancellab
                   | TRACKER_SPARQL_CONNECTION_FLAGS_FTS_IGNORE_NUMBERS;
 
   data_dir = g_get_user_data_dir ();
-  store = g_file_new_build_filename (data_dir, PACKAGE_TARNAME, "tracker3", "private", NULL);
-  store_path = g_file_peek_path (store);
+  store_private = g_file_new_build_filename (data_dir, PACKAGE_TARNAME, "tracker3", "private", NULL);
+  store_private_path = g_file_peek_path (store_private);
 
   ontology = tracker_sparql_get_ontology_nepomuk ();
 
-  photos_debug (PHOTOS_DEBUG_TRACKER, "Opening private database at %s", store_path);
+  photos_debug (PHOTOS_DEBUG_TRACKER, "Opening private database at %s", store_private_path);
 
-  self->connection = tracker_sparql_connection_new (tracker_flags,
-                                                    store,
-                                                    ontology,
-                                                    cancellable,
-                                                    &self->initialization_error);
+  self->connection_private = tracker_sparql_connection_new (tracker_flags,
+                                                            store_private,
+                                                            ontology,
+                                                            cancellable,
+                                                            &self->initialization_error);
   if (G_UNLIKELY (self->initialization_error != NULL))
     goto out;
 
@@ -356,7 +356,7 @@ photos_tracker_queue_create_notifier (PhotosTrackerQueue *self)
 
   g_return_val_if_fail (PHOTOS_IS_TRACKER_QUEUE (self), NULL);
 
-  notifier = tracker_sparql_connection_create_notifier (self->connection);
+  notifier = tracker_sparql_connection_create_notifier (self->connection_private);
   return notifier;
 }
 
