@@ -37,6 +37,8 @@ PhotosTrackerQueue    *photos_tracker_queue_dup_singleton          (GCancellable
 
 TrackerNotifier       *photos_tracker_queue_create_notifier        (PhotosTrackerQueue *self);
 
+TrackerSparqlConnection *photos_tracker_queue_get_connection_online (PhotosTrackerQueue *self);
+
 void                   photos_tracker_queue_select                 (PhotosTrackerQueue *self,
                                                                     PhotosQuery *query,
                                                                     GCancellable *cancellable,

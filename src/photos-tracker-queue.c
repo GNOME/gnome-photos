@@ -36,6 +36,7 @@ struct _PhotosTrackerQueue
   GObject parent_instance;
   GError *initialization_error;
   GQueue *queue;
+  TrackerSparqlConnection *connection_online;
   TrackerSparqlConnection *connection_private;
   gboolean is_initialized;
   gboolean running;
@@ -231,6 +232,7 @@ photos_tracker_queue_dispose (GObject *object)
 {
   PhotosTrackerQueue *self = PHOTOS_TRACKER_QUEUE (object);
 
+  g_clear_object (&self->connection_online);
   g_clear_object (&self->connection_private);
 
   G_OBJECT_CLASS (photos_tracker_queue_parent_class)->dispose (object);
@@ -272,17 +274,20 @@ photos_tracker_queue_initable_init (GInitable *initable, GCancellable *cancellab
 {
   PhotosTrackerQueue *self = PHOTOS_TRACKER_QUEUE (initable);
   g_autoptr (GFile) ontology = NULL;
+  g_autoptr (GFile) store_online = NULL;
   g_autoptr (GFile) store_private = NULL;
   TrackerSparqlConnectionFlags tracker_flags;
   gboolean ret_val = FALSE;
+  const gchar *cache_dir;
   const gchar *data_dir;
+  const gchar *store_online_path;
   const gchar *store_private_path;
 
   G_LOCK (init_lock);
 
   if (self->is_initialized)
     {
-      if (self->connection_private != NULL)
+      if (self->connection_online != NULL && self->connection_private != NULL)
         ret_val = TRUE;
       else
         g_assert_nonnull (self->initialization_error);
@@ -303,6 +308,20 @@ photos_tracker_queue_initable_init (GInitable *initable, GCancellable *cancellab
                   | TRACKER_SPARQL_CONNECTION_FLAGS_FTS_ENABLE_UNACCENT
                   | TRACKER_SPARQL_CONNECTION_FLAGS_FTS_IGNORE_NUMBERS;
 
+  cache_dir = g_get_user_cache_dir ();
+  store_online = g_file_new_build_filename (cache_dir, PACKAGE_TARNAME, "tracker3", "online", NULL);
+  store_online_path = g_file_peek_path (store_online);
+
+  photos_debug (PHOTOS_DEBUG_TRACKER, "Opening online database at %s", store_online_path);
+
+  self->connection_online = tracker_sparql_connection_new (tracker_flags,
+                                                           store_online,
+                                                           ontology,
+                                                           cancellable,
+                                                           &self->initialization_error);
+  if (G_UNLIKELY (self->initialization_error != NULL))
+    goto out;
+
   data_dir = g_get_user_data_dir ();
   store_private = g_file_new_build_filename (data_dir, PACKAGE_TARNAME, "tracker3", "private", NULL);
   store_private_path = g_file_peek_path (store_private);
@@ -317,6 +336,7 @@ photos_tracker_queue_initable_init (GInitable *initable, GCancellable *cancellab
   if (G_UNLIKELY (self->initialization_error != NULL))
     goto out;
 
+  tracker_sparql_connection_map_connection (self->connection_private, "online", self->connection_online);
   ret_val = TRUE;
 
  out:
@@ -358,6 +378,14 @@ photos_tracker_queue_create_notifier (PhotosTrackerQueue *self)
 
   notifier = tracker_sparql_connection_create_notifier (self->connection_private);
   return notifier;
+}
+
+
+TrackerSparqlConnection *
+photos_tracker_queue_get_connection_online (PhotosTrackerQueue *self)
+{
+  g_return_val_if_fail (PHOTOS_IS_TRACKER_QUEUE (self), NULL);
+  return self->connection_online;
 }
 
 
