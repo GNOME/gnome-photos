@@ -69,12 +69,15 @@ photos_selection_toolbar_dialog_response (GtkDialog *dialog, gint response_id, g
   GVariant *new_state;
 
   if (response_id != GTK_RESPONSE_CLOSE)
-    return;
+    goto out;
 
   gtk_widget_destroy (GTK_WIDGET (dialog));
 
   new_state = g_variant_new ("b", FALSE);
   g_action_change_state (self->selection_mode_action, new_state);
+
+ out:
+  return;
 }
 
 
@@ -87,11 +90,14 @@ photos_selection_toolbar_collection_clicked (GtkButton *button, gpointer user_da
 
   toplevel = gtk_widget_get_toplevel (GTK_WIDGET (self));
   if (!gtk_widget_is_toplevel (toplevel))
-    return;
+    goto out;
 
   dialog = photos_organize_collection_dialog_new (GTK_WINDOW (toplevel));
   gtk_widget_show_all (dialog);
   g_signal_connect (dialog, "response", G_CALLBACK (photos_selection_toolbar_dialog_response), self);
+
+ out:
+  return;
 }
 
 
@@ -104,7 +110,7 @@ photos_selection_toolbar_delete (PhotosSelectionToolbar *self)
   GVariant *new_state;
 
   if (!photos_utils_get_selection_mode ())
-    return;
+    goto out;
 
   selection = photos_selection_controller_get_selection (self->sel_cntrlr);
   for (l = selection; l != NULL; l = l->next)
@@ -129,6 +135,9 @@ photos_selection_toolbar_delete (PhotosSelectionToolbar *self)
 
   new_state = g_variant_new ("b", FALSE);
   g_action_change_state (self->selection_mode_action, new_state);
+
+ out:
+  return;
 }
 
 
@@ -150,7 +159,7 @@ photos_selection_toolbar_favorite_clicked (GtkButton *button, gpointer user_data
   GVariant *new_state;
 
   if (self->inside_refresh)
-    return;
+    goto out;
 
   selection = photos_selection_controller_get_selection (self->sel_cntrlr);
   for (l = selection; l != NULL; l = l->next)
@@ -178,6 +187,9 @@ photos_selection_toolbar_favorite_clicked (GtkButton *button, gpointer user_data
 
   new_state = g_variant_new ("b", FALSE);
   g_action_change_state (G_ACTION (self->selection_mode_action), new_state);
+
+ out:
+  return;
 }
 
 
@@ -236,7 +248,6 @@ photos_selection_toolbar_set_item_visibility (PhotosSelectionToolbar *self)
     open_label = g_strdup (_("Open"));
 
   gtk_button_set_label (GTK_BUTTON (self->toolbar_open), open_label);
-  g_list_free_full (apps, g_free);
 
   if (enable_favorite && fav_count == sel_length)
     {
@@ -256,6 +267,8 @@ photos_selection_toolbar_set_item_visibility (PhotosSelectionToolbar *self)
   gtk_widget_set_sensitive (self->toolbar_favorite, enable_favorite);
 
   self->inside_refresh = FALSE;
+
+  g_list_free_full (apps, g_free);
 }
 
 
@@ -290,17 +303,20 @@ photos_selection_toolbar_selection_changed (PhotosSelectionToolbar *self)
   PhotosWindowMode mode;
 
   if (!photos_utils_get_selection_mode ())
-    return;
+    goto out;
 
   mode = photos_mode_controller_get_window_mode (self->mode_cntrlr);
   if (mode == PHOTOS_WINDOW_MODE_IMPORT)
-    return;
+    goto out;
 
   selection = photos_selection_controller_get_selection (self->sel_cntrlr);
   photos_selection_toolbar_set_item_listeners (self, selection);
 
   photos_selection_toolbar_set_item_visibility (self);
   gtk_widget_show (GTK_WIDGET (self));
+
+ out:
+  return;
 }
 
 
