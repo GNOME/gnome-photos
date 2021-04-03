@@ -292,6 +292,8 @@ photos_tracker_queue_initable_init (GInitable *initable, GCancellable *cancellab
 
   g_assert_no_error (self->initialization_error);
 
+  ontology = tracker_sparql_get_ontology_nepomuk ();
+
   /* Same flags that tracker-miner-fs uses by default. See:
    * https://gitlab.gnome.org/GNOME/tracker-miners/-/blob/master/src/miners/fs/tracker-main.c and
    * https://gitlab.gnome.org/GNOME/tracker-miners/-/blob/master/data/org.freedesktop.Tracker.FTS.gschema.xml
@@ -304,8 +306,6 @@ photos_tracker_queue_initable_init (GInitable *initable, GCancellable *cancellab
   data_dir = g_get_user_data_dir ();
   store_private = g_file_new_build_filename (data_dir, PACKAGE_TARNAME, "tracker3", "private", NULL);
   store_private_path = g_file_peek_path (store_private);
-
-  ontology = tracker_sparql_get_ontology_nepomuk ();
 
   photos_debug (PHOTOS_DEBUG_TRACKER, "Opening private database at %s", store_private_path);
 
