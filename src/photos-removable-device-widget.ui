@@ -25,7 +25,6 @@
           <object class="GtkImage" id="image">
             <property name="use-fallback">1</property>
             <property name="valign">GTK_ALIGN_CENTER</property>
-            <property name="vexpand">1</property>
           </object>
         </child>
         <child>
@@ -33,7 +32,6 @@
             <property name="ellipsize">PANGO_ELLIPSIZE_END</property>
             <property name="max-width-chars">24</property>
             <property name="valign">GTK_ALIGN_CENTER</property>
-            <property name="vexpand">1</property>
           </object>
         </child>
       </object>
