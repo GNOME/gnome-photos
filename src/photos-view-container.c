@@ -241,14 +241,13 @@ static void
 photos_view_container_selection_changed (PhotosViewContainer *self)
 {
   GList *selected_urns;
-  GList *selection;
+  g_autolist (GdMainBoxItem) selection = NULL;
 
   selection = gd_main_box_get_selection (GD_MAIN_BOX (self->view));
   selected_urns = photos_utils_get_urns_from_items (selection);
   photos_selection_controller_set_selection (self->sel_cntrlr, selected_urns);
 
   g_list_free_full (selected_urns, g_free);
-  g_list_free_full (selection, g_object_unref);
 }
 
 
