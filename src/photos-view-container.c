@@ -154,8 +154,7 @@ photos_view_container_item_activated (PhotosViewContainer *self, GdMainBoxItem *
   item = PHOTOS_BASE_ITEM (photos_base_manager_get_object_by_id (self->item_mngr, id));
   g_return_if_fail ((gpointer) box_item == (gpointer) item);
 
-  if (!photos_base_item_is_collection (item) &&
-      photos_remote_display_manager_is_active (self->remote_mngr))
+  if (!photos_base_item_is_collection (item) && photos_remote_display_manager_is_active (self->remote_mngr))
     photos_remote_display_manager_render (self->remote_mngr, item);
   else
     photos_base_manager_set_active_object (self->item_mngr, G_OBJECT (item));
@@ -205,12 +204,15 @@ photos_view_container_select_all (PhotosViewContainer *self)
 
   mode = photos_mode_controller_get_window_mode (self->mode_cntrlr);
   if (self->mode != mode)
-    return;
+    goto out;
 
   new_state = g_variant_new ("b", TRUE);
   g_action_change_state (self->selection_mode_action, new_state);
 
   gd_main_box_select_all (GD_MAIN_BOX (self->view));
+
+ out:
+  return;
 }
 
 
@@ -221,9 +223,12 @@ photos_view_container_select_none (PhotosViewContainer *self)
 
   mode = photos_mode_controller_get_window_mode (self->mode_cntrlr);
   if (self->mode != mode)
-    return;
+    goto out;
 
   gd_main_box_unselect_all (GD_MAIN_BOX (self->view));
+
+ out:
+  return;
 }
 
 
@@ -258,9 +263,12 @@ photos_view_container_set_selection_mode (PhotosViewContainer *self, gboolean se
 
   window_mode = photos_mode_controller_get_window_mode (self->mode_cntrlr);
   if (self->mode != window_mode)
-    return;
+    goto out;
 
   gd_main_box_set_selection_mode (GD_MAIN_BOX (self->view), selection_mode);
+
+ out:
+  return;
 }
 
 
