@@ -128,24 +128,25 @@ photos_dlna_renderers_dialog_set_icon_cb (GObject      *source_object,
                                           GAsyncResult *res,
                                           gpointer      user_data)
 {
-  GdkPixbuf *pixbuf = NULL;
-  GtkImage *image = GTK_IMAGE (user_data);
+  g_autoptr (GdkPixbuf) pixbuf = NULL;
+  g_autoptr (GtkImage) image = GTK_IMAGE (user_data);
   PhotosDlnaRenderer *renderer = PHOTOS_DLNA_RENDERER (source_object);
-  GError *error = NULL;
 
-  pixbuf = photos_dlna_renderer_get_icon_finish (renderer, res, &error);
-  if (error != NULL)
-    {
-      g_warning ("Unable to load renderer icon: %s", error->message);
-      g_error_free (error);
-      goto out;
-    }
+  {
+    g_autoptr (GError) error = NULL;
+
+    pixbuf = photos_dlna_renderer_get_icon_finish (renderer, res, &error);
+    if (error != NULL)
+      {
+        g_warning ("Unable to load renderer icon: %s", error->message);
+        goto out;
+      }
+  }
 
   gtk_image_set_from_pixbuf (image, pixbuf);
 
 out:
-  g_clear_object (&pixbuf);
-  g_object_unref (image);
+  return;
 }
 
 
@@ -195,7 +196,8 @@ static void
 photos_dlna_renderers_dialog_init (PhotosDlnaRenderersDialog *self)
 {
   GApplication *app;
-  GList *renderers;
+  GList *l;
+  g_autolist (PhotosDlnaRenderer) renderers = NULL;
   PhotosSearchContextState *state;
 
   app = g_application_get_default ();
@@ -211,14 +213,10 @@ photos_dlna_renderers_dialog_init (PhotosDlnaRenderersDialog *self)
   gtk_list_box_set_header_func (self->listbox, photos_utils_list_box_header_func, NULL, NULL);
 
   renderers = photos_dlna_renderers_manager_dup_renderers (self->renderers_mngr);
-
-  while (renderers != NULL)
+  for (l = renderers; l != NULL; l = l->next)
     {
-      PhotosDlnaRenderer *renderer = PHOTOS_DLNA_RENDERER (renderers->data);
-
+      PhotosDlnaRenderer *renderer = PHOTOS_DLNA_RENDERER (l->data);
       photos_dlna_renderers_dialog_add_renderer (self, renderer);
-      renderers = g_list_delete_link (renderers, renderers);
-      g_object_unref (renderer);
     }
 
   g_signal_connect (self, "response", G_CALLBACK (gtk_widget_destroy), NULL);
