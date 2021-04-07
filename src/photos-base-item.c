@@ -385,7 +385,6 @@ photos_base_item_check_effects_and_update_info (PhotosBaseItem *self)
 {
   PhotosBaseItemPrivate *priv;
   GApplication *app;
-  GIcon *pix;
   g_autolist (GIcon) emblem_icons = NULL;
   GList *windows;
   g_autoptr (GdkPixbuf) emblemed_pixbuf = NULL;
@@ -404,8 +403,10 @@ photos_base_item_check_effects_and_update_info (PhotosBaseItem *self)
 
   if (priv->favorite)
     {
+      g_autoptr (GIcon) pix = NULL;
+
       pix = photos_base_item_create_symbolic_emblem ("starred", scale);
-      emblem_icons = g_list_prepend (emblem_icons, pix);
+      emblem_icons = g_list_prepend (emblem_icons, g_object_ref (pix));
     }
 
   if (emblem_icons != NULL)
