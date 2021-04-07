@@ -128,7 +128,7 @@ photos_dlna_renderers_dialog_set_icon_cb (GObject      *source_object,
                                           GAsyncResult *res,
                                           gpointer      user_data)
 {
-  GdkPixbuf *pixbuf;
+  GdkPixbuf *pixbuf = NULL;
   GtkImage *image = GTK_IMAGE (user_data);
   PhotosDlnaRenderer *renderer = PHOTOS_DLNA_RENDERER (source_object);
   GError *error = NULL;
@@ -144,6 +144,8 @@ photos_dlna_renderers_dialog_set_icon_cb (GObject      *source_object,
   gtk_image_set_from_pixbuf (image, pixbuf);
 
 out:
+  g_clear_object (&pixbuf);
+
   /* release the ref we took before the async call */
   g_object_unref (image);
 }
