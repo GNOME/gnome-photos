@@ -386,7 +386,7 @@ photos_base_item_check_effects_and_update_info (PhotosBaseItem *self)
   PhotosBaseItemPrivate *priv;
   GApplication *app;
   GIcon *pix;
-  GList *emblem_icons = NULL;
+  g_autolist (GIcon) emblem_icons = NULL;
   GList *windows;
   g_autoptr (GdkPixbuf) emblemed_pixbuf = NULL;
   GdkWindow *window = NULL;
@@ -440,18 +440,13 @@ photos_base_item_check_effects_and_update_info (PhotosBaseItem *self)
       if (icon_info != NULL)
         {
           g_autoptr (GError) error = NULL;
-          GdkPixbuf *tmp;
+          g_autoptr (GdkPixbuf) tmp = NULL;
 
           tmp = gtk_icon_info_load_icon (icon_info, &error);
           if (error != NULL)
-            {
-              g_warning ("Unable to render the emblem: %s", error->message);
-            }
+            g_warning ("Unable to render the emblem: %s", error->message);
           else
-            {
-              g_object_unref (emblemed_pixbuf);
-              emblemed_pixbuf = tmp;
-            }
+            g_set_object (&emblemed_pixbuf, tmp);
         }
     }
 
@@ -467,7 +462,7 @@ photos_base_item_check_effects_and_update_info (PhotosBaseItem *self)
   g_signal_emit (self, signals[INFO_UPDATED], 0);
 
  out:
-  g_list_free_full (emblem_icons, g_object_unref);
+  return;
 }
 
 
