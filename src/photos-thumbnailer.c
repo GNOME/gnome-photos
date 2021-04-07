@@ -180,7 +180,7 @@ photos_thumbnailer_generate_thumbnail_save_to_stream (GObject *source_object,
   PhotosThumbnailerGenerateData *data;
 
   cancellable = g_task_get_cancellable (task);
-  data = g_task_get_task_data (task);
+  data = (PhotosThumbnailerGenerateData *) g_task_get_task_data (task);
 
   {
     g_autoptr (GError) error = NULL;
@@ -217,7 +217,7 @@ photos_thumbnailer_generate_thumbnail_replace (GObject *source_object, GAsyncRes
   g_autofree gchar *uri = NULL;
 
   cancellable = g_task_get_cancellable (task);
-  data = g_task_get_task_data (task);
+  data = (PhotosThumbnailerGenerateData *) g_task_get_task_data (task);
 
   {
     g_autoptr (GError) error = NULL;
@@ -271,7 +271,7 @@ photos_thumbnailer_generate_thumbnail_process (GObject *source_object, GAsyncRes
   gint pixbuf_zoomed_width;
 
   cancellable = g_task_get_cancellable (task);
-  data = g_task_get_task_data (task);
+  data = (PhotosThumbnailerGenerateData *) g_task_get_task_data (task);
 
   {
     g_autoptr (GError) error = NULL;
@@ -354,7 +354,7 @@ photos_thumbnailer_generate_thumbnail_pixbuf (GObject *source_object, GAsyncResu
   PhotosThumbnailerGenerateData *data;
 
   cancellable = g_task_get_cancellable (task);
-  data = g_task_get_task_data (task);
+  data = (PhotosThumbnailerGenerateData *) g_task_get_task_data (task);
 
   {
     g_autoptr (GError) error = NULL;
@@ -403,7 +403,7 @@ photos_thumbnailer_generate_thumbnail_pipeline (GObject *source_object, GAsyncRe
   gint load_width;
 
   cancellable = g_task_get_cancellable (task);
-  data = g_task_get_task_data (task);
+  data = (PhotosThumbnailerGenerateData *) g_task_get_task_data (task);
 
   {
     g_autoptr (GError) error = NULL;
