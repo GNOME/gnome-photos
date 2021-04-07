@@ -145,8 +145,6 @@ photos_dlna_renderers_dialog_set_icon_cb (GObject      *source_object,
 
 out:
   g_clear_object (&pixbuf);
-
-  /* release the ref we took before the async call */
   g_object_unref (image);
 }
 
@@ -177,14 +175,13 @@ photos_dlna_renderers_dialog_add_renderer (PhotosDlnaRenderersDialog *self, Phot
   icon = g_themed_icon_new_with_default_fallbacks ("video-display-symbolic");
   image = gtk_image_new_from_gicon (icon, GTK_ICON_SIZE_DIALOG);
 
-  g_object_ref (image); /* keep a ref for the following async call and release it in the callback */
   photos_dlna_renderer_get_icon (renderer,
                                  "",
                                  "",
                                  GTK_ICON_SIZE_DIALOG,
                                  NULL,
                                  photos_dlna_renderers_dialog_set_icon_cb,
-                                 image);
+                                 g_object_ref (image));
 
   gtk_container_add (GTK_CONTAINER (row_grid), image);
 
