@@ -403,17 +403,17 @@ photos_base_item_check_effects_and_update_info (PhotosBaseItem *self)
 
   if (priv->favorite)
     {
-      g_autoptr (GIcon) pix = NULL;
+      g_autoptr (GIcon) emblem_icon = NULL;
 
-      pix = photos_base_item_create_symbolic_emblem ("starred", scale);
-      emblem_icons = g_list_prepend (emblem_icons, g_object_ref (pix));
+      emblem_icon = photos_base_item_create_symbolic_emblem ("starred", scale);
+      emblem_icons = g_list_prepend (emblem_icons, g_object_ref (emblem_icon));
     }
 
   if (emblem_icons != NULL)
     {
       g_autoptr (GIcon) emblemed_icon = NULL;
       GList *l;
-      g_autoptr (GtkIconInfo) icon_info = NULL;
+      g_autoptr (GtkIconInfo) emblemed_icon_info = NULL;
       GtkIconTheme *theme;
       gint height;
       gint size;
@@ -436,18 +436,18 @@ photos_base_item_check_effects_and_update_info (PhotosBaseItem *self)
       height = gdk_pixbuf_get_height (priv->original_icon);
       size = (width > height) ? width : height;
 
-      icon_info = gtk_icon_theme_lookup_by_gicon (theme, emblemed_icon, size, GTK_ICON_LOOKUP_FORCE_SIZE);
+      emblemed_icon_info = gtk_icon_theme_lookup_by_gicon (theme, emblemed_icon, size, GTK_ICON_LOOKUP_FORCE_SIZE);
 
-      if (icon_info != NULL)
+      if (emblemed_icon_info != NULL)
         {
           g_autoptr (GError) error = NULL;
-          g_autoptr (GdkPixbuf) tmp = NULL;
+          g_autoptr (GdkPixbuf) emblemed_icon_pixbuf = NULL;
 
-          tmp = gtk_icon_info_load_icon (icon_info, &error);
+          emblemed_icon_pixbuf = gtk_icon_info_load_icon (emblemed_icon_info, &error);
           if (error != NULL)
             g_warning ("Unable to render the emblem: %s", error->message);
           else
-            g_set_object (&emblemed_pixbuf, tmp);
+            g_set_object (&emblemed_pixbuf, emblemed_icon_pixbuf);
         }
     }
 
