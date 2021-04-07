@@ -145,7 +145,7 @@ photos_dlna_renderers_dialog_set_icon_cb (GObject      *source_object,
 
   gtk_image_set_from_pixbuf (image, pixbuf);
 
-out:
+ out:
   return;
 }
 
