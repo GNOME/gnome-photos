@@ -283,7 +283,7 @@ photos_embed_tracker_controllers_set_frozen (PhotosEmbed *self, gboolean frozen)
     {
       GIOExtension *extension = (GIOExtension *) l->data;
       GType type;
-      PhotosTrackerController *trk_cntrlr;
+      g_autoptr (PhotosTrackerController) trk_cntrlr = NULL;
 
       type = g_io_extension_get_type (extension);
 
@@ -293,7 +293,6 @@ photos_embed_tracker_controllers_set_frozen (PhotosEmbed *self, gboolean frozen)
        */
       trk_cntrlr = PHOTOS_TRACKER_CONTROLLER (g_object_new (type, NULL));
       photos_tracker_controller_set_frozen (trk_cntrlr, frozen);
-      g_object_unref (trk_cntrlr);
     }
 }
 
