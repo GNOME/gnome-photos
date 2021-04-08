@@ -113,7 +113,7 @@ photos_dlna_renderers_manager_renderer_lost_cb (PhotosDlnaRenderersManager *self
                                                 const gchar                *object_path,
                                                 gpointer                   *data)
 {
-  PhotosDlnaRenderer *renderer;
+  g_autoptr (PhotosDlnaRenderer) renderer = NULL;
 
   renderer = PHOTOS_DLNA_RENDERER (g_hash_table_lookup (self->renderers, object_path));
   g_return_if_fail (renderer != NULL);
@@ -125,7 +125,6 @@ photos_dlna_renderers_manager_renderer_lost_cb (PhotosDlnaRenderersManager *self
                 photos_dlna_renderer_get_udn (renderer),
                 object_path);
   g_signal_emit (self, signals[RENDERER_LOST], 0, renderer);
-  g_object_unref (renderer);
 }
 
 
@@ -135,7 +134,8 @@ photos_dlna_renderers_manager_proxy_get_renderers_cb (GObject      *source_objec
                                                       gpointer      user_data)
 {
   PhotosDlnaRenderersManager *self = user_data;
-  gchar **object_paths, **path;
+  g_auto (GStrv) object_paths = NULL;
+  gchar **path;
   GError *error = NULL;
 
   dleyna_renderer_manager_call_get_renderers_finish (self->proxy, &object_paths, res, &error);
@@ -148,8 +148,6 @@ photos_dlna_renderers_manager_proxy_get_renderers_cb (GObject      *source_objec
 
   for (path = object_paths; *path != NULL; path++)
     photos_dlna_renderers_manager_renderer_found_cb (self, *path, NULL);
-
-  g_strfreev (object_paths);
 }
 
 
