@@ -79,7 +79,7 @@ photos_dlna_renderers_manager_renderer_new_cb (GObject      *source_object,
     {
       g_warning ("Unable to load renderer object: %s", error->message);
       g_propagate_error (&self->error, error);
-      return;
+      goto out;
     }
 
   object_path = photos_dlna_renderer_get_object_path (renderer);
@@ -90,6 +90,9 @@ photos_dlna_renderers_manager_renderer_new_cb (GObject      *source_object,
                 object_path);
   g_hash_table_insert (self->renderers, (gpointer) object_path, renderer);
   g_signal_emit (self, signals[RENDERER_FOUND], 0, renderer);
+
+ out:
+  return;
 }
 
 
@@ -114,11 +117,14 @@ photos_dlna_renderers_manager_renderer_lost_cb (PhotosDlnaRenderersManager *self
                                                 gpointer                   *data)
 {
   g_autoptr (PhotosDlnaRenderer) renderer = NULL;
+  gpointer renderer_data;
 
-  renderer = PHOTOS_DLNA_RENDERER (g_hash_table_lookup (self->renderers, object_path));
-  g_return_if_fail (renderer != NULL);
+  renderer_data = g_hash_table_lookup (self->renderers, object_path);
+  g_return_if_fail (renderer_data != NULL);
 
-  g_hash_table_steal (self->renderers, object_path);
+  renderer = PHOTOS_DLNA_RENDERER (g_object_ref (renderer_data));
+  g_hash_table_remove (self->renderers, object_path);
+
   photos_debug (PHOTOS_DEBUG_DLNA,
                 "%s '%s' %s %s", G_STRFUNC,
                 photos_dlna_renderer_get_friendly_name (renderer),
@@ -143,11 +149,14 @@ photos_dlna_renderers_manager_proxy_get_renderers_cb (GObject      *source_objec
     {
       g_warning ("Unable to fetch the list of available renderers: %s", error->message);
       g_propagate_error (&self->error, error);
-      return;
+      goto out;
     }
 
   for (path = object_paths; *path != NULL; path++)
     photos_dlna_renderers_manager_renderer_found_cb (self, *path, NULL);
+
+ out:
+  return;
 }
 
 
@@ -164,7 +173,7 @@ photos_dlna_renderers_manager_proxy_new_cb (GObject      *source_object,
     {
       g_warning ("Unable to connect to the dLeynaRenderer.Manager DBus object: %s", error->message);
       g_propagate_error (&self->error, error);
-      return;
+      goto out;
     }
 
   photos_debug (PHOTOS_DEBUG_DLNA, "%s DLNA renderers manager initialized", G_STRFUNC);
@@ -176,6 +185,9 @@ photos_dlna_renderers_manager_proxy_new_cb (GObject      *source_object,
 
   dleyna_renderer_manager_call_get_renderers (self->proxy, NULL,
                                               photos_dlna_renderers_manager_proxy_get_renderers_cb, self);
+
+ out:
+  return;
 }
 
 
