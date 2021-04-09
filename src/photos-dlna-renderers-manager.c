@@ -120,7 +120,7 @@ photos_dlna_renderers_manager_renderer_lost_cb (PhotosDlnaRenderersManager *self
   gpointer renderer_data;
 
   renderer_data = g_hash_table_lookup (self->renderers, object_path);
-  g_return_if_fail (renderer_data != NULL);
+  g_return_if_fail (PHOTOS_IS_DLNA_RENDERER (renderer_data));
 
   renderer = PHOTOS_DLNA_RENDERER (g_object_ref (renderer_data));
   g_hash_table_remove (self->renderers, object_path);
