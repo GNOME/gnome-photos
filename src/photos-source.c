@@ -73,7 +73,6 @@ photos_source_build_filter_local (void)
   g_autoptr (GString) tracker_filter = NULL;
   g_auto (GStrv) tracker_dirs = NULL;
   g_autofree gchar *desktop_uri = NULL;
-  g_autofree gchar *download_uri = NULL;
   g_autofree gchar *export_path = NULL;
   g_autofree gchar *export_uri = NULL;
   gchar *filter;
@@ -100,9 +99,6 @@ photos_source_build_filter_local (void)
   path = g_get_user_special_dir (G_USER_DIRECTORY_DESKTOP);
   desktop_uri = photos_utils_convert_path_to_uri (path);
 
-  path = g_get_user_special_dir (G_USER_DIRECTORY_DOWNLOAD);
-  download_uri = photos_utils_convert_path_to_uri (path);
-
   path = g_get_user_special_dir (G_USER_DIRECTORY_PICTURES);
   pictures_uri = photos_utils_convert_path_to_uri (path);
 
@@ -111,13 +107,11 @@ photos_source_build_filter_local (void)
 
   filter = g_strdup_printf ("(((fn:contains (nie:isStoredAs (?urn), '%s')"
                             "   || fn:contains (nie:isStoredAs (?urn), '%s')"
-                            "   || fn:contains (nie:isStoredAs (?urn), '%s')"
                             "   %s)"
                             "  && !fn:contains (nie:isStoredAs (?urn), '%s'))"
                             " || fn:starts-with (nao:identifier (?urn), '%s')"
                             " || (?urn = nfo:image-category-screenshot))",
                             desktop_uri,
-                            download_uri,
                             pictures_uri,
                             tracker_filter->str,
                             export_uri,
