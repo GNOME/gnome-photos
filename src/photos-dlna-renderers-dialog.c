@@ -39,6 +39,7 @@
 struct _PhotosDlnaRenderersDialog
 {
   GtkDialog parent_instance;
+  GCancellable *cancellable;
   PhotosBaseManager *item_mngr;
   PhotosDlnaRenderersManager *renderers_mngr;
   PhotosRemoteDisplayManager *remote_mngr;
@@ -81,6 +82,12 @@ static void
 photos_dlna_renderers_dialog_dispose (GObject *object)
 {
   PhotosDlnaRenderersDialog *self = PHOTOS_DLNA_RENDERERS_DIALOG (object);
+
+  if (self->cancellable != NULL)
+    {
+      g_cancellable_cancel (self->cancellable);
+      g_clear_object (&self->cancellable);
+    }
 
   g_clear_object (&self->item_mngr);
   g_clear_object (&self->renderers_mngr);
@@ -129,7 +136,7 @@ photos_dlna_renderers_dialog_set_icon_cb (GObject      *source_object,
                                           gpointer      user_data)
 {
   g_autoptr (GdkPixbuf) pixbuf = NULL;
-  g_autoptr (GtkImage) image = GTK_IMAGE (user_data);
+  GtkImage *image;
   PhotosDlnaRenderer *renderer = PHOTOS_DLNA_RENDERER (source_object);
 
   {
@@ -138,10 +145,14 @@ photos_dlna_renderers_dialog_set_icon_cb (GObject      *source_object,
     pixbuf = photos_dlna_renderer_get_icon_finish (renderer, res, &error);
     if (error != NULL)
       {
-        g_warning ("Unable to load renderer icon: %s", error->message);
+        if (!g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
+          g_warning ("Unable to load renderer icon: %s", error->message);
+
         goto out;
       }
   }
+
+  image = GTK_IMAGE (user_data);
 
   gtk_image_set_from_pixbuf (image, pixbuf);
 
@@ -180,9 +191,9 @@ photos_dlna_renderers_dialog_add_renderer (PhotosDlnaRenderersDialog *self, Phot
                                  "",
                                  "",
                                  GTK_ICON_SIZE_DIALOG,
-                                 NULL,
+                                 self->cancellable,
                                  photos_dlna_renderers_dialog_set_icon_cb,
-                                 g_object_ref (image));
+                                 image);
 
   gtk_container_add (GTK_CONTAINER (row_grid), image);
 
