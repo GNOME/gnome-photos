@@ -6,606 +6,1129 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos gnome 3.14\n"
-"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
-"photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2014-09-18 07:24+0000\n"
-"PO-Revision-Date: 2014-09-18 14:03+0400\n"
+"Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-photos/issues\n"
+"POT-Creation-Date: 2021-03-14 18:43+0000\n"
+"PO-Revision-Date: 2021-04-27 20:54+0545\n"
 "Last-Translator: Pawan Chitrakar <chautari@gmail.com>\n"
 "Language-Team: Nepali Translation Team <chautari@gmail.com>\n"
+"Language: ne\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.6.9\n"
-"Language: ne\n"
+"X-Generator: Poedit 2.4.2\n"
 
-#: ../data/org.gnome.Photos.appdata.xml.in.h:1
-#: ../data/org.gnome.Photos.desktop.in.in.h:1
-#: ../src/photos-search-type-manager.c:124
+#: data/org.gnome.Photos.appdata.xml.in:7 data/org.gnome.Photos.desktop.in.in:3
+#: src/photos-application.c:3030 src/photos-embed.c:823 src/photos-main-window.c:437
+#: src/photos-search-type-manager.c:101
 msgid "Photos"
 msgstr "फोटो"
 
-#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:472
+#: data/org.gnome.Photos.appdata.xml.in:8 src/photos-main-window.c:457
 msgid "Access, organize and share your photos on GNOME"
-msgstr ""
+msgstr "जिनोममा तपाईँको फोटो पहुँच, सङ्गठित र साझेदारी गर्नुहोस्"
 
-#: ../data/org.gnome.Photos.appdata.xml.in.h:3
+#: data/org.gnome.Photos.appdata.xml.in:10
 msgid ""
-"A simple application to access, organize and share your photos on GNOME. It "
-"is meant to be a simple and elegant replacement for using a file manager to "
-"deal with photos. Seamless cloud integration is offered through GNOME Online "
-"Accounts."
+"Access, organize and share your photos on GNOME. A simple and elegant replacement for using a "
+"file manager to deal with photos. Enhance, crop and edit in a snap. Seamless cloud "
+"integration is offered through GNOME Online Accounts."
 msgstr ""
+"जिनोममा तपाईँको फोटो पहुँच, सङ्गठित र साझेदारी गर्नुहोस् । फोटोसँग व्यवहार गर्न फाइल प्रबन्धक प्रयोग गर्नका "
+"लागि एउटा सरल र सुरुचिपूर्ण प्रतिस्थापन । सटाउनुहोस्, काटछाँट गर्नुहोस् र सटाउनुहोस्। जिनोम अनलाइन खाता "
+"मार्फत सीमलेस क्लाउड इन्टिग्रेसन प्रस्ताव गरिएको छ ।."
 
-#: ../data/org.gnome.Photos.appdata.xml.in.h:4
+#: data/org.gnome.Photos.appdata.xml.in:16
 #, fuzzy
-msgid "It lets you:"
-msgstr ""
-"सञ्झ्याल देखाउनुहोस् जसले तपाईँलाई आफ्नो डेस्कटप पृष्ठभूमिको बाँन्की वा रङ सेट गर्न अनुमति दिन्छ"
+msgid "You can:"
+msgstr "यो टायल सार्न सकिदैन!"
 
-#: ../data/org.gnome.Photos.appdata.xml.in.h:5
+#: data/org.gnome.Photos.appdata.xml.in:18
+msgid "Automatically find all your pictures"
+msgstr "तपाईँको सबै तस्वीर स्वत: फेला पार्नुहोस्"
+
+#: data/org.gnome.Photos.appdata.xml.in:19
+#, fuzzy
 msgid "View recent local and online photos"
+msgstr "हालैका स्थानीय र अनलाइन कागजातहरू हेर्नुहोस्"
+
+#: data/org.gnome.Photos.appdata.xml.in:20
+msgid "Access your Facebook or Flickr pictures"
+msgstr "तपाईँको फेसबुक वा फ्लिकर तस्वीर पहुँच गर्नुहोस्"
+
+#: data/org.gnome.Photos.appdata.xml.in:21
+msgid "View photos on TVs, laptops or other DLNA renderers on your local network"
 msgstr ""
 
-#: ../data/org.gnome.Photos.appdata.xml.in.h:6
-msgid "Access your Facebook or Flickr content"
-msgstr ""
+#: data/org.gnome.Photos.appdata.xml.in:23
+msgid "Set pictures as your desktop background"
+msgstr "छविलाई डेक्सटप पृष्ठभूमिको रूपमा सेट गर्नुहोस्"
 
-#: ../data/org.gnome.Photos.appdata.xml.in.h:7
-msgid "Send photos to remote DLNA renderers"
-msgstr ""
-
-#: ../data/org.gnome.Photos.appdata.xml.in.h:8
-msgid "Set as background"
-msgstr "पृष्ठभूमि सेट गर्नुहोस्"
-
-#: ../data/org.gnome.Photos.appdata.xml.in.h:9
+#: data/org.gnome.Photos.appdata.xml.in:24
 msgid "Print photos"
 msgstr "फोटो मुद्रण"
 
-#: ../data/org.gnome.Photos.appdata.xml.in.h:10
+#: data/org.gnome.Photos.appdata.xml.in:25
 msgid "Select favorites"
 msgstr "मनपर्ने छान्नुहोस्"
 
-#: ../data/org.gnome.Photos.appdata.xml.in.h:11
-msgid "Allow opening full featured editor for more advanced changes"
+#: data/org.gnome.Photos.appdata.xml.in:26
+msgid ""
+"Easily edit your pictures in the app, or send to a full featured editor for more advanced "
+"changes"
 msgstr ""
 
-#: ../data/org.gnome.Photos.desktop.in.in.h:2
-#, fuzzy
-msgid "Access, organize and share photos"
-msgstr "सञ्जाल साझेदार वा संसाधन पहुँच गर्नुहोस्"
+#: data/org.gnome.Photos.appdata.xml.in:89
+msgid "The GNOME Project"
+msgstr "जिनोम परियोजना"
 
-#: ../data/org.gnome.Photos.desktop.in.in.h:3
+#: data/org.gnome.Photos.desktop.in.in:4
+msgid "Access, organize and share photos"
+msgstr "फोटोहरू पहुँच, सङ्गठित र साझेदारी गर्नुहोस्"
+
+#. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
+#: data/org.gnome.Photos.desktop.in.in:15
 msgid "Photos;Pictures;"
 msgstr "फोटो;तस्विर;"
 
-#: ../data/org.gnome.photos.gschema.xml.h:1
+#: data/org.gnome.photos.gschema.xml:5
 msgid "Window size"
 msgstr "सञ्झ्याल साइज"
 
-#: ../data/org.gnome.photos.gschema.xml.h:2
+#: data/org.gnome.photos.gschema.xml:6
 msgid "Window size (width and height)."
-msgstr "सञ्झ्यालको उचाइ र चौडाई"
+msgstr "सञ्झ्यालको आकार (उचाइ र चौडाई)."
 
-#: ../data/org.gnome.photos.gschema.xml.h:3
+#: data/org.gnome.photos.gschema.xml:10
 msgid "Window position"
 msgstr "संझ्यालको स्थिति"
 
-#: ../data/org.gnome.photos.gschema.xml.h:4
+#: data/org.gnome.photos.gschema.xml:11
 msgid "Window position (x and y)."
 msgstr "सञ्झ्यालको  स्थान(X र Y)."
 
-#: ../data/org.gnome.photos.gschema.xml.h:5
+#: data/org.gnome.photos.gschema.xml:15
 msgid "Window maximized"
 msgstr "सञ्झ्यालको अधिकतम स्थिति"
 
-#: ../data/org.gnome.photos.gschema.xml.h:6
+#: data/org.gnome.photos.gschema.xml:16
 msgid "Window maximized state"
 msgstr "सञ्झ्यालको अधिकतम स्थिति"
 
-#. A strftime-formatted string, to display the date the image was taken.
-#: ../src/eog-exif-util.c:120 ../src/eog-exif-util.c:160
-msgid "%a, %d %B %Y  %X"
-msgstr "%a, %d %B %Y  %X"
+#: src/photos-application.c:168
+msgid "Show the empty state"
+msgstr "खाली अवस्था देखाउनुहोस्"
 
-#. A strftime-formatted string, to display the date the image was taken, for the case we don't have the time.
-#: ../src/eog-exif-util.c:154
-msgid "%a, %d %B %Y"
-msgstr "%a, %d %B %Y"
+#: src/photos-application.c:169
+msgid "Show the application's version"
+msgstr "एप्लिकेशनको संसकरण देखाउने"
 
-#. TRANSLATORS: This is the actual focal length used when
-#. the image was taken.
-#: ../src/eog-exif-util.c:251
-#, fuzzy, c-format
-msgid "%.1f (lens)"
-msgstr "%.1f KiB"
+#. Translators: this is the default sub-directory where photos will
+#. * be imported.
+#.
+#. Translators: this is the default sub-directory where photos
+#. * will be exported.
+#.
+#. Translators: this is the name of the default album that will be
+#. * created for imported photos.
+#.
+#: src/photos-application.c:1313 src/photos-export-dialog.c:195 src/photos-import-dialog.c:134
+#| msgid "%a, %d %B %Y"
+msgid "%-d %B %Y"
+msgstr "%-d %B %Y"
 
-#. Print as float to get a similar look as above.
-#. TRANSLATORS: This is the equivalent focal length assuming
-#. a 35mm film camera.
-#: ../src/eog-exif-util.c:262
-#, fuzzy, c-format
-msgid "%.1f (35mm film)"
-msgstr "%.1f KiB"
-
-#: ../src/eog-image.c:595
-#, c-format
-msgid "Transformation on unloaded image."
-msgstr "अनलोड गरेको छविमा रुपान्तर ।"
-
-#: ../src/eog-image.c:623
-#, c-format
-msgid "Transformation failed."
-msgstr "रूपान्तरण असफल भयो ।"
-
-#: ../src/eog-image.c:1047
-#, fuzzy, c-format
-msgid "EXIF not supported for this file format."
-msgstr "यो फाइल ढाँचाकोलागि EXIF असमर्थित भयो ।"
-
-#: ../src/eog-image.c:1196
-#, c-format
-msgid "Image loading failed."
-msgstr "छवि लोड गराइ असफल भयो ।"
-
-#: ../src/eog-image.c:1727 ../src/eog-image.c:1847
-#, fuzzy, c-format
-msgid "No image loaded."
-msgstr "छवि लोड गरिएको छैन ।"
-
-#: ../src/eog-image.c:1735 ../src/eog-image.c:1856
-#, c-format
-msgid "You do not have the permissions necessary to save the file."
-msgstr "यो फाइल संचय गर्न तपाईँसँग आवश्यक अनुमतिहरू छैनन् ।"
-
-#: ../src/eog-image.c:1745 ../src/eog-image.c:1867
-#, c-format
-msgid "Temporary file creation failed."
-msgstr "अस्थायी फाइल सिर्जना गर्दा असफल भयो ।"
-
-#: ../src/eog-uri-converter.c:984
-#, fuzzy, c-format
-msgid "At least two file names are equal."
-msgstr "घटिमा दुई फाइल नामहरू उस्तै छन् ।"
-
-#: ../src/eog-util.c:68
-#, fuzzy
-msgid "Could not display help for Image Viewer"
-msgstr "मद्दत प्रदर्शन गर्न सकेन"
-
-#: ../src/eog-util.c:116
-msgid " (invalid Unicode)"
-msgstr " (अवैध युनिकोड)"
-
-#: ../src/photos-app-menu.ui.h:1
-#, fuzzy
-msgid "Fullscreen"
-msgstr "पूरा पर्दा"
-
-#: ../src/photos-app-menu.ui.h:2
-msgid "_Help"
-msgstr "सहयोग"
-
-#: ../src/photos-app-menu.ui.h:3
-msgid "About"
-msgstr "बारेमा"
-
-#: ../src/photos-app-menu.ui.h:4
-msgid "Quit"
-msgstr "अन्त्य गर्नुहोस्"
-
-#: ../src/photos-base-item.c:347
+#: src/photos-base-item.c:1036
 msgid "Album"
-msgstr "एल्बम:"
+msgstr "एल्बम"
 
-#: ../src/photos-base-item.c:810
+#: src/photos-base-item.c:2857
 msgid "Screenshots"
-msgstr ""
+msgstr "स्क्रिनसट"
 
-#: ../src/photos-delete-notification.c:134
-msgid "Selected item has been deleted"
-msgid_plural "Selected items have been deleted"
-msgstr[0] ""
-msgstr[1] ""
+#: src/photos-delete-notification.c:156
+#, c-format
+msgid "“%s” deleted"
+msgstr "\"%s\" मेटियो"
 
-#: ../src/photos-delete-notification.c:140
+#: src/photos-delete-notification.c:159
+#, c-format
+msgid "%d item deleted"
+msgid_plural "%d items deleted"
+msgstr[0] "%d सामाग्री मेटियो"
+msgstr[1] "%d सामाग्रीहरू मेटियो"
+
+#: src/photos-delete-notification.c:166 src/photos-done-notification.c:119
 msgid "Undo"
 msgstr "पूर्वस्थितिमा फर्काउनुहोस्"
 
-#: ../src/photos-dlna-renderers-dialog.ui.h:1
+#: src/photos-dlna-renderers-dialog.ui:7
 #, fuzzy
 msgid "DLNA Renderer Devices"
-msgstr "यन्त्र"
+msgstr "UPnP/DLNA सेवाहरू"
 
-#: ../src/photos-embed.c:722
-msgid "Recent"
-msgstr "हालैका फाइल"
+#: src/photos-done-notification.c:112
+#, c-format
+msgid "“%s” edited"
+msgstr "\"%s\" सम्पादन गरियो"
 
-#: ../src/photos-embed.c:729 ../src/photos-search-type-manager.c:109
+#: src/photos-embed.c:828
+msgid "Collection View"
+msgstr "सङ्कलन दृष्य"
+
+#: src/photos-embed.c:831 src/photos-search-type-manager.c:83
 msgid "Albums"
 msgstr "एल्बमहरू"
 
-#: ../src/photos-embed.c:736 ../src/photos-search-type-manager.c:117
+#: src/photos-embed.c:836 src/photos-search-type-manager.c:92
 msgid "Favorites"
 msgstr "मनपर्ने"
 
-#: ../src/photos-embed.c:743 ../src/photos-main-toolbar.c:289
+#: src/photos-embed.c:841
+msgid "Import"
+msgstr "आयात गर्नुहोस्"
+
+#: src/photos-embed.c:844 src/photos-main-toolbar.c:336
 msgid "Search"
 msgstr "खोजी"
 
-#: ../src/photos-empty-results-box.c:113
-msgid "Name your first album"
-msgstr ""
-
-#. Translators: this should be translated in the context of the "You
-#. * can add your online accounts in Settings" sentence below
-#.
-#: ../src/photos-empty-results-box.c:133
-msgid "Settings"
-msgstr "सेटिङ"
-
-#. Translators: %s here is "Settings", which is in a separate string
-#. * due to markup, and should be translated only in the context of
-#. * this sentence.
-#.
-#: ../src/photos-empty-results-box.c:139
-#, c-format
-msgid "You can add your online accounts in %s"
-msgstr ""
-
-#: ../src/photos-empty-results-box.c:189
-#, fuzzy
+#: src/photos-empty-results-box.c:116
 msgid "No Albums Found"
-msgstr "एल्बमहरू"
+msgstr "कुनै एल्बम फेला परेन"
 
-#: ../src/photos-empty-results-box.c:193
+#: src/photos-empty-results-box.c:120
 #, fuzzy
-msgid "No Favorites Found"
-msgstr "मनपर्ने"
+msgid "Starred Photos Will Appear Here"
+msgstr "यहाँ तारा फाइलहरू देखा पर्नेछन्"
 
-#: ../src/photos-empty-results-box.c:198
-#, fuzzy
+#: src/photos-empty-results-box.c:130
 msgid "No Photos Found"
-msgstr "फोटो"
+msgstr "कुनै फोटो फेला परेन"
 
-#: ../src/photos-fetch-metas-job.c:163
-msgid "Untitled Photo"
-msgstr "शीर्षक विहिन फोटो"
+#: src/photos-empty-results-box.c:155
+#, fuzzy
+msgid "You can create albums from the Photos view"
+msgstr "पुस्तक दृष्यबाट संग्रह बनाउनुहोस्"
+
+#. Translators: this should be translated in the context of
+#. * the "Photos from your Online Accounts and Pictures folder
+#. * will appear here." sentence below.
+#.
+#: src/photos-empty-results-box.c:176
+msgid "Online Accounts"
+msgstr "अनलाईन खाताहरू"
+
+#. Translators: this should be translated in the context of
+#. * the "Photos from your Online Accounts and Pictures folder
+#. * will appear here." sentence below.
+#.
+#: src/photos-empty-results-box.c:183
+msgid "Pictures folder"
+msgstr "तस्विर फोल्डर"
+
+#. Translators: the first %s here is "Online Accounts" and the
+#. * second %s is "Pictures folder", which are in separate
+#. * strings due to markup, and should be translated only in the
+#. * context of this sentence.
+#.
+#: src/photos-empty-results-box.c:190
+#, c-format
+msgid "Photos from your %s and %s will appear here."
+msgstr "तपाईँको %s र %s का फोटोहरू यहाँ देखा पर्नेछ ।."
+
+#: src/photos-empty-results-box.c:200
+msgid "Try a different search."
+msgstr "फरक खोज कोशिश गर्नुहोस् ।."
+
+#: src/photos-export-dialog.ui:22
+msgctxt "dialog title"
+msgid "Export"
+msgstr "निर्यात गर्नुहोस्"
+
+#: src/photos-export-dialog.ui:38
+msgid "_Folder Name"
+msgstr "फोल्डर नाम"
+
+#: src/photos-export-dialog.ui:66 src/photos-print-setup.c:912
+msgid "Size"
+msgstr "आकार"
+
+#: src/photos-export-dialog.ui:83
+msgid "F_ull"
+msgstr "पूरा"
+
+#: src/photos-export-dialog.ui:113
+msgid "_Reduced"
+msgstr "घटाइएको"
+
+#: src/photos-export-dialog.ui:160 src/photos-import-dialog.ui:185 src/photos-main-toolbar.c:488
+#: src/photos-main-toolbar.c:524 src/photos-main-toolbar.c:635
+msgid "_Cancel"
+msgstr "रद्द गर्नुहोस्"
+
+#: src/photos-export-dialog.ui:167
+msgid "_Export"
+msgstr "निर्यात गर्नुहोस्"
+
+#. Translators: this is the estimated size of the exported image in
+#. * the form "1600×1067 (0.6 GB)".
+#.
+#: src/photos-export-dialog.c:66
+#, c-format
+msgid "%d×%d (%s)"
+msgstr "%d×%d (%s)"
+
+#: src/photos-export-dialog.c:252
+msgid "Calculating export size…"
+msgstr "निर्यात साइज गणना गर्दैछ…"
+
+#: src/photos-export-notification.c:317
+msgid "Failed to export: not enough space"
+msgstr "निर्यात गर्न असफल: गन्तव्यमा पर्याप्त खाली स्थान छैन"
+
+#: src/photos-export-notification.c:319
+msgid "Failed to export"
+msgstr "निर्यात गर्न असफल"
+
+#: src/photos-export-notification.c:326
+#, c-format
+msgid "“%s” exported"
+msgstr "\"%s\" निर्यात गरियो"
+
+#: src/photos-export-notification.c:330
+#, c-format
+msgid "%d item exported"
+msgid_plural "%d items exported"
+msgstr[0] "%d वस्तु निर्यात गरियो"
+msgstr[1] "%d वस्तुहरू निर्यात गरियो"
+
+#: src/photos-export-notification.c:347
+msgid "Analyze"
+msgstr "विश्लेषण गर्नुहोस्"
+
+#: src/photos-export-notification.c:352
+msgid "Empty Trash"
+msgstr "रद्दीटोकरी रित्याउनुहोस्"
+
+#. Translators: this is the Open action in a context menu
+#: src/photos-export-notification.c:369 src/photos-preview-menu.ui:6
+#: src/photos-selection-toolbar.c:240 src/photos-selection-toolbar.ui:28
+msgid "Open"
+msgstr "खोल्नुहोस्"
+
+#. Translators: this is the label of the button to open the
+#. * folder where the item was exported.
+#.
+#: src/photos-export-notification.c:379
+#, fuzzy
+msgid "Export Folder"
+msgstr "निर्यात गर्नुहोस्…"
+
+#. Translators: this is the fallback title in the form
+#. * "Facebook — 2nd January 2013".
+#.
+#: src/photos-facebook-item.c:100 src/photos-flickr-item.c:102 src/photos-google-item.c:98
+#, c-format
+msgid "%s — %s"
+msgstr "%s — %s"
+
+#: src/photos-help-overlay.ui:32
+msgctxt "shortcut window"
+msgid "General"
+msgstr "साधारण"
+
+#: src/photos-help-overlay.ui:36
+msgctxt "shortcut window"
+msgid "Show help"
+msgstr "मद्दत देखाउनुहोस्"
+
+#: src/photos-help-overlay.ui:43
+msgctxt "shortcut window"
+msgid "Keyboard shortcuts"
+msgstr "किबोर्स सर्टकटहरू"
+
+#: src/photos-help-overlay.ui:50
+msgctxt "shortcut window"
+msgid "Quit"
+msgstr "अन्त्य गर्नुहोस्"
+
+#: src/photos-help-overlay.ui:59
+msgctxt "shortcut window"
+msgid "Navigation"
+msgstr "नेभिगेशन"
+
+#: src/photos-help-overlay.ui:63
+msgctxt "shortcut window"
+msgid "Next photo"
+msgstr "पछिल्लो फोटोमा जानुहोस्"
+
+#: src/photos-help-overlay.ui:70
+msgctxt "shortcut window"
+msgid "Previous photo"
+msgstr "अघिल्लो फोटो"
+
+#: src/photos-help-overlay.ui:77 src/photos-help-overlay.ui:85
+msgctxt "shortcut window"
+msgid "Go back"
+msgstr "पछिडि जानुहोस्"
+
+#: src/photos-help-overlay.ui:95
+msgctxt "shortcut window"
+msgid "Overview"
+msgstr "अधिलेखन गर्नुहोस्"
+
+#: src/photos-help-overlay.ui:99
+msgctxt "shortcut window"
+msgid "Search"
+msgstr "खोज्नुहोस्"
+
+#: src/photos-help-overlay.ui:106
+msgctxt "shortcut window"
+msgid "Select all"
+msgstr "सबै चयन गर्नुहोस्"
+
+#: src/photos-help-overlay.ui:113
+msgctxt "shortcut window"
+msgid "Export selected photo"
+msgstr "चयन गरिएका फोटो निर्यात गर्नुहोस्"
+
+#: src/photos-help-overlay.ui:120
+msgctxt "shortcut window"
+msgid "Print selected photo"
+msgstr "चयन गरिएका फोटोहरू मुद्रण गर्नुहोस्"
+
+#: src/photos-help-overlay.ui:127
+msgctxt "shortcut window"
+msgid "Delete selected photos"
+msgstr "चयन गरिएको फोटोहरू मेट्नुहोस्"
+
+#: src/photos-help-overlay.ui:136
+msgctxt "shortcut window"
+msgid "Photo view"
+msgstr "फोटो दृष्य"
+
+#: src/photos-help-overlay.ui:140
+msgctxt "shortcut window"
+msgid "Edit"
+msgstr "सम्पादन गर्नुहोस्"
+
+#: src/photos-help-overlay.ui:147
+msgctxt "shortcut window"
+msgid "Export"
+msgstr "निर्यात गर्नुहोस्"
+
+#: src/photos-help-overlay.ui:154
+msgctxt "shortcut window"
+msgid "Print"
+msgstr "मुद्रण"
+
+#: src/photos-help-overlay.ui:161
+msgctxt "shortcut window"
+msgid "Zoom in"
+msgstr "भित्र जुम गर्नुहोस्"
+
+#: src/photos-help-overlay.ui:168
+msgctxt "shortcut window"
+msgid "Zoom out"
+msgstr "जुम घटाउनुहोस््"
+
+#: src/photos-help-overlay.ui:175
+msgctxt "shortcut window"
+msgid "Best fit"
+msgstr "सबैभन्दा मिल्दो"
+
+#: src/photos-help-overlay.ui:182
+msgctxt "shortcut window"
+msgid "Delete"
+msgstr "हटाउनुहोस"
+
+#: src/photos-help-overlay.ui:189
+msgctxt "shortcut window"
+msgid "Action menu"
+msgstr "कार्य मेनु"
+
+#: src/photos-help-overlay.ui:196
+msgctxt "shortcut window"
+msgid "Fullscreen"
+msgstr "पूरा पर्दा"
+
+#: src/photos-help-overlay.ui:205
+msgctxt "shortcut window"
+msgid "Edit view"
+msgstr "दृष्य सम्पादन"
+
+#: src/photos-help-overlay.ui:209
+msgctxt "shortcut window"
+msgid "Cancel"
+msgstr "रद्द गर्ने"
+
+#: src/photos-import-dialog.c:194
+#, fuzzy
+msgid "An album with that name already exists"
+msgstr "त्यो मितिका लागि एउटा एल्बम पहिल्यै अवस्थित छ"
+
+#: src/photos-import-dialog.c:211
+msgid "An album for that date already exists"
+msgstr "त्यो मितिका लागि एउटा एल्बम पहिल्यै अवस्थित छ"
+
+#: src/photos-import-dialog.ui:22
+msgctxt "dialog title"
+msgid "Name Album"
+msgstr "एल्बम नाम"
+
+#: src/photos-import-dialog.ui:54
+msgid "Create _New"
+msgstr "नयाँ सिर्जना गर्नुहोस्"
+
+#: src/photos-import-dialog.ui:118
+msgid "Add to _Existing"
+msgstr "अवस्थितमा थप्नुहोस्"
+
+#: src/photos-import-dialog.ui:192 src/photos-organize-collection-dialog.c:69
+msgid "_Add"
+msgstr "थप्नुहोस्"
 
 #. Translators: %s refers to an online account provider, e.g.,
-#. * "Facebook" or "Flickr.
+#. * "Facebook" or "Flickr".
 #.
-#: ../src/photos-indexing-notification.c:173
-#, fuzzy, c-format
+#: src/photos-indexing-notification.c:163
+#, c-format
 msgid "Fetching photos from %s"
-msgstr "%s बाट:"
+msgstr "%s बाट फोटोहरू ल्याउनुहोस्"
 
-#: ../src/photos-indexing-notification.c:176
+#: src/photos-indexing-notification.c:166
 msgid "Fetching photos from online accounts"
-msgstr ""
+msgstr "अनलाइन खाता फोटोहरू ल्याउनुहोस्"
 
-#: ../src/photos-indexing-notification.c:213
+#: src/photos-indexing-notification.c:214
 msgid "Your photos are being indexed"
-msgstr ""
+msgstr "तपाईँको फोटोहरू अनुक्रमण गरिएको छ"
 
-#: ../src/photos-indexing-notification.c:214
+#: src/photos-indexing-notification.c:215
 msgid "Some photos might not be available during this process"
-msgstr ""
+msgstr "यो प्रक्रिया गर्दा केही फोटोहरू उपलब्ध नहुन सक्छ"
 
-#: ../src/photos-load-more-button.c:73 ../src/photos-load-more-button.c:194
-#, fuzzy
-msgid "Load More"
-msgstr "लोड गर्नुहोस्"
+#: src/photos-item-manager.c:845
+#, c-format
+msgid "Oops! Unable to load “%s”"
+msgstr "%s लोड गर्न असमर्थ"
 
-#: ../src/photos-load-more-button.c:86
-msgid "Loading…"
-msgstr "लोड गर्दै..."
-
-#: ../src/photos-local-item.c:102 ../src/photos-source-manager.c:134
+#: src/photos-local-item.c:241 src/photos-source-manager.c:399
 msgid "Local"
 msgstr "स्थानीय"
 
-#: ../src/photos-main-toolbar.c:111
+#: src/photos-main-toolbar.c:80
 msgid "Click on items to select them"
 msgstr "वस्तुहरू चयनका लागि क्लिक गर्नुहोस्"
 
-#: ../src/photos-main-toolbar.c:113
+#: src/photos-main-toolbar.c:82
 #, c-format
 msgid "%d selected"
 msgid_plural "%d selected"
 msgstr[0] "%d चयन गरियो"
 msgstr[1] "%d चयन गरियो"
 
-#: ../src/photos-main-toolbar.c:163
+#: src/photos-main-toolbar.c:170
+msgid "Select items for import"
+msgstr "आयात गर्न फाइल चयन गर्नुहोस्"
+
+#: src/photos-main-toolbar.c:174
+#, c-format
+msgid "Select items for import (%u selected)"
+msgid_plural "Select items for import (%u selected)"
+msgstr[0] "आयात (%u चयन गरिएको) का लागि वस्तु चयन गर्नुहोस्"
+msgstr[1] "आयात (%u चयन गरिएको) का लागि वस्तुहरू चयन गर्नुहोस्"
+
+#: src/photos-main-toolbar.c:217
 msgid "Back"
 msgstr "पछाडि"
 
-#: ../src/photos-main-toolbar.c:305
+#: src/photos-main-toolbar.c:351
 msgid "Select Items"
 msgstr "वस्तु चयन गर्नुहोस्"
 
+#. length == 1
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-main-toolbar.c:428 ../src/photos-selection-toolbar.c:279
+#: src/photos-main-toolbar.c:411 src/photos-selection-toolbar.c:237
+#: src/photos-share-notification.c:165
 #, c-format
 msgid "Open with %s"
 msgstr "%s सङग खोल्नुहोस्"
 
-#: ../src/photos-main-toolbar.c:474 ../src/photos-selection-toolbar.c:291
-#, fuzzy
+#: src/photos-main-toolbar.c:442 src/photos-selection-toolbar.c:248
 msgid "Remove from favorites"
-msgstr "मनपर्ने"
+msgstr "मनपर्नेबाट हताउनुहोस्"
 
-#: ../src/photos-main-toolbar.c:479 ../src/photos-selection-toolbar.c:297
+#: src/photos-main-toolbar.c:447 src/photos-selection-toolbar.c:253
 msgid "Add to favorites"
 msgstr "मनपर्ने मा थप्नुहोस्"
 
-#: ../src/photos-main-toolbar.c:649
-msgid "Cancel"
-msgstr "रद्द गर्नुहोस्"
+#: src/photos-main-toolbar.c:492
+msgid "Done"
+msgstr "गरियो"
+
+#: src/photos-main-toolbar.c:528
+msgid "_Select"
+msgstr "चयन गर्नुहोस्"
+
+#: src/photos-main-window.c:458
+msgid ""
+"Copyright © 2012 – 2019 Red Hat, Inc.\n"
+"Copyright © 2015 – 2018 Umang Jain"
+msgstr ""
+"प्रतिलिपि अधिकार © २०१२ – २०१९ रेड ह्याट, इन्क.\n"
+"प्रतिलिपि अधिकार © २०१५ – २०१८ उमाङ जैन"
 
 #. Translators: Put your names here
-#: ../src/photos-main-window.c:484
+#: src/photos-main-window.c:466
 msgid "translator-credits"
-msgstr "Pawan Chitrakar <chautari@gmail.com>"
+msgstr "translator-credits Pawan Chitrakar <chautari@gmail.com>"
 
-#: ../src/photos-organize-collection-dialog.c:76
-msgid "_Add"
-msgstr "थप्नुहोस्..."
-
-#: ../src/photos-organize-collection-dialog.c:77
+#: src/photos-organize-collection-dialog.c:70
 msgid "_OK"
 msgstr "ठिक छ"
 
 #. Translators: "Organize" refers to photos in this context
-#: ../src/photos-organize-collection-dialog.c:128
+#: src/photos-organize-collection-dialog.c:121
 msgctxt "Dialog title"
 msgid "Organize"
-msgstr ""
+msgstr "सङ्गठित गर्नुहोस्"
 
-#. Translators: this is the Open action in a context menu
-#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:282
-#: ../src/photos-selection-toolbar.c:451
-msgid "Open"
-msgstr "खोल्नुहोस्:"
+#: src/photos-preview-menu.ui:10
+msgid "Export…"
+msgstr "निर्यात गर्नुहोस्…"
 
-#: ../src/photos-preview-menu.ui.h:2
+#: src/photos-preview-menu.ui:14
 msgid "Print…"
-msgstr "मुद्रण:"
+msgstr "मुद्रण…"
 
-#: ../src/photos-preview-menu.ui.h:3
-#, fuzzy
+#: src/photos-preview-menu.ui:19
+msgid "Delete"
+msgstr "मेट्नुहोस्"
+
+#: src/photos-preview-menu.ui:23
 msgid "Display on…"
-msgstr "प्रदर्शन गर्नुहोस्:"
+msgstr "प्रदर्शन गर्नुहोस्…"
 
-#: ../src/photos-preview-menu.ui.h:4
+#: src/photos-preview-menu.ui:27
 msgid "Set as Background"
 msgstr "पृष्ठभूमि सेट गर्नुहोस्"
 
-#: ../src/photos-preview-menu.ui.h:5 ../src/photos-properties-dialog.c:597
-#: ../src/photos-selection-toolbar.c:472
+#: src/photos-preview-menu.ui:31
+#, fuzzy
+#| msgid "Set as background"
+msgid "Set as Lock Screen"
+msgstr "पर्दामा ताल्चा लगाउनुहोस्"
+
+#: src/photos-preview-menu.ui:37 src/photos-properties-dialog.c:883
+#: src/photos-selection-toolbar.ui:101
 msgid "Properties"
 msgstr "गुणहरू"
 
-#: ../src/photos-print-notification.c:76
-#, fuzzy, c-format
-msgid "Printing “%s”: %s"
-msgstr ""
-"फाइल मुद्रण गर्दा त्रुटि:\n"
-"%s"
+#: src/photos-preview-menu.ui:41
+msgid "Fullscreen"
+msgstr "पूरा पर्दा"
 
-#: ../src/photos-print-operation.c:272
+#: src/photos-primary-menu.ui:6
+msgid "Keyboard Shortcuts"
+msgstr "कुञ्जीपाटी सर्टकट"
+
+#: src/photos-primary-menu.ui:10
+msgid "_Help"
+msgstr "सहयोग"
+
+#: src/photos-primary-menu.ui:14
+msgid "About Photos"
+msgstr "फोटो बारेमा"
+
+#: src/photos-print-notification.c:71
+#, c-format
+msgid "Printing “%s”: %s"
+msgstr "मुद्रण कार्य “%s” : %s"
+
+#: src/photos-print-operation.c:241
 msgid "Image Settings"
 msgstr "छवि सेटिङ"
 
-#: ../src/photos-print-setup.c:895
+#: src/photos-print-setup.c:884
 msgid "Position"
-msgstr "स्थिति:"
+msgstr "स्थिति"
 
-#: ../src/photos-print-setup.c:898
+#: src/photos-print-setup.c:887
 msgid "_Left:"
 msgstr "_बायाँ:"
 
-#: ../src/photos-print-setup.c:899
+#: src/photos-print-setup.c:888
 msgid "_Right:"
 msgstr "_दायाँ:"
 
-#: ../src/photos-print-setup.c:900
+#: src/photos-print-setup.c:889
 msgid "_Top:"
 msgstr "_माथि:"
 
-#: ../src/photos-print-setup.c:901
+#: src/photos-print-setup.c:890
 msgid "_Bottom:"
 msgstr "_तल:"
 
-#: ../src/photos-print-setup.c:903
+#: src/photos-print-setup.c:892
 msgid "C_enter:"
 msgstr "केन्द्र:"
 
-#: ../src/photos-print-setup.c:907
+#: src/photos-print-setup.c:896
 msgid "None"
 msgstr "कुनै पनि होइन"
 
-#: ../src/photos-print-setup.c:908
+#: src/photos-print-setup.c:897
 msgid "Horizontal"
 msgstr "तेर्सो"
 
-#: ../src/photos-print-setup.c:909
+#: src/photos-print-setup.c:898
 msgid "Vertical"
 msgstr "ठाडो"
 
-#: ../src/photos-print-setup.c:910
+#: src/photos-print-setup.c:899
 msgid "Both"
 msgstr "दुवै"
 
-#: ../src/photos-print-setup.c:923
-msgid "Size"
-msgstr "आकार"
-
-#: ../src/photos-print-setup.c:926
+#: src/photos-print-setup.c:915
 msgid "_Width:"
 msgstr "_चौडाइ:"
 
-#: ../src/photos-print-setup.c:927
+#: src/photos-print-setup.c:916
 msgid "_Height:"
 msgstr "_उचाइ:"
 
-#: ../src/photos-print-setup.c:929
-#, fuzzy
+#: src/photos-print-setup.c:918
 msgid "_Scaling:"
 msgstr "_मापन:"
 
-#: ../src/photos-print-setup.c:938
+#: src/photos-print-setup.c:927
 msgid "_Unit:"
 msgstr "_ईकाइ:"
 
-#: ../src/photos-print-setup.c:942
+#: src/photos-print-setup.c:931
 msgid "Millimeters"
 msgstr "मिलिमिटर"
 
-#: ../src/photos-print-setup.c:943
+#: src/photos-print-setup.c:932
 msgid "Inches"
 msgstr "इन्च"
 
-#: ../src/photos-print-setup.c:971
+#: src/photos-print-setup.c:960
 msgid "Preview"
 msgstr "पूर्वावलोकन"
+
+#: src/photos-properties-dialog.c:246
+msgid "Edited in Photos"
+msgstr "फोटोमा सम्पादन गरियो"
+
+#: src/photos-properties-dialog.c:259
+msgid "Untouched"
+msgstr "नछोएको"
 
 #. Translators: this is the label next to the photo title in the
 #. * properties dialog
 #.
-#: ../src/photos-properties-dialog.c:216
+#: src/photos-properties-dialog.c:442
 msgctxt "Document Title"
 msgid "Title"
-msgstr "शीर्षक:"
+msgstr "शीर्षक"
 
 #. Translators: this is the label next to the photo author in
 #. * the properties dialog
 #.
-#: ../src/photos-properties-dialog.c:228
+#: src/photos-properties-dialog.c:454
 msgctxt "Document Author"
 msgid "Author"
-msgstr "लेखक:"
+msgstr "लेखक"
 
-#: ../src/photos-properties-dialog.c:235
+#: src/photos-properties-dialog.c:461
 msgid "Source"
-msgstr "स्रोत:"
+msgstr "स्रोत"
 
-#: ../src/photos-properties-dialog.c:241
+#: src/photos-properties-dialog.c:467
 msgid "Date Modified"
 msgstr "मिति परिमार्जन गरियो"
 
-#: ../src/photos-properties-dialog.c:249
-#, fuzzy
+#: src/photos-properties-dialog.c:475
 msgid "Date Created"
-msgstr "यसमा सिर्जित "
+msgstr "सिर्जित मिति"
 
 #. Translators: this is the label next to the photo type in the
 #. * properties dialog
 #.
-#: ../src/photos-properties-dialog.c:259
+#: src/photos-properties-dialog.c:485
 msgctxt "Document Type"
 msgid "Type"
 msgstr "प्रकार"
 
-#: ../src/photos-properties-dialog.c:268
-msgid "Width"
-msgstr "_चौडाइ:"
+#: src/photos-properties-dialog.c:495
+msgid "Dimensions"
+msgstr "आयाम"
 
-#: ../src/photos-properties-dialog.c:278
-msgid "Height"
-msgstr "_उचाइ:"
+#: src/photos-properties-dialog.c:507
+msgid "Location"
+msgstr "स्थान"
 
-#: ../src/photos-properties-dialog.c:293
+#: src/photos-properties-dialog.c:525
 msgid "Camera"
 msgstr "क्यामेरा"
 
-#: ../src/photos-properties-dialog.c:303
-#, fuzzy
+#: src/photos-properties-dialog.c:535 src/photos-tool-colors.c:365
 msgid "Exposure"
 msgstr "प्रदर्शन समय"
 
-#: ../src/photos-properties-dialog.c:313
+#: src/photos-properties-dialog.c:545
 msgid "Aperture"
 msgstr "छिद्र मान"
 
-#: ../src/photos-properties-dialog.c:323
-#, fuzzy
+#: src/photos-properties-dialog.c:555
 msgid "Focal Length"
 msgstr "केन्द्रित लम्बाइ"
 
-#: ../src/photos-properties-dialog.c:333
+#: src/photos-properties-dialog.c:565
 msgid "ISO Speed"
 msgstr "ISO गति"
 
-#: ../src/photos-properties-dialog.c:343
+#: src/photos-properties-dialog.c:575
 msgid "Flash"
 msgstr "फ्ल्यास"
 
-#: ../src/photos-properties-dialog.c:483
+#: src/photos-properties-dialog.c:584
+msgid "Modifications"
+msgstr "परिमार्जनहरू"
+
+#: src/photos-properties-dialog.c:656
+#, c-format
+msgid "%ld × %ld pixel"
+msgid_plural "%ld × %ld pixels"
+msgstr[0] "%ld × %ld पिक्सेल"
+msgstr[1] "%ld × %ld पिक्सेलहरू"
+
+#: src/photos-properties-dialog.c:721
 #, fuzzy
 msgid "Off, did not fire"
 msgstr "बन्द"
 
-#: ../src/photos-properties-dialog.c:485
+#: src/photos-properties-dialog.c:723
 #, fuzzy
 msgid "On, fired"
 msgstr "फ्ल्यास फायर्ड"
 
-#: ../src/photos-search-match-manager.c:154
-#: ../src/photos-search-type-manager.c:101 ../src/photos-source-manager.c:130
+#: src/photos-properties-dialog.c:760
+msgid "Discard all Edits"
+msgstr "सबै सम्पादनहरू छोड्नुहोस्"
+
+#: src/photos-removable-devices-button.ui:47
+msgid "Devices"
+msgstr "यन्त्र"
+
+#: src/photos-search-match-manager.c:155 src/photos-search-type-manager.c:74
+#: src/photos-source-manager.c:396
 msgid "All"
 msgstr "सबै"
 
 #. Translators: "Title" refers to "Match Title" when searching.
-#: ../src/photos-search-match-manager.c:161
+#: src/photos-search-match-manager.c:162
 msgctxt "Search Filter"
 msgid "Title"
-msgstr "शीर्षक:"
+msgstr "शीर्षक"
 
 #. Translators: "Author" refers to "Match Author" when searching.
-#: ../src/photos-search-match-manager.c:168
+#: src/photos-search-match-manager.c:169
 msgctxt "Search Filter"
 msgid "Author"
-msgstr "लेखक:"
+msgstr "लेखक"
 
-#: ../src/photos-search-match-manager.c:205
+#. Translators: this is a verb that refers to "All", "Title" and
+#. * "Author", as in "Match All", "Match Title" and "Match Author".
+#.
+#: src/photos-search-match-manager.c:207
 msgid "Match"
 msgstr "सबै मिलाउनुहोस्"
 
 #. Translators: "Type" refers to a search filter. eg., All, Albums,
 #. * Favorites and Photos.
 #.
-#: ../src/photos-search-type-manager.c:154
+#: src/photos-search-type-manager.c:126
 msgctxt "Search Filter"
 msgid "Type"
 msgstr "प्रकार"
 
-#: ../src/photos-selection-menu.ui.h:1
+#: src/photos-selection-menu.ui:6
 msgid "Select All"
 msgstr "सबै छान्नुहोस्"
 
-#: ../src/photos-selection-menu.ui.h:2
+#: src/photos-selection-menu.ui:11
 msgid "Select None"
 msgstr "कुनै पनि चयन नगर्नुहोस्"
 
-#: ../src/photos-selection-toolbar.c:458
-msgid "Print"
-msgstr "मुद्रण:"
+#: src/photos-selection-toolbar.ui:19
+msgid "Export"
+msgstr "निर्यात गर्नुहोस्"
 
-#: ../src/photos-selection-toolbar.c:465
-msgid "Delete"
-msgstr "मेट्नुहोस्"
-
-#: ../src/photos-selection-toolbar.c:479
+#: src/photos-selection-toolbar.ui:111
 msgid "Add to Album"
 msgstr "एल्बममा थप्नुहोस्"
 
-#: ../src/photos-source-manager.c:174
+#: src/photos-share-dialog.ui:25
+msgctxt "dialog title"
+msgid "Share"
+msgstr "साझा गर्नुहोस्"
+
+#: src/photos-share-notification.c:148
+#, c-format
+msgid "“%s” shared"
+msgstr "\"%s\" साझेदार गरिएको छ"
+
+#: src/photos-share-point-email.c:78
+msgid "E-Mail"
+msgstr "इमेल"
+
+#: src/photos-share-point-google.c:103
+#, fuzzy
+msgid "Failed to upload photo: Service not authorized"
+msgstr "फोटो अपलोड गर्न असफल"
+
+#: src/photos-share-point-google.c:105
+msgid "Failed to upload photo"
+msgstr "फोटो अपलोड गर्न असफल"
+
+#: src/photos-source-manager.c:465
 msgid "Sources"
 msgstr "स्रोतहरू"
 
-#: ../src/photos-tracker-controller.c:96
+#: src/photos-source-notification.c:171
+msgid "New device discovered"
+msgstr "नयाँ यन्त्र पत्ता लाग्यो"
+
+#: src/photos-source-notification.c:184
+msgid "Import…"
+msgstr "आयात गर्नुहोस्…"
+
+#. Translators: %s refers to an online account provider, e.g.,
+#. * "Facebook" or "Flickr".
+#.
+#: src/photos-source-notification.c:214
+#, fuzzy, c-format
+msgid "Your %s credentials have expired"
+msgstr "सन्दर्भ गरिएको प्रमाणपत्रहरू म्याद समाप्ति भएको छ ।"
+
+#: src/photos-source-notification.c:221
+msgid "Settings"
+msgstr "सेटिङ"
+
+#: src/photos-thumbnailer.c:74
+#, fuzzy
+msgid "D-Bus address to use"
+msgstr "अपरिचित बाँणको प्रकार %d"
+
+#: src/photos-tool-colors.c:386
+msgid "Contrast"
+msgstr "व्यतिरेक"
+
+#: src/photos-tool-colors.c:407
+msgid "Blacks"
+msgstr "अश्वेत"
+
+#: src/photos-tool-colors.c:428
+msgid "Saturation"
+msgstr "स्याचुरेसन"
+
+#: src/photos-tool-colors.c:447
+msgid "Shadows"
+msgstr "छायाँ हरू"
+
+#: src/photos-tool-colors.c:466
+#, fuzzy
+#| msgid "Height"
+msgid "Highlights"
+msgstr "_उचाइ:"
+
+#: src/photos-tool-colors.c:495
+msgid "Colors"
+msgstr "रङ"
+
+#: src/photos-tool-crop.c:192
+msgid "Free"
+msgstr "स्वतन्त्र"
+
+#: src/photos-tool-crop.c:193
+msgid "Original"
+msgstr "मौलिक"
+
+#: src/photos-tool-crop.c:194
+msgid "1×1 (Square)"
+msgstr "१×१ (वर्ग)"
+
+#: src/photos-tool-crop.c:195
+msgid "10×8 / 5×4"
+msgstr "१०×८ / ५×४"
+
+#: src/photos-tool-crop.c:196
+msgid "4×3 / 8×6 (1024×768)"
+msgstr "४×३ / ८×६ (१०२४×७६८)"
+
+#: src/photos-tool-crop.c:197
+msgid "7×5"
+msgstr "७×५"
+
+#: src/photos-tool-crop.c:198
+msgid "3×2 / 6×4"
+msgstr "३×२ / ६×४"
+
+#: src/photos-tool-crop.c:199
+msgid "16×10 (1280×800)"
+msgstr "१६×१० (१२८०×८००)"
+
+#: src/photos-tool-crop.c:200
+msgid "16×9 (1920×1080)"
+msgstr "१६×९ (१९२०×१०८०)"
+
+#: src/photos-tool-crop.c:1459
+msgid "Lock aspect ratio"
+msgstr "आकार अनुपात ताल्चा लगाउनुहोस्"
+
+#: src/photos-tool-crop.c:1529
+msgid "Landscape"
+msgstr "ल्याण्डस्केप"
+
+#: src/photos-tool-crop.c:1540
+msgid "Portrait"
+msgstr "पोर्ट्रेट"
+
+#: src/photos-tool-crop.c:1551
+msgid "Reset"
+msgstr "रिसेट गर्नुहोस्"
+
+#: src/photos-tool-crop.c:1569
+msgid "Crop"
+msgstr "काँटछाँट गर्नुहोस्"
+
+#: src/photos-tool-enhance.c:197
+msgid "Sharpen"
+msgstr ""
+
+#: src/photos-tool-enhance.c:218
+msgid "Denoise"
+msgstr ""
+
+#: src/photos-tool-enhance.c:245
+#, fuzzy
+#| msgid "Cancel"
+msgid "Enhance"
+msgstr ""
+"जिनोममा तपाईँको फोटो पहुँच, सङ्गठित र साझेदारी गर्नुहोस् । फोटोसँग व्यवहार गर्न फाइल प्रबन्धक प्रयोग गर्नका "
+"लागि एउटा सरल र सुरुचिपूर्ण प्रतिस्थापन । सटाउनुहोस्, काटछाँट गर्नुहोस् र सटाउनुहोस्। जिनोम अनलाइन खाता "
+"मार्फत सीमलेस क्लाउड इन्टिग्रेसन प्रस्ताव गरिएको छ ।."
+
+#. Translators: "None" refers to the nop magic filter when editing.
+#: src/photos-tool-filters.c:182
+msgctxt "Edit Filter"
+msgid "None"
+msgstr "कोही पनि होइन"
+
+#: src/photos-tool-filters.c:189
+msgid "1947"
+msgstr "१९४७"
+
+#: src/photos-tool-filters.c:196
+msgid "Calistoga"
+msgstr ""
+
+#: src/photos-tool-filters.c:202
+msgid "Trencin"
+msgstr ""
+
+#: src/photos-tool-filters.c:209
+msgid "Mogadishu"
+msgstr "मोगादिशु"
+
+#: src/photos-tool-filters.c:215
+msgid "Caap"
+msgstr ""
+
+#: src/photos-tool-filters.c:222
+msgid "Hometown"
+msgstr ""
+
+#: src/photos-tool-filters.c:239
+msgid "Filters"
+msgstr "फिल्टर"
+
+#: src/photos-tracker-controller.c:174
+msgid "Unable to find Tracker on your operating system"
+msgstr "तपाईँको सञ्चालन प्रणालीमा ट्र्याकर फेला पार्न असक्षम"
+
+#: src/photos-tracker-controller.c:176
 #, fuzzy
 msgid "Unable to fetch the list of photos"
-msgstr "कुनै पनि कार्यसूचीमा यो कार्य फेला पार्न अक्षम"
+msgstr "कागजात सुची पाउन असक्षम भयो"
+
+#, fuzzy
+#~ msgid "It lets you:"
+#~ msgstr "सञ्झ्याल देखाउनुहोस् जसले तपाईँलाई आफ्नो डेस्कटप पृष्ठभूमिको बाँन्की वा रङ सेट गर्न अनुमति दिन्छ"
+
+#~ msgid "%a, %d %B %Y  %X"
+#~ msgstr "%a, %d %B %Y  %X"
+
+#, fuzzy
+#~ msgid "%.1f (lens)"
+#~ msgstr "%.1f KiB"
+
+#, fuzzy
+#~ msgid "%.1f (35mm film)"
+#~ msgstr "%.1f KiB"
+
+#~ msgid "Transformation on unloaded image."
+#~ msgstr "अनलोड गरेको छविमा रुपान्तर ।"
+
+#~ msgid "Transformation failed."
+#~ msgstr "रूपान्तरण असफल भयो ।"
+
+#, fuzzy
+#~ msgid "EXIF not supported for this file format."
+#~ msgstr "यो फाइल ढाँचाकोलागि EXIF असमर्थित भयो ।"
+
+#~ msgid "Image loading failed."
+#~ msgstr "छवि लोड गराइ असफल भयो ।"
+
+#, fuzzy
+#~ msgid "No image loaded."
+#~ msgstr "छवि लोड गरिएको छैन ।"
+
+#~ msgid "You do not have the permissions necessary to save the file."
+#~ msgstr "यो फाइल संचय गर्न तपाईँसँग आवश्यक अनुमतिहरू छैनन् ।"
+
+#~ msgid "Temporary file creation failed."
+#~ msgstr "अस्थायी फाइल सिर्जना गर्दा असफल भयो ।"
+
+#, fuzzy
+#~ msgid "At least two file names are equal."
+#~ msgstr "घटिमा दुई फाइल नामहरू उस्तै छन् ।"
+
+#, fuzzy
+#~ msgid "Could not display help for Image Viewer"
+#~ msgstr "मद्दत प्रदर्शन गर्न सकेन"
+
+#~ msgid " (invalid Unicode)"
+#~ msgstr " (अवैध युनिकोड)"
+
+#~ msgid "About"
+#~ msgstr "बारेमा"
+
+#~ msgid "Recent"
+#~ msgstr "हालैका फाइल"
+
+#, fuzzy
+#~ msgid "No Favorites Found"
+#~ msgstr "मनपर्ने"
+
+#, fuzzy
+#~ msgid "Load More"
+#~ msgstr "लोड गर्नुहोस्"
+
+#~ msgid "Loading…"
+#~ msgstr "लोड गर्दै..."
+
+#~ msgid "Width"
+#~ msgstr "_चौडाइ:"
