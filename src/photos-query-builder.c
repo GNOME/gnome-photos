@@ -101,7 +101,7 @@ photos_query_builder_query (PhotosSearchContextState *state,
       "rdf:type (?urn) AS ?type "
       "nie:dataSource(?urn) AS ?datasource "
       "( EXISTS { ?urn nco:contributor ?contributor FILTER ( ?contributor != ?creator ) } ) AS ?has_contributor "
-      "tracker:coalesce(nfo:fileCreated (?file), nie:contentCreated (?urn)) AS ?ctime "
+      "tracker:coalesce(nie:contentCreated (?urn), nfo:fileCreated (?file)) AS ?ctime "
       "nfo:width (?urn) AS ?width "
       "nfo:height (?urn) AS ?height "
       "nfo:equipment (?urn) AS ?equipment "
