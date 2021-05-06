@@ -1015,15 +1015,21 @@ photos_item_manager_sort_func (gconstpointer a, gconstpointer b, gpointer user_d
   PhotosBaseItem *item_a = PHOTOS_BASE_ITEM ((gpointer) a);
   PhotosBaseItem *item_b = PHOTOS_BASE_ITEM ((gpointer) b);
   gint ret_val;
-  gint64 mtime_a;
-  gint64 mtime_b;
+  gint64 time_a;
+  gint64 time_b;
 
-  mtime_a = photos_base_item_get_mtime (item_a);
-  mtime_b = photos_base_item_get_mtime (item_b);
+  time_a = photos_base_item_get_date_created (item_a);
+  time_b = photos_base_item_get_date_created (item_b);
 
-  if (mtime_a > mtime_b)
+  /* if creation time is missing, we use modification time */
+  if (time_a < 0)
+    time_a = photos_base_item_get_mtime (item_a);
+  if (time_b < 0)
+    time_b = photos_base_item_get_mtime (item_b);
+
+  if (time_a > time_b)
     ret_val = -1;
-  else if (mtime_a == mtime_b)
+  else if (time_a == time_b)
     ret_val = 0;
   else
     ret_val = 1;
