@@ -124,6 +124,8 @@ photos_properties_dialog_location_reverse_resolve (GObject *source_object, GAsyn
   const gchar *location_area;
   const gchar *location_country;
   const gchar *location_town;
+  g_autoptr (GPtrArray) location_array = NULL;
+  g_autofree gchar **location_strv = NULL;
   g_autofree gchar *location_str = NULL;
 
   {
@@ -140,11 +142,22 @@ photos_properties_dialog_location_reverse_resolve (GObject *source_object, GAsyn
 
   self = PHOTOS_PROPERTIES_DIALOG (user_data);
 
+  location_array = g_ptr_array_new ();
   location_area = geocode_place_get_area (place);
   location_town = geocode_place_get_town (place);
-  location_country =  geocode_place_get_country (place);
-  location_str = g_strdup_printf ("%s, %s, %s", location_area, location_town, location_country);
+  location_country = geocode_place_get_country (place);
+  if (location_area != NULL)
+      g_ptr_array_add(location_array, (gpointer) location_area);
 
+  if (location_town != NULL)
+      g_ptr_array_add(location_array, (gpointer) location_town);
+
+  if (location_country != NULL)
+      g_ptr_array_add(location_array, (gpointer) location_country);
+
+  g_ptr_array_add(location_array, NULL);
+  location_strv = (gchar **) g_ptr_array_free(location_array, FALSE);
+  location_str = g_strjoinv (", ", location_strv);
   location_data = gtk_label_new (location_str);
   gtk_widget_set_halign (location_data, GTK_ALIGN_START);
   gtk_grid_attach_next_to (GTK_GRID (self->grid), location_data, self->location_w, GTK_POS_RIGHT, 2, 1);
