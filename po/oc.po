@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-photos/issues\n"
-"POT-Creation-Date: 2021-03-14 18:43+0000\n"
-"PO-Revision-Date: 2021-05-13 21:56+0200\n"
+"POT-Creation-Date: 2021-05-13 19:58+0000\n"
+"PO-Revision-Date: 2021-06-12 22:55+0200\n"
 "Last-Translator: Quentin PAGÈS\n"
 "Language-Team: Tot en òc (totenoc.eu)\n"
 "Language: oc\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Poedit 2.4.3\n"
+"X-Generator: Poedit 2.3\n"
 "X-Project-Style: gnome\n"
 
 #: data/org.gnome.Photos.appdata.xml.in:7 data/org.gnome.Photos.desktop.in.in:3
@@ -48,22 +48,22 @@ msgstr "Podètz :"
 
 #: data/org.gnome.Photos.appdata.xml.in:18
 msgid "Automatically find all your pictures"
-msgstr ""
+msgstr "Trobatz automaticament totas vòstras fòtos"
 
 #: data/org.gnome.Photos.appdata.xml.in:19
 msgid "View recent local and online photos"
 msgstr "Veire de fòtos recentas en local o en linha"
 
 #: data/org.gnome.Photos.appdata.xml.in:20
-#, fuzzy
-#| msgid "Access your Facebook or Flickr content"
 msgid "Access your Facebook or Flickr pictures"
-msgstr "Accedir a vòstres contenguts Facebook o Flickr"
+msgstr "Accedir a vòstres imatges Facebook o Flickr"
 
 #: data/org.gnome.Photos.appdata.xml.in:21
 msgid ""
 "View photos on TVs, laptops or other DLNA renderers on your local network"
 msgstr ""
+"Visualizar de fòtos sus la TV, los portatius o d'autres equipament DLNA de "
+"vòstre ret local"
 
 #: data/org.gnome.Photos.appdata.xml.in:23
 msgid "Set pictures as your desktop background"
@@ -78,15 +78,14 @@ msgid "Select favorites"
 msgstr "Seleccionar de favorits"
 
 #: data/org.gnome.Photos.appdata.xml.in:26
-#, fuzzy
-#| msgid "Allow opening full featured editor for more advanced changes"
 msgid ""
 "Easily edit your pictures in the app, or send to a full featured editor for "
 "more advanced changes"
 msgstr ""
-"Dobrir un editor plenament foncional per las modificacions mai avançadas"
+"Modificatz facilament vòstres imatges dins l'aplicacion, o enviatz-los a un "
+"editor mai complet per de modificacions mai avançadas"
 
-#: data/org.gnome.Photos.appdata.xml.in:89
+#: data/org.gnome.Photos.appdata.xml.in:99
 msgid "The GNOME Project"
 msgstr "Lo projècte GNOME"
 
@@ -97,7 +96,7 @@ msgstr "Accedir, organizar e partejar de fòtos"
 #. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
 #: data/org.gnome.Photos.desktop.in.in:15
 msgid "Photos;Pictures;"
-msgstr "fòtos;imatges;"
+msgstr "fòtos;imatges;fotografia;"
 
 #: data/org.gnome.photos.gschema.xml:5
 msgid "Window size"
@@ -125,7 +124,7 @@ msgstr "Nivèl d'agrandiment de la fenèstra"
 
 #: src/photos-application.c:168
 msgid "Show the empty state"
-msgstr ""
+msgstr "Afichar l'estat void"
 
 #: src/photos-application.c:169
 msgid "Show the application's version"
@@ -180,7 +179,7 @@ msgstr "« %s » editat"
 
 #: src/photos-embed.c:828
 msgid "Collection View"
-msgstr ""
+msgstr "Vista colleccion"
 
 #: src/photos-embed.c:831 src/photos-search-type-manager.c:83
 msgid "Albums"
@@ -203,10 +202,8 @@ msgid "No Albums Found"
 msgstr "Cap d'album pas trobat"
 
 #: src/photos-empty-results-box.c:120
-#, fuzzy
-#| msgid "Starred photos will appear here"
 msgid "Starred Photos Will Appear Here"
-msgstr "Las fòtos favoritas apareisseràn aicí"
+msgstr "Las fòtos en favorits apareisseràn aicí"
 
 #: src/photos-empty-results-box.c:130
 msgid "No Photos Found"
@@ -214,7 +211,7 @@ msgstr "Cap de fòto pas trobada"
 
 #: src/photos-empty-results-box.c:155
 msgid "You can create albums from the Photos view"
-msgstr ""
+msgstr "Podètz crear d'albums a partir de la vista Fòtos"
 
 #. Translators: this should be translated in the context of
 #. * the "Photos from your Online Accounts and Pictures folder
@@ -238,10 +235,9 @@ msgstr "Repertòri d'imatges"
 #. * context of this sentence.
 #.
 #: src/photos-empty-results-box.c:190
-#, fuzzy, c-format
-#| msgid "Starred photos will appear here"
+#, c-format
 msgid "Photos from your %s and %s will appear here."
-msgstr "Las fòtos favoritas apareisseràn aicí"
+msgstr "Las fòtos de %s e %s apareisseràn aquí."
 
 #: src/photos-empty-results-box.c:200
 msgid "Try a different search."
@@ -396,17 +392,11 @@ msgid "Select all"
 msgstr "Seleccionar tot"
 
 #: src/photos-help-overlay.ui:113
-#, fuzzy
-#| msgctxt "shortcut window"
-#| msgid "Print selected photos"
 msgctxt "shortcut window"
 msgid "Export selected photo"
-msgstr "Imprimir las fòtos seleccionadas"
+msgstr "Exportar las fòtos seleccionadas"
 
 #: src/photos-help-overlay.ui:120
-#, fuzzy
-#| msgctxt "shortcut window"
-#| msgid "Print selected photos"
 msgctxt "shortcut window"
 msgid "Print selected photo"
 msgstr "Imprimir las fòtos seleccionadas"
@@ -513,11 +503,11 @@ msgstr "Recuperacion de las fòtos dempuèi %s"
 msgid "Fetching photos from online accounts"
 msgstr "Recuperacion de las fòtos dempuèi los comptes en linha"
 
-#: src/photos-indexing-notification.c:214
+#: src/photos-indexing-notification.c:193
 msgid "Your photos are being indexed"
 msgstr "Vòstras fòtos son en cors d'indexacion"
 
-#: src/photos-indexing-notification.c:215
+#: src/photos-indexing-notification.c:194
 msgid "Some photos might not be available during this process"
 msgstr "D'unas fòtos pòdon èsser indisponiblas pendent aquesta operacion"
 
@@ -542,17 +532,15 @@ msgstr[0] "%d seleccionat"
 msgstr[1] "%d seleccionats"
 
 #: src/photos-main-toolbar.c:170
-#, fuzzy
-#| msgid "Select Items"
 msgid "Select items for import"
-msgstr "Seleccionar d'elements"
+msgstr "Seleccionar d'elements d'importar"
 
 #: src/photos-main-toolbar.c:174
 #, c-format
 msgid "Select items for import (%u selected)"
 msgid_plural "Select items for import (%u selected)"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Seleccionar los elements d'importar (%u seleccionat)"
+msgstr[1] "Seleccionar los elements d'importar (%u seleccionats)"
 
 #: src/photos-main-toolbar.c:217
 msgid "Back"
@@ -910,7 +898,7 @@ msgstr "Provenéncias"
 
 #: src/photos-source-notification.c:171
 msgid "New device discovered"
-msgstr ""
+msgstr "Periferic novèl descobèrt"
 
 #: src/photos-source-notification.c:184
 msgid "Import…"
@@ -922,7 +910,7 @@ msgstr "Importar…"
 #: src/photos-source-notification.c:214
 #, c-format
 msgid "Your %s credentials have expired"
-msgstr ""
+msgstr "Las informacions d'identificacion %s an expirat"
 
 #: src/photos-source-notification.c:221
 msgid "Settings"
@@ -930,7 +918,7 @@ msgstr "Paramètres"
 
 #: src/photos-thumbnailer.c:74
 msgid "D-Bus address to use"
-msgstr ""
+msgstr "Adreça D-Bus d'utilizar"
 
 #: src/photos-tool-colors.c:386
 msgid "Contrast"
@@ -938,7 +926,7 @@ msgstr "Contraste"
 
 #: src/photos-tool-colors.c:407
 msgid "Blacks"
-msgstr ""
+msgstr "Negres"
 
 #: src/photos-tool-colors.c:428
 msgid "Saturation"
@@ -946,13 +934,11 @@ msgstr "Saturacion"
 
 #: src/photos-tool-colors.c:447
 msgid "Shadows"
-msgstr ""
+msgstr "Ombras"
 
 #: src/photos-tool-colors.c:466
-#, fuzzy
-#| msgid "Height"
 msgid "Highlights"
-msgstr "Nautor"
+msgstr "Susbrilhança"
 
 #: src/photos-tool-colors.c:495
 msgid "Colors"
@@ -1062,7 +1048,7 @@ msgstr "Filtres"
 
 #: src/photos-tracker-controller.c:174
 msgid "Unable to find Tracker on your operating system"
-msgstr ""
+msgstr "Impossible de trobar Tracker dins vòstre sistèma operatiu"
 
 #: src/photos-tracker-controller.c:176
 msgid "Unable to fetch the list of photos"
