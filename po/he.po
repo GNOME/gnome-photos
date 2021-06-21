@@ -8,22 +8,21 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GNOME Photos\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-photos/issues\n"
-"POT-Creation-Date: 2021-03-14 18:43+0000\n"
-"PO-Revision-Date: 2021-03-29 02:05+0300\n"
-"Last-Translator: Yosef Or Boczko <yoseforb@gmail.com>\n"
+"POT-Creation-Date: 2021-05-06 11:22+0000\n"
+"PO-Revision-Date: 2021-06-21 21:15+0300\n"
+"Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: Hebrew <yoseforb@gmail.com>\n"
 "Language: he\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"X-Poedit-Language: Hebrew\n"
-"X-Poedit-Country: ISRAEL\n"
-"X-Poedit-SourceCharset: utf-8\n"
-"X-Generator: Gtranslator 3.38.0\n"
+"Plural-Forms: nplurals=4; plural=(n==1 ? 0 : n==2 ? 1 : n>10 && n%10==0 ? "
+"2 : 3);\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Generator: Poedit 3.0\n"
 
 #: data/org.gnome.Photos.appdata.xml.in:7 data/org.gnome.Photos.desktop.in.in:3
-#: src/photos-application.c:3030 src/photos-embed.c:823
+#: src/photos-application.c:3030 src/photos-embed.c:822
 #: src/photos-main-window.c:437 src/photos-search-type-manager.c:101
 msgid "Photos"
 msgstr "תמונות"
@@ -84,7 +83,7 @@ msgstr ""
 "עריכה פשוטה של תמונות ביישום, או פתיחה של עורך עשיר בתכונות לשינויים מתקדמים "
 "יותר"
 
-#: data/org.gnome.Photos.appdata.xml.in:89
+#: data/org.gnome.Photos.appdata.xml.in:99
 msgid "The GNOME Project"
 msgstr "מיזם GNOME"
 
@@ -138,16 +137,16 @@ msgstr "Show the application's version"
 #. Translators: this is the name of the default album that will be
 #. * created for imported photos.
 #.
-#: src/photos-application.c:1313 src/photos-export-dialog.c:195
+#: src/photos-application.c:1310 src/photos-export-dialog.c:195
 #: src/photos-import-dialog.c:134
 msgid "%-d %B %Y"
 msgstr "%-d ב%B %Y"
 
-#: src/photos-base-item.c:1036
+#: src/photos-base-item.c:1034
 msgid "Album"
 msgstr "אלבום"
 
-#: src/photos-base-item.c:2857
+#: src/photos-base-item.c:2862
 msgid "Screenshots"
 msgstr "צילומי מסך"
 
@@ -161,7 +160,9 @@ msgstr "‏„%s” נמחק"
 msgid "%d item deleted"
 msgid_plural "%d items deleted"
 msgstr[0] "פריט אחד נמחק"
-msgstr[1] "%d פריטים נמחקו"
+msgstr[1] "שני פריטים נמחקו"
+msgstr[2] "‫%d פריטים נמחקו"
+msgstr[3] "‫%d פריטים נמחקו"
 
 #: src/photos-delete-notification.c:166 src/photos-done-notification.c:119
 msgid "Undo"
@@ -176,38 +177,35 @@ msgstr "התקן עיבוד DLNA"
 msgid "“%s” edited"
 msgstr "‏„%s” נמחק"
 
-#: src/photos-embed.c:828
+#: src/photos-embed.c:827
 msgid "Collection View"
 msgstr "תצוגת אלבומים"
 
-#: src/photos-embed.c:831 src/photos-search-type-manager.c:83
+#: src/photos-embed.c:830 src/photos-search-type-manager.c:83
 msgid "Albums"
 msgstr "אלבומים"
 
-#: src/photos-embed.c:836 src/photos-search-type-manager.c:92
+#: src/photos-embed.c:835 src/photos-search-type-manager.c:92
 msgid "Favorites"
 msgstr "מועדפים"
 
-#: src/photos-embed.c:841
+#: src/photos-embed.c:840
 msgid "Import"
 msgstr "יבוא"
 
-#: src/photos-embed.c:844 src/photos-main-toolbar.c:336
+#: src/photos-embed.c:843 src/photos-main-toolbar.c:336
 msgid "Search"
 msgstr "חיפוש"
 
 #: src/photos-empty-results-box.c:116
-#| msgid "No albums found"
 msgid "No Albums Found"
 msgstr "לא נמצאו אלבומים"
 
 #: src/photos-empty-results-box.c:120
-#| msgid "Starred photos will appear here"
 msgid "Starred Photos Will Appear Here"
 msgstr "תמונות המסומנות בכוכב תופענה כאן"
 
 #: src/photos-empty-results-box.c:130
-#| msgid "No photos found"
 msgid "No Photos Found"
 msgstr "לא נמצאו תמונות"
 
@@ -242,7 +240,6 @@ msgid "Photos from your %s and %s will appear here."
 msgstr "תמונות מ%s שלך ומ%s שלך תופענה כאן."
 
 #: src/photos-empty-results-box.c:200
-#| msgid "Try a different search"
 msgid "Try a different search."
 msgstr "יש לנסות חיפוש שונה."
 
@@ -255,7 +252,7 @@ msgstr "ייצוא"
 msgid "_Folder Name"
 msgstr "שם _תיקייה"
 
-#: src/photos-export-dialog.ui:66 src/photos-print-setup.c:912
+#: src/photos-export-dialog.ui:66 src/photos-print-setup.c:908
 msgid "Size"
 msgstr "גודל"
 
@@ -287,15 +284,15 @@ msgstr "‏%d×%d ‏(%s)"
 
 #: src/photos-export-dialog.c:252
 msgid "Calculating export size…"
-msgstr "מחשב גודל ייצוא…"
+msgstr "גודל ייצוא מחושב…"
 
 #: src/photos-export-notification.c:317
 msgid "Failed to export: not enough space"
-msgstr "נכשל הייצוא: אין מספיק מקום"
+msgstr "הייצוא נכשל: אין מספיק מקום"
 
 #: src/photos-export-notification.c:319
 msgid "Failed to export"
-msgstr "נכשל הייצוא"
+msgstr "הייצוא נכשל"
 
 #: src/photos-export-notification.c:326
 #, c-format
@@ -307,7 +304,9 @@ msgstr "‏„%s” יּוצא"
 msgid "%d item exported"
 msgid_plural "%d items exported"
 msgstr[0] "פריט אחד ייוצא"
-msgstr[1] "%d פריטים ייוצאו"
+msgstr[1] "שני פריטים ייוצאו"
+msgstr[2] "‫%d פריטים ייוצאו"
+msgstr[3] "‫%d פריטים ייוצאו"
 
 #: src/photos-export-notification.c:347
 msgid "Analyze"
@@ -315,11 +314,11 @@ msgstr "אבחון"
 
 #: src/photos-export-notification.c:352
 msgid "Empty Trash"
-msgstr "ריקון האשפה"
+msgstr "פינוי האשפה"
 
 #. Translators: this is the Open action in a context menu
 #: src/photos-export-notification.c:369 src/photos-preview-menu.ui:6
-#: src/photos-selection-toolbar.c:240 src/photos-selection-toolbar.ui:28
+#: src/photos-selection-toolbar.c:248 src/photos-selection-toolbar.ui:28
 msgid "Open"
 msgstr "פתיחה"
 
@@ -392,7 +391,7 @@ msgstr "חיפוש"
 #: src/photos-help-overlay.ui:106
 msgctxt "shortcut window"
 msgid "Select all"
-msgstr "בחירת הכול"
+msgstr "בחירה בהכול"
 
 #: src/photos-help-overlay.ui:113
 msgctxt "shortcut window"
@@ -506,13 +505,13 @@ msgstr "שולף תמונות מ־%s"
 msgid "Fetching photos from online accounts"
 msgstr "שולף תמונות מחשבונות מקוונים"
 
-#: src/photos-indexing-notification.c:214
+#: src/photos-indexing-notification.c:193
 msgid "Your photos are being indexed"
-msgstr "התמונות שלך נשמרות באינדקס"
+msgstr "התמונות שלך נשמרות במפתח"
 
-#: src/photos-indexing-notification.c:215
+#: src/photos-indexing-notification.c:194
 msgid "Some photos might not be available during this process"
-msgstr "יתכן שחלק מהתמונות לא תהינה זמינות במשך תהליך זה"
+msgstr "יתכן שחלק מהתמונות לא תהיינה זמינות במשך תהליך זה"
 
 #: src/photos-item-manager.c:845
 #, c-format
@@ -532,18 +531,22 @@ msgstr "יש ללחוץ על פריטים כדי לבחור אותם"
 msgid "%d selected"
 msgid_plural "%d selected"
 msgstr[0] "אחת נבחרה"
-msgstr[1] "%d נבחרו"
+msgstr[1] "שתיים נבחרו"
+msgstr[2] "‫%d נבחרו"
+msgstr[3] "‫%d נבחרו"
 
 #: src/photos-main-toolbar.c:170
 msgid "Select items for import"
-msgstr "בחירת פריטים ליבוא"
+msgstr "בחירת פריטים לייבוא"
 
 #: src/photos-main-toolbar.c:174
 #, c-format
 msgid "Select items for import (%u selected)"
 msgid_plural "Select items for import (%u selected)"
-msgstr[0] "בחירת פריטים ליבוא (אחד נבחר)"
-msgstr[1] "בחירת פריטים ליבוא (%u נבחרו)"
+msgstr[0] "בחירת פריטים לייבוא (אחד נבחר)"
+msgstr[1] "בחירת פריטים לייבוא (%u נבחרו)"
+msgstr[2] "בחירת פריטים לייבוא (%u נבחרו)"
+msgstr[3] "בחירת פריטים לייבוא (%u נבחרו)"
 
 #: src/photos-main-toolbar.c:217
 msgid "Back"
@@ -555,17 +558,17 @@ msgstr "בחירת פריטים"
 
 #. length == 1
 #. Translators: this is the Open action in a context menu
-#: src/photos-main-toolbar.c:411 src/photos-selection-toolbar.c:237
+#: src/photos-main-toolbar.c:411 src/photos-selection-toolbar.c:245
 #: src/photos-share-notification.c:165
 #, c-format
 msgid "Open with %s"
 msgstr "פתיחה באמצעות %s"
 
-#: src/photos-main-toolbar.c:442 src/photos-selection-toolbar.c:248
+#: src/photos-main-toolbar.c:442 src/photos-selection-toolbar.c:254
 msgid "Remove from favorites"
 msgstr "הסרה מהמועדפים"
 
-#: src/photos-main-toolbar.c:447 src/photos-selection-toolbar.c:253
+#: src/photos-main-toolbar.c:447 src/photos-selection-toolbar.c:259
 msgid "Add to favorites"
 msgstr "הוספה למועדפים"
 
@@ -579,11 +582,12 @@ msgstr "_בחירה"
 
 #: src/photos-main-window.c:458
 msgid ""
-"Copyright © 2012 – 2019 Red Hat, Inc.\n"
+"Copyright © 2012 – 2021 Red Hat, Inc.\n"
 "Copyright © 2015 – 2018 Umang Jain"
 msgstr ""
-"כל הזכויות שמורות © ‎2012 – 2019 Red Hat, Inc.\n"
-"כל הזכויות שמורות © ‎2015 – 2018 Umang Jain"
+"כל הזכויות שמורות © ‎2012 - 2021 Red Hat, Inc.\n"
+"‬\n"
+"‫כל הזכויות שמורות © ‎2015 - 2018 Umang Jain"
 
 #. Translators: Put your names here
 #: src/photos-main-window.c:466
@@ -642,11 +646,11 @@ msgstr "צירופי מקשים"
 
 #: src/photos-primary-menu.ui:10
 msgid "_Help"
-msgstr "_עזרה"
+msgstr "ע_זרה"
 
 #: src/photos-primary-menu.ui:14
 msgid "About Photos"
-msgstr "על אודות תמונות"
+msgstr "על יישום התמונות"
 
 #: src/photos-print-notification.c:71
 #, c-format
@@ -657,71 +661,71 @@ msgstr "מדפיס „%s”:‏ %s"
 msgid "Image Settings"
 msgstr "הגדרות התמונה"
 
-#: src/photos-print-setup.c:884
+#: src/photos-print-setup.c:880
 msgid "Position"
 msgstr "מיקום"
 
-#: src/photos-print-setup.c:887
+#: src/photos-print-setup.c:883
 msgid "_Left:"
 msgstr "_שמאל:"
 
-#: src/photos-print-setup.c:888
+#: src/photos-print-setup.c:884
 msgid "_Right:"
 msgstr "י_מין:"
 
-#: src/photos-print-setup.c:889
+#: src/photos-print-setup.c:885
 msgid "_Top:"
 msgstr "למ_עלה:"
 
-#: src/photos-print-setup.c:890
+#: src/photos-print-setup.c:886
 msgid "_Bottom:"
 msgstr "למ_טה:"
 
-#: src/photos-print-setup.c:892
+#: src/photos-print-setup.c:888
 msgid "C_enter:"
 msgstr "מ_רכז:"
 
-#: src/photos-print-setup.c:896
+#: src/photos-print-setup.c:892
 msgid "None"
 msgstr "ללא"
 
-#: src/photos-print-setup.c:897
+#: src/photos-print-setup.c:893
 msgid "Horizontal"
 msgstr "אופקי"
 
-#: src/photos-print-setup.c:898
+#: src/photos-print-setup.c:894
 msgid "Vertical"
 msgstr "אנכי"
 
-#: src/photos-print-setup.c:899
+#: src/photos-print-setup.c:895
 msgid "Both"
 msgstr "שניהם"
 
-#: src/photos-print-setup.c:915
+#: src/photos-print-setup.c:911
 msgid "_Width:"
 msgstr "_רוחב:"
 
-#: src/photos-print-setup.c:916
+#: src/photos-print-setup.c:912
 msgid "_Height:"
 msgstr "_גובה:"
 
-#: src/photos-print-setup.c:918
+#: src/photos-print-setup.c:914
 msgid "_Scaling:"
 msgstr "_אמת מידה:"
 
-#: src/photos-print-setup.c:927
+#: src/photos-print-setup.c:923
 msgid "_Unit:"
 msgstr "י_חידה:"
 
-#: src/photos-print-setup.c:931
+#: src/photos-print-setup.c:927
 msgid "Millimeters"
 msgstr "מילימטרים"
 
-#: src/photos-print-setup.c:932
+#: src/photos-print-setup.c:928
 msgid "Inches"
 msgstr "אינצ׳ים"
 
-#: src/photos-print-setup.c:960
+#: src/photos-print-setup.c:956
 msgid "Preview"
 msgstr "תצוגה מקדימה"
 
@@ -809,8 +813,10 @@ msgstr "התאמה"
 #, c-format
 msgid "%ld × %ld pixel"
 msgid_plural "%ld × %ld pixels"
-msgstr[0] "‏%ld ‏× %ld פיקסלים"
+msgstr[0] "‏%ld ‏× %ld פיקסל"
 msgstr[1] "‏%ld ‏× %ld פיקסלים"
+msgstr[2] "‏%ld ‏× %ld פיקסלים"
+msgstr[3] "‏%ld ‏× %ld פיקסלים"
 
 #: src/photos-properties-dialog.c:721
 msgid "Off, did not fire"
@@ -828,19 +834,19 @@ msgstr "השלכת כל השינויים"
 msgid "Devices"
 msgstr "התקנים"
 
-#: src/photos-search-match-manager.c:155 src/photos-search-type-manager.c:74
+#: src/photos-search-match-manager.c:149 src/photos-search-type-manager.c:74
 #: src/photos-source-manager.c:396
 msgid "All"
 msgstr "הכול"
 
 #. Translators: "Title" refers to "Match Title" when searching.
-#: src/photos-search-match-manager.c:162
+#: src/photos-search-match-manager.c:155
 msgctxt "Search Filter"
 msgid "Title"
 msgstr "כותרת"
 
 #. Translators: "Author" refers to "Match Author" when searching.
-#: src/photos-search-match-manager.c:169
+#: src/photos-search-match-manager.c:161
 msgctxt "Search Filter"
 msgid "Author"
 msgstr "יוצר"
@@ -848,7 +854,7 @@ msgstr "יוצר"
 #. Translators: this is a verb that refers to "All", "Title" and
 #. * "Author", as in "Match All", "Match Title" and "Match Author".
 #.
-#: src/photos-search-match-manager.c:207
+#: src/photos-search-match-manager.c:213
 msgid "Match"
 msgstr "התאמה"
 
@@ -908,7 +914,7 @@ msgstr "זוהה התקן חדש"
 
 #: src/photos-source-notification.c:184
 msgid "Import…"
-msgstr "יבוא…"
+msgstr "ייבוא…"
 
 #. Translators: %s refers to an online account provider, e.g.,
 #. * "Facebook" or "Flickr".
@@ -916,7 +922,7 @@ msgstr "יבוא…"
 #: src/photos-source-notification.c:214
 #, c-format
 msgid "Your %s credentials have expired"
-msgstr "האישור שלך עבור %s פג תוקף"
+msgstr "תוקף האישור שלך עבור %s פג"
 
 #: src/photos-source-notification.c:221
 msgid "Settings"
@@ -1030,23 +1036,23 @@ msgstr "1947"
 
 #: src/photos-tool-filters.c:196
 msgid "Calistoga"
-msgstr "Calistoga"
+msgstr "קליסטוגה"
 
 #: src/photos-tool-filters.c:202
 msgid "Trencin"
-msgstr "Trencin"
+msgstr "טרנצ׳ין"
 
 #: src/photos-tool-filters.c:209
 msgid "Mogadishu"
-msgstr "Mogadishu"
+msgstr "מוגדישו"
 
 #: src/photos-tool-filters.c:215
 msgid "Caap"
-msgstr "Caap"
+msgstr "קאפ"
 
 #: src/photos-tool-filters.c:222
 msgid "Hometown"
-msgstr "Hometown"
+msgstr "עיר מולדת"
 
 #: src/photos-tool-filters.c:239
 msgid "Filters"
