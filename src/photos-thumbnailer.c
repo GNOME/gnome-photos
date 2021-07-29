@@ -62,6 +62,7 @@ struct _PhotosThumbnailerGenerateData
   gint thumbnail_size;
   gint64 original_height;
   gint64 original_width;
+  gint64 original_mtime;
 };
 
 enum
@@ -101,6 +102,8 @@ photos_thumbnailer_generate_data_new (GFile *file,
                                       GeglNode *graph)
 {
   PhotosThumbnailerGenerateData *data;
+  g_autoptr (GFileInfo) info = NULL;
+  g_autoptr (GDateTime) mtime = NULL;
 
   data = g_slice_new0 (PhotosThumbnailerGenerateData);
   data->file = g_object_ref (file);
@@ -110,6 +113,12 @@ photos_thumbnailer_generate_data_new (GFile *file,
   data->thumbnail_path = g_strdup (thumbnail_path);
   data->thumbnail_size = thumbnail_size;
   data->graph = g_object_ref (graph);
+
+  /* Get mtime from original file */
+  info = g_file_query_info (file, G_FILE_ATTRIBUTE_TIME_MODIFIED,
+		                    G_FILE_QUERY_INFO_NONE, NULL, NULL);
+  mtime = g_file_info_get_modification_date_time (info);
+  data->original_mtime = g_date_time_to_unix (mtime);
 
   return data;
 }
@@ -214,6 +223,7 @@ photos_thumbnailer_generate_thumbnail_replace (GObject *source_object, GAsyncRes
   const gchar *prgname;
   g_autofree gchar *original_height_str = NULL;
   g_autofree gchar *original_width_str = NULL;
+  g_autofree gchar *original_mtime_str = NULL;
   g_autofree gchar *uri = NULL;
 
   cancellable = g_task_get_cancellable (task);
@@ -235,6 +245,7 @@ photos_thumbnailer_generate_thumbnail_replace (GObject *source_object, GAsyncRes
 
   original_height_str = g_strdup_printf ("%" G_GINT64_FORMAT, data->original_height);
   original_width_str = g_strdup_printf ("%" G_GINT64_FORMAT, data->original_width);
+  original_mtime_str = g_strdup_printf ("%" G_GINT64_FORMAT, data->original_mtime);
   prgname = g_get_prgname ();
   uri = g_file_get_uri (data->file);
   gdk_pixbuf_save_to_stream_async (data->pixbuf_thumbnail,
@@ -247,6 +258,7 @@ photos_thumbnailer_generate_thumbnail_replace (GObject *source_object, GAsyncRes
                                    "tEXt::Thumb::URI", uri,
                                    "tEXt::Thumb::Image::Height", original_height_str,
                                    "tEXt::Thumb::Image::Width", original_width_str,
+                                   "tEXt::Thumb::Image::MTime", original_mtime_str,
                                    NULL);
 
  out:
