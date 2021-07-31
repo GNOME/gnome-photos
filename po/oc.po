@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-photos/issues\n"
-"POT-Creation-Date: 2021-05-13 19:58+0000\n"
-"PO-Revision-Date: 2021-06-12 22:55+0200\n"
+"POT-Creation-Date: 2021-06-12 20:58+0000\n"
+"PO-Revision-Date: 2021-07-31 18:17+0200\n"
 "Last-Translator: Quentin PAGÈS\n"
 "Language-Team: Tot en òc (totenoc.eu)\n"
 "Language: oc\n"
@@ -17,11 +17,11 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Poedit 2.3\n"
+"X-Generator: Poedit 3.0\n"
 "X-Project-Style: gnome\n"
 
 #: data/org.gnome.Photos.appdata.xml.in:7 data/org.gnome.Photos.desktop.in.in:3
-#: src/photos-application.c:3030 src/photos-embed.c:823
+#: src/photos-application.c:3030 src/photos-embed.c:822
 #: src/photos-main-window.c:437 src/photos-search-type-manager.c:101
 msgid "Photos"
 msgstr "Fòtos"
@@ -139,16 +139,16 @@ msgstr "Afichar la version de l'aplicacion"
 #. Translators: this is the name of the default album that will be
 #. * created for imported photos.
 #.
-#: src/photos-application.c:1313 src/photos-export-dialog.c:195
+#: src/photos-application.c:1310 src/photos-export-dialog.c:195
 #: src/photos-import-dialog.c:134
 msgid "%-d %B %Y"
 msgstr "%e %B de %Y"
 
-#: src/photos-base-item.c:1036
+#: src/photos-base-item.c:1034
 msgid "Album"
 msgstr "Album"
 
-#: src/photos-base-item.c:2857
+#: src/photos-base-item.c:2862
 msgid "Screenshots"
 msgstr "Capturas d'ecran"
 
@@ -177,23 +177,23 @@ msgstr "Periferics de rendut DLNA"
 msgid "“%s” edited"
 msgstr "« %s » editat"
 
-#: src/photos-embed.c:828
+#: src/photos-embed.c:827
 msgid "Collection View"
 msgstr "Vista colleccion"
 
-#: src/photos-embed.c:831 src/photos-search-type-manager.c:83
+#: src/photos-embed.c:830 src/photos-search-type-manager.c:83
 msgid "Albums"
 msgstr "Albums"
 
-#: src/photos-embed.c:836 src/photos-search-type-manager.c:92
+#: src/photos-embed.c:835 src/photos-search-type-manager.c:92
 msgid "Favorites"
 msgstr "Favorits"
 
-#: src/photos-embed.c:841
+#: src/photos-embed.c:840
 msgid "Import"
 msgstr "Importar"
 
-#: src/photos-embed.c:844 src/photos-main-toolbar.c:336
+#: src/photos-embed.c:843 src/photos-main-toolbar.c:336
 msgid "Search"
 msgstr "Recèrca"
 
@@ -252,7 +252,7 @@ msgstr "Exportar"
 msgid "_Folder Name"
 msgstr "Nom del _dorsièr"
 
-#: src/photos-export-dialog.ui:66 src/photos-print-setup.c:912
+#: src/photos-export-dialog.ui:66 src/photos-print-setup.c:908
 msgid "Size"
 msgstr "Talha"
 
@@ -316,7 +316,7 @@ msgstr "Voidar l'escobilhièr"
 
 #. Translators: this is the Open action in a context menu
 #: src/photos-export-notification.c:369 src/photos-preview-menu.ui:6
-#: src/photos-selection-toolbar.c:240 src/photos-selection-toolbar.ui:28
+#: src/photos-selection-toolbar.c:248 src/photos-selection-toolbar.ui:28
 msgid "Open"
 msgstr "Dobrir"
 
@@ -552,17 +552,17 @@ msgstr "Seleccionar d'elements"
 
 #. length == 1
 #. Translators: this is the Open action in a context menu
-#: src/photos-main-toolbar.c:411 src/photos-selection-toolbar.c:237
+#: src/photos-main-toolbar.c:411 src/photos-selection-toolbar.c:245
 #: src/photos-share-notification.c:165
 #, c-format
 msgid "Open with %s"
 msgstr "Dobrir amb %s"
 
-#: src/photos-main-toolbar.c:442 src/photos-selection-toolbar.c:248
+#: src/photos-main-toolbar.c:442 src/photos-selection-toolbar.c:254
 msgid "Remove from favorites"
 msgstr "Suprimir dels favorits"
 
-#: src/photos-main-toolbar.c:447 src/photos-selection-toolbar.c:253
+#: src/photos-main-toolbar.c:447 src/photos-selection-toolbar.c:259
 msgid "Add to favorites"
 msgstr "Apondre als favorits"
 
@@ -576,10 +576,10 @@ msgstr "_Seleccionar"
 
 #: src/photos-main-window.c:458
 msgid ""
-"Copyright © 2012 – 2019 Red Hat, Inc.\n"
+"Copyright © 2012 – 2021 Red Hat, Inc.\n"
 "Copyright © 2015 – 2018 Umang Jain"
 msgstr ""
-"Copyright © 2012 – 2019 Red Hat, Inc.\n"
+"Copyright © 2012 – 2021 Red Hat, Inc.\n"
 "Copyright © 2015 – 2018 Umang Jain"
 
 #. Translators: Put your names here
@@ -651,71 +651,71 @@ msgstr "Impression de « %s » : %s"
 msgid "Image Settings"
 msgstr "Paramètres de l'imatge"
 
-#: src/photos-print-setup.c:884
+#: src/photos-print-setup.c:880
 msgid "Position"
 msgstr "Posicion"
 
-#: src/photos-print-setup.c:887
+#: src/photos-print-setup.c:883
 msgid "_Left:"
 msgstr "A Es_quèrra :"
 
-#: src/photos-print-setup.c:888
+#: src/photos-print-setup.c:884
 msgid "_Right:"
 msgstr "A _dreita :"
 
-#: src/photos-print-setup.c:889
+#: src/photos-print-setup.c:885
 msgid "_Top:"
 msgstr "A_mont :"
 
-#: src/photos-print-setup.c:890
+#: src/photos-print-setup.c:886
 msgid "_Bottom:"
 msgstr "A_val :"
 
-#: src/photos-print-setup.c:892
+#: src/photos-print-setup.c:888
 msgid "C_enter:"
 msgstr "Al _centre :"
 
-#: src/photos-print-setup.c:896
+#: src/photos-print-setup.c:892
 msgid "None"
 msgstr "Pas cap"
 
-#: src/photos-print-setup.c:897
+#: src/photos-print-setup.c:893
 msgid "Horizontal"
 msgstr "Orizontala"
 
-#: src/photos-print-setup.c:898
+#: src/photos-print-setup.c:894
 msgid "Vertical"
 msgstr "Verticala"
 
-#: src/photos-print-setup.c:899
+#: src/photos-print-setup.c:895
 msgid "Both"
 msgstr "Los dos"
 
-#: src/photos-print-setup.c:915
+#: src/photos-print-setup.c:911
 msgid "_Width:"
 msgstr "_Largor :"
 
-#: src/photos-print-setup.c:916
+#: src/photos-print-setup.c:912
 msgid "_Height:"
 msgstr "_Nautor :"
 
-#: src/photos-print-setup.c:918
+#: src/photos-print-setup.c:914
 msgid "_Scaling:"
 msgstr "Es_cala :"
 
-#: src/photos-print-setup.c:927
+#: src/photos-print-setup.c:923
 msgid "_Unit:"
 msgstr "_Unitat :"
 
-#: src/photos-print-setup.c:931
+#: src/photos-print-setup.c:927
 msgid "Millimeters"
 msgstr "Millimètres"
 
-#: src/photos-print-setup.c:932
+#: src/photos-print-setup.c:928
 msgid "Inches"
 msgstr "Poces"
 
-#: src/photos-print-setup.c:960
+#: src/photos-print-setup.c:956
 msgid "Preview"
 msgstr "Apercebut"
 
@@ -822,19 +822,19 @@ msgstr "Abandonar totas las modificacions"
 msgid "Devices"
 msgstr "Periferics"
 
-#: src/photos-search-match-manager.c:155 src/photos-search-type-manager.c:74
+#: src/photos-search-match-manager.c:149 src/photos-search-type-manager.c:74
 #: src/photos-source-manager.c:396
 msgid "All"
 msgstr "Totas"
 
 #. Translators: "Title" refers to "Match Title" when searching.
-#: src/photos-search-match-manager.c:162
+#: src/photos-search-match-manager.c:155
 msgctxt "Search Filter"
 msgid "Title"
 msgstr "Títol"
 
 #. Translators: "Author" refers to "Match Author" when searching.
-#: src/photos-search-match-manager.c:169
+#: src/photos-search-match-manager.c:161
 msgctxt "Search Filter"
 msgid "Author"
 msgstr "Autor"
@@ -842,7 +842,7 @@ msgstr "Autor"
 #. Translators: this is a verb that refers to "All", "Title" and
 #. * "Author", as in "Match All", "Match Title" and "Match Author".
 #.
-#: src/photos-search-match-manager.c:207
+#: src/photos-search-match-manager.c:213
 msgid "Match"
 msgstr "Correspondéncia"
 
@@ -1028,7 +1028,7 @@ msgstr "Calistoga"
 
 #: src/photos-tool-filters.c:202
 msgid "Trencin"
-msgstr ""
+msgstr "Trencin"
 
 #: src/photos-tool-filters.c:209
 msgid "Mogadishu"
