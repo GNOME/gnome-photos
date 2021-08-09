@@ -5,10 +5,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: gnome-photos master\n"
+"Project-Id-Version: gnome-photos\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-photos/issues\n"
-"POT-Creation-Date: 2021-02-15 19:24+0000\n"
-"PO-Revision-Date: 2021-03-08 15:00+0100\n"
+"POT-Creation-Date: 2021-05-06 11:22+0000\n"
+"PO-Revision-Date: 2021-08-09 10:50+0200\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: čeština <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -19,8 +19,8 @@ msgstr ""
 "X-Generator: Gtranslator 2.91.7\n"
 
 #: data/org.gnome.Photos.appdata.xml.in:7 data/org.gnome.Photos.desktop.in.in:3
-#: src/photos-application.c:3061 src/photos-embed.c:823
-#: src/photos-main-window.c:437 src/photos-search-type-manager.c:144
+#: src/photos-application.c:3030 src/photos-embed.c:822
+#: src/photos-main-window.c:437 src/photos-search-type-manager.c:101
 msgid "Photos"
 msgstr "Fotky"
 
@@ -83,7 +83,7 @@ msgstr ""
 "Provádět jednoduché úpravy obrázků přímo v aplikaci nebo je otevřít v "
 "plnohodnotném editoru pro složitějším úpravy"
 
-#: data/org.gnome.Photos.appdata.xml.in:89
+#: data/org.gnome.Photos.appdata.xml.in:99
 msgid "The GNOME Project"
 msgstr "Projekt GNOME"
 
@@ -120,11 +120,11 @@ msgstr "Okno maximalizováno"
 msgid "Window maximized state"
 msgstr "Stav maximalizace okna"
 
-#: src/photos-application.c:166
+#: src/photos-application.c:168
 msgid "Show the empty state"
 msgstr "Zobrazovat prázdný stav"
 
-#: src/photos-application.c:167
+#: src/photos-application.c:169
 msgid "Show the application's version"
 msgstr "Zobrazit verzi aplikace"
 
@@ -137,25 +137,25 @@ msgstr "Zobrazit verzi aplikace"
 #. Translators: this is the name of the default album that will be
 #. * created for imported photos.
 #.
-#: src/photos-application.c:1396 src/photos-export-dialog.c:195
+#: src/photos-application.c:1310 src/photos-export-dialog.c:195
 #: src/photos-import-dialog.c:134
 msgid "%-d %B %Y"
 msgstr "%-d. %B %Y"
 
-#: src/photos-base-item.c:1037
+#: src/photos-base-item.c:1034
 msgid "Album"
 msgstr "Album"
 
-#: src/photos-base-item.c:2833
+#: src/photos-base-item.c:2862
 msgid "Screenshots"
 msgstr "Snímky obrazovky"
 
-#: src/photos-delete-notification.c:136
+#: src/photos-delete-notification.c:156
 #, c-format
 msgid "“%s” deleted"
 msgstr "Smazána položka „%s“"
 
-#: src/photos-delete-notification.c:139
+#: src/photos-delete-notification.c:159
 #, c-format
 msgid "%d item deleted"
 msgid_plural "%d items deleted"
@@ -163,7 +163,7 @@ msgstr[0] "Smazána %d položka"
 msgstr[1] "Smazány %d položky"
 msgstr[2] "Smazáno %d položek"
 
-#: src/photos-delete-notification.c:146 src/photos-done-notification.c:119
+#: src/photos-delete-notification.c:166 src/photos-done-notification.c:119
 msgid "Undo"
 msgstr "Zpět"
 
@@ -176,23 +176,23 @@ msgstr "Vykreslovací zařízení DLNA"
 msgid "“%s” edited"
 msgstr "Upravena položka „%s“"
 
-#: src/photos-embed.c:828
+#: src/photos-embed.c:827
 msgid "Collection View"
 msgstr "Zobrazení sbírky"
 
-#: src/photos-embed.c:831 src/photos-search-type-manager.c:129
+#: src/photos-embed.c:830 src/photos-search-type-manager.c:83
 msgid "Albums"
 msgstr "Alba"
 
-#: src/photos-embed.c:836 src/photos-search-type-manager.c:137
+#: src/photos-embed.c:835 src/photos-search-type-manager.c:92
 msgid "Favorites"
 msgstr "Oblíbené"
 
-#: src/photos-embed.c:841
+#: src/photos-embed.c:840
 msgid "Import"
 msgstr "Import"
 
-#: src/photos-embed.c:844 src/photos-main-toolbar.c:336
+#: src/photos-embed.c:843 src/photos-main-toolbar.c:336
 msgid "Search"
 msgstr "Hledat"
 
@@ -251,7 +251,7 @@ msgstr "Export"
 msgid "_Folder Name"
 msgstr "Název _složky"
 
-#: src/photos-export-dialog.ui:66 src/photos-print-setup.c:912
+#: src/photos-export-dialog.ui:66 src/photos-print-setup.c:908
 msgid "Size"
 msgstr "Velikost"
 
@@ -316,7 +316,7 @@ msgstr "Vyprázdnit koš"
 
 #. Translators: this is the Open action in a context menu
 #: src/photos-export-notification.c:369 src/photos-preview-menu.ui:6
-#: src/photos-selection-toolbar.c:240 src/photos-selection-toolbar.ui:28
+#: src/photos-selection-toolbar.c:248 src/photos-selection-toolbar.ui:28
 msgid "Open"
 msgstr "Otevřít"
 
@@ -494,29 +494,29 @@ msgstr "Přid_at"
 #. Translators: %s refers to an online account provider, e.g.,
 #. * "Facebook" or "Flickr".
 #.
-#: src/photos-indexing-notification.c:164
+#: src/photos-indexing-notification.c:163
 #, c-format
 msgid "Fetching photos from %s"
 msgstr "Získávají se fotografie z účtu %s"
 
-#: src/photos-indexing-notification.c:167
+#: src/photos-indexing-notification.c:166
 msgid "Fetching photos from online accounts"
 msgstr "Získávají se fotografie z účtů on-line"
 
-#: src/photos-indexing-notification.c:202
+#: src/photos-indexing-notification.c:193
 msgid "Your photos are being indexed"
 msgstr "Vaše fotografie budou indexovány"
 
-#: src/photos-indexing-notification.c:203
+#: src/photos-indexing-notification.c:194
 msgid "Some photos might not be available during this process"
 msgstr "Během tohoto procesu nemusí být některé fotografie přístupné"
 
-#: src/photos-item-manager.c:824
+#: src/photos-item-manager.c:845
 #, c-format
 msgid "Oops! Unable to load “%s”"
 msgstr "Problém! Nejde načíst „%s“"
 
-#: src/photos-local-item.c:239 src/photos-source-manager.c:399
+#: src/photos-local-item.c:241 src/photos-source-manager.c:399
 msgid "Local"
 msgstr "Místní"
 
@@ -554,17 +554,17 @@ msgstr "Vybrat položky"
 
 #. length == 1
 #. Translators: this is the Open action in a context menu
-#: src/photos-main-toolbar.c:411 src/photos-selection-toolbar.c:237
+#: src/photos-main-toolbar.c:411 src/photos-selection-toolbar.c:245
 #: src/photos-share-notification.c:165
 #, c-format
 msgid "Open with %s"
 msgstr "Otevřít pomocí %s"
 
-#: src/photos-main-toolbar.c:442 src/photos-selection-toolbar.c:248
+#: src/photos-main-toolbar.c:442 src/photos-selection-toolbar.c:254
 msgid "Remove from favorites"
 msgstr "Odebrat z oblíbených"
 
-#: src/photos-main-toolbar.c:447 src/photos-selection-toolbar.c:253
+#: src/photos-main-toolbar.c:447 src/photos-selection-toolbar.c:259
 msgid "Add to favorites"
 msgstr "Přidat do oblíbených"
 
@@ -578,10 +578,10 @@ msgstr "_Vybrat"
 
 #: src/photos-main-window.c:458
 msgid ""
-"Copyright © 2012 – 2019 Red Hat, Inc.\n"
+"Copyright © 2012 – 2021 Red Hat, Inc.\n"
 "Copyright © 2015 – 2018 Umang Jain"
 msgstr ""
-"Copyright © 2012 - 2019 Red Hat, Inc.\n"
+"Copyright © 2012 - 2021 Red Hat, Inc.\n"
 "Copyright © 2015 - 2018 Umang Jain"
 
 #. Translators: Put your names here
@@ -653,71 +653,71 @@ msgstr "Tiskne se „%s“: %s"
 msgid "Image Settings"
 msgstr "Nastavení obrázku"
 
-#: src/photos-print-setup.c:884
+#: src/photos-print-setup.c:880
 msgid "Position"
 msgstr "Umístění"
 
-#: src/photos-print-setup.c:887
+#: src/photos-print-setup.c:883
 msgid "_Left:"
 msgstr "V_levo:"
 
-#: src/photos-print-setup.c:888
+#: src/photos-print-setup.c:884
 msgid "_Right:"
 msgstr "Vp_ravo:"
 
-#: src/photos-print-setup.c:889
+#: src/photos-print-setup.c:885
 msgid "_Top:"
 msgstr "Na_hoře:"
 
-#: src/photos-print-setup.c:890
+#: src/photos-print-setup.c:886
 msgid "_Bottom:"
 msgstr "_Dole:"
 
-#: src/photos-print-setup.c:892
+#: src/photos-print-setup.c:888
 msgid "C_enter:"
 msgstr "Vy_středit:"
 
-#: src/photos-print-setup.c:896
+#: src/photos-print-setup.c:892
 msgid "None"
 msgstr "nijak"
 
-#: src/photos-print-setup.c:897
+#: src/photos-print-setup.c:893
 msgid "Horizontal"
 msgstr "vodorovně"
 
-#: src/photos-print-setup.c:898
+#: src/photos-print-setup.c:894
 msgid "Vertical"
 msgstr "svisle"
 
-#: src/photos-print-setup.c:899
+#: src/photos-print-setup.c:895
 msgid "Both"
 msgstr "v obou směrech"
 
-#: src/photos-print-setup.c:915
+#: src/photos-print-setup.c:911
 msgid "_Width:"
 msgstr "Šířk_a:"
 
-#: src/photos-print-setup.c:916
+#: src/photos-print-setup.c:912
 msgid "_Height:"
 msgstr "_Výška:"
 
-#: src/photos-print-setup.c:918
+#: src/photos-print-setup.c:914
 msgid "_Scaling:"
 msgstr "_Měřítko:"
 
-#: src/photos-print-setup.c:927
+#: src/photos-print-setup.c:923
 msgid "_Unit:"
 msgstr "_Jednotky:"
 
-#: src/photos-print-setup.c:931
+#: src/photos-print-setup.c:927
 msgid "Millimeters"
 msgstr "milimetry"
 
-#: src/photos-print-setup.c:932
+#: src/photos-print-setup.c:928
 msgid "Inches"
 msgstr "palce"
 
-#: src/photos-print-setup.c:960
+#: src/photos-print-setup.c:956
 msgid "Preview"
 msgstr "Náhled"
 
@@ -825,19 +825,19 @@ msgstr "Zahodit všechny úpravy"
 msgid "Devices"
 msgstr "Zařízení"
 
-#: src/photos-search-match-manager.c:155 src/photos-search-type-manager.c:121
+#: src/photos-search-match-manager.c:149 src/photos-search-type-manager.c:74
 #: src/photos-source-manager.c:396
 msgid "All"
 msgstr "Vše"
 
 #. Translators: "Title" refers to "Match Title" when searching.
-#: src/photos-search-match-manager.c:162
+#: src/photos-search-match-manager.c:155
 msgctxt "Search Filter"
 msgid "Title"
 msgstr "Název"
 
 #. Translators: "Author" refers to "Match Author" when searching.
-#: src/photos-search-match-manager.c:169
+#: src/photos-search-match-manager.c:161
 msgctxt "Search Filter"
 msgid "Author"
 msgstr "Autor"
@@ -845,14 +845,14 @@ msgstr "Autor"
 #. Translators: this is a verb that refers to "All", "Title" and
 #. * "Author", as in "Match All", "Match Title" and "Match Author".
 #.
-#: src/photos-search-match-manager.c:207
+#: src/photos-search-match-manager.c:213
 msgid "Match"
 msgstr "Porovnávat"
 
 #. Translators: "Type" refers to a search filter. eg., All, Albums,
 #. * Favorites and Photos.
 #.
-#: src/photos-search-type-manager.c:178
+#: src/photos-search-type-manager.c:126
 msgctxt "Search Filter"
 msgid "Type"
 msgstr "Typ"
