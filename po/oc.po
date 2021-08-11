@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-photos/issues\n"
-"POT-Creation-Date: 2021-05-13 19:58+0000\n"
-"PO-Revision-Date: 2021-06-12 22:55+0200\n"
+"POT-Creation-Date: 2021-06-12 20:57+0000\n"
+"PO-Revision-Date: 2021-08-11 17:58+0200\n"
 "Last-Translator: Quentin PAGÈS\n"
 "Language-Team: Tot en òc (totenoc.eu)\n"
 "Language: oc\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Poedit 2.3\n"
+"X-Generator: Poedit 3.0\n"
 "X-Project-Style: gnome\n"
 
 #: data/org.gnome.Photos.appdata.xml.in:7 data/org.gnome.Photos.desktop.in.in:3
@@ -96,7 +96,7 @@ msgstr "Accedir, organizar e partejar de fòtos"
 #. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
 #: data/org.gnome.Photos.desktop.in.in:15
 msgid "Photos;Pictures;"
-msgstr "fòtos;imatges;fotografia;"
+msgstr "Photos;fòtos;imatges;fotografia;"
 
 #: data/org.gnome.photos.gschema.xml:5
 msgid "Window size"
@@ -1028,7 +1028,7 @@ msgstr "Calistoga"
 
 #: src/photos-tool-filters.c:202
 msgid "Trencin"
-msgstr ""
+msgstr "Trencin"
 
 #: src/photos-tool-filters.c:209
 msgid "Mogadishu"
