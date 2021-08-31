@@ -1,6 +1,6 @@
 # Copyright (C) 2013 gnome-photos's COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# Jordi Mas i Hernandez <jmas@softcatala.org>, 2013, 2016
+# Jordi Mas i Hernandez <jmas@softcatala.org>, 2013, 2016, 2021
 # Josep Sànchez <papapep@gmx.com>, 2013.
 # Gil Forcada <gilforcada@guifi.net>, 2014-2020.
 #
@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-photos/issues\n"
-"POT-Creation-Date: 2021-02-21 01:02+0000\n"
+"POT-Creation-Date: 2021-05-06 11:22+0000\n"
 "PO-Revision-Date: 2020-07-03 02:21+0200\n"
 "Last-Translator: Gil Forcada <gilforcada@guifi.net>\n"
 "Language-Team: Catalan <tradgnome@softcatala.org>\n"
@@ -21,8 +21,8 @@ msgstr ""
 "X-Generator: Gtranslator 3.36.0\n"
 
 #: data/org.gnome.Photos.appdata.xml.in:7 data/org.gnome.Photos.desktop.in.in:3
-#: src/photos-application.c:3061 src/photos-embed.c:823
-#: src/photos-main-window.c:437 src/photos-search-type-manager.c:144
+#: src/photos-application.c:3030 src/photos-embed.c:822
+#: src/photos-main-window.c:437 src/photos-search-type-manager.c:101
 msgid "Photos"
 msgstr "Fotografies"
 
@@ -85,7 +85,7 @@ msgstr ""
 "Editar fàcilment les fotografies en l'aplicació o obrir-les en un editor més "
 "potent per a fer canvis més avançats"
 
-#: data/org.gnome.Photos.appdata.xml.in:89
+#: data/org.gnome.Photos.appdata.xml.in:99
 msgid "The GNOME Project"
 msgstr "El projecte GNOME"
 
@@ -122,11 +122,11 @@ msgstr "Finestra maximitzada"
 msgid "Window maximized state"
 msgstr "Estat maximitzat de la finestra"
 
-#: src/photos-application.c:166
+#: src/photos-application.c:168
 msgid "Show the empty state"
 msgstr "Mostra l'estat buit"
 
-#: src/photos-application.c:167
+#: src/photos-application.c:169
 msgid "Show the application's version"
 msgstr "Mostra la versió de l'aplicació"
 
@@ -139,32 +139,32 @@ msgstr "Mostra la versió de l'aplicació"
 #. Translators: this is the name of the default album that will be
 #. * created for imported photos.
 #.
-#: src/photos-application.c:1396 src/photos-export-dialog.c:195
+#: src/photos-application.c:1310 src/photos-export-dialog.c:195
 #: src/photos-import-dialog.c:134
 msgid "%-d %B %Y"
 msgstr "%-d %B del %Y"
 
-#: src/photos-base-item.c:1037
+#: src/photos-base-item.c:1034
 msgid "Album"
 msgstr "Àlbum"
 
-#: src/photos-base-item.c:2833
+#: src/photos-base-item.c:2862
 msgid "Screenshots"
 msgstr "Captures de pantalla"
 
-#: src/photos-delete-notification.c:136
+#: src/photos-delete-notification.c:156
 #, c-format
 msgid "“%s” deleted"
 msgstr "«%s» suprimit"
 
-#: src/photos-delete-notification.c:139
+#: src/photos-delete-notification.c:159
 #, c-format
 msgid "%d item deleted"
 msgid_plural "%d items deleted"
 msgstr[0] "S'ha suprimit l'element seleccionat"
 msgstr[1] "S'han suprimit els %d elements seleccionats"
 
-#: src/photos-delete-notification.c:146 src/photos-done-notification.c:119
+#: src/photos-delete-notification.c:166 src/photos-done-notification.c:119
 msgid "Undo"
 msgstr "Desfés"
 
@@ -177,23 +177,23 @@ msgstr "Dispositius renderitzadors DLNA"
 msgid "“%s” edited"
 msgstr "«%s» editat"
 
-#: src/photos-embed.c:828
+#: src/photos-embed.c:827
 msgid "Collection View"
 msgstr "Vista de col·lecció"
 
-#: src/photos-embed.c:831 src/photos-search-type-manager.c:129
+#: src/photos-embed.c:830 src/photos-search-type-manager.c:83
 msgid "Albums"
 msgstr "Àlbums"
 
-#: src/photos-embed.c:836 src/photos-search-type-manager.c:137
+#: src/photos-embed.c:835 src/photos-search-type-manager.c:92
 msgid "Favorites"
 msgstr "Preferits"
 
-#: src/photos-embed.c:841
+#: src/photos-embed.c:840
 msgid "Import"
 msgstr "Importa"
 
-#: src/photos-embed.c:844 src/photos-main-toolbar.c:336
+#: src/photos-embed.c:843 src/photos-main-toolbar.c:336
 msgid "Search"
 msgstr "Cerca"
 
@@ -252,7 +252,7 @@ msgstr "Exporta"
 msgid "_Folder Name"
 msgstr "Nom de la _carpeta"
 
-#: src/photos-export-dialog.ui:66 src/photos-print-setup.c:912
+#: src/photos-export-dialog.ui:66 src/photos-print-setup.c:908
 msgid "Size"
 msgstr "Mida"
 
@@ -316,7 +316,7 @@ msgstr "Buida la paperera"
 
 #. Translators: this is the Open action in a context menu
 #: src/photos-export-notification.c:369 src/photos-preview-menu.ui:6
-#: src/photos-selection-toolbar.c:240 src/photos-selection-toolbar.ui:28
+#: src/photos-selection-toolbar.c:248 src/photos-selection-toolbar.ui:28
 msgid "Open"
 msgstr "Obre"
 
@@ -494,29 +494,29 @@ msgstr "_Afegeix"
 #. Translators: %s refers to an online account provider, e.g.,
 #. * "Facebook" or "Flickr".
 #.
-#: src/photos-indexing-notification.c:164
+#: src/photos-indexing-notification.c:163
 #, c-format
 msgid "Fetching photos from %s"
 msgstr "S'estan recollint les fotos de %s"
 
-#: src/photos-indexing-notification.c:167
+#: src/photos-indexing-notification.c:166
 msgid "Fetching photos from online accounts"
 msgstr "S'estan recollint les fotos dels comptes en línia"
 
-#: src/photos-indexing-notification.c:202
+#: src/photos-indexing-notification.c:193
 msgid "Your photos are being indexed"
 msgstr "S'estan indexant les fotografies"
 
-#: src/photos-indexing-notification.c:203
+#: src/photos-indexing-notification.c:194
 msgid "Some photos might not be available during this process"
 msgstr "Mentre duri el procés, algunes fotografies no estaran disponibles"
 
-#: src/photos-item-manager.c:824
+#: src/photos-item-manager.c:845
 #, c-format
 msgid "Oops! Unable to load “%s”"
 msgstr "No s'ha pogut carregar «%s»"
 
-#: src/photos-local-item.c:239 src/photos-source-manager.c:399
+#: src/photos-local-item.c:241 src/photos-source-manager.c:399
 msgid "Local"
 msgstr "Local"
 
@@ -552,17 +552,17 @@ msgstr "Selecciona els elements"
 
 #. length == 1
 #. Translators: this is the Open action in a context menu
-#: src/photos-main-toolbar.c:411 src/photos-selection-toolbar.c:237
+#: src/photos-main-toolbar.c:411 src/photos-selection-toolbar.c:245
 #: src/photos-share-notification.c:165
 #, c-format
 msgid "Open with %s"
 msgstr "Obre amb %s"
 
-#: src/photos-main-toolbar.c:442 src/photos-selection-toolbar.c:248
+#: src/photos-main-toolbar.c:442 src/photos-selection-toolbar.c:254
 msgid "Remove from favorites"
 msgstr "Suprimeix dels preferits"
 
-#: src/photos-main-toolbar.c:447 src/photos-selection-toolbar.c:253
+#: src/photos-main-toolbar.c:447 src/photos-selection-toolbar.c:259
 msgid "Add to favorites"
 msgstr "Afegeix als preferits"
 
@@ -576,10 +576,10 @@ msgstr "_Selecciona"
 
 #: src/photos-main-window.c:458
 msgid ""
-"Copyright © 2012 – 2019 Red Hat, Inc.\n"
+"Copyright © 2012 – 2021 Red Hat, Inc.\n"
 "Copyright © 2015 – 2018 Umang Jain"
 msgstr ""
-"Copyright © 2012 – 2019 Red Hat, Inc.\n"
+"Copyright © 2012 – 2021 Red Hat, Inc.\n"
 "Copyright © 2015 – 2018 Umang Jain"
 
 #
@@ -654,71 +654,71 @@ msgstr "S'està imprimint «%s»: %s"
 msgid "Image Settings"
 msgstr "Paràmetres de la imatge"
 
-#: src/photos-print-setup.c:884
+#: src/photos-print-setup.c:880
 msgid "Position"
 msgstr "Posiciona"
 
-#: src/photos-print-setup.c:887
+#: src/photos-print-setup.c:883
 msgid "_Left:"
 msgstr "_Esquerra:"
 
-#: src/photos-print-setup.c:888
+#: src/photos-print-setup.c:884
 msgid "_Right:"
 msgstr "_Dreta:"
 
-#: src/photos-print-setup.c:889
+#: src/photos-print-setup.c:885
 msgid "_Top:"
 msgstr "Par_t superior:"
 
-#: src/photos-print-setup.c:890
+#: src/photos-print-setup.c:886
 msgid "_Bottom:"
 msgstr "Part in_ferior:"
 
-#: src/photos-print-setup.c:892
+#: src/photos-print-setup.c:888
 msgid "C_enter:"
 msgstr "_Centre:"
 
-#: src/photos-print-setup.c:896
+#: src/photos-print-setup.c:892
 msgid "None"
 msgstr "Cap"
 
-#: src/photos-print-setup.c:897
+#: src/photos-print-setup.c:893
 msgid "Horizontal"
 msgstr "Horitzontal"
 
-#: src/photos-print-setup.c:898
+#: src/photos-print-setup.c:894
 msgid "Vertical"
 msgstr "Vertical"
 
-#: src/photos-print-setup.c:899
+#: src/photos-print-setup.c:895
 msgid "Both"
 msgstr "Ambdós"
 
-#: src/photos-print-setup.c:915
+#: src/photos-print-setup.c:911
 msgid "_Width:"
 msgstr "Am_plada:"
 
-#: src/photos-print-setup.c:916
+#: src/photos-print-setup.c:912
 msgid "_Height:"
 msgstr "A_lçària:"
 
-#: src/photos-print-setup.c:918
+#: src/photos-print-setup.c:914
 msgid "_Scaling:"
 msgstr "_Escalat:"
 
-#: src/photos-print-setup.c:927
+#: src/photos-print-setup.c:923
 msgid "_Unit:"
 msgstr "_Unitat:"
 
-#: src/photos-print-setup.c:931
+#: src/photos-print-setup.c:927
 msgid "Millimeters"
 msgstr "Mil·límetres"
 
-#: src/photos-print-setup.c:932
+#: src/photos-print-setup.c:928
 msgid "Inches"
 msgstr "Polzades"
 
-#: src/photos-print-setup.c:960
+#: src/photos-print-setup.c:956
 msgid "Preview"
 msgstr "Previsualització"
 
@@ -825,19 +825,19 @@ msgstr "Descarta totes les edicions"
 msgid "Devices"
 msgstr "Dispositius"
 
-#: src/photos-search-match-manager.c:155 src/photos-search-type-manager.c:121
+#: src/photos-search-match-manager.c:149 src/photos-search-type-manager.c:74
 #: src/photos-source-manager.c:396
 msgid "All"
 msgstr "Tot"
 
 #. Translators: "Title" refers to "Match Title" when searching.
-#: src/photos-search-match-manager.c:162
+#: src/photos-search-match-manager.c:155
 msgctxt "Search Filter"
 msgid "Title"
 msgstr "Títol"
 
 #. Translators: "Author" refers to "Match Author" when searching.
-#: src/photos-search-match-manager.c:169
+#: src/photos-search-match-manager.c:161
 msgctxt "Search Filter"
 msgid "Author"
 msgstr "Autor"
@@ -845,14 +845,14 @@ msgstr "Autor"
 #. Translators: this is a verb that refers to "All", "Title" and
 #. * "Author", as in "Match All", "Match Title" and "Match Author".
 #.
-#: src/photos-search-match-manager.c:207
+#: src/photos-search-match-manager.c:213
 msgid "Match"
 msgstr "Coincidència"
 
 #. Translators: "Type" refers to a search filter. eg., All, Albums,
 #. * Favorites and Photos.
 #.
-#: src/photos-search-type-manager.c:178
+#: src/photos-search-type-manager.c:126
 msgctxt "Search Filter"
 msgid "Type"
 msgstr "Tipus"
@@ -1056,6 +1056,3 @@ msgstr "No es pot trobar el Tracker al sistema operatiu"
 #: src/photos-tracker-controller.c:176
 msgid "Unable to fetch the list of photos"
 msgstr "No es pot obtenir el llistat de fotografies"
-
-#~ msgid "org.gnome.Photos"
-#~ msgstr "org.gnome.Photos"
