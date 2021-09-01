@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos gnome-3-10\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-photos/issues\n"
-"POT-Creation-Date: 2021-02-15 19:24+0000\n"
-"PO-Revision-Date: 2021-03-10 15:10+0000\n"
+"POT-Creation-Date: 2021-05-06 11:22+0000\n"
+"PO-Revision-Date: 2021-09-01 14:20+0430\n"
 "Last-Translator: Danial Behzadi <dani.behzi@ubuntu.com>\n"
 "Language-Team: Persian\n"
 "Language: fa\n"
@@ -20,8 +20,8 @@ msgstr ""
 "X-Generator: Poedit 2.4.2\n"
 
 #: data/org.gnome.Photos.appdata.xml.in:7 data/org.gnome.Photos.desktop.in.in:3
-#: src/photos-application.c:3061 src/photos-embed.c:823
-#: src/photos-main-window.c:437 src/photos-search-type-manager.c:144
+#: src/photos-application.c:3030 src/photos-embed.c:822
+#: src/photos-main-window.c:437 src/photos-search-type-manager.c:101
 msgid "Photos"
 msgstr "عکس‌ها"
 
@@ -79,7 +79,7 @@ msgstr ""
 "ویرایش سادهٔ عکس‌هایتان در کاره، یا فرستادن به یک ویرایشگر پرویژگی برای تغییرات "
 "پیش‌رفته‌تر"
 
-#: data/org.gnome.Photos.appdata.xml.in:89
+#: data/org.gnome.Photos.appdata.xml.in:99
 msgid "The GNOME Project"
 msgstr "پروژه گنوم"
 
@@ -116,11 +116,11 @@ msgstr "پنجره بیشینه شد"
 msgid "Window maximized state"
 msgstr "وضعیت بیشینه پنجره"
 
-#: src/photos-application.c:166
+#: src/photos-application.c:168
 msgid "Show the empty state"
 msgstr "نمایش وضعیت خالی"
 
-#: src/photos-application.c:167
+#: src/photos-application.c:169
 msgid "Show the application's version"
 msgstr "نمایش نگارش برنامه"
 
@@ -133,31 +133,31 @@ msgstr "نمایش نگارش برنامه"
 #. Translators: this is the name of the default album that will be
 #. * created for imported photos.
 #.
-#: src/photos-application.c:1396 src/photos-export-dialog.c:195
+#: src/photos-application.c:1310 src/photos-export-dialog.c:195
 #: src/photos-import-dialog.c:134
 msgid "%-d %B %Y"
 msgstr "%-Od %OB %Oy"
 
-#: src/photos-base-item.c:1037
+#: src/photos-base-item.c:1034
 msgid "Album"
 msgstr "آلبوم"
 
-#: src/photos-base-item.c:2833
+#: src/photos-base-item.c:2862
 msgid "Screenshots"
 msgstr "نماگرفت‌ها"
 
-#: src/photos-delete-notification.c:136
+#: src/photos-delete-notification.c:156
 #, c-format
 msgid "“%s” deleted"
 msgstr "«%s» حذف شد"
 
-#: src/photos-delete-notification.c:139
+#: src/photos-delete-notification.c:159
 #, c-format
 msgid "%d item deleted"
 msgid_plural "%d items deleted"
 msgstr[0] "%Id مورد حذف شد"
 
-#: src/photos-delete-notification.c:146 src/photos-done-notification.c:119
+#: src/photos-delete-notification.c:166 src/photos-done-notification.c:119
 msgid "Undo"
 msgstr "برگردان"
 
@@ -170,23 +170,23 @@ msgstr "افزاره‌های پرداختگر DLNA"
 msgid "“%s” edited"
 msgstr "«%s» ویرایش شد"
 
-#: src/photos-embed.c:828
+#: src/photos-embed.c:827
 msgid "Collection View"
 msgstr "نمای گنجینه"
 
-#: src/photos-embed.c:831 src/photos-search-type-manager.c:129
+#: src/photos-embed.c:830 src/photos-search-type-manager.c:83
 msgid "Albums"
 msgstr "آلبوم‌ها"
 
-#: src/photos-embed.c:836 src/photos-search-type-manager.c:137
+#: src/photos-embed.c:835 src/photos-search-type-manager.c:92
 msgid "Favorites"
 msgstr "برگزیده‌ها"
 
-#: src/photos-embed.c:841
+#: src/photos-embed.c:840
 msgid "Import"
 msgstr "درون‌ریزی"
 
-#: src/photos-embed.c:844 src/photos-main-toolbar.c:336
+#: src/photos-embed.c:843 src/photos-main-toolbar.c:336
 msgid "Search"
 msgstr "جست‌وجو"
 
@@ -245,7 +245,7 @@ msgstr "برون‌ریزی"
 msgid "_Folder Name"
 msgstr "_نام شاخه"
 
-#: src/photos-export-dialog.ui:66 src/photos-print-setup.c:912
+#: src/photos-export-dialog.ui:66 src/photos-print-setup.c:908
 msgid "Size"
 msgstr "اندازه"
 
@@ -308,7 +308,7 @@ msgstr "خالی کردن زباله‌دان"
 
 #. Translators: this is the Open action in a context menu
 #: src/photos-export-notification.c:369 src/photos-preview-menu.ui:6
-#: src/photos-selection-toolbar.c:240 src/photos-selection-toolbar.ui:28
+#: src/photos-selection-toolbar.c:248 src/photos-selection-toolbar.ui:28
 msgid "Open"
 msgstr "گشودن"
 
@@ -486,29 +486,29 @@ msgstr "_افزودن"
 #. Translators: %s refers to an online account provider, e.g.,
 #. * "Facebook" or "Flickr".
 #.
-#: src/photos-indexing-notification.c:164
+#: src/photos-indexing-notification.c:163
 #, c-format
 msgid "Fetching photos from %s"
 msgstr "درحال گرفتن عکس‌ها از %s"
 
-#: src/photos-indexing-notification.c:167
+#: src/photos-indexing-notification.c:166
 msgid "Fetching photos from online accounts"
 msgstr "درحال گرفتن عکس‌ها از حساب‌های برخط"
 
-#: src/photos-indexing-notification.c:202
+#: src/photos-indexing-notification.c:193
 msgid "Your photos are being indexed"
 msgstr "عکس‌های شما در حال فهرست شدنند"
 
-#: src/photos-indexing-notification.c:203
+#: src/photos-indexing-notification.c:194
 msgid "Some photos might not be available during this process"
 msgstr "ممکن است تعدادی از عکس‌ها در طول این روند در دسترس نباشند"
 
-#: src/photos-item-manager.c:824
+#: src/photos-item-manager.c:845
 #, c-format
 msgid "Oops! Unable to load “%s”"
 msgstr "اوه! نمی‌توان «%s» را بار کرد"
 
-#: src/photos-local-item.c:239 src/photos-source-manager.c:399
+#: src/photos-local-item.c:241 src/photos-source-manager.c:399
 msgid "Local"
 msgstr "محلی"
 
@@ -542,17 +542,17 @@ msgstr "گزینش موارد"
 
 #. length == 1
 #. Translators: this is the Open action in a context menu
-#: src/photos-main-toolbar.c:411 src/photos-selection-toolbar.c:237
+#: src/photos-main-toolbar.c:411 src/photos-selection-toolbar.c:245
 #: src/photos-share-notification.c:165
 #, c-format
 msgid "Open with %s"
 msgstr "گشودن با %s"
 
-#: src/photos-main-toolbar.c:442 src/photos-selection-toolbar.c:248
+#: src/photos-main-toolbar.c:442 src/photos-selection-toolbar.c:254
 msgid "Remove from favorites"
 msgstr "حذف از علاقه‌مندی‌ها"
 
-#: src/photos-main-toolbar.c:447 src/photos-selection-toolbar.c:253
+#: src/photos-main-toolbar.c:447 src/photos-selection-toolbar.c:259
 msgid "Add to favorites"
 msgstr "افزودن به علاقه‌مندی‌ها"
 
@@ -566,11 +566,11 @@ msgstr "_گزینش"
 
 #: src/photos-main-window.c:458
 msgid ""
-"Copyright © 2012 – 2019 Red Hat, Inc.\n"
+"Copyright © 2012 – 2021 Red Hat, Inc.\n"
 "Copyright © 2015 – 2018 Umang Jain"
 msgstr ""
-"حق رونوشت © ۲۰۱۲ – ۲۰۱۹ شرکت ردهت\n"
-"حق رونوشت © ۲۰۱۵ – ۲۰۱۸ یومانگ جین"
+"حق رونوشت © ۱۳۹۱ – ۱۴۰۰ شرکت ردهت\n"
+"حق رونوشت © ۱۳۹۴ – ۱۳۹۷ یومانگ جین"
 
 #. Translators: Put your names here
 #: src/photos-main-window.c:466
@@ -643,71 +643,71 @@ msgstr "درحال چاپ «%s»: %s"
 msgid "Image Settings"
 msgstr "تنظیمات تصویر"
 
-#: src/photos-print-setup.c:884
+#: src/photos-print-setup.c:880
 msgid "Position"
 msgstr "مکان"
 
-#: src/photos-print-setup.c:887
+#: src/photos-print-setup.c:883
 msgid "_Left:"
 msgstr "_چپ:"
 
-#: src/photos-print-setup.c:888
+#: src/photos-print-setup.c:884
 msgid "_Right:"
 msgstr "_راست:"
 
-#: src/photos-print-setup.c:889
+#: src/photos-print-setup.c:885
 msgid "_Top:"
 msgstr "_بالا:"
 
-#: src/photos-print-setup.c:890
+#: src/photos-print-setup.c:886
 msgid "_Bottom:"
 msgstr "_پایین:"
 
-#: src/photos-print-setup.c:892
+#: src/photos-print-setup.c:888
 msgid "C_enter:"
 msgstr "_وسط:"
 
-#: src/photos-print-setup.c:896
+#: src/photos-print-setup.c:892
 msgid "None"
 msgstr "هیچکدام"
 
-#: src/photos-print-setup.c:897
+#: src/photos-print-setup.c:893
 msgid "Horizontal"
 msgstr "عمودی"
 
-#: src/photos-print-setup.c:898
+#: src/photos-print-setup.c:894
 msgid "Vertical"
 msgstr "افقی"
 
-#: src/photos-print-setup.c:899
+#: src/photos-print-setup.c:895
 msgid "Both"
 msgstr "هر دو"
 
-#: src/photos-print-setup.c:915
+#: src/photos-print-setup.c:911
 msgid "_Width:"
 msgstr "_پهنا:"
 
-#: src/photos-print-setup.c:916
+#: src/photos-print-setup.c:912
 msgid "_Height:"
 msgstr "_بلندا:"
 
-#: src/photos-print-setup.c:918
+#: src/photos-print-setup.c:914
 msgid "_Scaling:"
 msgstr "_مقیاس:"
 
-#: src/photos-print-setup.c:927
+#: src/photos-print-setup.c:923
 msgid "_Unit:"
 msgstr "_واحد:"
 
-#: src/photos-print-setup.c:931
+#: src/photos-print-setup.c:927
 msgid "Millimeters"
 msgstr "میلی‌متر"
 
-#: src/photos-print-setup.c:932
+#: src/photos-print-setup.c:928
 msgid "Inches"
 msgstr "اینچ"
 
-#: src/photos-print-setup.c:960
+#: src/photos-print-setup.c:956
 msgid "Preview"
 msgstr "پیش‌نمایش"
 
@@ -813,19 +813,19 @@ msgstr "دور انداختن تمام تغییرات"
 msgid "Devices"
 msgstr "‌افزاره‌ها"
 
-#: src/photos-search-match-manager.c:155 src/photos-search-type-manager.c:121
+#: src/photos-search-match-manager.c:149 src/photos-search-type-manager.c:74
 #: src/photos-source-manager.c:396
 msgid "All"
 msgstr "همه"
 
 #. Translators: "Title" refers to "Match Title" when searching.
-#: src/photos-search-match-manager.c:162
+#: src/photos-search-match-manager.c:155
 msgctxt "Search Filter"
 msgid "Title"
 msgstr "عنوان"
 
 #. Translators: "Author" refers to "Match Author" when searching.
-#: src/photos-search-match-manager.c:169
+#: src/photos-search-match-manager.c:161
 msgctxt "Search Filter"
 msgid "Author"
 msgstr "مؤلّف"
@@ -833,14 +833,14 @@ msgstr "مؤلّف"
 #. Translators: this is a verb that refers to "All", "Title" and
 #. * "Author", as in "Match All", "Match Title" and "Match Author".
 #.
-#: src/photos-search-match-manager.c:207
+#: src/photos-search-match-manager.c:213
 msgid "Match"
 msgstr "تطبیق"
 
 #. Translators: "Type" refers to a search filter. eg., All, Albums,
 #. * Favorites and Photos.
 #.
-#: src/photos-search-type-manager.c:178
+#: src/photos-search-type-manager.c:126
 msgctxt "Search Filter"
 msgid "Type"
 msgstr "نوع"
