@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: master\n"
-"POT-Creation-Date: 2020-07-06 19:10+0000\n"
+"POT-Creation-Date: 2021-04-27 15:11+0000\n"
 "PO-Revision-Date: 2020-08-14 11:06+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
@@ -64,9 +64,6 @@ msgstr "Etiquetar sus favoritos"
 
 #. (itstool) path: page/p
 #: C/favorites-set.page:27
-#| msgid ""
-#| "Photos or albums can be marked as favorites from the <gui style=\"tab"
-#| "\">Recent</gui> tab or <gui style=\"tab\">Albums</gui> tab."
 msgid ""
 "Photos or albums can be marked as favorites from the <gui style=\"tab"
 "\">Photos</gui> tab or <gui style=\"tab\">Albums</gui> tab."
@@ -81,9 +78,6 @@ msgstr "Para etiquetar elementos favoritos:"
 
 #. (itstool) path: item/p
 #: C/favorites-set.page:33
-#| msgid ""
-#| "Select the <gui>Albums</gui> tab or <gui>Recent</gui> tab depending on "
-#| "whether you want to mark an album or a photo as a favorite."
 msgid ""
 "Select the <gui>Albums</gui> tab or <gui>Photos</gui> tab depending on "
 "whether you want to mark an album or a photo as a favorite."
@@ -153,7 +147,7 @@ msgstr ""
 #. (itstool) path: p/link
 #: C/legal.xml:5
 msgid "Creative Commons Attribution-ShareAlike 3.0 Unported License"
-msgstr "Creative Commons de Atribución-Compartir Igual 3.0 sin soporte"
+msgstr "Creative Commons de Atribución-Compartir Igual 3.0 no portada"
 
 #. (itstool) path: license/p
 #: C/legal.xml:4
@@ -249,12 +243,6 @@ msgstr "Ver las fotos recientes"
 
 #. (itstool) path: page/p
 #: C/view-photos.page:21
-#| msgid ""
-#| "The <gui style=\"tab\">Recent</gui> tab displays photos from local file "
-#| "system locations such as <file>~/Downloads</file>, <file>~/Pictures</"
-#| "file> and from online collections. You can also add other locations, even "
-#| "cloud-based collections such as Flickr or Facebook photographs, through "
-#| "<app>GNOME Online Accounts</app>."
 msgid ""
 "The <gui style=\"tab\">Photos</gui> tab displays photos from local file "
 "system locations such as <file>~/Downloads</file>, <file>~/Pictures</file> "
@@ -280,9 +268,6 @@ msgstr "Vaya a <guiseq><gui>Configuración</gui><gui>Buscar</gui></guiseq>."
 
 #. (itstool) path: item/p
 #: C/view-photos.page:34
-#| msgid ""
-#| "Click on the gear button on the bottom right. You can select the "
-#| "locations you want to display in the <gui style=\"tab\">Recent</gui> tab."
 msgid ""
 "Click on the gear button on the bottom right. You can select the locations "
 "you want to display in the <gui style=\"tab\">Photos</gui> tab."
@@ -298,7 +283,6 @@ msgstr "Para ver las fotos recientes:"
 
 #. (itstool) path: item/p
 #: C/view-photos.page:43
-#| msgid "Select the <gui style=\"tab\">Favorites</gui> tab."
 msgid "Select the <gui style=\"tab\">Photos</gui> tab."
 msgstr "Seleccione la pestaña <gui style=\"tab\">Fotos</gui>."
 
@@ -319,11 +303,6 @@ msgstr "Ver imágenes"
 
 #. (itstool) path: page/p
 #: C/view.page:26
-#| msgid ""
-#| "When <app>Photos</app> is opened, you will see the <gui>Recent</gui> tab "
-#| "open. The <gui>Recent</gui> tab contains images from your computer, the "
-#| "<gui>Albums</gui> tab contains your photo albums, and any image you mark "
-#| "as a favourite can be found in the <gui>Favorites</gui> tab."
 msgid ""
 "When <app>Photos</app> is opened, you will see the <gui>Photos</gui> tab "
 "open. The <gui>Photos</gui> tab contains images from your computer, the "
