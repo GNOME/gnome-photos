@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-photos/issues\n"
-"POT-Creation-Date: 2021-02-15 19:24+0000\n"
-"PO-Revision-Date: 2021-03-02 22:34+0200\n"
-"Last-Translator: Мирослав Николић <miroslavnikolic@rocketmail.com>\n"
+"POT-Creation-Date: 2021-05-06 11:22+0000\n"
+"PO-Revision-Date: 2021-09-20 21:12+0200\n"
+"Last-Translator: Марко М. Костић <marko.m.kostic@gmail.com>\n"
 "Language-Team: српски <gnome-sr@googlegroups.org>\n"
 "Language: sr\n"
 "MIME-Version: 1.0\n"
@@ -19,10 +19,11 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=n==1? 3 : n%10==1 && n%100!=11 ? 0 : n"
 "%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Project-Style: gnome\n"
+"X-Generator: Poedit 3.0\n"
 
 #: data/org.gnome.Photos.appdata.xml.in:7 data/org.gnome.Photos.desktop.in.in:3
-#: src/photos-application.c:3061 src/photos-embed.c:823
-#: src/photos-main-window.c:437 src/photos-search-type-manager.c:144
+#: src/photos-application.c:3030 src/photos-embed.c:822
+#: src/photos-main-window.c:437 src/photos-search-type-manager.c:101
 msgid "Photos"
 msgstr "Фотографије"
 
@@ -85,7 +86,7 @@ msgstr ""
 "Олако уређујте ваше слике у програму или их пошаљите у напреднији уређивач "
 "за сложеније измене"
 
-#: data/org.gnome.Photos.appdata.xml.in:89
+#: data/org.gnome.Photos.appdata.xml.in:99
 msgid "The GNOME Project"
 msgstr "Гном пројекат"
 
@@ -122,11 +123,11 @@ msgstr "Увећан прозор"
 msgid "Window maximized state"
 msgstr "Стање увећања прозора"
 
-#: src/photos-application.c:166
+#: src/photos-application.c:168
 msgid "Show the empty state"
 msgstr "Прикажи празно стање"
 
-#: src/photos-application.c:167
+#: src/photos-application.c:169
 msgid "Show the application's version"
 msgstr "Приказује издање програма"
 
@@ -139,25 +140,25 @@ msgstr "Приказује издање програма"
 #. Translators: this is the name of the default album that will be
 #. * created for imported photos.
 #.
-#: src/photos-application.c:1396 src/photos-export-dialog.c:195
+#: src/photos-application.c:1310 src/photos-export-dialog.c:195
 #: src/photos-import-dialog.c:134
 msgid "%-d %B %Y"
 msgstr "%-d %B %Y"
 
-#: src/photos-base-item.c:1037
+#: src/photos-base-item.c:1034
 msgid "Album"
 msgstr "Албум"
 
-#: src/photos-base-item.c:2833
+#: src/photos-base-item.c:2862
 msgid "Screenshots"
 msgstr "Снимци екрана"
 
-#: src/photos-delete-notification.c:136
+#: src/photos-delete-notification.c:156
 #, c-format
 msgid "“%s” deleted"
 msgstr "Ставка „%s“ је обрисана"
 
-#: src/photos-delete-notification.c:139
+#: src/photos-delete-notification.c:159
 #, c-format
 msgid "%d item deleted"
 msgid_plural "%d items deleted"
@@ -166,7 +167,7 @@ msgstr[1] "%d ставке су обрисане"
 msgstr[2] "%d ставки је обрисано"
 msgstr[3] "Једна ставка је обрисана"
 
-#: src/photos-delete-notification.c:146 src/photos-done-notification.c:119
+#: src/photos-delete-notification.c:166 src/photos-done-notification.c:119
 msgid "Undo"
 msgstr "Опозови"
 
@@ -179,38 +180,35 @@ msgstr "Уређаји ДЛНА исцртавача"
 msgid "“%s” edited"
 msgstr "Ставка „%s“ је уређена"
 
-#: src/photos-embed.c:828
+#: src/photos-embed.c:827
 msgid "Collection View"
 msgstr "Преглед збирке"
 
-#: src/photos-embed.c:831 src/photos-search-type-manager.c:129
+#: src/photos-embed.c:830 src/photos-search-type-manager.c:83
 msgid "Albums"
 msgstr "Албуми"
 
-#: src/photos-embed.c:836 src/photos-search-type-manager.c:137
+#: src/photos-embed.c:835 src/photos-search-type-manager.c:92
 msgid "Favorites"
 msgstr "Омиљене"
 
-#: src/photos-embed.c:841
+#: src/photos-embed.c:840
 msgid "Import"
 msgstr "Увези"
 
-#: src/photos-embed.c:844 src/photos-main-toolbar.c:336
+#: src/photos-embed.c:843 src/photos-main-toolbar.c:336
 msgid "Search"
 msgstr "Потражи"
 
 #: src/photos-empty-results-box.c:116
-#| msgid "No albums found"
 msgid "No Albums Found"
 msgstr "Нисам нашао албуме"
 
 #: src/photos-empty-results-box.c:120
-#| msgid "Starred photos will appear here"
 msgid "Starred Photos Will Appear Here"
 msgstr "Овде ће се појавити фотографије са звездом"
 
 #: src/photos-empty-results-box.c:130
-#| msgid "No photos found"
 msgid "No Photos Found"
 msgstr "Нисам пронашао фотографије"
 
@@ -247,7 +245,6 @@ msgstr ""
 "овде."
 
 #: src/photos-empty-results-box.c:200
-#| msgid "Try a different search"
 msgid "Try a different search."
 msgstr "Покушајте са другачијом претрагом."
 
@@ -260,7 +257,7 @@ msgstr "Извоз"
 msgid "_Folder Name"
 msgstr "Назив _фасцикле"
 
-#: src/photos-export-dialog.ui:66 src/photos-print-setup.c:912
+#: src/photos-export-dialog.ui:66 src/photos-print-setup.c:908
 msgid "Size"
 msgstr "Величина"
 
@@ -326,7 +323,7 @@ msgstr "Испразни смеће"
 
 #. Translators: this is the Open action in a context menu
 #: src/photos-export-notification.c:369 src/photos-preview-menu.ui:6
-#: src/photos-selection-toolbar.c:240 src/photos-selection-toolbar.ui:28
+#: src/photos-selection-toolbar.c:248 src/photos-selection-toolbar.ui:28
 msgid "Open"
 msgstr "Отвори"
 
@@ -504,29 +501,29 @@ msgstr "_Додај"
 #. Translators: %s refers to an online account provider, e.g.,
 #. * "Facebook" or "Flickr".
 #.
-#: src/photos-indexing-notification.c:164
+#: src/photos-indexing-notification.c:163
 #, c-format
 msgid "Fetching photos from %s"
 msgstr "Довлачим фотографије са „%s“"
 
-#: src/photos-indexing-notification.c:167
+#: src/photos-indexing-notification.c:166
 msgid "Fetching photos from online accounts"
 msgstr "Довлачим фотографије са налога на мрежи"
 
-#: src/photos-indexing-notification.c:202
+#: src/photos-indexing-notification.c:193
 msgid "Your photos are being indexed"
 msgstr "Ваше фотографије су пописане"
 
-#: src/photos-indexing-notification.c:203
+#: src/photos-indexing-notification.c:194
 msgid "Some photos might not be available during this process"
 msgstr "Неке фотографије неће бити доступне за време овог поступка"
 
-#: src/photos-item-manager.c:824
+#: src/photos-item-manager.c:845
 #, c-format
 msgid "Oops! Unable to load “%s”"
 msgstr "Упс! Нисам успео да учитам „%s“"
 
-#: src/photos-local-item.c:239 src/photos-source-manager.c:399
+#: src/photos-local-item.c:241 src/photos-source-manager.c:399
 msgid "Local"
 msgstr "Месно"
 
@@ -566,17 +563,17 @@ msgstr "Изабери ставке"
 
 #. length == 1
 #. Translators: this is the Open action in a context menu
-#: src/photos-main-toolbar.c:411 src/photos-selection-toolbar.c:237
+#: src/photos-main-toolbar.c:411 src/photos-selection-toolbar.c:245
 #: src/photos-share-notification.c:165
 #, c-format
 msgid "Open with %s"
 msgstr "Отвори програмом „%s“"
 
-#: src/photos-main-toolbar.c:442 src/photos-selection-toolbar.c:248
+#: src/photos-main-toolbar.c:442 src/photos-selection-toolbar.c:254
 msgid "Remove from favorites"
 msgstr "Уклоните из омиљених"
 
-#: src/photos-main-toolbar.c:447 src/photos-selection-toolbar.c:253
+#: src/photos-main-toolbar.c:447 src/photos-selection-toolbar.c:259
 msgid "Add to favorites"
 msgstr "Додајте у омиљене"
 
@@ -590,10 +587,10 @@ msgstr "_Изабери"
 
 #: src/photos-main-window.c:458
 msgid ""
-"Copyright © 2012 – 2019 Red Hat, Inc.\n"
+"Copyright © 2012 – 2021 Red Hat, Inc.\n"
 "Copyright © 2015 – 2018 Umang Jain"
 msgstr ""
-"Право на копирање © 2012 – 2019 Red Hat, Inc.\n"
+"Право на копирање © 2012 – 2021 Red Hat, Inc.\n"
 "Право на копирање © 2015 – 2018 Umang Jain"
 
 #. Translators: Put your names here
@@ -669,71 +666,71 @@ msgstr "Штампам „%s“: %s"
 msgid "Image Settings"
 msgstr "Подешавања слике"
 
-#: src/photos-print-setup.c:884
+#: src/photos-print-setup.c:880
 msgid "Position"
 msgstr "Положај"
 
-#: src/photos-print-setup.c:887
+#: src/photos-print-setup.c:883
 msgid "_Left:"
 msgstr "_Лево:"
 
-#: src/photos-print-setup.c:888
+#: src/photos-print-setup.c:884
 msgid "_Right:"
 msgstr "_Десно:"
 
-#: src/photos-print-setup.c:889
+#: src/photos-print-setup.c:885
 msgid "_Top:"
 msgstr "_Горе:"
 
-#: src/photos-print-setup.c:890
+#: src/photos-print-setup.c:886
 msgid "_Bottom:"
 msgstr "_Доле:"
 
-#: src/photos-print-setup.c:892
+#: src/photos-print-setup.c:888
 msgid "C_enter:"
 msgstr "_Средина:"
 
-#: src/photos-print-setup.c:896
+#: src/photos-print-setup.c:892
 msgid "None"
 msgstr "Ништа"
 
-#: src/photos-print-setup.c:897
+#: src/photos-print-setup.c:893
 msgid "Horizontal"
 msgstr "Водоравно"
 
-#: src/photos-print-setup.c:898
+#: src/photos-print-setup.c:894
 msgid "Vertical"
 msgstr "Усправно"
 
-#: src/photos-print-setup.c:899
+#: src/photos-print-setup.c:895
 msgid "Both"
 msgstr "Оба"
 
-#: src/photos-print-setup.c:915
+#: src/photos-print-setup.c:911
 msgid "_Width:"
 msgstr "_Ширина:"
 
-#: src/photos-print-setup.c:916
+#: src/photos-print-setup.c:912
 msgid "_Height:"
 msgstr "_Висина:"
 
-#: src/photos-print-setup.c:918
+#: src/photos-print-setup.c:914
 msgid "_Scaling:"
 msgstr "_Размера:"
 
-#: src/photos-print-setup.c:927
+#: src/photos-print-setup.c:923
 msgid "_Unit:"
 msgstr "_Јединица:"
 
-#: src/photos-print-setup.c:931
+#: src/photos-print-setup.c:927
 msgid "Millimeters"
 msgstr "Милиметара"
 
-#: src/photos-print-setup.c:932
+#: src/photos-print-setup.c:928
 msgid "Inches"
 msgstr "Палаца"
 
-#: src/photos-print-setup.c:960
+#: src/photos-print-setup.c:956
 msgid "Preview"
 msgstr "Преглед"
 
@@ -842,19 +839,19 @@ msgstr "Одбаци сва уређивања"
 msgid "Devices"
 msgstr "Уређаји"
 
-#: src/photos-search-match-manager.c:155 src/photos-search-type-manager.c:121
+#: src/photos-search-match-manager.c:149 src/photos-search-type-manager.c:74
 #: src/photos-source-manager.c:396
 msgid "All"
 msgstr "Све"
 
 #. Translators: "Title" refers to "Match Title" when searching.
-#: src/photos-search-match-manager.c:162
+#: src/photos-search-match-manager.c:155
 msgctxt "Search Filter"
 msgid "Title"
 msgstr "Наслов"
 
 #. Translators: "Author" refers to "Match Author" when searching.
-#: src/photos-search-match-manager.c:169
+#: src/photos-search-match-manager.c:161
 msgctxt "Search Filter"
 msgid "Author"
 msgstr "Стваралац"
@@ -862,14 +859,14 @@ msgstr "Стваралац"
 #. Translators: this is a verb that refers to "All", "Title" and
 #. * "Author", as in "Match All", "Match Title" and "Match Author".
 #.
-#: src/photos-search-match-manager.c:207
+#: src/photos-search-match-manager.c:213
 msgid "Match"
 msgstr "Поклопи"
 
 #. Translators: "Type" refers to a search filter. eg., All, Albums,
 #. * Favorites and Photos.
 #.
-#: src/photos-search-type-manager.c:178
+#: src/photos-search-type-manager.c:126
 msgctxt "Search Filter"
 msgid "Type"
 msgstr "Врста"
