@@ -39,7 +39,7 @@ msgid ""
 msgstr ""
 "Accediu, organitzeu i compartiu les vostres fotografies amb el GNOME. Un "
 "substitut simple i elegant del gestor de fitxers en la gestió d'imatges. "
-"Millora, retalla i edita instantàniament. S'integra transparentment amb el "
+"Milloreu, retalleu i editeu instantàniament. S'integra transparentment amb el "
 "núvol mitjançant els comptes en línia del GNOME."
 
 #: data/org.gnome.Photos.appdata.xml.in:16
