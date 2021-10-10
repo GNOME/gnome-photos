@@ -2,18 +2,18 @@
 # Copyright (C) 2019 gnome-photos's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnome-photos package.
 #
-# Asier Sarasua Garmendia  <asier.sarasua@gmail.com>, 2019.
+# Asier Sarasua Garmendia  <asier.sarasua@gmail.com>, 2019, 2021.
 #
 msgid ""
 msgstr "Project-Id-Version: gnome-photos master\n"
-"POT-Creation-Date: 2019-10-11 08:32+0000\n"
-"PO-Revision-Date: 2019-12-10 10:00+0100\n"
+"POT-Creation-Date: 2021-04-27 15:11+0000\n"
+"PO-Revision-Date: 2021-10-10 10:00+0100\n"
 "Last-Translator: Asier Sarasua Garmendia <asier.sarasua@gmail.com>\n"
 "Language-Team: Basque <librezale@librezale.eus>\n"
+"Language: eu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: eu\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
 msgctxt "_"
@@ -63,8 +63,8 @@ msgstr "Etiketatu zure gogokoak"
 #: C/favorites-set.page:27
 msgid ""
 "Photos or albums can be marked as favorites from the <gui style=\"tab"
-"\">Recent</gui> tab or <gui style=\"tab\">Albums</gui> tab."
-msgstr "Argazkiak edo albumak gogoko gisa markatu daitezke <gui style=\"tab\">Azken aldikoa</gui> fitxan edo <gui style=\"tab\">Albumak</gui> fitxan."
+"\">Photos</gui> tab or <gui style=\"tab\">Albums</gui> tab."
+msgstr "Argazkiak edo albumak gogoko gisa markatu daitezke <gui style=\"tab\">Argazkiak</gui> fitxan edo <gui style=\"tab\">Albumak</gui> fitxan."
 
 #. (itstool) path: steps/title
 #: C/favorites-set.page:31
@@ -74,9 +74,9 @@ msgstr "Gogoko elementuak etiketatzeko:"
 #. (itstool) path: item/p
 #: C/favorites-set.page:33
 msgid ""
-"Select the <gui>Albums</gui> tab or <gui>Recent</gui> tab depending on "
+"Select the <gui>Albums</gui> tab or <gui>Photos</gui> tab depending on "
 "whether you want to mark an album or a photo as a favorite."
-msgstr "Hautatu <gui>Albumak</gui> fitxa edo <gui>Azken aldikoa</gui> fitxa, album bat edo argazki bat gogoko gisa markatu nahi baduzu."
+msgstr "Hautatu <gui>Albumak</gui> fitxa edo <gui>Argazkiak</gui> fitxa, album bat edo argazki bat gogoko gisa markatu nahi baduzu."
 
 #. (itstool) path: item/p
 #: C/favorites-set.page:37
@@ -220,12 +220,12 @@ msgstr "Bistaratu azken argazkiak"
 #. (itstool) path: page/p
 #: C/view-photos.page:21
 msgid ""
-"The <gui style=\"tab\">Recent</gui> tab displays photos from local file "
+"The <gui style=\"tab\">Photos</gui> tab displays photos from local file "
 "system locations such as <file>~/Downloads</file>, <file>~/Pictures</file> "
 "and from online collections. You can also add other locations, even cloud-"
 "based collections such as Flickr or Facebook photographs, through <app>GNOME "
 "Online Accounts</app>."
-msgstr "<gui style=\"tab\">Azken aldikoa</gui> fitxak fitxategi-sistema lokaleko kokalekuetako argazkiak erakusten ditu, adibidez <file>~/Deskargak</file> edo <file>~/Irudiak</file> direktorioetakoak, eta baita lineako bildumetakoak ere. Beste kokaleku batzuk gehitu ditzakezu, baita hodeian oinarritutako bildumetakoak ere, esaterako Flickr edo Facebook argakiak, <app>GNOME Lineako kontuak</app> erabilita."
+msgstr "<gui style=\"tab\">Argazkiak</gui> fitxak fitxategi-sistema lokaleko kokalekuetako argazkiak erakusten ditu, adibidez <file>~/Deskargak</file> edo <file>~/Irudiak</file> direktorioetakoak, eta baita lineako bildumetakoak ere. Beste kokaleku batzuk gehitu ditzakezu, baita hodeian oinarritutako bildumetakoak ere, esaterako Flickr edo Facebook argakiak, <app>GNOME Lineako kontuak</app> erabilita."
 
 #. (itstool) path: page/p
 #: C/view-photos.page:27
@@ -241,8 +241,8 @@ msgstr "Joan <guiseq><gui>Ezarpenak</gui><gui>Bilatu</gui></guiseq> aukerara."
 #: C/view-photos.page:34
 msgid ""
 "Click on the gear button on the bottom right. You can select the locations "
-"you want to display in the <gui style=\"tab\">Recent</gui> tab."
-msgstr "Egin klik beheko eskuineko gurpil-botoian. <gui style=\"tab\">Azken aldikoa</gui> fitxan bistaratu nahi dituzun kokalekuak hautatu ditzakezu bertan."
+"you want to display in the <gui style=\"tab\">Photos</gui> tab."
+msgstr "Egin klik beheko eskuineko gurpil-botoian. <gui style=\"tab\">Argazkiak</gui> fitxan bistaratu nahi dituzun kokalekuak hautatu ditzakezu bertan."
 
 #. (itstool) path: page/p
 #: C/view-photos.page:40
@@ -251,8 +251,8 @@ msgstr "Azken argazkiak bistaratzeko:"
 
 #. (itstool) path: item/p
 #: C/view-photos.page:43
-msgid "Select the <gui style=\"tab\">Recent</gui> tab."
-msgstr "Hautatu <gui style=\"tab\">Azken aldikoa</gui> fitxa."
+msgid "Select the <gui style=\"tab\">Photos</gui> tab."
+msgstr "Hautatu <gui style=\"tab\">Argazkiak</gui> fitxa."
 
 #. (itstool) path: item/p
 #: C/view-photos.page:46
@@ -272,8 +272,11 @@ msgstr "Ikusi irudiak"
 #. (itstool) path: page/p
 #: C/view.page:26
 msgid ""
-"When <app>Photos</app> is opened, you will see the <gui>Recent</gui> tab "
-"open. The <gui>Recent</gui> tab contains images from your computer, the "
+"When <app>Photos</app> is opened, you will see the <gui>Photos</gui> tab "
+"open. The <gui>Photos</gui> tab contains images from your computer, the "
 "<gui>Albums</gui> tab contains your photo albums, and any image you mark as "
 "a favourite can be found in the <gui>Favorites</gui> tab."
-msgstr "<app>Argazkiak</app> aplikazioa irekitzen denean, <gui>Azken aldikoa</gui> fitxa irekita ikusiko duzu. <gui>Azken aldikoa</gui> fitxak zure ordenagailuko irudiak ditu, <gui>Albumak</gui> fitxak zure argazki-albumak ditu, eta gogoko gisa markatu duzun edozein irudi <gui>Gogokoak</gui> fitxan agertuko dira."
+msgstr "<app>Argazkiak</app> aplikazioa irekitzen denean, <gui>Argazkiak</gui> fitxa irekita ikusiko duzu. <gui>Argazkiak</gui> fitxak zure ordenagailuko irudiak ditu, <gui>Albumak</gui> fitxak zure argazki-albumak ditu, eta gogoko gisa markatu duzun edozein irudi <gui>Gogokoak</gui> fitxan agertuko dira."
+
+#~ msgid "Select the <gui style=\"tab\">Recent</gui> tab."
+#~ msgstr "Hautatu <gui style=\"tab\">Azken aldikoa</gui> fitxa."
