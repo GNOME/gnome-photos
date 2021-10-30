@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos gnome-3-24\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-photos/issues\n"
-"POT-Creation-Date: 2021-09-06 10:27+0000\n"
+"POT-Creation-Date: 2021-09-08 08:47+0000\n"
 "PO-Revision-Date: 2021-09-08 10:46+0200\n"
 "Last-Translator: gogo <trebelnik2@gmail.com>\n"
 "Language-Team: Croatian <hr@li.org>\n"
@@ -219,7 +219,7 @@ msgstr "Možete stvoriti albume iz prikaza fotografija"
 #.
 #: src/photos-empty-results-box.c:176
 msgid "Online Accounts"
-msgstr "Mrežni računi"
+msgstr "Mrežnih računa"
 
 #. Translators: this should be translated in the context of
 #. * the "Photos from your Online Accounts and Pictures folder
@@ -227,7 +227,7 @@ msgstr "Mrežni računi"
 #.
 #: src/photos-empty-results-box.c:183
 msgid "Pictures folder"
-msgstr "Mapa slika"
+msgstr "Mape slika"
 
 #. Translators: the first %s here is "Online Accounts" and the
 #. * second %s is "Pictures folder", which are in separate
@@ -237,7 +237,7 @@ msgstr "Mapa slika"
 #: src/photos-empty-results-box.c:190
 #, c-format
 msgid "Photos from your %s and %s will appear here."
-msgstr "Fotografije s vašeg %s i %s će se pojaviti ovdje."
+msgstr "Fotografije s vaših %s i %s će se pojaviti ovdje."
 
 #: src/photos-empty-results-box.c:200
 msgid "Try a different search."
@@ -506,11 +506,11 @@ msgstr "Preuzimanje fotografija s mrežnih računa"
 
 #: src/photos-indexing-notification.c:193
 msgid "Your photos are being indexed"
-msgstr "VAše fotografije se popisuju"
+msgstr "Vaše fotografije se dodaju"
 
 #: src/photos-indexing-notification.c:194
 msgid "Some photos might not be available during this process"
-msgstr "Neko fotografije možda neće biti dostupne tijekom ovog procesa"
+msgstr "Određene fotografije možda neće biti dostupne tijekom ovog procesa"
 
 #: src/photos-item-manager.c:845
 #, c-format
@@ -914,7 +914,7 @@ msgstr "Uvoz…"
 #: src/photos-source-notification.c:214
 #, c-format
 msgid "Your %s credentials have expired"
-msgstr "Vaše %s vjerodajnica je istekla"
+msgstr "Vaša %s vjerodajnica je istekla"
 
 #: src/photos-source-notification.c:221
 msgid "Settings"
