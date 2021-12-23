@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-photos/issues\n"
-"POT-Creation-Date: 2021-05-06 11:22+0000\n"
-"PO-Revision-Date: 2021-06-21 11:41+0700\n"
+"POT-Creation-Date: 2021-09-06 10:27+0000\n"
+"PO-Revision-Date: 2021-12-23 11:00+0700\n"
 "Last-Translator: Kukuh Syafaat <kukuhsyafaat@gnome.org>\n"
 "Language-Team: Indonesian <gnome@i15n.org>\n"
 "Language: id\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural= n!=1;\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Poedit 3.0\n"
 
 #: data/org.gnome.Photos.appdata.xml.in:7 data/org.gnome.Photos.desktop.in.in:3
@@ -159,7 +159,6 @@ msgstr "\"%s\" dihapus"
 msgid "%d item deleted"
 msgid_plural "%d items deleted"
 msgstr[0] "%d butir dihapus"
-msgstr[1] "%d butir dihapus"
 
 #: src/photos-delete-notification.c:166 src/photos-done-notification.c:119
 msgid "Undo"
@@ -301,7 +300,6 @@ msgstr "\"%s\" diekspor"
 msgid "%d item exported"
 msgid_plural "%d items exported"
 msgstr[0] "%d butir diekspor"
-msgstr[1] "%d butir diekspor"
 
 #: src/photos-export-notification.c:347
 msgid "Analyze"
@@ -526,7 +524,6 @@ msgstr "Klik pada butir untuk memilihnya"
 msgid "%d selected"
 msgid_plural "%d selected"
 msgstr[0] "%d dipilih"
-msgstr[1] "%d dipilih"
 
 #: src/photos-main-toolbar.c:170
 msgid "Select items for import"
@@ -537,7 +534,6 @@ msgstr "Pilih butir untuk diimpor"
 msgid "Select items for import (%u selected)"
 msgid_plural "Select items for import (%u selected)"
 msgstr[0] "Pilih butir untuk diimpor (%u dipilih)"
-msgstr[1] "Pilih butir untuk diimpor (%u dipilih)"
 
 #: src/photos-main-toolbar.c:217
 msgid "Back"
@@ -803,7 +799,6 @@ msgstr "Modifikasi"
 msgid "%ld × %ld pixel"
 msgid_plural "%ld × %ld pixels"
 msgstr[0] "%ld × %ld piksel"
-msgstr[1] "%ld × %ld piksel"
 
 #: src/photos-properties-dialog.c:721
 msgid "Off, did not fire"
