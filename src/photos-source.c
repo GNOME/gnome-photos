@@ -94,7 +94,7 @@ photos_source_build_filter_local (void)
         continue;
 
       tracker_uri = photos_utils_convert_path_to_uri (tracker_dirs[i]);
-      g_string_append_printf (tracker_filter, " || fn:contains (nie:isStoredAs (?urn), '%s')", tracker_uri);
+      g_string_append_printf (tracker_filter, " || fn:contains (nie:isStoredAs (?urn), \"%s\")", tracker_uri);
     }
 
   path = g_get_user_special_dir (G_USER_DIRECTORY_DESKTOP);
@@ -109,12 +109,12 @@ photos_source_build_filter_local (void)
   export_path = g_build_filename (path, PHOTOS_EXPORT_SUBPATH, NULL);
   export_uri = photos_utils_convert_path_to_uri (export_path);
 
-  filter = g_strdup_printf ("(((fn:contains (nie:isStoredAs (?urn), '%s')"
-                            "   || fn:contains (nie:isStoredAs (?urn), '%s')"
-                            "   || fn:contains (nie:isStoredAs (?urn), '%s')"
+  filter = g_strdup_printf ("(((fn:contains (nie:isStoredAs (?urn), \"%s\")"
+                            "   || fn:contains (nie:isStoredAs (?urn), \"%s\")"
+                            "   || fn:contains (nie:isStoredAs (?urn), \"%s\")"
                             "   %s)"
-                            "  && !fn:contains (nie:isStoredAs (?urn), '%s'))"
-                            " || fn:starts-with (nao:identifier (?urn), '%s')"
+                            "  && !fn:contains (nie:isStoredAs (?urn), \"%s\"))"
+                            " || fn:starts-with (nao:identifier (?urn), \"%s\")"
                             " || (?urn = nfo:image-category-screenshot))",
                             desktop_uri,
                             download_uri,
