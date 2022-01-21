@@ -179,7 +179,7 @@ photos_tracker_import_controller_next_files (GObject *source_object, GAsyncResul
                 const gchar *mime_type;
                 gboolean indexing = FALSE;
                 const gchar *tracker_priority_graphs[] = { PHOTOS_PICTURES_GRAPH };
-                const gchar *tracker_index_location_flags[] = { };
+                const gchar *tracker_index_location_flags[] = { NULL };
                 guint i;
                 guint n_elements;
 

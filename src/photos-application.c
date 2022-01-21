@@ -1256,7 +1256,7 @@ photos_application_import_file_copy (GObject *source_object, GAsyncResult *res, 
   else
     {
       const gchar *tracker_priority_graphs[] = { PHOTOS_PICTURES_GRAPH };
-      const gchar *tracker_index_location_flags[] = { };
+      const gchar *tracker_index_location_flags[] = { NULL };
       g_autofree gchar *destination_uri = NULL;
 
       g_assert_true (G_IS_FILE (destination));
