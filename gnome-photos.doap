@@ -33,4 +33,11 @@
     </foaf:Person>
   </maintainer>
 
+  <helper>
+    <foaf:Person>
+      <foaf:name>Bilal Elmoussaoui</foaf:name>
+      <foaf:mbox rdf:resource="mailto:bil.elmoussaoui@gmail.com" />
+      <gnome:userid>bilelmoussaoui</gnome:userid>
+    </foaf:Person>
+  </helper>
 </Project>
