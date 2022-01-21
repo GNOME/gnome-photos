@@ -20,18 +20,17 @@
   <template class="PhotosRemovableDeviceWidget" parent="GtkBin">
     <child>
       <object class="GtkGrid">
+        <property name="valign">GTK_ALIGN_CENTER</property>
         <property name="column-spacing">12</property>
         <child>
           <object class="GtkImage" id="image">
             <property name="use-fallback">1</property>
-            <property name="valign">GTK_ALIGN_CENTER</property>
           </object>
         </child>
         <child>
           <object class="GtkLabel" id="label">
             <property name="ellipsize">PANGO_ELLIPSIZE_END</property>
             <property name="max-width-chars">24</property>
-            <property name="valign">GTK_ALIGN_CENTER</property>
           </object>
         </child>
       </object>
