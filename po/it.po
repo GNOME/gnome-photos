@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-photos/issues\n"
-"POT-Creation-Date: 2021-03-14 18:43+0000\n"
-"PO-Revision-Date: 2021-03-16 16:03+0100\n"
+"POT-Creation-Date: 2021-05-06 11:22+0000\n"
+"PO-Revision-Date: 2021-11-19 10:52+0100\n"
 "Last-Translator: Gianvito Cavasoli <gianvito@gmx.it>\n"
 "Language-Team: Italian <gnome-it-list@gnome.org>\n"
 "Language: it\n"
@@ -16,11 +16,11 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"X-Generator: Gtranslator 3.38.0\n"
+"X-Generator: Gtranslator 40.0\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 
 #: data/org.gnome.Photos.appdata.xml.in:7 data/org.gnome.Photos.desktop.in.in:3
-#: src/photos-application.c:3030 src/photos-embed.c:823
+#: src/photos-application.c:3030 src/photos-embed.c:822
 #: src/photos-main-window.c:437 src/photos-search-type-manager.c:101
 msgid "Photos"
 msgstr "Foto"
@@ -84,7 +84,7 @@ msgstr ""
 "Modificare facilmente nell'applicazione le proprie foto, oppure inviarle a "
 "un editor più completo per modifiche più avanzate"
 
-#: data/org.gnome.Photos.appdata.xml.in:89
+#: data/org.gnome.Photos.appdata.xml.in:99
 msgid "The GNOME Project"
 msgstr "Il progetto GNOME"
 
@@ -138,16 +138,16 @@ msgstr "Mostra la versione dell'applicazione"
 #. Translators: this is the name of the default album that will be
 #. * created for imported photos.
 #.
-#: src/photos-application.c:1313 src/photos-export-dialog.c:195
+#: src/photos-application.c:1310 src/photos-export-dialog.c:195
 #: src/photos-import-dialog.c:134
 msgid "%-d %B %Y"
 msgstr "%-d %B %Y"
 
-#: src/photos-base-item.c:1036
+#: src/photos-base-item.c:1034
 msgid "Album"
 msgstr "Album"
 
-#: src/photos-base-item.c:2857
+#: src/photos-base-item.c:2862
 msgid "Screenshots"
 msgstr "Schermate"
 
@@ -176,38 +176,35 @@ msgstr "Dispositivi di visualizzazione DLNA"
 msgid "“%s” edited"
 msgstr "«%s» modificata"
 
-#: src/photos-embed.c:828
+#: src/photos-embed.c:827
 msgid "Collection View"
 msgstr "Vista raccolta"
 
-#: src/photos-embed.c:831 src/photos-search-type-manager.c:83
+#: src/photos-embed.c:830 src/photos-search-type-manager.c:83
 msgid "Albums"
 msgstr "Album"
 
-#: src/photos-embed.c:836 src/photos-search-type-manager.c:92
+#: src/photos-embed.c:835 src/photos-search-type-manager.c:92
 msgid "Favorites"
 msgstr "Preferite"
 
-#: src/photos-embed.c:841
+#: src/photos-embed.c:840
 msgid "Import"
 msgstr "Importa"
 
-#: src/photos-embed.c:844 src/photos-main-toolbar.c:336
+#: src/photos-embed.c:843 src/photos-main-toolbar.c:336
 msgid "Search"
 msgstr "Cerca"
 
 #: src/photos-empty-results-box.c:116
-#| msgid "No albums found"
 msgid "No Albums Found"
 msgstr "Nessun album trovato"
 
 #: src/photos-empty-results-box.c:120
-#| msgid "Starred photos will appear here"
 msgid "Starred Photos Will Appear Here"
 msgstr "Le foto marcate con la stella appariranno qui"
 
 #: src/photos-empty-results-box.c:130
-#| msgid "No photos found"
 msgid "No Photos Found"
 msgstr "Nessuna foto trovata"
 
@@ -242,7 +239,6 @@ msgid "Photos from your %s and %s will appear here."
 msgstr "Le foto di %s e da %s appariranno qui."
 
 #: src/photos-empty-results-box.c:200
-#| msgid "Try a different search"
 msgid "Try a different search."
 msgstr "Provare con una differente ricerca"
 
@@ -255,7 +251,7 @@ msgstr "Esporta"
 msgid "_Folder Name"
 msgstr "Nome _cartella"
 
-#: src/photos-export-dialog.ui:66 src/photos-print-setup.c:912
+#: src/photos-export-dialog.ui:66 src/photos-print-setup.c:908
 msgid "Size"
 msgstr "Dimensione"
 
@@ -319,7 +315,7 @@ msgstr "Svuota cestino"
 
 #. Translators: this is the Open action in a context menu
 #: src/photos-export-notification.c:369 src/photos-preview-menu.ui:6
-#: src/photos-selection-toolbar.c:240 src/photos-selection-toolbar.ui:28
+#: src/photos-selection-toolbar.c:248 src/photos-selection-toolbar.ui:28
 msgid "Open"
 msgstr "Apri"
 
@@ -506,11 +502,11 @@ msgstr "Recupero delle foto da %s"
 msgid "Fetching photos from online accounts"
 msgstr "Recupero delle foto da account online"
 
-#: src/photos-indexing-notification.c:214
+#: src/photos-indexing-notification.c:193
 msgid "Your photos are being indexed"
 msgstr "Indicizzazione delle foto in corso"
 
-#: src/photos-indexing-notification.c:215
+#: src/photos-indexing-notification.c:194
 msgid "Some photos might not be available during this process"
 msgstr "Alcune foto potrebbero non essere disponibili durante questo processo"
 
@@ -555,17 +551,17 @@ msgstr "Seleziona oggetti"
 
 #. length == 1
 #. Translators: this is the Open action in a context menu
-#: src/photos-main-toolbar.c:411 src/photos-selection-toolbar.c:237
+#: src/photos-main-toolbar.c:411 src/photos-selection-toolbar.c:245
 #: src/photos-share-notification.c:165
 #, c-format
 msgid "Open with %s"
 msgstr "Apri con %s"
 
-#: src/photos-main-toolbar.c:442 src/photos-selection-toolbar.c:248
+#: src/photos-main-toolbar.c:442 src/photos-selection-toolbar.c:254
 msgid "Remove from favorites"
 msgstr "Rimuove dalle preferite"
 
-#: src/photos-main-toolbar.c:447 src/photos-selection-toolbar.c:253
+#: src/photos-main-toolbar.c:447 src/photos-selection-toolbar.c:259
 msgid "Add to favorites"
 msgstr "Aggiunge alle preferite"
 
@@ -578,11 +574,14 @@ msgid "_Select"
 msgstr "_Seleziona"
 
 #: src/photos-main-window.c:458
+#| msgid ""
+#| "Copyright © 2012 – 2019 Red Hat, Inc.\n"
+#| "Copyright © 2015 – 2018 Umang Jain"
 msgid ""
-"Copyright © 2012 – 2019 Red Hat, Inc.\n"
+"Copyright © 2012 – 2021 Red Hat, Inc.\n"
 "Copyright © 2015 – 2018 Umang Jain"
 msgstr ""
-"Copyright © 2012 – 2018 Red Hat, Inc.\n"
+"Copyright © 2012 – 2021 Red Hat, Inc.\n"
 "Copyright © 2015 – 2018 Umang Jain"
 
 #. Translators: Put your names here
@@ -657,71 +656,71 @@ msgstr "Stampa «%s»: %s"
 msgid "Image Settings"
 msgstr "Impostazioni immagine"
 
-#: src/photos-print-setup.c:884
+#: src/photos-print-setup.c:880
 msgid "Position"
 msgstr "Posizione"
 
-#: src/photos-print-setup.c:887
+#: src/photos-print-setup.c:883
 msgid "_Left:"
 msgstr "_Sinistra:"
 
-#: src/photos-print-setup.c:888
+#: src/photos-print-setup.c:884
 msgid "_Right:"
 msgstr "_Destra:"
 
-#: src/photos-print-setup.c:889
+#: src/photos-print-setup.c:885
 msgid "_Top:"
 msgstr "S_opra:"
 
-#: src/photos-print-setup.c:890
+#: src/photos-print-setup.c:886
 msgid "_Bottom:"
 msgstr "So_tto:"
 
-#: src/photos-print-setup.c:892
+#: src/photos-print-setup.c:888
 msgid "C_enter:"
 msgstr "C_entro:"
 
-#: src/photos-print-setup.c:896
+#: src/photos-print-setup.c:892
 msgid "None"
 msgstr "Nessuna"
 
-#: src/photos-print-setup.c:897
+#: src/photos-print-setup.c:893
 msgid "Horizontal"
 msgstr "Orizzontale"
 
-#: src/photos-print-setup.c:898
+#: src/photos-print-setup.c:894
 msgid "Vertical"
 msgstr "Verticale"
 
-#: src/photos-print-setup.c:899
+#: src/photos-print-setup.c:895
 msgid "Both"
 msgstr "Entrambe"
 
-#: src/photos-print-setup.c:915
+#: src/photos-print-setup.c:911
 msgid "_Width:"
 msgstr "_Larghezza:"
 
-#: src/photos-print-setup.c:916
+#: src/photos-print-setup.c:912
 msgid "_Height:"
 msgstr "_Altezza:"
 
-#: src/photos-print-setup.c:918
+#: src/photos-print-setup.c:914
 msgid "_Scaling:"
 msgstr "S_calatura:"
 
-#: src/photos-print-setup.c:927
+#: src/photos-print-setup.c:923
 msgid "_Unit:"
 msgstr "_Unità:"
 
-#: src/photos-print-setup.c:931
+#: src/photos-print-setup.c:927
 msgid "Millimeters"
 msgstr "Millimetri"
 
-#: src/photos-print-setup.c:932
+#: src/photos-print-setup.c:928
 msgid "Inches"
 msgstr "Pollici"
 
-#: src/photos-print-setup.c:960
+#: src/photos-print-setup.c:956
 msgid "Preview"
 msgstr "Anteprima"
 
@@ -828,19 +827,19 @@ msgstr "Scarta tutte le modifiche"
 msgid "Devices"
 msgstr "Dispositivi"
 
-#: src/photos-search-match-manager.c:155 src/photos-search-type-manager.c:74
+#: src/photos-search-match-manager.c:149 src/photos-search-type-manager.c:74
 #: src/photos-source-manager.c:396
 msgid "All"
 msgstr "Tutte"
 
 #. Translators: "Title" refers to "Match Title" when searching.
-#: src/photos-search-match-manager.c:162
+#: src/photos-search-match-manager.c:155
 msgctxt "Search Filter"
 msgid "Title"
 msgstr "Titolo"
 
 #. Translators: "Author" refers to "Match Author" when searching.
-#: src/photos-search-match-manager.c:169
+#: src/photos-search-match-manager.c:161
 msgctxt "Search Filter"
 msgid "Author"
 msgstr "Autore"
@@ -848,7 +847,7 @@ msgstr "Autore"
 #. Translators: this is a verb that refers to "All", "Title" and
 #. * "Author", as in "Match All", "Match Title" and "Match Author".
 #.
-#: src/photos-search-match-manager.c:207
+#: src/photos-search-match-manager.c:213
 msgid "Match"
 msgstr "Corrisponde"
 
