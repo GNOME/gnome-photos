@@ -83,13 +83,13 @@
   </releases>
   <screenshots>
     <screenshot type="default">
-      <image type="source">https://static.gnome.org/appdata/gnome-photos/gnome-photos-1.png</image>
+      <image type="source">https://gitlab.gnome.org/GNOME/gnome-photos/raw/HEAD/data/screenshots/photos.png</image>
     </screenshot>
     <screenshot>
-      <image type="source">https://static.gnome.org/appdata/gnome-photos/gnome-photos-2.png</image>
+      <image type="source">https://gitlab.gnome.org/GNOME/gnome-photos/raw/HEAD/data/screenshots/crop.png</image>
     </screenshot>
     <screenshot>
-      <image type="source">https://static.gnome.org/appdata/gnome-photos/gnome-photos-3.png</image>
+      <image type="source">https://gitlab.gnome.org/GNOME/gnome-photos/raw/HEAD/data/screenshots/filter.png</image>
     </screenshot>
   </screenshots>
   <url type="bugtracker">https://gitlab.gnome.org/GNOME/gnome-photos/issues</url>
