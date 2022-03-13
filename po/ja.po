@@ -1,18 +1,18 @@
 # Japanese translation for gnome-photos.
-# Copyright (C) 2013-2016, 2019-2020 gnome-photos's COPYRIGHT HOLDER
+# Copyright (C) 2013-2016, 2019-2020, 2022 gnome-photos's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnome-photos package.
 # victory <victory.deb@gmail.com>, 2013.
 # Jiro Matsuzawa  <jmatsuzawa@gnome.org>, 2013-2016.
 # Ikuya Awashiro <ikuya@fruitsbasket.info>, 2014.
 # Hajime Taira <htaira@redhat.com>, 2014.
-# sicklylife <translation@sicklylife.jp>, 2019-2020.
+# sicklylife <translation@sicklylife.jp>, 2019-2020, 2022.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-photos/issues\n"
 "POT-Creation-Date: 2021-04-27 15:11+0000\n"
-"PO-Revision-Date: 2020-08-27 22:30+0900\n"
+"PO-Revision-Date: 2022-03-13 21:00+0900\n"
 "Last-Translator: sicklylife <translation@sicklylife.jp>\n"
 "Language-Team: Japanese <gnome-translation@gnome.gr.jp>\n"
 "Language: ja\n"
@@ -198,20 +198,14 @@ msgid "Search"
 msgstr "検索"
 
 #: src/photos-empty-results-box.c:116
-#, fuzzy
-#| msgid "No albums found"
 msgid "No Albums Found"
 msgstr "アルバムが見つかりませんでした"
 
 #: src/photos-empty-results-box.c:120
-#, fuzzy
-#| msgid "Starred photos will appear here"
 msgid "Starred Photos Will Appear Here"
 msgstr "お気に入りの写真がここに表示されます"
 
 #: src/photos-empty-results-box.c:130
-#, fuzzy
-#| msgid "No photos found"
 msgid "No Photos Found"
 msgstr "写真が見つかりませんでした"
 
@@ -246,10 +240,8 @@ msgid "Photos from your %s and %s will appear here."
 msgstr "%s と %s の写真がここに表示されます。"
 
 #: src/photos-empty-results-box.c:200
-#, fuzzy
-#| msgid "Try a different search"
 msgid "Try a different search."
-msgstr "別の検索を試してください"
+msgstr "他のキーワードを試してください。"
 
 #: src/photos-export-dialog.ui:22
 msgctxt "dialog title"
@@ -580,15 +572,11 @@ msgid "_Select"
 msgstr "選択(_S)"
 
 #: src/photos-main-window.c:458
-#, fuzzy
-#| msgid ""
-#| "Copyright © 2012 – 2019 Red Hat, Inc.\n"
-#| "Copyright © 2015 – 2018 Umang Jain"
 msgid ""
 "Copyright © 2012 – 2021 Red Hat, Inc.\n"
 "Copyright © 2015 – 2018 Umang Jain"
 msgstr ""
-"Copyright © 2012 – 2019 Red Hat, Inc.\n"
+"Copyright © 2012 – 2021 Red Hat, Inc.\n"
 "Copyright © 2015 – 2018 Umang Jain"
 
 #. Translators: Put your names here
