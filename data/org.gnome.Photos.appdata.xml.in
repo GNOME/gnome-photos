@@ -35,6 +35,15 @@
     <kudo>UserDocs</kudo>
   </kudos>
   <releases>
+    <release version="42.0" date="2022-03-19">
+      <description>
+        <ul>
+          <li>Fix crash when importing photos from device</li>
+          <li>Fix headerbar getting too big</li>
+          <li>Translations updates</li>
+        </ul>
+      </description>
+    </release>
     <release version="40.0" date="2021-03-25">
       <description>
         <ul>

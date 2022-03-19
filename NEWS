@@ -1,3 +1,9 @@
+Overview of changes in 42.0
+===============================
+* appdata: Update screenshots 
+* tracker: Correctly pass IndexLocation flags 
+* Fix headerbar button vertical alignment
+
 Overview of changes in 41.alpha
 ===============================
 
