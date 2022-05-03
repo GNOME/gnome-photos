@@ -2807,6 +2807,7 @@ photos_base_item_populate_from_cursor (PhotosBaseItem *self, TrackerSparqlCursor
   gchar *name_fallback;
   gint64 height;
   gint64 width;
+  g_autofree char *bnode_id = NULL;
 
   priv = photos_base_item_get_instance_private (self);
 
@@ -2816,7 +2817,18 @@ photos_base_item_populate_from_cursor (PhotosBaseItem *self, TrackerSparqlCursor
   photos_utils_set_string (&priv->uri, uri);
   g_object_notify (G_OBJECT (self), "uri");
 
+  rdf_type = tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_RDF_TYPE, NULL);
+  photos_utils_set_string (&priv->rdf_type, rdf_type);
+
+  photos_base_item_update_info_from_type (self);
+
   id = tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_URN, NULL);
+
+  if (priv->collection && !g_str_has_prefix (id, "urn:bnode:"))
+    {
+      bnode_id = g_strdup_printf ("urn:bnode:%s", id);
+      id = bnode_id;
+    }
   photos_utils_set_string (&priv->id, id);
   g_object_notify (G_OBJECT (self), "id");
 
@@ -2841,10 +2853,6 @@ photos_base_item_populate_from_cursor (PhotosBaseItem *self, TrackerSparqlCursor
   mime_type = tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_MIME_TYPE, NULL);
   photos_utils_set_string (&priv->mime_type, mime_type);
 
-  rdf_type = tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_RDF_TYPE, NULL);
-  photos_utils_set_string (&priv->rdf_type, rdf_type);
-
-  photos_base_item_update_info_from_type (self);
   priv->favorite = favorite && !priv->collection;
 
   priv->ctime = -1;

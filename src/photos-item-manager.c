@@ -305,6 +305,7 @@ photos_item_manager_add_cursor_for_mode (PhotosItemManager *self,
   PhotosBaseManager *item_mngr_chld;
   gboolean is_collection;
   const gchar *id;
+  g_autofree char *bnode_id = NULL;
 
   g_return_if_fail (PHOTOS_IS_ITEM_MANAGER (self));
   g_return_if_fail (base_item_type == G_TYPE_NONE
@@ -325,6 +326,12 @@ photos_item_manager_add_cursor_for_mode (PhotosItemManager *self,
 
   item_mngr_chld = self->item_mngr_chldrn[mode];
   id = tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_URN, NULL);
+
+  if (mode == PHOTOS_WINDOW_MODE_COLLECTIONS && !g_str_has_prefix (id, "urn:bnode:"))
+    {
+      bnode_id = g_strdup_printf ("urn:bnode:%s", id);
+      id = bnode_id;
+    }
 
   item = PHOTOS_BASE_ITEM (photos_base_manager_get_object_by_id (item_mngr_chld, id));
   if (item != NULL)
@@ -1378,6 +1385,7 @@ photos_item_manager_create_item (PhotosItemManager *self,
   PhotosBaseItem *item;
   PhotosBaseItem *ret_val = NULL;
   const gchar *id;
+  g_autofree char *bnode_id = NULL;
 
   g_return_val_if_fail (PHOTOS_IS_ITEM_MANAGER (self), NULL);
   g_return_val_if_fail (base_item_type == G_TYPE_NONE
@@ -1386,6 +1394,13 @@ photos_item_manager_create_item (PhotosItemManager *self,
   g_return_val_if_fail (TRACKER_IS_SPARQL_CURSOR (cursor), NULL);
 
   id = tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_URN, NULL);
+
+  if (photos_item_manager_cursor_is_collection (cursor) && !g_str_has_prefix (id, "urn:bnode:"))
+    {
+      bnode_id = g_strdup_printf ("urn:bnode:%s", id);
+      id = bnode_id;
+    }
+
   item = PHOTOS_BASE_ITEM (photos_base_manager_get_object_by_id (PHOTOS_BASE_MANAGER (self), id));
   if (item != NULL)
     {
