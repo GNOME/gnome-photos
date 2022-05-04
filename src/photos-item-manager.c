@@ -76,6 +76,7 @@ enum
   LOAD_FINISHED,
   LOAD_STARTED,
   WINDOW_MODE_CHANGED,
+  ACTIVE_COLLECTION_UPDATED,
   LAST_SIGNAL
 };
 
@@ -289,6 +290,8 @@ photos_item_manager_info_updated (PhotosBaseItem *item, gpointer user_data)
         photos_base_manager_remove_object (self->item_mngr_chldrn[PHOTOS_WINDOW_MODE_FAVORITES], G_OBJECT (item));
     }
 
+    if (self->active_collection == item)
+      g_signal_emit (self, signals[ACTIVE_COLLECTION_UPDATED], 0, self->active_collection);
  out:
   return;
 }
@@ -1222,6 +1225,17 @@ photos_item_manager_class_init (PhotosItemManagerClass *class)
                                                2,
                                                PHOTOS_TYPE_WINDOW_MODE,
                                                PHOTOS_TYPE_WINDOW_MODE);
+
+  signals[ACTIVE_COLLECTION_UPDATED] = g_signal_new ("active-collection-updated",
+                                                     G_TYPE_FROM_CLASS (class),
+                                                     G_SIGNAL_RUN_LAST,
+                                                     0,
+                                                     NULL, /*accumulator */
+                                                     NULL, /*accu_data */
+                                                     g_cclosure_marshal_VOID__OBJECT,
+                                                     G_TYPE_NONE,
+                                                     1,
+                                                     PHOTOS_TYPE_BASE_ITEM);
 }
 
 

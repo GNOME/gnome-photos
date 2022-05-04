@@ -165,6 +165,11 @@ photos_tracker_collection_view_controller_init (PhotosTrackerCollectionViewContr
                             G_CALLBACK (photos_tracker_collection_view_controller_active_collection_changed),
                             self);
 
+  g_signal_connect_swapped (self->item_mngr,
+                            "active-collection-updated",
+                            G_CALLBACK (photos_tracker_controller_refresh_for_object),
+                            self);
+
   self->offset_cntrlr = photos_offset_collection_view_controller_dup_singleton ();
 
   photos_tracker_controller_set_frozen (PHOTOS_TRACKER_CONTROLLER (self), TRUE);
