@@ -284,7 +284,7 @@ msgstr "%d×%d px (%s GB)"
 
 #: src/photos-export-dialog.c:252
 msgid "Calculating export size…"
-msgstr "S'està calculant la mida d'exportació..."
+msgstr "S'està calculant la mida d'exportació…"
 
 #: src/photos-export-notification.c:317
 msgid "Failed to export: not enough space"
@@ -602,11 +602,11 @@ msgstr "Organitza"
 
 #: src/photos-preview-menu.ui:10
 msgid "Export…"
-msgstr "Exporta..."
+msgstr "Exporta…"
 
 #: src/photos-preview-menu.ui:14
 msgid "Print…"
-msgstr "Imprimeix..."
+msgstr "Imprimeix…"
 
 #: src/photos-preview-menu.ui:19
 msgid "Delete"
@@ -614,7 +614,7 @@ msgstr "Suprimeix"
 
 #: src/photos-preview-menu.ui:23
 msgid "Display on…"
-msgstr "Visualitza a..."
+msgstr "Visualitza a…"
 
 #: src/photos-preview-menu.ui:27
 msgid "Set as Background"
@@ -622,7 +622,7 @@ msgstr "Estableix com a fons"
 
 #: src/photos-preview-menu.ui:31
 msgid "Set as Lock Screen"
-msgstr "Estableix com fons de pantalla bloqueig"
+msgstr "Estableix com a fons de pantalla bloqueig"
 
 #: src/photos-preview-menu.ui:37 src/photos-properties-dialog.c:883
 #: src/photos-selection-toolbar.ui:101
