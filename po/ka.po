@@ -1,0 +1,1048 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gnome-photos\n"
+"Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-photos/issues\n"
+"POT-Creation-Date: 2022-03-19 17:38+0000\n"
+"PO-Revision-Date: 2022-05-14 05:53+0200\n"
+"Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
+"Language-Team: Georgian <(nothing)>\n"
+"Language: ka\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Poedit 3.0.1\n"
+
+#: data/org.gnome.Photos.appdata.xml.in:7 data/org.gnome.Photos.desktop.in.in:3
+#: src/photos-application.c:3030 src/photos-embed.c:822
+#: src/photos-main-window.c:437 src/photos-search-type-manager.c:101
+msgid "Photos"
+msgstr "ფოტოები"
+
+#: data/org.gnome.Photos.appdata.xml.in:8 src/photos-main-window.c:457
+msgid "Access, organize and share your photos on GNOME"
+msgstr "ფოტოებთან წვდომა, მათი დალაგება და გაზიარება GNOME პლატფორმაზე"
+
+#: data/org.gnome.Photos.appdata.xml.in:10
+msgid ""
+"Access, organize and share your photos on GNOME. A simple and elegant "
+"replacement for using a file manager to deal with photos. Enhance, crop and "
+"edit in a snap. Seamless cloud integration is offered through GNOME Online "
+"Accounts."
+msgstr ""
+"ფოტოებთან წვდომა, მათი დალაგება და გაზიარება GNOME პლატფორმაზე. მარტივი და "
+"ელეგანტური შემცვლელი ფაილების მენეჯერის გამოსაყენებლად ფოტოების "
+"გადასაჭრელად. გასაუმჯობესებლად, ჩამოსაჭრელად და უცებ ჩასასწორებლად. უწყვეტი "
+"ღრუბლოვანი ინტეგრაცია შემოთავაზებულია GNOME ონლაინ ანგარიშების მეშვეობით."
+
+#: data/org.gnome.Photos.appdata.xml.in:16
+msgid "You can:"
+msgstr "თქვენ შეგიძლიათ:"
+
+#: data/org.gnome.Photos.appdata.xml.in:18
+msgid "Automatically find all your pictures"
+msgstr "ავტომატურად იპოვოთ ყელა თქენი ფოტო"
+
+#: data/org.gnome.Photos.appdata.xml.in:19
+msgid "View recent local and online photos"
+msgstr "დაათვალიერეთ ახლახანს გახსნილი ონლაინ და ლოკალური ფტოები"
+
+#: data/org.gnome.Photos.appdata.xml.in:20
+msgid "Access your Facebook or Flickr pictures"
+msgstr "წვდომა Facebook-ის და Flickr-ის თქვენს სურათებთან"
+
+#: data/org.gnome.Photos.appdata.xml.in:21
+msgid ""
+"View photos on TVs, laptops or other DLNA renderers on your local network"
+msgstr ""
+"დაათვალიერეთ ფოტოები თქვენს TV-ზე, ლეპტოპზე ან ლოკალურ ქსელში არსებულ თქვენს "
+"სხვა DLNA რენდერერზე"
+
+#: data/org.gnome.Photos.appdata.xml.in:23
+msgid "Set pictures as your desktop background"
+msgstr "სურათის ფონზე დაყენება"
+
+#: data/org.gnome.Photos.appdata.xml.in:24
+msgid "Print photos"
+msgstr "ფოტოების დაბეჭდვა"
+
+#: data/org.gnome.Photos.appdata.xml.in:25
+msgid "Select favorites"
+msgstr "რჩეულების მონიშვნა"
+
+#: data/org.gnome.Photos.appdata.xml.in:26
+msgid ""
+"Easily edit your pictures in the app, or send to a full featured editor for "
+"more advanced changes"
+msgstr ""
+"ჩაასწორეთ სურათები ადვილად ამავე აპლიკაციაში, ან სრულფასოვან რედაქტორში "
+"გადააგზავნეთ"
+
+#: data/org.gnome.Photos.appdata.xml.in:108
+msgid "The GNOME Project"
+msgstr "პროექტი \"GNOME\""
+
+#: data/org.gnome.Photos.desktop.in.in:4
+msgid "Access, organize and share photos"
+msgstr "ფოტოებთან წვდომა, მათი დალაგება და გაზიარება"
+
+#. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
+#: data/org.gnome.Photos.desktop.in.in:15
+msgid "Photos;Pictures;"
+msgstr "ფოტოები;გამოსახულებები;"
+
+#: data/org.gnome.photos.gschema.xml:5
+msgid "Window size"
+msgstr "ფანჯრის ზომა"
+
+#: data/org.gnome.photos.gschema.xml:6
+msgid "Window size (width and height)."
+msgstr "ფანჯრის ზომა (სიგანე, სიმაღლე)"
+
+#: data/org.gnome.photos.gschema.xml:10
+msgid "Window position"
+msgstr "ფანჯრის მდებარეობა"
+
+#: data/org.gnome.photos.gschema.xml:11
+msgid "Window position (x and y)."
+msgstr "ფანჯრის მდებარეობა (x და y)"
+
+#: data/org.gnome.photos.gschema.xml:15
+msgid "Window maximized"
+msgstr "გადიდებული ფანჯარა"
+
+#: data/org.gnome.photos.gschema.xml:16
+msgid "Window maximized state"
+msgstr "ფანჯრის სრულად გაშლილი მდგომარეობა"
+
+#: src/photos-application.c:168
+msgid "Show the empty state"
+msgstr "ცარიელი მდგომარეობის ჩვენება"
+
+#: src/photos-application.c:169
+msgid "Show the application's version"
+msgstr "აპლიკაციის ვერსიის ჩვენება"
+
+#. Translators: this is the default sub-directory where photos will
+#. * be imported.
+#.
+#. Translators: this is the default sub-directory where photos
+#. * will be exported.
+#.
+#. Translators: this is the name of the default album that will be
+#. * created for imported photos.
+#.
+#: src/photos-application.c:1310 src/photos-export-dialog.c:195
+#: src/photos-import-dialog.c:134
+msgid "%-d %B %Y"
+msgstr "%-d %B %Y"
+
+#: src/photos-base-item.c:1034
+msgid "Album"
+msgstr "ალბომი"
+
+#: src/photos-base-item.c:2862
+msgid "Screenshots"
+msgstr "ეკრანის ანაბეჭდები"
+
+#: src/photos-delete-notification.c:156
+#, c-format
+msgid "“%s” deleted"
+msgstr "\"%s\" წაიშალა"
+
+#: src/photos-delete-notification.c:159
+#, c-format
+msgid "%d item deleted"
+msgid_plural "%d items deleted"
+msgstr[0] "წაშლილია %d ელემენტი"
+
+#: src/photos-delete-notification.c:166 src/photos-done-notification.c:119
+msgid "Undo"
+msgstr "დაბრუნება"
+
+#: src/photos-dlna-renderers-dialog.ui:7
+msgid "DLNA Renderer Devices"
+msgstr "DLNA რენდერერის მოწყობილობები"
+
+#: src/photos-done-notification.c:112
+#, c-format
+msgid "“%s” edited"
+msgstr "“%s” ჩასწორებულია"
+
+#: src/photos-embed.c:827
+msgid "Collection View"
+msgstr "კოლექციის ხედი"
+
+#: src/photos-embed.c:830 src/photos-search-type-manager.c:83
+msgid "Albums"
+msgstr "ალბომები"
+
+#: src/photos-embed.c:835 src/photos-search-type-manager.c:92
+msgid "Favorites"
+msgstr "რჩეულები"
+
+#: src/photos-embed.c:840
+msgid "Import"
+msgstr "შემოტანა"
+
+#: src/photos-embed.c:843 src/photos-main-toolbar.c:336
+msgid "Search"
+msgstr "ძებნა"
+
+#: src/photos-empty-results-box.c:116
+msgid "No Albums Found"
+msgstr "ალბომები ნაპოვნი არაა"
+
+#: src/photos-empty-results-box.c:120
+msgid "Starred Photos Will Appear Here"
+msgstr "აქ ვარსკვლავდასმული სურათები გამოჩნდება"
+
+#: src/photos-empty-results-box.c:130
+msgid "No Photos Found"
+msgstr "ფოტოები ნაპოვნი არაა"
+
+#: src/photos-empty-results-box.c:155
+msgid "You can create albums from the Photos view"
+msgstr "კოლექციების შექმნა სურათების ხედიდან შეგიძლიათ"
+
+#. Translators: this should be translated in the context of
+#. * the "Photos from your Online Accounts and Pictures folder
+#. * will appear here." sentence below.
+#.
+#: src/photos-empty-results-box.c:176
+msgid "Online Accounts"
+msgstr "ონლაინ ანგარიშები"
+
+#. Translators: this should be translated in the context of
+#. * the "Photos from your Online Accounts and Pictures folder
+#. * will appear here." sentence below.
+#.
+#: src/photos-empty-results-box.c:183
+msgid "Pictures folder"
+msgstr "სურთების საქაღალდე"
+
+#. Translators: the first %s here is "Online Accounts" and the
+#. * second %s is "Pictures folder", which are in separate
+#. * strings due to markup, and should be translated only in the
+#. * context of this sentence.
+#.
+#: src/photos-empty-results-box.c:190
+#, c-format
+msgid "Photos from your %s and %s will appear here."
+msgstr "ფოტოები თქვენი %s და %s-დან აქ გამოჩნდება."
+
+#: src/photos-empty-results-box.c:200
+msgid "Try a different search."
+msgstr "სცადეთ სხვა ძებნა."
+
+#: src/photos-export-dialog.ui:22
+msgctxt "dialog title"
+msgid "Export"
+msgstr "გატანა"
+
+#: src/photos-export-dialog.ui:38
+msgid "_Folder Name"
+msgstr "_საქაღალდის სახელი"
+
+#: src/photos-export-dialog.ui:66 src/photos-print-setup.c:908
+msgid "Size"
+msgstr "ზომა"
+
+#: src/photos-export-dialog.ui:83
+msgid "F_ull"
+msgstr "_სრული"
+
+#: src/photos-export-dialog.ui:113
+msgid "_Reduced"
+msgstr "_შემცირებული"
+
+#: src/photos-export-dialog.ui:160 src/photos-import-dialog.ui:185
+#: src/photos-main-toolbar.c:488 src/photos-main-toolbar.c:524
+#: src/photos-main-toolbar.c:635
+msgid "_Cancel"
+msgstr "_გაუქმება"
+
+#: src/photos-export-dialog.ui:167
+msgid "_Export"
+msgstr "_გატანა"
+
+#. Translators: this is the estimated size of the exported image in
+#. * the form "1600×1067 (0.6 GB)".
+#.
+#: src/photos-export-dialog.c:66
+#, c-format
+msgid "%d×%d (%s)"
+msgstr "%d×%d (%s)"
+
+#: src/photos-export-dialog.c:252
+msgid "Calculating export size…"
+msgstr "გატანის ზომის გამოვლა…"
+
+#: src/photos-export-notification.c:317
+msgid "Failed to export: not enough space"
+msgstr "გატანა შეუძლებელია: ადგილი საკმარისი არაა"
+
+#: src/photos-export-notification.c:319
+msgid "Failed to export"
+msgstr "გატანის შეცდომა"
+
+#: src/photos-export-notification.c:326
+#, c-format
+msgid "“%s” exported"
+msgstr "“%s” გატანილია"
+
+#: src/photos-export-notification.c:330
+#, c-format
+msgid "%d item exported"
+msgid_plural "%d items exported"
+msgstr[0] "გატანილია %d ჩანაწერი"
+
+#: src/photos-export-notification.c:347
+msgid "Analyze"
+msgstr "&ანალიზი"
+
+#: src/photos-export-notification.c:352
+msgid "Empty Trash"
+msgstr "ნაგვის დაცარიელება"
+
+#. Translators: this is the Open action in a context menu
+#: src/photos-export-notification.c:369 src/photos-preview-menu.ui:6
+#: src/photos-selection-toolbar.c:248 src/photos-selection-toolbar.ui:28
+msgid "Open"
+msgstr "გახსნა"
+
+#. Translators: this is the label of the button to open the
+#. * folder where the item was exported.
+#.
+#: src/photos-export-notification.c:379
+msgid "Export Folder"
+msgstr "გასატანი საქაღალდე"
+
+#. Translators: this is the fallback title in the form
+#. * "Facebook — 2nd January 2013".
+#.
+#: src/photos-facebook-item.c:100 src/photos-flickr-item.c:102
+#: src/photos-google-item.c:98
+#, c-format
+msgid "%s — %s"
+msgstr "%s — %s"
+
+#: src/photos-help-overlay.ui:32
+msgctxt "shortcut window"
+msgid "General"
+msgstr "ზოგადი"
+
+#: src/photos-help-overlay.ui:36
+msgctxt "shortcut window"
+msgid "Show help"
+msgstr "დახმარების ჩვენება"
+
+#: src/photos-help-overlay.ui:43
+msgctxt "shortcut window"
+msgid "Keyboard shortcuts"
+msgstr "კლავიატურის მალსახმობები"
+
+#: src/photos-help-overlay.ui:50
+msgctxt "shortcut window"
+msgid "Quit"
+msgstr "გასვლა"
+
+#: src/photos-help-overlay.ui:59
+msgctxt "shortcut window"
+msgid "Navigation"
+msgstr "ნავიგაცია"
+
+#: src/photos-help-overlay.ui:63
+msgctxt "shortcut window"
+msgid "Next photo"
+msgstr "შემდეგი ფოტო"
+
+#: src/photos-help-overlay.ui:70
+msgctxt "shortcut window"
+msgid "Previous photo"
+msgstr "წინა ფოტო"
+
+#: src/photos-help-overlay.ui:77 src/photos-help-overlay.ui:85
+msgctxt "shortcut window"
+msgid "Go back"
+msgstr "უკან გადასვლა"
+
+#: src/photos-help-overlay.ui:95
+msgctxt "shortcut window"
+msgid "Overview"
+msgstr "მიმოხილვა"
+
+#: src/photos-help-overlay.ui:99
+msgctxt "shortcut window"
+msgid "Search"
+msgstr "ძებნა"
+
+#: src/photos-help-overlay.ui:106
+msgctxt "shortcut window"
+msgid "Select all"
+msgstr "ყველას მონიშვნა"
+
+#: src/photos-help-overlay.ui:113
+msgctxt "shortcut window"
+msgid "Export selected photo"
+msgstr "მონიშნული ფოტოების გატანა"
+
+#: src/photos-help-overlay.ui:120
+msgctxt "shortcut window"
+msgid "Print selected photo"
+msgstr "მონიშნული ფოტოების დაბეჭდვა"
+
+#: src/photos-help-overlay.ui:127
+msgctxt "shortcut window"
+msgid "Delete selected photos"
+msgstr "მონიშნული ფოტოების წაშლა"
+
+#: src/photos-help-overlay.ui:136
+msgctxt "shortcut window"
+msgid "Photo view"
+msgstr "ფოტო ხედი"
+
+#: src/photos-help-overlay.ui:140
+msgctxt "shortcut window"
+msgid "Edit"
+msgstr "ჩასწორება"
+
+#: src/photos-help-overlay.ui:147
+msgctxt "shortcut window"
+msgid "Export"
+msgstr "გატანა"
+
+#: src/photos-help-overlay.ui:154
+msgctxt "shortcut window"
+msgid "Print"
+msgstr "ბეჭდვა"
+
+#: src/photos-help-overlay.ui:161
+msgctxt "shortcut window"
+msgid "Zoom in"
+msgstr "გა_დიდება"
+
+#: src/photos-help-overlay.ui:168
+msgctxt "shortcut window"
+msgid "Zoom out"
+msgstr "დაპატარავება"
+
+#: src/photos-help-overlay.ui:175
+msgctxt "shortcut window"
+msgid "Best fit"
+msgstr "საუკეთესოდ ჩატევა"
+
+#: src/photos-help-overlay.ui:182
+msgctxt "shortcut window"
+msgid "Delete"
+msgstr "წაშლა"
+
+#: src/photos-help-overlay.ui:189
+msgctxt "shortcut window"
+msgid "Action menu"
+msgstr "ქმედებების მენიუ"
+
+#: src/photos-help-overlay.ui:196
+msgctxt "shortcut window"
+msgid "Fullscreen"
+msgstr "მთელ ეკრანზე"
+
+#: src/photos-help-overlay.ui:205
+msgctxt "shortcut window"
+msgid "Edit view"
+msgstr "ხედის ჩასწორება"
+
+#: src/photos-help-overlay.ui:209
+msgctxt "shortcut window"
+msgid "Cancel"
+msgstr "შეწყვეტა"
+
+#: src/photos-import-dialog.c:194
+msgid "An album with that name already exists"
+msgstr "ალბომი ამ სახელით უკვე არსებობს"
+
+#: src/photos-import-dialog.c:211
+msgid "An album for that date already exists"
+msgstr "ალბომი მოცემული თარიღით უკვე არსებობს"
+
+#: src/photos-import-dialog.ui:22
+msgctxt "dialog title"
+msgid "Name Album"
+msgstr "ალბომის სახელი"
+
+#: src/photos-import-dialog.ui:54
+msgid "Create _New"
+msgstr "_ახლის შექმნა"
+
+#: src/photos-import-dialog.ui:118
+msgid "Add to _Existing"
+msgstr "ა_რსებულში ჩამატება"
+
+#: src/photos-import-dialog.ui:192 src/photos-organize-collection-dialog.c:69
+msgid "_Add"
+msgstr "დ_ამატება"
+
+#. Translators: %s refers to an online account provider, e.g.,
+#. * "Facebook" or "Flickr".
+#.
+#: src/photos-indexing-notification.c:163
+#, c-format
+msgid "Fetching photos from %s"
+msgstr "მიმდინარეობს ფოტოების გამოთხოვა %s -დან"
+
+#: src/photos-indexing-notification.c:166
+msgid "Fetching photos from online accounts"
+msgstr "ფოტოების ონლაინ ანგარიშებიდან გამოთხოვა"
+
+#: src/photos-indexing-notification.c:193
+msgid "Your photos are being indexed"
+msgstr "მიმდინარეობს ფოტოების ინდექსაცია"
+
+#: src/photos-indexing-notification.c:194
+msgid "Some photos might not be available during this process"
+msgstr "პროცესის მიმდინარეობის დროს ზოგიერთი სურათი შეიძლება მიუწვდომელი იყოს"
+
+#: src/photos-item-manager.c:845
+#, c-format
+msgid "Oops! Unable to load “%s”"
+msgstr "ვაი! \"%s\"-ის ჩატვირთვა შეუძლებელია"
+
+#: src/photos-local-item.c:241 src/photos-source-manager.c:399
+msgid "Local"
+msgstr "ლოკალური"
+
+#: src/photos-main-toolbar.c:80
+msgid "Click on items to select them"
+msgstr "მოსანიშნად დააწკაპუნეთ ელემენტებზე"
+
+#: src/photos-main-toolbar.c:82
+#, c-format
+msgid "%d selected"
+msgid_plural "%d selected"
+msgstr[0] "%d მონიშნულია"
+
+#: src/photos-main-toolbar.c:170
+msgid "Select items for import"
+msgstr "აირჩიეთ შემოსატანი ჩანაწერები"
+
+#: src/photos-main-toolbar.c:174
+#, c-format
+msgid "Select items for import (%u selected)"
+msgid_plural "Select items for import (%u selected)"
+msgstr[0] "აირჩიეთ შემოსატანი ჩანაწერები (მონიშნულია %u)"
+
+#: src/photos-main-toolbar.c:217
+msgid "Back"
+msgstr "უკან"
+
+#: src/photos-main-toolbar.c:351
+msgid "Select Items"
+msgstr "ელემენტების არჩევა"
+
+#. length == 1
+#. Translators: this is the Open action in a context menu
+#: src/photos-main-toolbar.c:411 src/photos-selection-toolbar.c:245
+#: src/photos-share-notification.c:165
+#, c-format
+msgid "Open with %s"
+msgstr "%s-ით გახსნა"
+
+#: src/photos-main-toolbar.c:442 src/photos-selection-toolbar.c:254
+msgid "Remove from favorites"
+msgstr "რჩეულებიდან წაშლა"
+
+#: src/photos-main-toolbar.c:447 src/photos-selection-toolbar.c:259
+msgid "Add to favorites"
+msgstr "რჩეულებში დამატება"
+
+#: src/photos-main-toolbar.c:492
+msgid "Done"
+msgstr "დასრულებულია"
+
+#: src/photos-main-toolbar.c:528
+msgid "_Select"
+msgstr "_მონიშვნა"
+
+#: src/photos-main-window.c:458
+msgid ""
+"Copyright © 2012 – 2021 Red Hat, Inc.\n"
+"Copyright © 2015 – 2018 Umang Jain"
+msgstr ""
+"© 2012 – 2021 Red Hat, Inc. ყველა უფლება დაცულია\n"
+"© 2015 – 2018 Umang Jain ყველა უფლება დაცულია"
+
+#. Translators: Put your names here
+#: src/photos-main-window.c:466
+msgid "translator-credits"
+msgstr "თემური დოღონაძე"
+
+#: src/photos-organize-collection-dialog.c:70
+msgid "_OK"
+msgstr "_დიახ"
+
+#. Translators: "Organize" refers to photos in this context
+#: src/photos-organize-collection-dialog.c:121
+msgctxt "Dialog title"
+msgid "Organize"
+msgstr "ორგანიზება"
+
+#: src/photos-preview-menu.ui:10
+msgid "Export…"
+msgstr "გატანა…"
+
+#: src/photos-preview-menu.ui:14
+msgid "Print…"
+msgstr "ბეჭდვა…"
+
+#: src/photos-preview-menu.ui:19
+msgid "Delete"
+msgstr "წაშლა"
+
+#: src/photos-preview-menu.ui:23
+msgid "Display on…"
+msgstr "საჩვენებელი მოწყობილობა…"
+
+#: src/photos-preview-menu.ui:27
+msgid "Set as Background"
+msgstr "ფონად დაყენება"
+
+#: src/photos-preview-menu.ui:31
+msgid "Set as Lock Screen"
+msgstr "ჩაკეტილი ეკრანის ფონზე დაყენება"
+
+#: src/photos-preview-menu.ui:37 src/photos-properties-dialog.c:883
+#: src/photos-selection-toolbar.ui:101
+msgid "Properties"
+msgstr "თვისებები"
+
+#: src/photos-preview-menu.ui:41
+msgid "Fullscreen"
+msgstr "მთელ ეკრანზე"
+
+#: src/photos-primary-menu.ui:6
+msgid "Keyboard Shortcuts"
+msgstr "კლავიატურის მალსახმობები"
+
+#: src/photos-primary-menu.ui:10
+msgid "_Help"
+msgstr "_დახმარება"
+
+#: src/photos-primary-menu.ui:14
+msgid "About Photos"
+msgstr "ფოტოების შესახებ"
+
+#: src/photos-print-notification.c:71
+#, c-format
+msgid "Printing “%s”: %s"
+msgstr "\"%s\"-ის დაბეჭდვა: %s"
+
+#: src/photos-print-operation.c:241
+msgid "Image Settings"
+msgstr "გამოსახულების პარამეტრები"
+
+#: src/photos-print-setup.c:880
+msgid "Position"
+msgstr "თანამდებობა"
+
+#: src/photos-print-setup.c:883
+msgid "_Left:"
+msgstr "მარცხენა:"
+
+#: src/photos-print-setup.c:884
+msgid "_Right:"
+msgstr "მარჯვენა:"
+
+#: src/photos-print-setup.c:885
+msgid "_Top:"
+msgstr "ზედა:"
+
+#: src/photos-print-setup.c:886
+msgid "_Bottom:"
+msgstr "ქვედა:"
+
+#: src/photos-print-setup.c:888
+msgid "C_enter:"
+msgstr "_ცენტრი:"
+
+#: src/photos-print-setup.c:892
+msgid "None"
+msgstr "არაფერი"
+
+#: src/photos-print-setup.c:893
+msgid "Horizontal"
+msgstr "ჰორიზონტალური"
+
+#: src/photos-print-setup.c:894
+msgid "Vertical"
+msgstr "ვერტიკალური"
+
+#: src/photos-print-setup.c:895
+msgid "Both"
+msgstr "ორივე"
+
+#: src/photos-print-setup.c:911
+msgid "_Width:"
+msgstr "სიგა_ნე:"
+
+#: src/photos-print-setup.c:912
+msgid "_Height:"
+msgstr "_სიმაღლე:"
+
+#: src/photos-print-setup.c:914
+msgid "_Scaling:"
+msgstr "_მასშტაბი:"
+
+#: src/photos-print-setup.c:923
+msgid "_Unit:"
+msgstr "_ერთეულ:"
+
+#: src/photos-print-setup.c:927
+msgid "Millimeters"
+msgstr "მილიმეტრი"
+
+#: src/photos-print-setup.c:928
+msgid "Inches"
+msgstr "დუიმი"
+
+#: src/photos-print-setup.c:956
+msgid "Preview"
+msgstr "მინიატურა"
+
+#: src/photos-properties-dialog.c:246
+msgid "Edited in Photos"
+msgstr "ჩასწორებულია Photos-ში"
+
+#: src/photos-properties-dialog.c:259
+msgid "Untouched"
+msgstr "ხელშეუხებელი"
+
+#. Translators: this is the label next to the photo title in the
+#. * properties dialog
+#.
+#: src/photos-properties-dialog.c:442
+msgctxt "Document Title"
+msgid "Title"
+msgstr "სათაური"
+
+#. Translators: this is the label next to the photo author in
+#. * the properties dialog
+#.
+#: src/photos-properties-dialog.c:454
+msgctxt "Document Author"
+msgid "Author"
+msgstr "ავტორი"
+
+#: src/photos-properties-dialog.c:461
+msgid "Source"
+msgstr "წყარო"
+
+#: src/photos-properties-dialog.c:467
+msgid "Date Modified"
+msgstr "შეცვლის თარიღი"
+
+#: src/photos-properties-dialog.c:475
+msgid "Date Created"
+msgstr "შექმნის თარიღი"
+
+#. Translators: this is the label next to the photo type in the
+#. * properties dialog
+#.
+#: src/photos-properties-dialog.c:485
+msgctxt "Document Type"
+msgid "Type"
+msgstr "ტიპი"
+
+#: src/photos-properties-dialog.c:495
+msgid "Dimensions"
+msgstr "ზომები"
+
+#: src/photos-properties-dialog.c:507
+msgid "Location"
+msgstr "მდებარეობა"
+
+#: src/photos-properties-dialog.c:525
+msgid "Camera"
+msgstr "კამერა"
+
+#: src/photos-properties-dialog.c:535 src/photos-tool-colors.c:365
+msgid "Exposure"
+msgstr "ექსპოზიცია"
+
+#: src/photos-properties-dialog.c:545
+msgid "Aperture"
+msgstr "დიაფრაგმის მნიშვნელობა"
+
+#: src/photos-properties-dialog.c:555
+msgid "Focal Length"
+msgstr "ფოკალური მანძილი"
+
+#: src/photos-properties-dialog.c:565
+msgid "ISO Speed"
+msgstr "ISO მაჩვენებელი"
+
+#: src/photos-properties-dialog.c:575
+msgid "Flash"
+msgstr "განათება"
+
+#: src/photos-properties-dialog.c:584
+msgid "Modifications"
+msgstr "ცვლილებები"
+
+#: src/photos-properties-dialog.c:656
+#, c-format
+msgid "%ld × %ld pixel"
+msgid_plural "%ld × %ld pixels"
+msgstr[0] "%ld × %ld პიქსელი"
+
+#: src/photos-properties-dialog.c:721
+msgid "Off, did not fire"
+msgstr "გამორთული, არ ჩართულა"
+
+#: src/photos-properties-dialog.c:723
+msgid "On, fired"
+msgstr "ჩართული, ჩაირთო"
+
+#: src/photos-properties-dialog.c:760
+msgid "Discard all Edits"
+msgstr "ყველა ჩასწორების გაუქმება"
+
+#: src/photos-removable-devices-button.ui:48
+msgid "Devices"
+msgstr "მოწყობილობა"
+
+#: src/photos-search-match-manager.c:149 src/photos-search-type-manager.c:74
+#: src/photos-source-manager.c:396
+msgid "All"
+msgstr "&ყველა"
+
+#. Translators: "Title" refers to "Match Title" when searching.
+#: src/photos-search-match-manager.c:155
+msgctxt "Search Filter"
+msgid "Title"
+msgstr "სათაური"
+
+#. Translators: "Author" refers to "Match Author" when searching.
+#: src/photos-search-match-manager.c:161
+msgctxt "Search Filter"
+msgid "Author"
+msgstr "ავტორი"
+
+#. Translators: this is a verb that refers to "All", "Title" and
+#. * "Author", as in "Match All", "Match Title" and "Match Author".
+#.
+#: src/photos-search-match-manager.c:213
+msgid "Match"
+msgstr "დამთხვევა"
+
+#. Translators: "Type" refers to a search filter. eg., All, Albums,
+#. * Favorites and Photos.
+#.
+#: src/photos-search-type-manager.c:126
+msgctxt "Search Filter"
+msgid "Type"
+msgstr "ტიპი"
+
+#: src/photos-selection-menu.ui:6
+msgid "Select All"
+msgstr "ყველაფრის მონიშვნა"
+
+#: src/photos-selection-menu.ui:11
+msgid "Select None"
+msgstr "მონიშვნის მოხსნა"
+
+#: src/photos-selection-toolbar.ui:19
+msgid "Export"
+msgstr "გატანა"
+
+#: src/photos-selection-toolbar.ui:111
+msgid "Add to Album"
+msgstr "ალბომში ჩამატება"
+
+#: src/photos-share-dialog.ui:25
+msgctxt "dialog title"
+msgid "Share"
+msgstr "გაზიარება"
+
+#: src/photos-share-notification.c:148
+#, c-format
+msgid "“%s” shared"
+msgstr "“%s” გაზიარებულია"
+
+#: src/photos-share-point-email.c:78
+msgid "E-Mail"
+msgstr "ელფოსტა"
+
+#: src/photos-share-point-google.c:103
+msgid "Failed to upload photo: Service not authorized"
+msgstr "სურათის ატვირთვის შეცდომა: სერვისი ავტორიზებული არაა"
+
+#: src/photos-share-point-google.c:105
+msgid "Failed to upload photo"
+msgstr "სურათის ატვირთვის შეცდომა"
+
+#: src/photos-source-manager.c:465
+msgid "Sources"
+msgstr "წყაროები"
+
+#: src/photos-source-notification.c:171
+msgid "New device discovered"
+msgstr "აღმოჩენილია ახალი მოწყობილობა"
+
+#: src/photos-source-notification.c:184
+msgid "Import…"
+msgstr "შემოტანა…"
+
+#. Translators: %s refers to an online account provider, e.g.,
+#. * "Facebook" or "Flickr".
+#.
+#: src/photos-source-notification.c:214
+#, c-format
+msgid "Your %s credentials have expired"
+msgstr "%s-ის თქვენს მომხარებელ/პაროლს ვადა გაუვიდა"
+
+#: src/photos-source-notification.c:221
+msgid "Settings"
+msgstr "პარამეტრები"
+
+#: src/photos-thumbnailer.c:74
+msgid "D-Bus address to use"
+msgstr "D-Bus-ის მისამართი"
+
+#: src/photos-tool-colors.c:386
+msgid "Contrast"
+msgstr "კონტრასტი"
+
+#: src/photos-tool-colors.c:407
+msgid "Blacks"
+msgstr "შავები"
+
+#: src/photos-tool-colors.c:428
+msgid "Saturation"
+msgstr "გაჯერებულობა"
+
+#: src/photos-tool-colors.c:447
+msgid "Shadows"
+msgstr "ჩრდილები"
+
+#: src/photos-tool-colors.c:466
+msgid "Highlights"
+msgstr "განათება"
+
+#: src/photos-tool-colors.c:495
+msgid "Colors"
+msgstr "ფერები"
+
+#: src/photos-tool-crop.c:192
+msgid "Free"
+msgstr "თავისუფალი"
+
+#: src/photos-tool-crop.c:193
+msgid "Original"
+msgstr "საწყისი"
+
+#: src/photos-tool-crop.c:194
+msgid "1×1 (Square)"
+msgstr "1×1 (ოთხკუთხედი)"
+
+#: src/photos-tool-crop.c:195
+msgid "10×8 / 5×4"
+msgstr "10×8 / 5×4"
+
+#: src/photos-tool-crop.c:196
+msgid "4×3 / 8×6 (1024×768)"
+msgstr "4×3 / 8×6 (1024×768)"
+
+#: src/photos-tool-crop.c:197
+msgid "7×5"
+msgstr "7×5"
+
+#: src/photos-tool-crop.c:198
+msgid "3×2 / 6×4"
+msgstr "3×2 / 6×4"
+
+#: src/photos-tool-crop.c:199
+msgid "16×10 (1280×800)"
+msgstr "16×10 (1280×800)"
+
+#: src/photos-tool-crop.c:200
+msgid "16×9 (1920×1080)"
+msgstr "16×9 (1920×1080)"
+
+#: src/photos-tool-crop.c:1459
+msgid "Lock aspect ratio"
+msgstr "გადიდების კოეფიციენტის დაბლოკვა"
+
+#: src/photos-tool-crop.c:1529
+msgid "Landscape"
+msgstr "ლანდშაფტი"
+
+#: src/photos-tool-crop.c:1540
+msgid "Portrait"
+msgstr "პორტრეტი"
+
+#: src/photos-tool-crop.c:1551
+msgid "Reset"
+msgstr "თავიდან"
+
+#: src/photos-tool-crop.c:1569
+msgid "Crop"
+msgstr "ამოჭრა"
+
+#: src/photos-tool-enhance.c:197
+msgid "Sharpen"
+msgstr "გამკვეთრება"
+
+#: src/photos-tool-enhance.c:218
+msgid "Denoise"
+msgstr "ხმაურის მოცილება"
+
+#: src/photos-tool-enhance.c:245
+msgid "Enhance"
+msgstr "გაუმჯობესება"
+
+#. Translators: "None" refers to the nop magic filter when editing.
+#: src/photos-tool-filters.c:182
+msgctxt "Edit Filter"
+msgid "None"
+msgstr "არაფერი"
+
+#: src/photos-tool-filters.c:189
+msgid "1947"
+msgstr "1947"
+
+#: src/photos-tool-filters.c:196
+msgid "Calistoga"
+msgstr "კალისტოგა"
+
+#: src/photos-tool-filters.c:202
+msgid "Trencin"
+msgstr "ტრენსინი"
+
+#: src/photos-tool-filters.c:209
+msgid "Mogadishu"
+msgstr "მოგადიშუ"
+
+#: src/photos-tool-filters.c:215
+msgid "Caap"
+msgstr "ქააპი"
+
+#: src/photos-tool-filters.c:222
+msgid "Hometown"
+msgstr "მშობლიური ქალაქი"
+
+#: src/photos-tool-filters.c:239
+msgid "Filters"
+msgstr "ფილტრები"
+
+#: src/photos-tracker-controller.c:174
+msgid "Unable to find Tracker on your operating system"
+msgstr "თქვენს ოპერაციულ სისტემაზე ტრეკერის პოვნა შეუძლებელია"
+
+#: src/photos-tracker-controller.c:176
+msgid "Unable to fetch the list of photos"
+msgstr "ფოტოების სიის გამოთხოვა შეუძლებელია"
