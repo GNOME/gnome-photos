@@ -9,13 +9,14 @@
 # Wouter Bolsterlee <wbolster@gnome.org>, 2013.
 # Hannie Dumoleyn <hannie@ubuntu-nl.org>, 2014.
 # Justin van Steijn <jvs@fsfe.org>, 2016-2018.
-# Nathan Follens <nfollens@gnome.org>, 2017-2021.
+# Nathan Follens <nfollens@gnome.org>, 2017-2022.
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos gnome-3-10\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-photos/issues\n"
-"POT-Creation-Date: 2021-05-06 11:22+0000\n"
-"PO-Revision-Date: 2021-09-02 16:00+0200\n"
+"POT-Creation-Date: 2022-05-25 09:33+0000\n"
+"PO-Revision-Date: 2022-06-30 21:03+0200\n"
 "Last-Translator: Nathan Follens <nfollens@gnome.org>\n"
 "Language-Team: Dutch <gnome-nl-list@gnome.org>\n"
 "Language: nl\n"
@@ -23,7 +24,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.0\n"
+"X-Generator: Poedit 3.1\n"
 "X-Project-Style: gnome\n"
 
 #: data/org.gnome.Photos.appdata.xml.in:7 data/org.gnome.Photos.desktop.in.in:3
@@ -34,7 +35,7 @@ msgstr "Foto’s"
 
 #: data/org.gnome.Photos.appdata.xml.in:8 src/photos-main-window.c:457
 msgid "Access, organize and share your photos on GNOME"
-msgstr "Uw foto’s bekijken, beheren en delen op Gnome"
+msgstr "Bekijk, beheer en deel uw foto’s op Gnome"
 
 #: data/org.gnome.Photos.appdata.xml.in:10
 msgid ""
@@ -45,7 +46,7 @@ msgid ""
 msgstr ""
 "Bekijk, beheer en deel uw foto’s op Gnome. Een eenvoudige en elegante "
 "vervanging van een bestandsbeheerprogramma om foto’s te beheren. Verbeter en "
-"snijd bij in een handomdraai. Via Gnome Online Accounts wordt een naadloze "
+"snijd bij in een handomdraai. Via Gnome Online-accounts wordt een naadloze "
 "integratie met de cloud geboden."
 
 #: data/org.gnome.Photos.appdata.xml.in:16
@@ -62,7 +63,7 @@ msgstr "Recente foto’s, lokaal en online, bekijken"
 
 #: data/org.gnome.Photos.appdata.xml.in:20
 msgid "Access your Facebook or Flickr pictures"
-msgstr "Toegang tot uw Facebook- of Flickr-foto’s"
+msgstr "Uw Facebook- of Flickr-foto’s bekijken"
 
 #: data/org.gnome.Photos.appdata.xml.in:21
 msgid ""
@@ -91,7 +92,7 @@ msgstr ""
 "Uw foto’s eenvoudig bewerken in de toepassing, of ze doorgeven aan een "
 "uitgebreid fotobewerkingsprogramma voor geavanceerdere wijzigingen"
 
-#: data/org.gnome.Photos.appdata.xml.in:99
+#: data/org.gnome.Photos.appdata.xml.in:108
 msgid "The GNOME Project"
 msgstr "Het Gnome-project"
 
@@ -102,7 +103,7 @@ msgstr "Foto’s bekijken, beheren en delen"
 #. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
 #: data/org.gnome.Photos.desktop.in.in:15
 msgid "Photos;Pictures;"
-msgstr "Photos;Pictures;Foto’s;Afbeeldingen;Foto's;"
+msgstr "Photos;Pictures;Foto’s;Afbeeldingen;Foto's;Fotos;"
 
 #: data/org.gnome.photos.gschema.xml:5
 msgid "Window size"
@@ -524,7 +525,7 @@ msgstr ""
 #: src/photos-item-manager.c:845
 #, c-format
 msgid "Oops! Unable to load “%s”"
-msgstr "Oeps! Niet in staat ‘%s’ te laden"
+msgstr "Oeps! Kan ‘%s’ niet laden"
 
 #: src/photos-local-item.c:241 src/photos-source-manager.c:399
 msgid "Local"
@@ -585,9 +586,6 @@ msgid "_Select"
 msgstr "_Selecteren"
 
 #: src/photos-main-window.c:458
-#| msgid ""
-#| "Copyright © 2012 – 2019 Red Hat, Inc.\n"
-#| "Copyright © 2015 – 2018 Umang Jain"
 msgid ""
 "Copyright © 2012 – 2021 Red Hat, Inc.\n"
 "Copyright © 2015 – 2018 Umang Jain"
@@ -635,11 +633,11 @@ msgstr "Tonen op…"
 
 #: src/photos-preview-menu.ui:27
 msgid "Set as Background"
-msgstr "Als achtergrond instellen"
+msgstr "Instellen als achtergrond"
 
 #: src/photos-preview-menu.ui:31
 msgid "Set as Lock Screen"
-msgstr "Als vergrendelingsscherm instellen"
+msgstr "Instellen als vergrendelingsscherm"
 
 #: src/photos-preview-menu.ui:37 src/photos-properties-dialog.c:883
 #: src/photos-selection-toolbar.ui:101
@@ -838,7 +836,7 @@ msgstr "Ingeschakeld, geflitst"
 msgid "Discard all Edits"
 msgstr "Alle bewerkingen verwerpen"
 
-#: src/photos-removable-devices-button.ui:47
+#: src/photos-removable-devices-button.ui:48
 msgid "Devices"
 msgstr "Apparaten"
 
