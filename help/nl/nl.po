@@ -1,26 +1,29 @@
 # Dutch translation for gnome-photos.
 # Copyright (C) 2016 gnome-photos's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnome-photos package.
-# Justin van Steijn <justin50@live.nl>, 2016.
+# Justin van Steijn <jvs@fsfe.org>, 2016.
+# Nathan Follens <nfollens@gnome.org>, 2022.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
-"POT-Creation-Date: 2016-02-23 09:51+0000\n"
-"PO-Revision-Date: 2016-02-23 13:31+0100\n"
-"Last-Translator: Justin van Steijn <justin50@live.nl>\n"
+"POT-Creation-Date: 2022-05-25 09:33+0000\n"
+"PO-Revision-Date: 2022-06-30 21:00+0200\n"
+"Last-Translator: Nathan Follens <nfollens@gnome.org>\n"
 "Language-Team: Dutch <gnome-nl-list@gnome.org>\n"
+"Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: nl\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.6.10\n"
+"X-Generator: Poedit 3.1\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
 msgctxt "_"
 msgid "translator-credits"
-msgstr "Justin van Steijn <justin50@live.nl>, 2016."
+msgstr ""
+"Justin van Steijn <jvs@fsfe.org>, 2016.\n"
+"Nathan Follens <nfollens@gnome.org>, 2022."
 
 #. (itstool) path: credit/name
 #: C/favorites.page:11 C/favorites-set.page:12 C/view-album.page:11
@@ -37,12 +40,12 @@ msgstr "Aruna Sankaranarayanan"
 #. (itstool) path: info/desc
 #: C/favorites.page:21
 msgid "Tag a special image or album as a favorite."
-msgstr "Een speciale afbeelding of album als favoriet markeren."
+msgstr "Markeer een speciale afbeelding of album als favoriet."
 
 #. (itstool) path: page/title
 #: C/favorites.page:25
 msgid "Favorite photos"
-msgstr "Favoriete foto's"
+msgstr "Favoriete foto’s"
 
 #. (itstool) path: page/p
 #: C/favorites.page:26
@@ -50,13 +53,13 @@ msgid ""
 "You can label photos or images that you particularly like as favorites to "
 "store them for easy access in the <gui>Favorites</gui> tab."
 msgstr ""
-"U kunt foto's of afbeeldingen die u waardeert als favoriet markeren, zodat u "
-"deze gemakkelijk kunt bereiken in het <gui>Favorieten</gui>-tabblad."
+"U kunt foto’s of afbeeldingen die u waardeert als favoriet markeren, zodat u "
+"ze gemakkelijk kunt bereiken via het tabblad <gui>Favorieten</gui>."
 
 #. (itstool) path: info/desc
 #: C/favorites-set.page:22
 msgid "Pick favorites from <app>Photos</app>."
-msgstr "Favorieten kiezen in <app>Foto's</app>."
+msgstr "Kies uw favorieten in <app>Foto’s</app>."
 
 #. (itstool) path: page/title
 #: C/favorites-set.page:25
@@ -67,10 +70,11 @@ msgstr "Uw favorieten labelen"
 #: C/favorites-set.page:27
 msgid ""
 "Photos or albums can be marked as favorites from the <gui style=\"tab"
-"\">Recent</gui> tab or <gui style=\"tab\">Albums</gui> tab."
+"\">Photos</gui> tab or <gui style=\"tab\">Albums</gui> tab."
 msgstr ""
-"Foto's of albums kunnen worden gemarkeerd als favoriet vanuit het <gui style="
-"\"tab\">Recent</gui>-tabblad of het <gui style=\"tab\">Albums</gui>-tabblad."
+"Foto’s of albums kunnen als favoriet gemarkeerd worden vanuit het tabblad "
+"<gui style=\"tab\">Foto’s</gui>of het tabblad <gui style=\"tab\">Albums</"
+"gui>."
 
 #. (itstool) path: steps/title
 #: C/favorites-set.page:31
@@ -80,11 +84,11 @@ msgstr "Om favoriete items te labelen:"
 #. (itstool) path: item/p
 #: C/favorites-set.page:33
 msgid ""
-"Select the <gui>Albums</gui> tab or <gui>Recent</gui> tab depending on "
+"Select the <gui>Albums</gui> tab or <gui>Photos</gui> tab depending on "
 "whether you want to mark an album or a photo as a favorite."
 msgstr ""
-"Afhankelijk of u een album of foto als favoriet wilt markeren, selecteer het "
-"<gui>Albums</gui>-tabblad of <gui>Recent</gui>-tabblad."
+"Afhankelijk of u een album of foto als favoriet wilt markeren, selecteert u "
+"het tabblad <gui>Albums</gui> of <gui>Foto’s</gui>."
 
 #. (itstool) path: item/p
 #: C/favorites-set.page:37
@@ -102,30 +106,30 @@ msgid ""
 "To finish, select the button with the picture of a star from the toolbar at "
 "the bottom."
 msgstr ""
-"Om af te ronden, selecteer de knop met de ster in de werkbalk aan de "
-"bovenkant."
+"Om af te ronden selecteert u de knop met de ster in de werkbalk onderaan."
 
 #. (itstool) path: page/p
 #: C/favorites-set.page:48
 msgid "Your favorite items can now be found in the <gui>Favorites</gui> tab."
 msgstr ""
-"U kunt uw favoriete items nu vinden in het <gui>Favorieten</gui>-tabblad."
+"U kunt uw favoriete items nu terugvinden via het tabblad <gui>Favorieten</"
+"gui>."
 
 #. (itstool) path: info/title
 #: C/index.page:7
 msgctxt "text"
 msgid "Photos"
-msgstr "Foto's"
+msgstr "Foto’s"
 
 #. (itstool) path: info/desc
 #: C/index.page:12
 msgid "<app>Photos</app> is a personalised photo manager tool from GNOME."
-msgstr "<app>Foto's</app> is een gepersonaliseerde fotobeheerder voor Gnome."
+msgstr "<app>Foto’s</app> is een gepersonaliseerde fotobeheerder voor Gnome."
 
 #. (itstool) path: page/title
 #: C/index.page:16
 msgid "<_:media-1/> Photos"
-msgstr "<_:media-1/> Foto's"
+msgstr "<_:media-1/> Foto’s"
 
 #. (itstool) path: page/p
 #: C/index.page:21
@@ -136,16 +140,16 @@ msgid ""
 "with <app>Photos</app>. You can also set photos you like as your desktop "
 "wallpaper, or easily bookmark them as favorites."
 msgstr ""
-"<app>Foto's</app> kan worden gebruikt om uw afbeeldingen op een uitnodigende "
+"<app>Foto’s</app> kan gebruikt worden om uw afbeeldingen op een uitnodigende "
 "en gepersonaliseerde manier te organiseren en beheren. Naast het maken van "
 "albums met afbeeldingen op uw computer, kunt u ook uw Facebook- en Flickr-"
-"albums integreren in <app>Foto's</app>. U kunt foto's die u leuk vindt ook "
-"gebruiken als bureaubladachtergrond, of ze eenvoudig als favoriet markeren."
+"albums in <app>Foto’s</app> integreren. U kunt foto’s die u leuk vindt "
+"instellen als bureaubladachtergrond, of ze eenvoudig als favoriet markeren."
 
 #. (itstool) path: p/link
 #: C/legal.xml:5
 msgid "Creative Commons Attribution-ShareAlike 3.0 Unported License"
-msgstr "Creative Commons Naamsvermelding-GelijkDelen 3.0 Unported Licentie"
+msgstr "Creative Commons Naamsvermelding-GelijkDelen 3.0 Unported-licentie"
 
 #. (itstool) path: license/p
 #: C/legal.xml:4
@@ -155,12 +159,12 @@ msgstr "Dit werk is uitgebracht onder een <_:link-1/>."
 #. (itstool) path: info/desc
 #: C/view-album.page:21
 msgid "Open a photo from your albums."
-msgstr "Een foto openen vanuit uw albums."
+msgstr "Open een foto vanuit uw albums."
 
 #. (itstool) path: page/title
 #: C/view-album.page:24
 msgid "View photos from an album"
-msgstr "Foto's in een album bekijken"
+msgstr "Foto’s in een album bekijken"
 
 #. (itstool) path: page/p
 #: C/view-album.page:25
@@ -170,7 +174,7 @@ msgstr "Om een foto in een bepaald album te openen:"
 #. (itstool) path: item/p
 #: C/view-album.page:29
 msgid "Select the <gui style=\"tab\">Albums</gui> tab."
-msgstr "Selecteer het <gui style=\"tab\">Albums</gui>-tabblad."
+msgstr "Selecteer het tabblad <gui style=\"tab\">Albums</gui>."
 
 #. (itstool) path: item/p
 #: C/view-album.page:32
@@ -183,18 +187,18 @@ msgid ""
 "You will see a grid of photos from the album you selected. Select a photo "
 "from the grid to open it."
 msgstr ""
-"U zult een raster van foto's zien vanuit het album dat u heeft geselecteerd. "
-"Selecteer een foto in het raster om het te openen."
+"U zult een raster van foto’s zien uit het album dat u geselecteerd hebt. "
+"Selecteer een foto in het raster om hem te openen."
 
 #. (itstool) path: info/desc
 #: C/view-favorites.page:21
 msgid "Open your favorite photos."
-msgstr "Uw favoriete foto's openen."
+msgstr "Open uw favoriete foto’s."
 
 #. (itstool) path: page/title
 #: C/view-favorites.page:24
 msgid "View photos marked as favorites."
-msgstr "Favoriete foto's bekijken"
+msgstr "Bekijk uw favoriete foto’s."
 
 #. (itstool) path: page/p
 #: C/view-favorites.page:26
@@ -202,8 +206,8 @@ msgid ""
 "Your <link xref=\"favorites\">favorite</link> photos are located in the "
 "<gui>Favorites</gui> tab."
 msgstr ""
-"Uw <link xref=\"favorites\">favoriete</link> foto's kunt u vinden in het "
-"<gui>Favorieten</gui>-tabblad."
+"Uw <link xref=\"favorites\">favoriete</link> foto’s kunt u terugvinden via "
+"het tabblad <gui>Favorieten</gui>."
 
 #. (itstool) path: steps/title
 #: C/view-favorites.page:30
@@ -213,7 +217,7 @@ msgstr "Om een favoriete foto te openen:"
 #. (itstool) path: item/p
 #: C/view-favorites.page:32
 msgid "Select the <gui style=\"tab\">Favorites</gui> tab."
-msgstr "Selecteer het <gui>Favorieten</gui>-tabblad."
+msgstr "Selecteer het tabblad <gui>Favorieten</gui>."
 
 #. (itstool) path: item/p
 #: C/view-favorites.page:35
@@ -232,27 +236,28 @@ msgstr "Rashi Aswani"
 #. (itstool) path: info/desc
 #: C/view-photos.page:16
 msgid "Open your recent photos."
-msgstr "Uw recente foto's openen."
+msgstr "Open uw recente foto’s."
 
 #. (itstool) path: page/title
 #: C/view-photos.page:19
 msgid "View recent photos"
-msgstr "Recente foto's bekijken"
+msgstr "Recente foto’s bekijken"
 
 #. (itstool) path: page/p
 #: C/view-photos.page:21
 msgid ""
-"The <gui style=\"tab\">Recent</gui> tab displays photos from local file "
+"The <gui style=\"tab\">Photos</gui> tab displays photos from local file "
 "system locations such as <file>~/Downloads</file>, <file>~/Pictures</file> "
 "and from online collections. You can also add other locations, even cloud-"
 "based collections such as Flickr or Facebook photographs, through <app>GNOME "
 "Online Accounts</app>."
 msgstr ""
-"Het <gui style=\"tab\">Recent</gui>-tabblad geeft foto's weer die op "
-"locaties in uw lokale bestandssysteem staan, zoals <file>~/Downloads</file>, "
-"<file>~/Afbeeldingen</file>, en vanuit online collecties. U kunt ook andere "
-"locaties toevoegen, en zelfs collecties op andermans servers zoals op Flickr "
-"en Facebook, door middel van <app>Gnome Online-accounts</app>."
+"Het tabblad <gui style=\"tab\">Foto’s</gui> geeft foto’s weer die op "
+"locaties in uw lokale bestandssysteem staan, zoals <file>~/Downloads</file> "
+"en <file>~/Afbeeldingen</file>, en foto’s uit online verzamelingen. U kunt "
+"ook andere locaties toevoegen, en zelfs collecties op andermans servers "
+"zoals op Flickr en Facebook, door middel van <app>Gnome Online-accounts</"
+"app>."
 
 #. (itstool) path: page/p
 #: C/view-photos.page:27
@@ -268,32 +273,32 @@ msgstr "Ga naar <guiseq><gui>Instellingen</gui><gui>Zoeken</gui></guiseq>."
 #: C/view-photos.page:34
 msgid ""
 "Click on the gear button on the bottom right. You can select the locations "
-"you want to display in the <gui style=\"tab\">Recent</gui> tab."
+"you want to display in the <gui style=\"tab\">Photos</gui> tab."
 msgstr ""
-"Klik op de knop met het tandrad rechtsonder. U kunt de locaties selecteren "
-"die u in het <gui style=\"tab\">Recent</gui>-tabblad wilt laten weergeven."
+"Klik op de knop met het tandwiel rechtsonder. U kunt de locaties selecteren "
+"die u in het tabblad <gui style=\"tab\">Foto’s</gui> wilt laten weergeven."
 
 #. (itstool) path: page/p
 #: C/view-photos.page:40
 msgid "To view recent photos:"
-msgstr "Om recente foto's te bekijken:"
+msgstr "Om recente foto’s te bekijken:"
 
 #. (itstool) path: item/p
 #: C/view-photos.page:43
-msgid "Select the <gui style=\"tab\">Recent</gui> tab."
-msgstr "Selecteer het <gui style=\"tab\">Recent</gui>-tabblad."
+msgid "Select the <gui style=\"tab\">Photos</gui> tab."
+msgstr "Selecteer het tabblad <gui>Foto’s</gui>."
 
 #. (itstool) path: item/p
 #: C/view-photos.page:46
 msgid "You will see a grid of photos. Select a photo from the grid to open it."
 msgstr ""
-"U ziet een raster van foto's. Selecteer een foto in het raster om het te "
+"U ziet een raster van foto’s. Selecteer een foto in het raster om hem te "
 "openen."
 
 #. (itstool) path: info/desc
 #: C/view.page:21
 msgid "Open a photo for viewing."
-msgstr "Een foto openen om te bekijken."
+msgstr "Open een foto om hem te bekijken."
 
 #. (itstool) path: page/title
 #: C/view.page:24
@@ -303,13 +308,15 @@ msgstr "Afbeeldingen bekijken"
 #. (itstool) path: page/p
 #: C/view.page:26
 msgid ""
-"When <app>Photos</app> is opened, you will see the <gui>Recent</gui> tab "
-"open. The <gui>Recent</gui> tab contains images from your computer, the "
+"When <app>Photos</app> is opened, you will see the <gui>Photos</gui> tab "
+"open. The <gui>Photos</gui> tab contains images from your computer, the "
 "<gui>Albums</gui> tab contains your photo albums, and any image you mark as "
 "a favourite can be found in the <gui>Favorites</gui> tab."
 msgstr ""
-"Wanneer <app>Foto's</app> is geopend, zult u het <gui>Recent</gui>-tabblad "
-"geopend zien. Het <gui>Recent</gui>-tabblad bevat afbeeldingen van uw "
-"computer, het <gui>Albums</gui>-tabblad bevat uw fotoalbums, en elke "
-"afbeelding die u als favoriet markeert kunt u vinden in het <gui>Favorieten</"
-"gui>-tabblad."
+"Wanneer <app>Foto’s</app> geopend is, zal het tabblad <gui>Foto’s</gui> "
+"geopend worden. Dit tabblad bevat afbeeldingen van uw computer. Het tabblad "
+"<gui>Albums</gui> bevat uw fotoalbums, en elke afbeelding die u als favoriet "
+"markeert kunt u terugvinden in het tabblad <gui>Favorieten</gui>."
+
+#~ msgid "Select the <gui style=\"tab\">Recent</gui> tab."
+#~ msgstr "Selecteer het <gui style=\"tab\">Recent</gui>-tabblad."
