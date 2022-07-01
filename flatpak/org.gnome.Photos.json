@@ -48,7 +48,8 @@
             "buildsystem": "meson",
             "config-opts": [ "-Denable-installed-tests=false",
                              "-Denable-gtk-doc=false",
-                             "-Denable-introspection=false" ],
+                             "-Denable-introspection=false",
+                             "-Dsoup2=false" ],
             "sources": [
                 {
                     "type": "git",
