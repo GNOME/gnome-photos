@@ -728,7 +728,7 @@ photos_application_create_window (PhotosApplication *self)
   gexiv2_initialized = gexiv2_initialize ();
   g_return_val_if_fail (gexiv2_initialized, FALSE);
 
-  gexiv2_registered_namespace = gexiv2_metadata_register_xmp_namespace ("http://www.gnome.org/xmp", "gnome");
+  gexiv2_registered_namespace = gexiv2_metadata_try_register_xmp_namespace ("http://www.gnome.org/xmp", "gnome", NULL);
   g_return_val_if_fail (gexiv2_registered_namespace, FALSE);
 
   photos_application_start_miners (self);

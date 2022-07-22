@@ -320,9 +320,8 @@ photos_local_item_metadata_add_shared (PhotosBaseItem  *item,
   if (!gexiv2_metadata_open_path (metadata, path, error))
     goto out;
 
-  if (!gexiv2_metadata_set_tag_long (metadata, version_tag, 0))
+  if (!gexiv2_metadata_try_set_tag_long (metadata, version_tag, 0, error))
     {
-      g_set_error (error, PHOTOS_ERROR, 0, "Failed to update %s", version_tag);
       goto out;
     }
 
@@ -337,7 +336,7 @@ photos_local_item_metadata_add_shared (PhotosBaseItem  *item,
 
     g_variant_builder_add (&builder, tuple_type_format, provider_type, account_identity, shared_id);
 
-    shared_string = gexiv2_metadata_get_tag_string (metadata, shared_tag);
+    shared_string = gexiv2_metadata_try_get_tag_string (metadata, shared_tag, NULL);
     if (shared_string != NULL)
       {
         g_autoptr (GVariant) old_shared_variant = NULL;
@@ -365,9 +364,8 @@ photos_local_item_metadata_add_shared (PhotosBaseItem  *item,
     g_autofree gchar *shared_string = NULL;
 
     shared_string = g_variant_print (shared_variant, TRUE);
-    if (!gexiv2_metadata_set_tag_string (metadata, shared_tag, shared_string))
+    if (!gexiv2_metadata_try_set_tag_string (metadata, shared_tag, shared_string, error))
       {
-        g_set_error (error, PHOTOS_ERROR, 0, "Failed to update %s", shared_tag);
         goto out;
       }
   }
