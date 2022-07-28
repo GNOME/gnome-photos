@@ -1,16 +1,9 @@
-# Copyright (C) 2022 The Abkhazian language development fund named after Bagrat Shinkuba
-# This file is distributed under the same license as the gnome-photos package.
-# Нанба Наала <naala-nanba@rambler.ru>, 2022.
-#
-#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: gnome-photos\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-photos/issues\n"
 "POT-Creation-Date: 2022-06-30 19:05+0000\n"
-"PO-Revision-Date: 2022-07-22 16:00+0000\n"
 "Last-Translator: Нанба Наала <naala-nanba@rambler.ru>\n"
-"Language-Team: Abkhazian <LL@li.org>\n"
+"Language-Team: Abkhazian <ab@li.org>\n"
 "Language: ab\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -76,7 +69,7 @@ msgstr ""
 
 #: data/org.gnome.Photos.appdata.xml.in:108
 msgid "The GNOME Project"
-msgstr ""
+msgstr "The GNOME Project"
 
 #: data/org.gnome.Photos.desktop.in.in:4
 msgid "Access, organize and share photos"
@@ -119,7 +112,17 @@ msgstr ""
 msgid "Show the application's version"
 msgstr ""
 
-#: src/photos-application.c:1310+src/photos-export-dialog.c:195+src/photos-import-dialog.c:134
+#. Translators: this is the default sub-directory where photos will
+#. * be imported.
+#.
+#. Translators: this is the default sub-directory where photos
+#. * will be exported.
+#.
+#. Translators: this is the name of the default album that will be
+#. * created for imported photos.
+#.
+#: src/photos-application.c:1310 src/photos-export-dialog.c:195
+#: src/photos-import-dialog.c:134
 msgid "%-d %B %Y"
 msgstr "%-d %B %Y"
 
@@ -145,7 +148,7 @@ msgstr[1] ""
 
 #: src/photos-delete-notification.c:166 src/photos-done-notification.c:119
 msgid "Undo"
-msgstr ""
+msgstr "Архынҳәра"
 
 #: src/photos-dlna-renderers-dialog.ui:7
 msgid "DLNA Renderer Devices"
@@ -160,7 +163,7 @@ msgstr ""
 msgid "Collection View"
 msgstr ""
 
-#: src/photos-embed.c:830+src/photos-search-type-manager.c:83
+#: src/photos-embed.c:830 src/photos-search-type-manager.c:83
 msgid "Albums"
 msgstr "Альбомқәа"
 
@@ -253,7 +256,11 @@ msgstr ""
 msgid "_Export"
 msgstr ""
 
+#. Translators: this is the estimated size of the exported image in
+#. * the form "1600×1067 (0.6 GB)".
+#.
 #: src/photos-export-dialog.c:66
+#, c-format
 msgid "%d×%d (%s)"
 msgstr "%d×%d (%s)"
 
@@ -302,7 +309,12 @@ msgstr ""
 msgid "Export Folder"
 msgstr ""
 
-#: src/photos-facebook-item.c:100+src/photos-flickr-item.c:102+src/photos-google-item.c:98
+#. Translators: this is the fallback title in the form
+#. * "Facebook — 2nd January 2013".
+#.
+#: src/photos-facebook-item.c:100 src/photos-flickr-item.c:102
+#: src/photos-google-item.c:98
+#, c-format
 msgid "%s — %s"
 msgstr "%s — %s"
 
@@ -552,13 +564,14 @@ msgstr ""
 "Аԥҵаҩы изин © 2012 – 2021 Red Hat, Inc.\n"
 "Аԥҵаҩы изин © 2015 – 2018 Umang Jain"
 
+#. Translators: Put your names here
 #: src/photos-main-window.c:466
 msgid "translator-credits"
 msgstr "Нанба Наала <naala-nanba@rambler.ru>, 2022"
 
 #: src/photos-organize-collection-dialog.c:70
 msgid "_OK"
-msgstr ""
+msgstr "_OK"
 
 #. Translators: "Organize" refers to photos in this context
 #: src/photos-organize-collection-dialog.c:121
@@ -576,7 +589,7 @@ msgstr ""
 
 #: src/photos-preview-menu.ui:19
 msgid "Delete"
-msgstr ""
+msgstr "Delete"
 
 #: src/photos-preview-menu.ui:23
 msgid "Display on…"
@@ -738,7 +751,7 @@ msgstr ""
 
 #: src/photos-properties-dialog.c:507
 msgid "Location"
-msgstr ""
+msgstr "Аҭыӡҭыԥ"
 
 #: src/photos-properties-dialog.c:525
 msgid "Camera"
@@ -769,6 +782,7 @@ msgid "Modifications"
 msgstr ""
 
 #: src/photos-properties-dialog.c:656
+#, c-format
 msgid "%ld × %ld pixel"
 msgid_plural "%ld × %ld pixels"
 msgstr[0] "%ld × %ld пиксельк"
@@ -1021,13 +1035,3 @@ msgstr ""
 #: src/photos-tracker-controller.c:176
 msgid "Unable to fetch the list of photos"
 msgstr ""
-
-#: src/photos-properties-dialog.c:454
-msgctxt "src/photos-properties-dialog.c:454"
-msgid "Author"
-msgstr "Аԥҵаҩы"
-
-#: src/photos-search-match-manager.c:161
-msgctxt "src/photos-search-match-manager.c:161"
-msgid "Author"
-msgstr "Аԥҵаҩы"
