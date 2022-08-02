@@ -60,7 +60,8 @@
             "config-opts": [
                 "-Denable-installed-tests=false",
                 "-Denable-gtk-doc=false",
-                "-Denable-introspection=false"
+                "-Denable-introspection=false",
+                "-Dsoup2=false"
             ],
             "sources": [
                 {
@@ -102,23 +103,27 @@
         },
         {
             "name": "librest",
+            "buildsystem": "meson",
             "config-opts": [
-                "--disable-introspection"
+                "-Dintrospection=false",
+                "-Dexamples=false",
+                "-Dgtk_doc=false",
+                "-Dtests=false"
             ],
             "sources": [
                 {
-                    "type": "archive",
-                    "url": "https://download.gnome.org/sources/rest/0.8/rest-0.8.1.tar.xz",
-                    "sha256": "0513aad38e5d3cedd4ae3c551634e3be1b9baaa79775e53b2dba9456f15b01c9"
+                    "type": "git",
+                    "url": "https://gitlab.gnome.org/GNOME/librest"
                 }
             ]
         },
         {
             "name": "gnome-online-accounts",
+            "buildsystem": "meson",
             "config-opts": [
-                "--disable-backend",
-                "--disable-introspection",
-                "--disable-Werror"
+                "-Dgoabackend=false",
+                "-Dvapi=false",
+                "-Dintrospection=false"
             ],
             "sources": [
                 {
@@ -291,7 +296,6 @@
                 "-Denable-flickr=yes",
                 "-Denable-freebox=no",
                 "-Denable-gravatar=no",
-                "-Denable-jamendo=no",
                 "-Denable-local-metadata=no",
                 "-Denable-lua-factory=no",
                 "-Denable-magnatune=no",
@@ -304,7 +308,6 @@
                 "-Denable-thetvdb=no",
                 "-Denable-tmdb=no",
                 "-Denable-tracker=no",
-                "-Denable-vimeo=no",
                 "-Denable-youtube=no",
                 "--wrap-mode=nofallback"
             ],
