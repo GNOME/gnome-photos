@@ -24,8 +24,7 @@
         "--talk-name=org.gnome.ControlCenter",
         "--talk-name=org.gnome.SettingsDaemon",
         "--talk-name=org.gnome.SettingsDaemon.Housekeeping",
-        "--talk-name=org.gtk.vfs",
-        "--talk-name=org.gtk.vfs.*"
+        "--talk-name=org.gtk.vfs"
     ],
     "cleanup": [
         "/include",
@@ -80,24 +79,6 @@
                 {
                     "type": "git",
                     "url": "https://gitlab.gnome.org/GNOME/libdazzle.git"
-                }
-            ]
-        },
-        {
-            "name": "libhandy",
-            "buildsystem": "meson",
-            "config-opts": [
-                "-Dintrospection=disabled",
-                "-Dtests=false",
-                "-Dexamples=false",
-                "-Dvapi=false",
-                "-Dglade_catalog=disabled"
-            ],
-            "sources": [
-                {
-                    "type": "git",
-                    "url": "https://gitlab.gnome.org/GNOME/libhandy.git",
-                    "branch": "main"
                 }
             ]
         },
