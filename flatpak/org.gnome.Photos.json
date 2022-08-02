@@ -133,42 +133,6 @@
             ]
         },
         {
-            "name": "libgfbgraph",
-            "cleanup": [
-                "/doc"
-            ],
-            "config-opts": [
-                "--disable-introspection"
-            ],
-            "sources": [
-                {
-                    "type": "git",
-                    "branch": "stable-0.2.x",
-                    "url": "https://gitlab.gnome.org/GNOME/libgfbgraph.git"
-                }
-            ]
-        },
-        {
-            "name": "libgdata",
-            "buildsystem": "meson",
-            "config-opts": [
-                "-Dalways_build_tests=false",
-                "-Dgtk=disabled",
-                "-Dgtk_doc=false",
-                "-Dinstalled_tests=false",
-                "-Dintrospection=false",
-                "-Doauth1=disabled",
-                "-Dvapi=false"
-            ],
-            "sources": [
-                {
-                    "type": "git",
-                    "branch": "main",
-                    "url": "https://gitlab.gnome.org/GNOME/libgdata.git"
-                }
-            ]
-        },
-        {
             "name": "libraw",
             "config-opts": [
                 "--disable-examples",
