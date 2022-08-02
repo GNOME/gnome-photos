@@ -4,7 +4,9 @@
     "runtime-version": "master",
     "sdk": "org.gnome.Sdk",
     "command": "gnome-photos",
-    "tags": [ "nightly" ],
+    "tags": [
+        "nightly"
+    ],
     "desktop-file-name-prefix": "(Nightly) ",
     "finish-args": [
         "--add-policy=Tracker3.dbus:org.freedesktop.Tracker3.Miner.Files=tracker:Pictures",
@@ -25,17 +27,26 @@
         "--talk-name=org.gtk.vfs",
         "--talk-name=org.gtk.vfs.*"
     ],
-    "cleanup": [ "/include", "/lib/pkgconfig",
-                 "/share/pkgconfig", "/share/aclocal",
-                 "/man", "/share/man", "/share/gtk-doc",
-                 "/share/vala",
-                 "*.la", "*.a"
-               ],
+    "cleanup": [
+        "/include",
+        "/lib/pkgconfig",
+        "/share/pkgconfig",
+        "/share/aclocal",
+        "/man",
+        "/share/man",
+        "/share/gtk-doc",
+        "/share/vala",
+        "*.la",
+        "*.a"
+    ],
     "modules": [
-           {
+        {
             "name": "babl",
             "buildsystem": "meson",
-            "config-opts": [ "-Denable-gir=false", "-Dwith-docs=false" ],
+            "config-opts": [
+                "-Denable-gir=false",
+                "-Dwith-docs=false"
+            ],
             "sources": [
                 {
                     "type": "git",
@@ -46,9 +57,11 @@
         {
             "name": "geocode-glib",
             "buildsystem": "meson",
-            "config-opts": [ "-Denable-installed-tests=false",
-                             "-Denable-gtk-doc=false",
-                             "-Denable-introspection=false" ],
+            "config-opts": [
+                "-Denable-installed-tests=false",
+                "-Denable-gtk-doc=false",
+                "-Denable-introspection=false"
+            ],
             "sources": [
                 {
                     "type": "git",
@@ -59,7 +72,9 @@
         {
             "name": "libdazzle",
             "buildsystem": "meson",
-            "config-opts": [ "-Dwith_introspection=false" ],
+            "config-opts": [
+                "-Dwith_introspection=false"
+            ],
             "sources": [
                 {
                     "type": "git",
@@ -68,26 +83,28 @@
             ]
         },
         {
-            "name" : "libhandy",
-            "buildsystem" : "meson",
-            "config-opts" : [
+            "name": "libhandy",
+            "buildsystem": "meson",
+            "config-opts": [
                 "-Dintrospection=disabled",
                 "-Dtests=false",
                 "-Dexamples=false",
                 "-Dvapi=false",
                 "-Dglade_catalog=disabled"
             ],
-            "sources" : [
+            "sources": [
                 {
-                    "type" : "git",
-                    "url" : "https://gitlab.gnome.org/GNOME/libhandy.git",
+                    "type": "git",
+                    "url": "https://gitlab.gnome.org/GNOME/libhandy.git",
                     "branch": "main"
                 }
             ]
         },
         {
             "name": "librest",
-            "config-opts": [ "--disable-introspection" ],
+            "config-opts": [
+                "--disable-introspection"
+            ],
             "sources": [
                 {
                     "type": "archive",
@@ -98,7 +115,11 @@
         },
         {
             "name": "gnome-online-accounts",
-            "config-opts": [ "--disable-backend", "--disable-introspection", "--disable-Werror" ],
+            "config-opts": [
+                "--disable-backend",
+                "--disable-introspection",
+                "--disable-Werror"
+            ],
             "sources": [
                 {
                     "type": "git",
@@ -108,8 +129,12 @@
         },
         {
             "name": "libgfbgraph",
-            "cleanup": [ "/doc" ],
-            "config-opts": [ "--disable-introspection" ],
+            "cleanup": [
+                "/doc"
+            ],
+            "config-opts": [
+                "--disable-introspection"
+            ],
             "sources": [
                 {
                     "type": "git",
@@ -121,13 +146,15 @@
         {
             "name": "libgdata",
             "buildsystem": "meson",
-            "config-opts": [ "-Dalways_build_tests=false",
-                             "-Dgtk=disabled",
-                             "-Dgtk_doc=false",
-                             "-Dinstalled_tests=false",
-                             "-Dintrospection=false",
-                             "-Doauth1=disabled",
-                             "-Dvapi=false" ],
+            "config-opts": [
+                "-Dalways_build_tests=false",
+                "-Dgtk=disabled",
+                "-Dgtk_doc=false",
+                "-Dinstalled_tests=false",
+                "-Dintrospection=false",
+                "-Doauth1=disabled",
+                "-Dvapi=false"
+            ],
             "sources": [
                 {
                     "type": "git",
@@ -138,13 +165,17 @@
         },
         {
             "name": "libraw",
-            "config-opts": [ "--disable-examples",
-                             "--disable-jasper",
-                             "--disable-static",
-                             "--enable-jpeg",
-                             "--enable-lcms",
-                             "--enable-openmp" ],
-            "cleanup": [ "/share/doc" ],
+            "config-opts": [
+                "--disable-examples",
+                "--disable-jasper",
+                "--disable-static",
+                "--enable-jpeg",
+                "--enable-lcms",
+                "--enable-openmp"
+            ],
+            "cleanup": [
+                "/share/doc"
+            ],
             "sources": [
                 {
                     "type": "archive",
@@ -160,8 +191,14 @@
         {
             "name": "gegl",
             "buildsystem": "meson",
-            "cleanup": [ "/bin" ],
-            "config-opts": [ "-Dintrospection=false", "-Dlua=disabled", "-Dvapigen=disabled" ],
+            "cleanup": [
+                "/bin"
+            ],
+            "config-opts": [
+                "-Dintrospection=false",
+                "-Dlua=disabled",
+                "-Dvapigen=disabled"
+            ],
             "sources": [
                 {
                     "type": "git",
@@ -172,11 +209,15 @@
         {
             "name": "exiv2",
             "buildsystem": "cmake-ninja",
-            "cleanup": [ "/lib/exiv2" ],
-            "config-opts": [ "-DCMAKE_BUILD_TYPE=Release",
-                             "-DEXIV2_BUILD_EXIV2_COMMAND=OFF",
-                             "-DEXIV2_BUILD_SAMPLES=OFF",
-                             "-DEXIV2_ENABLE_NLS=ON" ],
+            "cleanup": [
+                "/lib/exiv2"
+            ],
+            "config-opts": [
+                "-DCMAKE_BUILD_TYPE=Release",
+                "-DEXIV2_BUILD_EXIV2_COMMAND=OFF",
+                "-DEXIV2_BUILD_SAMPLES=OFF",
+                "-DEXIV2_ENABLE_NLS=ON"
+            ],
             "sources": [
                 {
                     "type": "archive",
@@ -188,9 +229,11 @@
         {
             "name": "gexiv2",
             "buildsystem": "meson",
-            "config-opts": [ "-Dintrospection=false",
-                             "-Dvapi=false",
-                             "-Dpython3=false" ],
+            "config-opts": [
+                "-Dintrospection=false",
+                "-Dvapi=false",
+                "-Dpython3=false"
+            ],
             "sources": [
                 {
                     "type": "git",
@@ -200,7 +243,9 @@
         },
         {
             "name": "liboauth",
-            "config-opts": [ "--enable-nss" ],
+            "config-opts": [
+                "--enable-nss"
+            ],
             "sources": [
                 {
                     "type": "archive",
@@ -212,13 +257,17 @@
         {
             "name": "grilo",
             "buildsystem": "meson",
-            "cleanup": [ "/bin" ],
-            "config-opts": [ "-Denable-introspection=false",
-                             "-Denable-grl-net=true",
-                             "-Denable-grl-pls=false",
-                             "-Denable-gtk-doc=false",
-                             "-Denable-test-ui=false",
-                             "-Denable-vala=false" ],
+            "cleanup": [
+                "/bin"
+            ],
+            "config-opts": [
+                "-Denable-introspection=false",
+                "-Denable-grl-net=true",
+                "-Denable-grl-pls=false",
+                "-Denable-gtk-doc=false",
+                "-Denable-test-ui=false",
+                "-Denable-vala=false"
+            ],
             "sources": [
                 {
                     "type": "git",
@@ -229,31 +278,36 @@
         {
             "name": "grilo-plugins",
             "buildsystem": "meson",
-            "cleanup": [ "/include", "/share/help" ],
-            "config-opts": [ "-Denable-bookmarks=no",
-                             "-Denable-chromaprint=no",
-                             "-Denable-dleyna=no",
-                             "-Denable-dmap=no",
-                             "-Denable-filesystem=no",
-                             "-Denable-flickr=yes",
-                             "-Denable-freebox=no",
-                             "-Denable-gravatar=no",
-                             "-Denable-jamendo=no",
-                             "-Denable-local-metadata=no",
-                             "-Denable-lua-factory=no",
-                             "-Denable-magnatune=no",
-                             "-Denable-metadata-store=no",
-                             "-Denable-opensubtitles=no",
-                             "-Denable-optical-media=no",
-                             "-Denable-podcasts=no",
-                             "-Denable-raitv=no",
-                             "-Denable-shoutcast=no",
-                             "-Denable-thetvdb=no",
-                             "-Denable-tmdb=no",
-                             "-Denable-tracker=no",
-                             "-Denable-vimeo=no",
-                             "-Denable-youtube=no",
-                             "--wrap-mode=nofallback" ],
+            "cleanup": [
+                "/include",
+                "/share/help"
+            ],
+            "config-opts": [
+                "-Denable-bookmarks=no",
+                "-Denable-chromaprint=no",
+                "-Denable-dleyna=no",
+                "-Denable-dmap=no",
+                "-Denable-filesystem=no",
+                "-Denable-flickr=yes",
+                "-Denable-freebox=no",
+                "-Denable-gravatar=no",
+                "-Denable-jamendo=no",
+                "-Denable-local-metadata=no",
+                "-Denable-lua-factory=no",
+                "-Denable-magnatune=no",
+                "-Denable-metadata-store=no",
+                "-Denable-opensubtitles=no",
+                "-Denable-optical-media=no",
+                "-Denable-podcasts=no",
+                "-Denable-raitv=no",
+                "-Denable-shoutcast=no",
+                "-Denable-thetvdb=no",
+                "-Denable-tmdb=no",
+                "-Denable-tracker=no",
+                "-Denable-vimeo=no",
+                "-Denable-youtube=no",
+                "--wrap-mode=nofallback"
+            ],
             "sources": [
                 {
                     "type": "git",
@@ -264,12 +318,17 @@
         {
             "name": "tracker-miners",
             "buildsystem": "meson",
-            "cleanup": [ "/etc", "/share/dbus-1" ],
-            "config-opts": [ "-Dman=false",
-                             "-Dminer_fs=true",
-                             "-Dminer_rss=false",
-                             "-Dsystemd_user_services=false",
-                             "-Dwriteback=false" ],
+            "cleanup": [
+                "/etc",
+                "/share/dbus-1"
+            ],
+            "config-opts": [
+                "-Dman=false",
+                "-Dminer_fs=true",
+                "-Dminer_rss=false",
+                "-Dsystemd_user_services=false",
+                "-Dwriteback=false"
+            ],
             "sources": [
                 {
                     "type": "git",
@@ -280,7 +339,10 @@
         {
             "name": "gnome-photos",
             "buildsystem": "meson",
-            "config-opts": [ "-Ddogtail=false", "-Dflatpak=true" ],
+            "config-opts": [
+                "-Ddogtail=false",
+                "-Dflatpak=true"
+            ],
             "sources": [
                 {
                     "type": "git",
