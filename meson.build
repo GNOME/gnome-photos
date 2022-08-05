@@ -161,6 +161,8 @@ gexiv_dep = dependency('gexiv2', version: '>= 0.14.0')
 gio_dep = dependency('gio-2.0')
 gio_unix_dep = dependency('gio-unix-2.0')
 glib_dep = dependency('glib-2.0', version: '>= 2.62.0')
+libportal_dep = dependency('libportal')
+libportal_gtk3_dep = dependency('libportal-gtk3')
 
 goa_dep = dependency('goa-1.0', version: '>= 3.8.0')
 config_h.set('GOA_API_IS_SUBJECT_TO_CHANGE', true)

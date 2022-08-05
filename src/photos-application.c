@@ -37,6 +37,8 @@
 #include <glib/gi18n.h>
 #include <grilo.h>
 #include <handy.h>
+#include <libportal/portal.h>
+#include <libportal-gtk3/portal-gtk3.h>
 #include <tracker-sparql.h>
 
 #include "photos-application.h"
@@ -80,8 +82,6 @@ struct _PhotosApplication
   GHashTable *refresh_miner_ids;
   GList *miners;
   GList *miners_running;
-  GSettings *bg_settings;
-  GSettings *ss_settings;
   GSimpleAction *blacks_exposure_action;
   GSimpleAction *contrast_action;
   GSimpleAction *crop_action;
@@ -170,13 +170,6 @@ static const GOptionEntry COMMAND_LINE_OPTIONS[] =
   { NULL }
 };
 
-static const gchar *DESKTOP_BACKGROUND_SCHEMA = "org.gnome.desktop.background";
-static const gchar *DESKTOP_SCREENSAVER_SCHEMA = "org.gnome.desktop.screensaver";
-static const gchar *DESKTOP_KEY_PICTURE_URI = "picture-uri";
-static const gchar *DESKTOP_KEY_PICTURE_OPTIONS = "picture-options";
-static const gchar *DESKTOP_KEY_COLOR_SHADING_TYPE = "color-shading-type";
-static const gchar *DESKTOP_KEY_PRIMARY_COLOR = "primary-color";
-static const gchar *DESKTOP_KEY_SECONDARY_COLOR = "secondary-color";
 static const gchar *MINER_FILES_NAME_PRIVATE = "org.gnome.Photos.Tracker3.Miner.Files";
 static const gchar *MINER_FILES_NAME_PRIVATE_CONTROL = "org.gnome.Photos.Tracker3.Miner.Files.Control";
 static const gchar *MINER_FILES_NAME_SESSION = "org.freedesktop.Tracker3.Miner.Files";
@@ -188,7 +181,6 @@ typedef struct _PhotosApplicationImportData PhotosApplicationImportData;
 typedef struct _PhotosApplicationImportCopiedData PhotosApplicationImportCopiedData;
 typedef struct _PhotosApplicationImportWaitForFileData PhotosApplicationImportWaitForFileData;
 typedef struct _PhotosApplicationRefreshData PhotosApplicationRefreshData;
-typedef struct _PhotosApplicationSetBackgroundData PhotosApplicationSetBackgroundData;
 
 struct _PhotosApplicationCreateData
 {
@@ -212,13 +204,6 @@ struct _PhotosApplicationRefreshData
 {
   PhotosApplication *application;
   GomMiner *miner;
-};
-
-struct _PhotosApplicationSetBackgroundData
-{
-  PhotosApplication *application;
-  GFile *file;
-  GSettings *settings;
 };
 
 static void photos_application_import_file_copy (GObject *source_object, GAsyncResult *res, gpointer user_data);
@@ -311,30 +296,6 @@ photos_application_refresh_data_free (PhotosApplicationRefreshData *data)
   g_application_release (G_APPLICATION (data->application));
   g_object_unref (data->miner);
   g_slice_free (PhotosApplicationRefreshData, data);
-}
-
-
-static PhotosApplicationSetBackgroundData *
-photos_application_set_background_data_new (PhotosApplication *application, GFile *file, GSettings *settings)
-{
-  PhotosApplicationSetBackgroundData *data;
-
-  data = g_slice_new0 (PhotosApplicationSetBackgroundData);
-  g_application_hold (G_APPLICATION (application));
-  data->application = application;
-  data->file = g_object_ref (file);
-  data->settings = g_object_ref (settings);
-  return data;
-}
-
-
-static void
-photos_application_set_background_data_free (PhotosApplicationSetBackgroundData *data)
-{
-  g_application_release (G_APPLICATION (data->application));
-  g_object_unref (data->file);
-  g_object_unref (data->settings);
-  g_slice_free (PhotosApplicationSetBackgroundData, data);
 }
 
 
@@ -1981,92 +1942,52 @@ photos_application_save (PhotosApplication *self)
   g_signal_connect (dialog, "response", G_CALLBACK (photos_application_save_response), self);
 }
 
-
 static void
-photos_application_set_bg_common_save_to_file (GObject *source_object, GAsyncResult *res, gpointer user_data)
+photos_application_xdp_set_wallpaper_finish (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
-  PhotosBaseItem *item = PHOTOS_BASE_ITEM (source_object);
-  PhotosApplicationSetBackgroundData *data = (PhotosApplicationSetBackgroundData *) user_data;
-  g_autofree gchar *path = NULL;
+  g_autoptr (GError) error = NULL;
+  XdpPortal *portal = XDP_PORTAL (source_object);
 
-  {
-    g_autoptr (GError) error = NULL;
-
-    if (!photos_base_item_save_to_file_finish (item, res, &error))
-      {
-        g_warning ("Unable to set background: %s", error->message);
-        goto out;
-      }
-  }
-
-  path = g_file_get_path (data->file);
-
-  g_settings_set_string (data->settings, DESKTOP_KEY_PICTURE_URI, path);
-  g_settings_set_enum (data->settings, DESKTOP_KEY_PICTURE_OPTIONS, G_DESKTOP_BACKGROUND_STYLE_ZOOM);
-  g_settings_set_enum (data->settings, DESKTOP_KEY_COLOR_SHADING_TYPE, G_DESKTOP_BACKGROUND_SHADING_SOLID);
-  g_settings_set_string (data->settings, DESKTOP_KEY_PRIMARY_COLOR, "#000000000000");
-  g_settings_set_string (data->settings, DESKTOP_KEY_SECONDARY_COLOR, "#000000000000");
-
- out:
-  photos_application_set_background_data_free (data);
+  if (!xdp_portal_set_wallpaper_finish (portal, res, &error))
+    g_warning ("Unable to set wallpaper: %s", error->message);
 }
 
-
 static void
-photos_application_set_bg_common (PhotosApplication *self, GSettings *settings)
+photos_application_set_bg_common (PhotosApplication *self, XdpWallpaperFlags flags)
 {
-  g_autoptr (GFile) backgrounds_file = NULL;
-  PhotosApplicationSetBackgroundData *data;
   PhotosBaseItem *item;
-  const gchar *config_dir;
-  const gchar *extension;
-  const gchar *filename;
-  const gchar *mime_type;
-  g_autofree gchar *backgrounds_dir = NULL;
-  g_autofree gchar *backgrounds_filename = NULL;
-  g_autofree gchar *backgrounds_path = NULL;
-  g_autofree gchar *basename = NULL;
-  gint64 now;
+  XdpPortal *portal;
+  GtkWindow *parent;
+  XdpParent * parent_window;
 
   item = PHOTOS_BASE_ITEM (photos_base_manager_get_active_object (self->state->item_mngr));
   g_return_if_fail (item != NULL);
 
-  config_dir = g_get_user_config_dir ();
-  backgrounds_dir = g_build_filename (config_dir, PACKAGE_TARNAME, "backgrounds", NULL);
-  g_mkdir_with_parents (backgrounds_dir, 0700);
+  portal = xdp_portal_new ();
+  parent = gtk_application_get_active_window (GTK_APPLICATION (self));
+  parent_window = xdp_parent_new_gtk (parent);
 
-  now = g_get_monotonic_time ();
-  filename = photos_base_item_get_filename (item);
-  basename = photos_glib_filename_strip_extension (filename);
-  mime_type = photos_base_item_get_mime_type (item);
-  extension = g_strcmp0 (mime_type, "image/png") == 0 ? ".png" : ".jpg";
-
-  backgrounds_filename = g_strdup_printf ("%" G_GINT64_FORMAT "-%s%s", now, basename, extension);
-  backgrounds_path = g_build_filename (backgrounds_dir, backgrounds_filename, NULL);
-  backgrounds_file = g_file_new_for_path (backgrounds_path);
-
-  data = photos_application_set_background_data_new (self, backgrounds_file, settings);
-  photos_base_item_save_to_file_async (item,
-                                       backgrounds_file,
-                                       G_FILE_CREATE_PRIVATE | G_FILE_CREATE_REPLACE_DESTINATION,
-                                       1.0,
-                                       NULL,
-                                       photos_application_set_bg_common_save_to_file,
-                                       data);
+  xdp_portal_set_wallpaper (portal,
+                            parent_window,
+                            photos_base_item_get_uri (item),
+                            flags | XDP_WALLPAPER_FLAG_PREVIEW,
+                            NULL,
+                            photos_application_xdp_set_wallpaper_finish,
+                            NULL);
 }
 
 
 static void
 photos_application_set_background (PhotosApplication *self)
 {
-  photos_application_set_bg_common (self, self->bg_settings);
+  photos_application_set_bg_common (self, XDP_WALLPAPER_FLAG_BACKGROUND);
 }
 
 
 static void
 photos_application_set_screensaver (PhotosApplication *self)
 {
-  photos_application_set_bg_common (self, self->ss_settings);
+  photos_application_set_bg_common (self, XDP_WALLPAPER_FLAG_LOCKSCREEN);
 }
 
 
@@ -2637,9 +2558,6 @@ photos_application_startup (GApplication *application)
   self->create_window_cancellable = g_cancellable_new ();
   self->refresh_miner_ids = g_hash_table_new (g_direct_hash, g_direct_equal);
 
-  self->bg_settings = g_settings_new (DESKTOP_BACKGROUND_SCHEMA);
-  self->ss_settings = g_settings_new (DESKTOP_SCREENSAVER_SCHEMA);
-
   icon_theme = gtk_icon_theme_get_default ();
   gtk_icon_theme_add_resource_path (icon_theme, "/org/gnome/Photos/icons");
 
@@ -2945,8 +2863,6 @@ photos_application_dispose (GObject *object)
     }
 
   g_clear_object (&self->create_window_cancellable);
-  g_clear_object (&self->bg_settings);
-  g_clear_object (&self->ss_settings);
   g_clear_object (&self->blacks_exposure_action);
   g_clear_object (&self->contrast_action);
   g_clear_object (&self->crop_action);

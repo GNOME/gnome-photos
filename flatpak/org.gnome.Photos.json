@@ -285,6 +285,22 @@
             ]
         },
         {
+            "name": "libportal",
+            "buildsystem": "meson",
+            "config-opts": [
+                "-Dbackends=gtk3",
+                "-Dintrospection=false",
+                "-Dvapi=false",
+                "-Ddocs=false",
+                "-Dtests=false"
+            ],
+            "sources": [{
+                "type": "git",
+                "url": "https://github.com/flatpak/libportal",
+                "branch": "main"
+            }]
+        },
+        {
             "name": "gnome-photos",
             "buildsystem": "meson",
             "config-opts": [

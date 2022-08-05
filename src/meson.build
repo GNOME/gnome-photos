@@ -388,6 +388,8 @@ deps = [
   #libgdata_dep,
   libgnome_photos_dep,
   libhandy_dep,
+  libportal_dep,
+  libportal_gtk3_dep,
   m_dep,
   tracker_sparql_dep,
 ]
