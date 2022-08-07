@@ -1,3 +1,10 @@
+Overview of changes in 43.beta
+===============================
+ * Build with soup3, drops libgfbgraph as it is not compatible with soup3 / rest 1.0 - Bilal Elmoussaoui
+ * Use Wallpaper portal for setting as a background/lockscreen - Bilal Elmoussaoui
+ * stop using deprecated gexiv2 API - Stephan Vedder
+ * Translations updates
+ 
 Overview of changes in 42.0
 ===============================
 * appdata: Update screenshots 
