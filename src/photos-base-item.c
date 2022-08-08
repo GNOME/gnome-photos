@@ -134,8 +134,6 @@ G_DEFINE_ABSTRACT_TYPE_WITH_CODE (PhotosBaseItem, photos_base_item, G_TYPE_OBJEC
                                                          photos_base_item_main_box_item_iface_init)
                                   G_IMPLEMENT_INTERFACE (PHOTOS_TYPE_FILTERABLE,
                                                          photos_base_item_filterable_iface_init));
-DZL_DEFINE_COUNTER (instances, "PhotosBaseItem", "Instances", "Number of PhotosBaseItem instances")
-
 
 typedef struct _PhotosBaseItemMetadataAddSharedData PhotosBaseItemMetadataAddSharedData;
 typedef struct _PhotosBaseItemQueryInfoData PhotosBaseItemQueryInfoData;
@@ -3059,8 +3057,6 @@ photos_base_item_finalize (GObject *object)
   g_mutex_clear (&priv->mutex_save_metadata);
 
   G_OBJECT_CLASS (photos_base_item_parent_class)->finalize (object);
-
-  DZL_COUNTER_DEC (instances);
 }
 
 
@@ -3147,8 +3143,6 @@ static void
 photos_base_item_init (PhotosBaseItem *self)
 {
   PhotosBaseItemPrivate *priv;
-
-  DZL_COUNTER_INC (instances);
 
   priv = photos_base_item_get_instance_private (self);
 

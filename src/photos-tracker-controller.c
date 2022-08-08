@@ -23,7 +23,6 @@
 
 #include "config.h"
 
-#include <dazzle.h>
 #include <glib.h>
 #include <glib/gi18n.h>
 
@@ -81,11 +80,6 @@ static guint signals[LAST_SIGNAL] = { 0 };
 
 
 G_DEFINE_ABSTRACT_TYPE_WITH_PRIVATE (PhotosTrackerController, photos_tracker_controller, G_TYPE_OBJECT);
-DZL_DEFINE_COUNTER (instances,
-                    "PhotosTrackerController",
-                    "Instances",
-                    "Number of PhotosTrackerController instances")
-
 
 enum
 {
@@ -526,8 +520,6 @@ photos_tracker_controller_finalize (GObject *object)
   g_clear_error (&priv->queue_error);
 
   G_OBJECT_CLASS (photos_tracker_controller_parent_class)->finalize (object);
-
-  DZL_COUNTER_DEC (instances);
 }
 
 
@@ -562,8 +554,6 @@ photos_tracker_controller_init (PhotosTrackerController *self)
   PhotosTrackerControllerPrivate *priv;
   GApplication *app;
   PhotosSearchContextState *state;
-
-  DZL_COUNTER_INC (instances);
 
   priv = photos_tracker_controller_get_instance_private (self);
 

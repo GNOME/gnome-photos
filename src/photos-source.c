@@ -23,8 +23,6 @@
 
 #include "config.h"
 
-#include <dazzle.h>
-
 #include "photos-filterable.h"
 #include "photos-query.h"
 #include "photos-source.h"
@@ -59,8 +57,6 @@ static void photos_source_filterable_iface_init (PhotosFilterableInterface *ifac
 G_DEFINE_TYPE_WITH_CODE (PhotosSource, photos_source, G_TYPE_OBJECT,
                          G_IMPLEMENT_INTERFACE (PHOTOS_TYPE_FILTERABLE,
                                                 photos_source_filterable_iface_init));
-DZL_DEFINE_COUNTER (instances, "PhotosSource", "Instances", "Number of PhotosSource instances")
-
 
 static const gchar *TRACKER_SCHEMA = "org.freedesktop.Tracker3.Miner.Files";
 static const gchar *TRACKER_KEY_RECURSIVE_DIRECTORIES = "index-recursive-directories";
@@ -222,8 +218,6 @@ photos_source_finalize (GObject *object)
   g_free (self->name);
 
   G_OBJECT_CLASS (photos_source_parent_class)->finalize (object);
-
-  DZL_COUNTER_DEC (instances);
 }
 
 
@@ -363,9 +357,7 @@ photos_source_set_property (GObject *object, guint prop_id, const GValue *value,
 static void
 photos_source_init (PhotosSource *self)
 {
-  DZL_COUNTER_INC (instances);
 }
-
 
 static void
 photos_source_class_init (PhotosSourceClass *class)

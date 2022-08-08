@@ -23,7 +23,6 @@
 
 #include "config.h"
 
-#include <dazzle.h>
 #include <glib.h>
 #include <tracker-sparql.h>
 
@@ -52,11 +51,6 @@ static guint signals[LAST_SIGNAL] = { 0 };
 
 
 G_DEFINE_ABSTRACT_TYPE_WITH_PRIVATE (PhotosOffsetController, photos_offset_controller, G_TYPE_OBJECT);
-DZL_DEFINE_COUNTER (instances,
-                    "PhotosOffsetController",
-                    "Instances",
-                    "Number of PhotosOffsetController instances")
-
 
 enum
 {
@@ -160,8 +154,6 @@ static void
 photos_offset_controller_finalize (GObject *object)
 {
   G_OBJECT_CLASS (photos_offset_controller_parent_class)->finalize (object);
-
-  DZL_COUNTER_DEC (instances);
 }
 
 
@@ -169,8 +161,6 @@ static void
 photos_offset_controller_init (PhotosOffsetController *self)
 {
   PhotosOffsetControllerPrivate *priv;
-
-  DZL_COUNTER_INC (instances);
 
   priv = photos_offset_controller_get_instance_private (self);
 

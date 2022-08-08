@@ -23,28 +23,15 @@
 
 #include "config.h"
 
-#include <dazzle.h>
 #include <glib.h>
 
 #include "photos-application.h"
 #include "photos-debug.h"
 #include "photos-remote-display-manager.h"
 
-
-static void
-photos_main_counter_arena_foreach (DzlCounter *counter, gpointer user_data)
-{
-  gint64 count;
-
-  count = dzl_counter_get (counter);
-  photos_debug (PHOTOS_DEBUG_MEMORY, "%s.%s = %" G_GINT64_FORMAT, counter->category, counter->name, count);
-}
-
-
 gint
 main (gint argc, gchar *argv[])
 {
-  DzlCounterArena *counter_arena;
   gint exit_status;
 
   {
@@ -60,9 +47,6 @@ main (gint argc, gchar *argv[])
     remote_display_mngr = photos_remote_display_manager_dup_singleton ();
     exit_status = g_application_run (app, argc, argv);
   }
-
-  counter_arena = dzl_counter_arena_get_default ();
-  dzl_counter_arena_foreach (counter_arena, photos_main_counter_arena_foreach, NULL);
 
   return exit_status;
 }
