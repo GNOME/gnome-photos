@@ -35,7 +35,6 @@
 #include <gio/gio.h>
 #include <glib.h>
 #include <glib/gi18n.h>
-#include <grilo.h>
 #include <handy.h>
 #include <libportal/portal.h>
 #include <libportal-gtk3/portal-gtk3.h>
@@ -2507,11 +2506,9 @@ static void
 photos_application_startup (GApplication *application)
 {
   PhotosApplication *self = PHOTOS_APPLICATION (application);
-  GrlRegistry *registry;
   GtkIconTheme *icon_theme;
   GtkSettings *settings;
   GVariant *state;
-  gboolean grl_plugins_loaded;
   const gchar *delete_accels[3] = {"Delete", "KP_Delete", NULL};
   const gchar *edit_accels[2] = {"<Primary>e", NULL};
   const gchar *fullscreen_accels[2] = {"F11", NULL};
@@ -2533,27 +2530,6 @@ photos_application_startup (GApplication *application)
   hdy_init ();
 
   photos_gegl_init ();
-
-  grl_init (NULL, NULL);
-  registry = grl_registry_get_default ();
-
-  {
-    g_autoptr (GError) error = NULL;
-
-    grl_plugins_loaded = grl_registry_load_all_plugins (registry, FALSE, &error);
-    if (error != NULL)
-      g_warning ("Unable to load Grilo plugins: %s", error->message);
-  }
-
-  if (grl_plugins_loaded)
-    {
-      {
-        g_autoptr (GError) error = NULL;
-
-        if (!grl_registry_activate_plugin_by_id (registry, "grl-flickr", &error))
-          g_warning ("Unable to activate Grilo's Flickr plugin: %s", error->message);
-      }
-    }
 
   self->create_window_cancellable = g_cancellable_new ();
   self->refresh_miner_ids = g_hash_table_new (g_direct_hash, g_direct_equal);

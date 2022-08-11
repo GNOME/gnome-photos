@@ -37,7 +37,6 @@
 #include "photos-device-item.h"
 #include "photos-enums.h"
 #include "photos-error.h"
-#include "photos-flickr-item.h"
 #include "photos-gegl.h"
 #include "photos-google-item.h"
 #include "photos-local-item.h"
@@ -716,7 +715,6 @@ photos_utils_ensure_builtins (void)
   if (g_once_init_enter (&once_init_value))
     {
       g_type_ensure (PHOTOS_TYPE_DEVICE_ITEM);
-      g_type_ensure (PHOTOS_TYPE_FLICKR_ITEM);
       //g_type_ensure (PHOTOS_TYPE_GOOGLE_ITEM);
       g_type_ensure (PHOTOS_TYPE_LOCAL_ITEM);
       g_type_ensure (PHOTOS_TYPE_MEDIA_SERVER_ITEM);

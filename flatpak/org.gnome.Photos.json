@@ -205,65 +205,6 @@
             ]
         },
         {
-            "name": "grilo",
-            "buildsystem": "meson",
-            "cleanup": [
-                "/bin"
-            ],
-            "config-opts": [
-                "-Denable-introspection=false",
-                "-Denable-grl-net=true",
-                "-Denable-grl-pls=false",
-                "-Denable-gtk-doc=false",
-                "-Denable-test-ui=false",
-                "-Denable-vala=false"
-            ],
-            "sources": [
-                {
-                    "type": "git",
-                    "url": "https://gitlab.gnome.org/GNOME/grilo.git"
-                }
-            ]
-        },
-        {
-            "name": "grilo-plugins",
-            "buildsystem": "meson",
-            "cleanup": [
-                "/include",
-                "/share/help"
-            ],
-            "config-opts": [
-                "-Denable-bookmarks=no",
-                "-Denable-chromaprint=no",
-                "-Denable-dleyna=no",
-                "-Denable-dmap=no",
-                "-Denable-filesystem=no",
-                "-Denable-flickr=yes",
-                "-Denable-freebox=no",
-                "-Denable-gravatar=no",
-                "-Denable-local-metadata=no",
-                "-Denable-lua-factory=no",
-                "-Denable-magnatune=no",
-                "-Denable-metadata-store=no",
-                "-Denable-opensubtitles=no",
-                "-Denable-optical-media=no",
-                "-Denable-podcasts=no",
-                "-Denable-raitv=no",
-                "-Denable-shoutcast=no",
-                "-Denable-thetvdb=no",
-                "-Denable-tmdb=no",
-                "-Denable-tracker=no",
-                "-Denable-youtube=no",
-                "--wrap-mode=nofallback"
-            ],
-            "sources": [
-                {
-                    "type": "git",
-                    "url": "https://gitlab.gnome.org/GNOME/grilo-plugins.git"
-                }
-            ]
-        },
-        {
             "name": "tracker-miners",
             "buildsystem": "meson",
             "cleanup": [
