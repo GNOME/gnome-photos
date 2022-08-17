@@ -7,20 +7,20 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos gnome-3-24\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-photos/issues\n"
-"POT-Creation-Date: 2021-09-08 08:47+0000\n"
-"PO-Revision-Date: 2021-09-08 10:46+0200\n"
+"POT-Creation-Date: 2022-08-11 15:29+0000\n"
+"PO-Revision-Date: 2022-08-17 13:29+0200\n"
 "Last-Translator: gogo <trebelnik2@gmail.com>\n"
 "Language-Team: Croatian <hr@li.org>\n"
 "Language: hr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Poedit 2.3\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Generator: Poedit 3.1.1\n"
 
 #: data/org.gnome.Photos.appdata.xml.in:7 data/org.gnome.Photos.desktop.in.in:3
-#: src/photos-application.c:3030 src/photos-embed.c:822
+#: src/photos-application.c:2922 src/photos-embed.c:822
 #: src/photos-main-window.c:437 src/photos-search-type-manager.c:101
 msgid "Photos"
 msgstr "Fotografije"
@@ -74,17 +74,17 @@ msgstr "Ispisivati fotografije"
 
 #: data/org.gnome.Photos.appdata.xml.in:25
 msgid "Select favorites"
-msgstr "Odabrati omiljene"
+msgstr "Odabrati omiljene fotografije"
 
 #: data/org.gnome.Photos.appdata.xml.in:26
 msgid ""
 "Easily edit your pictures in the app, or send to a full featured editor for "
 "more advanced changes"
 msgstr ""
-"S lakoćom uređivati svoje slike u aplikaciji ili slanje u naprednijeg "
-"uređivača fotografija za naprednije promjene"
+"S lakoćom uređivati svoje slike u aplikaciji, ili ih poslati u naprednijeg "
+"uređivača fotografija kako bi učinili naprednije promjene"
 
-#: data/org.gnome.Photos.appdata.xml.in:99
+#: data/org.gnome.Photos.appdata.xml.in:109
 msgid "The GNOME Project"
 msgstr "GNOME projekt"
 
@@ -121,11 +121,11 @@ msgstr "Prozor uvećan"
 msgid "Window maximized state"
 msgstr "Stanje uvećanog prozora"
 
-#: src/photos-application.c:168
+#: src/photos-application.c:167
 msgid "Show the empty state"
 msgstr "Prikaži prazno stanje"
 
-#: src/photos-application.c:169
+#: src/photos-application.c:168
 msgid "Show the application's version"
 msgstr "Prikaži inačicu aplikacije"
 
@@ -138,16 +138,16 @@ msgstr "Prikaži inačicu aplikacije"
 #. Translators: this is the name of the default album that will be
 #. * created for imported photos.
 #.
-#: src/photos-application.c:1310 src/photos-export-dialog.c:195
+#: src/photos-application.c:1270 src/photos-export-dialog.c:195
 #: src/photos-import-dialog.c:134
 msgid "%-d %B %Y"
 msgstr "%-d %B %Y"
 
-#: src/photos-base-item.c:1034
+#: src/photos-base-item.c:1032
 msgid "Album"
 msgstr "Album"
 
-#: src/photos-base-item.c:2862
+#: src/photos-base-item.c:2860
 msgid "Screenshots"
 msgstr "Slike zaslona"
 
@@ -331,7 +331,6 @@ msgstr "Mapa izvoza"
 #. Translators: this is the fallback title in the form
 #. * "Facebook — 2nd January 2013".
 #.
-#: src/photos-facebook-item.c:100 src/photos-flickr-item.c:102
 #: src/photos-google-item.c:98
 #, c-format
 msgid "%s — %s"
@@ -512,7 +511,7 @@ msgstr "Vaše fotografije se dodaju"
 msgid "Some photos might not be available during this process"
 msgstr "Određene fotografije možda neće biti dostupne tijekom ovog procesa"
 
-#: src/photos-item-manager.c:845
+#: src/photos-item-manager.c:842
 #, c-format
 msgid "Oops! Unable to load “%s”"
 msgstr "Ups! Nemoguće je učitati “%s”"
@@ -822,7 +821,7 @@ msgstr "Pri, bljeskalici"
 msgid "Discard all Edits"
 msgstr "Odbaci sve promjene"
 
-#: src/photos-removable-devices-button.ui:47
+#: src/photos-removable-devices-button.ui:48
 msgid "Devices"
 msgstr "Uređaji"
 
@@ -1050,11 +1049,11 @@ msgstr "Hometown"
 msgid "Filters"
 msgstr "Filtri"
 
-#: src/photos-tracker-controller.c:174
+#: src/photos-tracker-controller.c:168
 msgid "Unable to find Tracker on your operating system"
 msgstr "Nemoguć je pronalazak Pratitelja na vašem operativnom sustavu"
 
-#: src/photos-tracker-controller.c:176
+#: src/photos-tracker-controller.c:170
 msgid "Unable to fetch the list of photos"
 msgstr "Nemoguće preuzimanje popisa fotografija"
 
