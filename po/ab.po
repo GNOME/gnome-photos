@@ -3,7 +3,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-photos/issues\n"
 "POT-Creation-Date: 2022-06-30 19:05+0000\n"
 "Last-Translator: Нанба Наала <naala-nanba@rambler.ru>\n"
-"Language-Team: Abkhazian <ab@li.org>\n"
+"Language-Team: Abkhazian <daniel.abzakh@gmail.com>\n"
 "Language: ab\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -290,7 +290,7 @@ msgstr[1] ""
 
 #: src/photos-export-notification.c:347
 msgid "Analyze"
-msgstr ""
+msgstr "Анализҟаҵара"
 
 #: src/photos-export-notification.c:352
 msgid "Empty Trash"
@@ -610,7 +610,7 @@ msgstr ""
 
 #: src/photos-preview-menu.ui:41
 msgid "Fullscreen"
-msgstr ""
+msgstr "Аекран зегьы иҭаӡо"
 
 #: src/photos-primary-menu.ui:6
 msgid "Keyboard Shortcuts"
@@ -647,7 +647,7 @@ msgstr ""
 
 #: src/photos-print-setup.c:885
 msgid "_Top:"
-msgstr ""
+msgstr "_Хыхьтәи:"
 
 #: src/photos-print-setup.c:886
 msgid "_Bottom:"
@@ -667,7 +667,7 @@ msgstr ""
 
 #: src/photos-print-setup.c:894
 msgid "Vertical"
-msgstr ""
+msgstr "Гәҵәыла"
 
 #: src/photos-print-setup.c:895
 msgid "Both"
@@ -679,7 +679,7 @@ msgstr ""
 
 #: src/photos-print-setup.c:912
 msgid "_Height:"
-msgstr ""
+msgstr "_Аҳаракыра:"
 
 #: src/photos-print-setup.c:914
 msgid "_Scaling:"
@@ -763,7 +763,7 @@ msgstr ""
 
 #: src/photos-properties-dialog.c:545
 msgid "Aperture"
-msgstr ""
+msgstr "Апертура"
 
 #: src/photos-properties-dialog.c:555
 msgid "Focal Length"
@@ -771,7 +771,7 @@ msgstr ""
 
 #: src/photos-properties-dialog.c:565
 msgid "ISO Speed"
-msgstr ""
+msgstr "ISO"
 
 #: src/photos-properties-dialog.c:575
 msgid "Flash"
@@ -794,7 +794,7 @@ msgstr ""
 
 #: src/photos-properties-dialog.c:723
 msgid "On, fired"
-msgstr ""
+msgstr "Иаҿакуп, аус ауит"
 
 #: src/photos-properties-dialog.c:760
 msgid "Discard all Edits"
@@ -807,7 +807,7 @@ msgstr ""
 #: src/photos-search-match-manager.c:149 src/photos-search-type-manager.c:74
 #: src/photos-source-manager.c:396
 msgid "All"
-msgstr ""
+msgstr "Зегьы"
 
 #. Translators: "Title" refers to "Match Title" when searching.
 #: src/photos-search-match-manager.c:155
