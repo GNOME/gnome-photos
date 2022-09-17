@@ -3,14 +3,14 @@
 # This file is distributed under the same license as the gnome-photo package.
 # Alain Lojewski <allomervan@gmail.com>, 2014
 # Guillaume Bernard <translate@filorin.fr>, 2014, 2015.
-# Charles Monzat <charles.monzat@free.fr>, 2020.
+# Charles Monzat <charles.monzat@free.fr>, 2020-2022.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos\n"
 "Report-Msgid-Bugs-To: https://bugzilla.gnome.org\n"
-"POT-Creation-Date: 2020-08-25 17:11+0000\n"
-"PO-Revision-Date: 2020-09-02 14:09+0200\n"
+"POT-Creation-Date: 2021-04-27 15:11+0000\n"
+"PO-Revision-Date: 2022-04-11 22:41+0200\n"
 "Last-Translator: Charles Monzat <charles.monzat@free.fr>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
 "Language: fr\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Gtranslator 3.36.0\n"
+"X-Generator: Gtranslator 40.0\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
 msgctxt "_"
@@ -71,9 +71,6 @@ msgstr "Marquage de vos favoris"
 
 #. (itstool) path: page/p
 #: C/favorites-set.page:27
-#| msgid ""
-#| "Photos or albums can be marked as favorites from the <gui style=\"tab"
-#| "\">Recent</gui> tab or <gui style=\"tab\">Albums</gui> tab."
 msgid ""
 "Photos or albums can be marked as favorites from the <gui style=\"tab"
 "\">Photos</gui> tab or <gui style=\"tab\">Albums</gui> tab."
@@ -89,9 +86,6 @@ msgstr "Pour marquer des éléments en favoris :"
 
 #. (itstool) path: item/p
 #: C/favorites-set.page:33
-#| msgid ""
-#| "Select the <gui>Albums</gui> tab or <gui>Recent</gui> tab depending on "
-#| "whether you want to mark an album or a photo as a favorite."
 msgid ""
 "Select the <gui>Albums</gui> tab or <gui>Photos</gui> tab depending on "
 "whether you want to mark an album or a photo as a favorite."
@@ -159,13 +153,13 @@ msgstr ""
 #: C/legal.xml:5
 msgid "Creative Commons Attribution-ShareAlike 3.0 Unported License"
 msgstr ""
-"Creative Commons Paternité-Partage dans des Conditions Identiques à "
-"l’Initiale 3.0 non transposé"
+"Licence Creative Commons Attribution - Partage dans les Mêmes Conditions 3.0 "
+"non transposé"
 
 #. (itstool) path: license/p
 #: C/legal.xml:4
 msgid "This work is licensed under a <_:link-1/>."
-msgstr "Ce travail est sous licence <_:link-1/>."
+msgstr "Cette œuvre est distribuée sous <_:link-1/>."
 
 #. (itstool) path: info/desc
 #: C/view-album.page:21
@@ -256,12 +250,6 @@ msgstr "Affichage des photos récentes"
 
 #. (itstool) path: page/p
 #: C/view-photos.page:21
-#| msgid ""
-#| "The <gui style=\"tab\">Recent</gui> tab displays photos from local file "
-#| "system locations such as <file>~/Downloads</file>, <file>~/Pictures</"
-#| "file> and from online collections. You can also add other locations, even "
-#| "cloud-based collections such as Flickr or Facebook photographs, through "
-#| "<app>GNOME Online Accounts</app>."
 msgid ""
 "The <gui style=\"tab\">Photos</gui> tab displays photos from local file "
 "system locations such as <file>~/Downloads</file>, <file>~/Pictures</file> "
@@ -287,9 +275,6 @@ msgstr "Aller à <guiseq><gui>Préférences</gui><gui>Rechercher</gui></guiseq>.
 
 #. (itstool) path: item/p
 #: C/view-photos.page:34
-#| msgid ""
-#| "Click on the gear button on the bottom right. You can select the "
-#| "locations you want to display in the <gui style=\"tab\">Recent</gui> tab."
 msgid ""
 "Click on the gear button on the bottom right. You can select the locations "
 "you want to display in the <gui style=\"tab\">Photos</gui> tab."
@@ -305,7 +290,6 @@ msgstr "Pour afficher les photos récentes :"
 
 #. (itstool) path: item/p
 #: C/view-photos.page:43
-#| msgid "Select the <gui style=\"tab\">Favorites</gui> tab."
 msgid "Select the <gui style=\"tab\">Photos</gui> tab."
 msgstr "Sélectionnez l’onglet <gui style=\"tab\">Photos</gui>."
 
@@ -326,11 +310,6 @@ msgstr "Affichage des images"
 
 #. (itstool) path: page/p
 #: C/view.page:26
-#| msgid ""
-#| "When <app>Photos</app> is opened, you will see the <gui>Recent</gui> tab "
-#| "open. The <gui>Recent</gui> tab contains images from your computer, the "
-#| "<gui>Albums</gui> tab contains your photo albums, and any image you mark "
-#| "as a favourite can be found in the <gui>Favorites</gui> tab."
 msgid ""
 "When <app>Photos</app> is opened, you will see the <gui>Photos</gui> tab "
 "open. The <gui>Photos</gui> tab contains images from your computer, the "
