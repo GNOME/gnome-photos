@@ -1,5 +1,5 @@
 # Turkish translation for gnome-photos.
-# Copyright (C) 2013-2021 gnome-photos's COPYRIGHT HOLDER
+# Copyright (C) 2013-2022 gnome-photos's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnome-photos package.
 #
 # Gökhan Gurbetoğlu <ggurbet@gmail.com>, 2013, 2014, 2015.
@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-photos/issues\n"
-"POT-Creation-Date: 2021-05-06 11:22+0000\n"
+"POT-Creation-Date: 2022-08-11 15:29+0000\n"
 "PO-Revision-Date: 2021-07-13 17:45+0300\n"
 "Last-Translator: Burhan KELEŞ <klsburhan@hotmail.com>\n"
 "Language-Team: Türkçe <gnome-turk@gnome.org>\n"
@@ -25,7 +25,7 @@ msgstr ""
 "X-Poedit-SourceCharset: UTF-8\n"
 
 #: data/org.gnome.Photos.appdata.xml.in:7 data/org.gnome.Photos.desktop.in.in:3
-#: src/photos-application.c:3030 src/photos-embed.c:822
+#: src/photos-application.c:2922 src/photos-embed.c:822
 #: src/photos-main-window.c:437 src/photos-search-type-manager.c:101
 msgid "Photos"
 msgstr "Fotoğraflar"
@@ -88,7 +88,7 @@ msgstr ""
 "Fotoğraflarınızı uygulamada kolayca düzenleyin veya daha gelişmiş "
 "değişiklikler için tam özellikli düzenleyiciye gönderin"
 
-#: data/org.gnome.Photos.appdata.xml.in:99
+#: data/org.gnome.Photos.appdata.xml.in:109
 msgid "The GNOME Project"
 msgstr "GNOME Projesi"
 
@@ -125,11 +125,11 @@ msgstr "Pencere ekranı kapladı"
 msgid "Window maximized state"
 msgstr "Pencerenin ekranı kapladığı durum"
 
-#: src/photos-application.c:168
+#: src/photos-application.c:167
 msgid "Show the empty state"
 msgstr "Boş durumu göster"
 
-#: src/photos-application.c:169
+#: src/photos-application.c:168
 msgid "Show the application's version"
 msgstr "Uygulamanın sürümünü göster"
 
@@ -142,16 +142,16 @@ msgstr "Uygulamanın sürümünü göster"
 #. Translators: this is the name of the default album that will be
 #. * created for imported photos.
 #.
-#: src/photos-application.c:1310 src/photos-export-dialog.c:195
+#: src/photos-application.c:1270 src/photos-export-dialog.c:195
 #: src/photos-import-dialog.c:134
 msgid "%-d %B %Y"
 msgstr "%-d %B %Y"
 
-#: src/photos-base-item.c:1034
+#: src/photos-base-item.c:1032
 msgid "Album"
 msgstr "Albüm"
 
-#: src/photos-base-item.c:2862
+#: src/photos-base-item.c:2860
 msgid "Screenshots"
 msgstr "Ekran görüntüleri"
 
@@ -331,7 +331,6 @@ msgstr "Dışa Aktarım Klasörü"
 #. Translators: this is the fallback title in the form
 #. * "Facebook — 2nd January 2013".
 #.
-#: src/photos-facebook-item.c:100 src/photos-flickr-item.c:102
 #: src/photos-google-item.c:98
 #, c-format
 msgid "%s — %s"
@@ -512,7 +511,7 @@ msgstr "Fotoğraflarınız dizine ekleniyor"
 msgid "Some photos might not be available during this process"
 msgstr "Bazı fotoğraflar bu işlem sırasında kullanım dışı olabilir"
 
-#: src/photos-item-manager.c:845
+#: src/photos-item-manager.c:842
 #, c-format
 msgid "Oops! Unable to load “%s”"
 msgstr "Amanın! “%s” yüklenemedi"
@@ -819,7 +818,7 @@ msgstr "Açık, patlatıldı"
 msgid "Discard all Edits"
 msgstr "Tüm düzenlemeleri at"
 
-#: src/photos-removable-devices-button.ui:47
+#: src/photos-removable-devices-button.ui:48
 msgid "Devices"
 msgstr "Aygıtlar"
 
@@ -1047,94 +1046,10 @@ msgstr "Memleket"
 msgid "Filters"
 msgstr "Süzgeçler"
 
-#: src/photos-tracker-controller.c:174
+#: src/photos-tracker-controller.c:168
 msgid "Unable to find Tracker on your operating system"
 msgstr "İşletim sisteminizde Tracker bulunamadı"
 
-#: src/photos-tracker-controller.c:176
+#: src/photos-tracker-controller.c:170
 msgid "Unable to fetch the list of photos"
 msgstr "Fotoğrafların listesi alınamıyor"
-
-#~ msgid "org.gnome.Photos"
-#~ msgstr "org.gnome.Photos"
-
-#~ msgid "About"
-#~ msgstr "Hakkında"
-
-#~ msgid "Quit"
-#~ msgstr "Çık"
-
-#~ msgid "It lets you:"
-#~ msgstr "Şunları yapabilirsiniz:"
-
-#~ msgid "Send photos to remote DLNA renderers"
-#~ msgstr "Uzak DLNA oluşturuculara fotoğraf gönderin"
-
-#~ msgid "Cancel"
-#~ msgstr "Vazgeç"
-
-#~ msgid "Name your first album"
-#~ msgstr "İlk albümünüze ad verin"
-
-#~ msgid "You can add your online accounts in %s"
-#~ msgstr "Çevrim içi hesaplarınızı %s’dan ekleyebilirsiniz"
-
-#~ msgid "Untitled Photo"
-#~ msgstr "Adsız Fotoğraf"
-
-#~ msgid ""
-#~ "Copyright © 2013 Intel Corporation. All rights reserved.\n"
-#~ "Copyright © 2014 – 2015 Pranav Kant\n"
-#~ "Copyright © 2012 – 2017 Red Hat, Inc."
-#~ msgstr ""
-#~ "Telif Hakkı © 2013 Intel Corporation. Tüm hakları saklıdır.\n"
-#~ "Telif Hakkı © 2014 – 2015 Pranav Kant\n"
-#~ "Telif Hakkı © 2012 – 2017 Red Hat, Inc."
-
-#~ msgid "Brightness"
-#~ msgstr "Parlaklık"
-
-#~ msgid "Width"
-#~ msgstr "Genişlik"
-
-#~ msgid "%a, %d %B %Y  %X"
-#~ msgstr "%d %B %Y %a, %X"
-
-#~ msgid "%.1f (lens)"
-#~ msgstr "%.1f (lens)"
-
-#~ msgid "%.1f (35mm film)"
-#~ msgstr "%.1f (35mm film)"
-
-#~ msgid "Transformation on unloaded image."
-#~ msgstr "Yüklenmemiş resim üzerinde dönüşüm."
-
-#~ msgid "Transformation failed."
-#~ msgstr "Dönüşüm başarısız oldu."
-
-#~ msgid "EXIF not supported for this file format."
-#~ msgstr "Bu dosya biçimi için EXIF desteklenmiyor."
-
-#~ msgid "Image loading failed."
-#~ msgstr "Resim yüklemesi başarısız oldu."
-
-#~ msgid "No image loaded."
-#~ msgstr "Hiçbir resim yüklenmedi."
-
-#~ msgid "You do not have the permissions necessary to save the file."
-#~ msgstr "Dosyayı kaydetmek için gerekli izinlere sahip değilsiniz."
-
-#~ msgid "Temporary file creation failed."
-#~ msgstr "Geçici dosya oluşturma başarısız oldu."
-
-#~ msgid "At least two file names are equal."
-#~ msgstr "En az iki dosya ismi birbiriyle aynı."
-
-#~ msgid "Could not display help for Image Viewer"
-#~ msgstr "Resim Görüntüleyici için yardım görüntülenemedi"
-
-#~ msgid " (invalid Unicode)"
-#~ msgstr " (geçersiz Unikod)"
-
-#~ msgid "Recent"
-#~ msgstr "Son kullanılan"
