@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-photos/issues\n"
-"POT-Creation-Date: 2022-10-03 07:53+0000\n"
+"POT-Creation-Date: 2022-10-31 10:22+0000\n"
 "Last-Translator: Нанба Наала <naala-nanba@rambler.ru>\n"
 "Language-Team: Abkhazian <daniel.abzakh@gmail.com>\n"
 "Language: ab\n"
@@ -97,6 +97,10 @@ msgstr "Аԥенџьыр аҭыԥ"
 msgid "Window position (x and y)."
 msgstr "Аԥенџьыр аҭыԥ (x ; y)"
 
+#: data/org.gnome.photos.gschema.xml:15
+msgid "Window maximized"
+msgstr "Аԥенџьыр иамоуп иреиҳау ашәагаа"
+
 #: data/org.gnome.photos.gschema.xml:16
 msgid "Window maximized state"
 msgstr "Аԥенџьыр иамоуп иреиҳау ашәагаа"
@@ -170,7 +174,7 @@ msgstr "Иалкаау"
 
 #: src/photos-embed.c:840
 msgid "Import"
-msgstr ""
+msgstr "Аимпорт азура"
 
 #: src/photos-embed.c:843 src/photos-main-toolbar.c:336
 msgid "Search"
@@ -251,7 +255,7 @@ msgstr "_Аԥыхра"
 
 #: src/photos-export-dialog.ui:167
 msgid "_Export"
-msgstr ""
+msgstr "_Аекспорт азура"
 
 #. Translators: this is the estimated size of the exported image in
 #. * the form "1600×1067 (0.6 GB)".
@@ -522,11 +526,11 @@ msgstr[1] ""
 
 #: src/photos-main-toolbar.c:217
 msgid "Back"
-msgstr ""
+msgstr "Шьҭахьҟа"
 
 #: src/photos-main-toolbar.c:351
 msgid "Select Items"
-msgstr ""
+msgstr "Аелементқәа ралхра"
 
 #. length == 1
 #. Translators: this is the Open action in a context menu
@@ -546,7 +550,7 @@ msgstr ""
 
 #: src/photos-main-toolbar.c:492
 msgid "Done"
-msgstr ""
+msgstr "Ихиоуп"
 
 #: src/photos-main-toolbar.c:528
 msgid "_Select"
@@ -581,7 +585,7 @@ msgstr ""
 
 #: src/photos-preview-menu.ui:14
 msgid "Print…"
-msgstr ""
+msgstr "Акьыҧхьра…"
 
 #: src/photos-preview-menu.ui:19
 msgid "Delete"
@@ -631,15 +635,15 @@ msgstr "Аҧшранҵа  ахышәарақәа "
 
 #: src/photos-print-setup.c:880
 msgid "Position"
-msgstr ""
+msgstr "Аҭагылазаашьа"
 
 #: src/photos-print-setup.c:883
 msgid "_Left:"
-msgstr ""
+msgstr "А_рмарахь:"
 
 #: src/photos-print-setup.c:884
 msgid "_Right:"
-msgstr ""
+msgstr "А_рӷьарахь"
 
 #: src/photos-print-setup.c:885
 msgid "_Top:"
@@ -647,19 +651,19 @@ msgstr "_Хыхьтәи:"
 
 #: src/photos-print-setup.c:886
 msgid "_Bottom:"
-msgstr ""
+msgstr "_Ҵаҟа"
 
 #: src/photos-print-setup.c:888
 msgid "C_enter:"
-msgstr ""
+msgstr "_Иеизаку:"
 
 #: src/photos-print-setup.c:892
 msgid "None"
-msgstr ""
+msgstr "Мап"
 
 #: src/photos-print-setup.c:893
 msgid "Horizontal"
-msgstr ""
+msgstr "Ииаланы"
 
 #: src/photos-print-setup.c:894
 msgid "Vertical"
@@ -667,11 +671,11 @@ msgstr "Гәҵәыла"
 
 #: src/photos-print-setup.c:895
 msgid "Both"
-msgstr ""
+msgstr "Ииаланы насгьы гәҵәыла"
 
 #: src/photos-print-setup.c:911
 msgid "_Width:"
-msgstr ""
+msgstr "_Аҭбаара"
 
 #: src/photos-print-setup.c:912
 msgid "_Height:"
@@ -683,19 +687,19 @@ msgstr "_Амасштаб:"
 
 #: src/photos-print-setup.c:923
 msgid "_Unit:"
-msgstr ""
+msgstr "_ак"
 
 #: src/photos-print-setup.c:927
 msgid "Millimeters"
-msgstr ""
+msgstr "Амиллимитрқәа"
 
 #: src/photos-print-setup.c:928
 msgid "Inches"
-msgstr ""
+msgstr "Адиуимқәа"
 
 #: src/photos-print-setup.c:956
 msgid "Preview"
-msgstr ""
+msgstr "Акьыԥхьра ахәаԥшра"
 
 #: src/photos-properties-dialog.c:246
 msgid "Edited in Photos"
@@ -751,11 +755,11 @@ msgstr "Аҭыӡҭыԥ"
 
 #: src/photos-properties-dialog.c:525
 msgid "Camera"
-msgstr ""
+msgstr "Акамера"
 
 #: src/photos-properties-dialog.c:535 src/photos-tool-colors.c:365
 msgid "Exposure"
-msgstr ""
+msgstr "Аекспозициа"
 
 #: src/photos-properties-dialog.c:545
 msgid "Aperture"
@@ -763,7 +767,7 @@ msgstr "Апертура"
 
 #: src/photos-properties-dialog.c:555
 msgid "Focal Length"
-msgstr ""
+msgstr "Афокустә бжьазаара"
 
 #: src/photos-properties-dialog.c:565
 msgid "ISO Speed"
@@ -842,7 +846,7 @@ msgstr ""
 
 #: src/photos-selection-toolbar.ui:19
 msgid "Export"
-msgstr ""
+msgstr "Аекспорт азура"
 
 #: src/photos-selection-toolbar.ui:111
 msgid "Add to Album"
@@ -880,7 +884,7 @@ msgstr ""
 
 #: src/photos-source-notification.c:184
 msgid "Import…"
-msgstr ""
+msgstr "аимпорт азура…"
 
 #. Translators: %s refers to an online account provider, e.g.,
 #. * "Facebook" or "Flickr".
@@ -892,7 +896,7 @@ msgstr ""
 
 #: src/photos-source-notification.c:221
 msgid "Settings"
-msgstr ""
+msgstr "Архиарақәа"
 
 #: src/photos-thumbnailer.c:74
 msgid "D-Bus address to use"
@@ -964,7 +968,7 @@ msgstr ""
 
 #: src/photos-tool-crop.c:1529
 msgid "Landscape"
-msgstr ""
+msgstr "Аҭыҧсахьатә"
 
 #: src/photos-tool-crop.c:1540
 msgid "Portrait"
@@ -1031,858 +1035,3 @@ msgstr ""
 #: src/photos-tracker-controller.c:170
 msgid "Unable to fetch the list of photos"
 msgstr ""
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#, fuzzy
