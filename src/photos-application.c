@@ -352,13 +352,13 @@ photos_application_actions_update (PhotosApplication *self)
   GList *selection;
   PhotosLoadState load_state;
   PhotosWindowMode mode;
-  gboolean can_open;
   gboolean can_trash;
   gboolean enable;
   gboolean selection_mode;
   const gchar *cancel_accels[] = { "Escape", NULL };
   const gchar *null_accels[] = { NULL };
   guint n_items = 0;
+  guint n_selected_items = 0;
 
   item = photos_application_get_selection_or_active_item (self);
   load_state = photos_item_manager_get_load_state (PHOTOS_ITEM_MANAGER (self->state->item_mngr));
@@ -512,7 +512,6 @@ photos_application_actions_update (PhotosApplication *self)
             && photos_share_point_manager_can_share (PHOTOS_SHARE_POINT_MANAGER (self->shr_pnt_mngr), item));
   g_simple_action_set_enabled (self->share_action, enable);
 
-  can_open = FALSE;
   can_trash = selection != NULL;
   for (l = selection; l != NULL; l = l->next)
     {
@@ -527,9 +526,7 @@ photos_application_actions_update (PhotosApplication *self)
         continue;
 
       can_trash = can_trash && photos_base_item_can_trash (selected_item);
-
-      if (photos_base_item_get_default_app_name (selected_item) != NULL)
-        can_open = TRUE;
+      n_selected_items++;
     }
 
   enable = ((load_state == PHOTOS_LOAD_STATE_FINISHED
@@ -539,7 +536,7 @@ photos_application_actions_update (PhotosApplication *self)
   g_simple_action_set_enabled (self->delete_action, enable);
 
   enable = ((load_state == PHOTOS_LOAD_STATE_FINISHED && mode == PHOTOS_WINDOW_MODE_PREVIEW)
-            || (selection_mode && can_open));
+            || (selection_mode && n_selected_items == 1));
   g_simple_action_set_enabled (self->open_action, enable);
 
   enable = (load_state == PHOTOS_LOAD_STATE_FINISHED

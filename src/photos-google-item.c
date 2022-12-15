@@ -295,13 +295,7 @@ photos_google_item_open (PhotosBaseItem *item, GtkWindow *parent, guint32 timest
 static void
 photos_google_item_constructed (GObject *object)
 {
-  PhotosGoogleItem *self = PHOTOS_GOOGLE_ITEM (object);
-  const gchar *name;
-
   G_OBJECT_CLASS (photos_google_item_parent_class)->constructed (object);
-
-  name = photos_utils_get_provider_name (self->src_mngr, PHOTOS_BASE_ITEM (self));
-  photos_base_item_set_default_app_name (PHOTOS_BASE_ITEM (self), name);
 }
 
 

@@ -23,6 +23,8 @@
 #include <gio/gdesktopappinfo.h>
 #include <glib/gi18n.h>
 #include <gtk/gtk.h>
+#include <libportal/portal.h>
+#include <libportal-gtk3/portal-gtk3.h>
 
 #include "photos-base-item.h"
 #include "photos-base-manager.h"
@@ -79,20 +81,53 @@ photos_export_notification_destroy (PhotosExportNotification *self)
 
 
 static void
+photos_export_notification_analyze_finish (GObject *source_object, GAsyncResult *res, gpointer user_data)
+{
+  g_autoptr (GError) error = NULL;
+  XdpPortal *portal = XDP_PORTAL (source_object);
+
+  if (!xdp_portal_open_uri_finish (portal, res, &error))
+    g_warning ("Unable to open URI: %s", error->message);
+}
+
+
+static void
 photos_export_notification_analyze (PhotosExportNotification *self)
 {
-  g_autoptr (GAppLaunchContext) ctx = NULL;
-  g_autoptr (GDesktopAppInfo) analyzer = NULL;
+  XdpPortal *portal;
+  XdpParent *parent_window;
+  GApplication *app;
+  g_autoptr (GFile) directory = NULL;
+  GtkWindow *parent;
+  g_autofree gchar *directory_uri = NULL;
 
-  analyzer = g_desktop_app_info_new ("org.gnome.baobab.desktop");
-  ctx = photos_utils_new_app_launch_context_from_widget (GTK_WIDGET (self));
+  g_return_if_fail (self->file != NULL);
+  g_return_if_fail (self->items != NULL);
 
-  {
-    g_autoptr (GError) error = NULL;
+  app = g_application_get_default ();
+  parent = gtk_application_get_active_window (GTK_APPLICATION (app));
+  parent_window = xdp_parent_new_gtk (parent);
 
-    if (!g_app_info_launch (G_APP_INFO (analyzer), NULL, ctx, &error))
-      g_warning ("Unable to launch disk usage analyzer: %s", error->message);
-  }
+  if (self->items->next == NULL) /* length == 1 */
+    {
+      directory = g_file_get_parent (self->file);
+    }
+  else
+    {
+      directory = g_object_ref (self->file);
+    }
+
+  directory_uri = g_file_get_uri (directory);
+
+  portal = xdp_portal_new ();
+
+  xdp_portal_open_uri (portal,
+                       parent_window,
+                       directory_uri,
+                       XDP_OPEN_URI_FLAG_NONE,
+                       NULL,
+                       photos_export_notification_analyze_finish,
+                       NULL);
 
   photos_export_notification_destroy (self);
 }

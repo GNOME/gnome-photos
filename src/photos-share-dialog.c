@@ -69,7 +69,6 @@ photos_share_dialog_constructed (GObject *object)
   share_points = photos_share_point_manager_get_for_item (PHOTOS_SHARE_POINT_MANAGER (self->shr_pnt_mngr), self->item);
   for (l = share_points; l != NULL; l = l->next)
     {
-      GIcon *icon;
       GtkWidget *child;
       GtkWidget *grid;
       GtkWidget *image;
@@ -87,8 +86,7 @@ photos_share_dialog_constructed (GObject *object)
       gtk_grid_set_row_spacing (GTK_GRID (grid), 18);
       gtk_container_add (GTK_CONTAINER (child), grid);
 
-      icon = photos_share_point_get_icon (share_point);
-      image = gtk_image_new_from_gicon (icon, GTK_ICON_SIZE_DIALOG);
+      image = gtk_image_new_from_icon_name ("mail-message-new-symbolic", GTK_ICON_SIZE_DIALOG);
       gtk_container_add (GTK_CONTAINER (grid), image);
 
       name = photos_share_point_get_name (share_point);
@@ -183,3 +181,4 @@ photos_share_dialog_get_selected_share_point (PhotosShareDialog *self)
 {
   return self->selected;
 }
+

@@ -482,21 +482,7 @@ photos_local_item_trash_finish (PhotosBaseItem *item, GAsyncResult *res, GError 
 static void
 photos_local_item_constructed (GObject *object)
 {
-  PhotosLocalItem *self = PHOTOS_LOCAL_ITEM (object);
-  g_autoptr (GAppInfo) default_app = NULL;
-  const gchar *mime_type;
-
   G_OBJECT_CLASS (photos_local_item_parent_class)->constructed (object);
-
-  mime_type = photos_base_item_get_mime_type (PHOTOS_BASE_ITEM (self));
-  if (mime_type == NULL)
-    return;
-
-  default_app = g_app_info_get_default_for_type (mime_type, FALSE);
-  if (default_app == NULL)
-    return;
-
-  photos_base_item_set_default_app (PHOTOS_BASE_ITEM (self), default_app);
 }
 
 

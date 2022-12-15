@@ -22,6 +22,8 @@
 #include <gio/gio.h>
 #include <glib.h>
 #include <glib/gi18n.h>
+#include <libportal/portal.h>
+#include <libportal-gtk3/portal-gtk3.h>
 
 #include "photos-base-item.h"
 #include "photos-error.h"
@@ -34,17 +36,14 @@
 struct _PhotosSharePointEmail
 {
   PhotosSharePoint parent_instance;
-  GAppInfo *default_app;
   GError *initialization_error;
   gboolean is_initialized;
 };
 
 static void photos_share_point_email_filterable_iface_init (PhotosFilterableInterface *iface);
-static void photos_share_point_email_initable_iface_init (GInitableIface *iface);
 
 
 G_DEFINE_TYPE_WITH_CODE (PhotosSharePointEmail, photos_share_point_email, PHOTOS_TYPE_SHARE_POINT,
-                         G_IMPLEMENT_INTERFACE (G_TYPE_INITABLE, photos_share_point_email_initable_iface_init)
                          G_IMPLEMENT_INTERFACE (PHOTOS_TYPE_FILTERABLE,
                                                 photos_share_point_email_filterable_iface_init)
                          photos_utils_ensure_extension_points ();
@@ -52,17 +51,6 @@ G_DEFINE_TYPE_WITH_CODE (PhotosSharePointEmail, photos_share_point_email, PHOTOS
                                                          g_define_type_id,
                                                          "email",
                                                          0));
-
-
-static GIcon *
-photos_share_point_email_get_icon (PhotosSharePoint *share_point)
-{
-  PhotosSharePointEmail *self = PHOTOS_SHARE_POINT_EMAIL (share_point);
-  GIcon *icon;
-
-  icon = g_app_info_get_icon (self->default_app);
-  return icon;
-}
 
 
 static const gchar *
@@ -94,10 +82,23 @@ photos_share_point_email_needs_notification (PhotosSharePoint *share_point)
 
 
 static void
+photos_share_point_email_share_save_to_dir_finish (GObject *source_object, GAsyncResult *res, gpointer user_data)
+{
+  g_autoptr (GError) error = NULL;
+  XdpPortal *portal = XDP_PORTAL (source_object);
+
+  if (!xdp_portal_open_uri_finish (portal, res, &error))
+    g_warning ("Unable to open URI: %s", error->message);
+}
+
+
+static void
 photos_share_point_email_share_save_to_dir (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
-  PhotosSharePointEmail *self;
-  g_autoptr (GAppLaunchContext) ctx = NULL;
+  XdpPortal *portal;
+  XdpParent *parent_window;
+  GApplication *app;
+  GtkWindow *parent;
   GError *error;
   g_autoptr (GFile) file = NULL;
   g_autoptr (GTask) task = G_TASK (user_data);
@@ -105,8 +106,6 @@ photos_share_point_email_share_save_to_dir (GObject *source_object, GAsyncResult
   g_autofree gchar *escaped_path = NULL;
   g_autofree gchar *path = NULL;
   g_autofree gchar *uri = NULL;
-
-  self = PHOTOS_SHARE_POINT_EMAIL (g_task_get_source_object (task));
 
   error = NULL;
   file = photos_base_item_save_to_dir_finish (item, res, &error);
@@ -120,16 +119,19 @@ photos_share_point_email_share_save_to_dir (GObject *source_object, GAsyncResult
   escaped_path = g_uri_escape_string (path, G_URI_RESERVED_CHARS_ALLOWED_IN_PATH, FALSE);
   uri = g_strconcat ("mailto:?attach=", escaped_path, NULL);
 
-  ctx = photos_utils_new_app_launch_context_from_widget (NULL);
+  app = g_application_get_default ();
+  parent = gtk_application_get_active_window (GTK_APPLICATION (app));
+  parent_window = xdp_parent_new_gtk (parent);
 
-  error = NULL;
-  if (!photos_glib_app_info_launch_uri (self->default_app, uri, ctx, &error))
-    {
-      g_task_return_error (task, error);
-      goto out;
-    }
+  portal = xdp_portal_new ();
 
-  g_task_return_boolean (task, TRUE);
+  xdp_portal_open_uri (portal,
+                       parent_window,
+                       uri,
+                       XDP_OPEN_URI_FLAG_NONE,
+                       NULL,
+                       photos_share_point_email_share_save_to_dir_finish,
+                       NULL);
 
  out:
   return;
@@ -187,10 +189,6 @@ photos_share_point_email_share_finish (PhotosSharePoint *share_point, GAsyncResu
 static void
 photos_share_point_email_dispose (GObject *object)
 {
-  PhotosSharePointEmail *self = PHOTOS_SHARE_POINT_EMAIL (object);
-
-  g_clear_object (&self->default_app);
-
   G_OBJECT_CLASS (photos_share_point_email_parent_class)->dispose (object);
 }
 
@@ -220,49 +218,10 @@ photos_share_point_email_class_init (PhotosSharePointEmailClass *class)
 
   object_class->dispose = photos_share_point_email_dispose;
   object_class->finalize = photos_share_point_email_finalize;
-  share_point_class->get_icon = photos_share_point_email_get_icon;
   share_point_class->get_name = photos_share_point_email_get_name;
   share_point_class->needs_notification = photos_share_point_email_needs_notification;
   share_point_class->share_async = photos_share_point_email_share_async;
   share_point_class->share_finish = photos_share_point_email_share_finish;
-}
-
-
-static gboolean
-photos_share_point_email_initable_init (GInitable *initable, GCancellable *cancellable, GError **error)
-{
-  PhotosSharePointEmail *self = PHOTOS_SHARE_POINT_EMAIL (initable);
-  gboolean ret_val = FALSE;
-
-  if (self->is_initialized)
-    {
-      if (self->default_app != NULL)
-        ret_val = TRUE;
-      else
-        g_assert_nonnull (self->initialization_error);
-
-      goto out;
-    }
-
-  g_assert_null (self->initialization_error);
-
-  self->default_app = g_app_info_get_default_for_type ("x-scheme-handler/mailto", FALSE);
-  if (self->default_app == NULL)
-    {
-      g_set_error (&self->initialization_error, PHOTOS_ERROR, 0, "Failed to get x-scheme-handler/mailto handler");
-      goto out;
-    }
-
-  ret_val = TRUE;
-
- out:
-  if (!ret_val)
-    {
-      g_assert_nonnull (self->initialization_error);
-      g_propagate_error (error, g_error_copy (self->initialization_error));
-    }
-
-  return ret_val;
 }
 
 
@@ -271,11 +230,4 @@ photos_share_point_email_filterable_iface_init (PhotosFilterableInterface *iface
 {
   iface->get_id = photos_share_point_email_get_id;
   iface->is_search_criterion = photos_share_point_email_is_search_criterion;
-}
-
-
-static void
-photos_share_point_email_initable_iface_init (GInitableIface *iface)
-{
-  iface->init = photos_share_point_email_initable_init;
 }

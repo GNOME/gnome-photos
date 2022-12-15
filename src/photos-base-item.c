@@ -37,6 +37,8 @@
 #include <glib/gi18n.h>
 #include <libgd/gd.h>
 #include <tracker-sparql.h>
+#include <libportal/portal.h>
+#include <libportal-gtk3/portal-gtk3.h>
 
 #include "photos-application.h"
 #include "photos-base-item.h"
@@ -948,41 +950,32 @@ photos_base_item_default_metadata_add_shared (PhotosBaseItem  *self,
 
 
 static void
+photos_base_item_open_finish (GObject *source_object, GAsyncResult *res, gpointer user_data)
+{
+  g_autoptr (GError) error = NULL;
+  XdpPortal *portal = XDP_PORTAL (source_object);
+
+  if (!xdp_portal_open_uri_finish (portal, res, &error))
+    g_warning ("Unable to open URI: %s", error->message);
+
+}
+
+static void
 photos_base_item_default_open (PhotosBaseItem *self, GtkWindow *parent, guint32 timestamp)
 {
-  PhotosBaseItemPrivate *priv;
+  XdpPortal *portal;
+  XdpParent *parent_window;
 
-  priv = photos_base_item_get_instance_private (self);
+  portal = xdp_portal_new ();
+  parent_window = xdp_parent_new_gtk (parent);
 
-  if (priv->default_app_name == NULL)
-    return;
-
-  /* Without a default_app, launch in the web browser, otherwise use
-   * that system application.
-   */
-
-  if (priv->default_app != NULL)
-    {
-      g_autoptr (GAppLaunchContext) ctx = NULL;
-
-      ctx = photos_utils_new_app_launch_context_from_widget (GTK_WIDGET (parent));
-
-      {
-        g_autoptr (GError) error = NULL;
-
-        photos_glib_app_info_launch_uri (priv->default_app, priv->uri, ctx, &error);
-        if (error != NULL)
-          g_warning ("Unable to show URI %s: %s", priv->uri, error->message);
-      }
-    }
-  else
-    {
-      g_autoptr (GError) error = NULL;
-
-      gtk_show_uri_on_window (parent, priv->uri, timestamp, &error);
-      if (error != NULL)
-        g_warning ("Unable to show URI %s: %s", priv->uri, error->message);
-    }
+  xdp_portal_open_uri (portal,
+                       parent_window,
+                       photos_base_item_get_uri (self),
+                       XDP_OPEN_URI_FLAG_ASK,
+                       NULL,
+                       photos_base_item_open_finish,
+                       NULL);
 }
 
 
@@ -3524,18 +3517,6 @@ photos_base_item_get_date_created (PhotosBaseItem *self)
 }
 
 
-const gchar *
-photos_base_item_get_default_app_name (PhotosBaseItem *self)
-{
-  PhotosBaseItemPrivate *priv;
-
-  g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (self), NULL);
-  priv = photos_base_item_get_instance_private (self);
-
-  return priv->default_app_name;
-}
-
-
 GQuark
 photos_base_item_get_equipment (PhotosBaseItem *self)
 {
@@ -4708,46 +4689,6 @@ photos_base_item_save_to_stream_finish (PhotosBaseItem *self, GAsyncResult *res,
   g_return_val_if_fail (error == NULL || *error == NULL, FALSE);
 
   return g_task_propagate_boolean (task, error);
-}
-
-
-void
-photos_base_item_set_default_app (PhotosBaseItem *self, GAppInfo *default_app)
-{
-  PhotosBaseItemPrivate *priv;
-  const gchar *default_app_name;
-
-  g_return_if_fail (PHOTOS_IS_BASE_ITEM (self));
-  priv = photos_base_item_get_instance_private (self);
-
-  if (priv->default_app == NULL && default_app == NULL)
-    return;
-
-  if (priv->default_app != NULL && default_app != NULL && g_app_info_equal (priv->default_app, default_app))
-    return;
-
-  g_set_object (&priv->default_app, default_app);
-  g_clear_pointer (&priv->default_app_name, g_free);
-
-  if (default_app == NULL)
-    return;
-
-  default_app_name = g_app_info_get_name (default_app);
-  priv->default_app_name = g_strdup (default_app_name);
-}
-
-
-void
-photos_base_item_set_default_app_name (PhotosBaseItem *self, const gchar *default_app_name)
-{
-  PhotosBaseItemPrivate *priv;
-
-  g_return_if_fail (PHOTOS_IS_BASE_ITEM (self));
-  priv = photos_base_item_get_instance_private (self);
-
-  g_clear_object (&priv->default_app);
-  g_free (priv->default_app_name);
-  priv->default_app_name = g_strdup (default_app_name);
 }
 
 

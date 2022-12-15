@@ -120,8 +120,6 @@ gboolean            photos_base_item_get_bbox_source         (PhotosBaseItem *se
 
 gint64              photos_base_item_get_date_created        (PhotosBaseItem *self);
 
-const gchar        *photos_base_item_get_default_app_name    (PhotosBaseItem *self);
-
 GQuark              photos_base_item_get_equipment           (PhotosBaseItem *self);
 
 gdouble             photos_base_item_get_exposure_time       (PhotosBaseItem *self);
@@ -330,10 +328,6 @@ void                photos_base_item_save_to_stream_async    (PhotosBaseItem *se
 gboolean            photos_base_item_save_to_stream_finish   (PhotosBaseItem *self,
                                                               GAsyncResult *res,
                                                               GError **error);
-
-void                photos_base_item_set_default_app         (PhotosBaseItem *self, GAppInfo *default_app);
-
-void                photos_base_item_set_default_app_name    (PhotosBaseItem *self, const gchar *default_app_name);
 
 void                photos_base_item_set_favorite            (PhotosBaseItem *self, gboolean favorite);
 

@@ -176,13 +176,7 @@ photos_media_server_item_get_source_widget (PhotosBaseItem *item)
 static void
 photos_media_server_item_constructed (GObject *object)
 {
-  PhotosMediaServerItem *self = PHOTOS_MEDIA_SERVER_ITEM (object);
-  const gchar *name;
-
   G_OBJECT_CLASS (photos_media_server_item_parent_class)->constructed (object);
-
-  name = photos_utils_get_provider_name (self->src_mngr, PHOTOS_BASE_ITEM (self));
-  photos_base_item_set_default_app_name (PHOTOS_BASE_ITEM (self), name);
 }
 
 

@@ -389,29 +389,10 @@ photos_main_toolbar_create_preview_menu (PhotosMainToolbar *self)
 {
   GMenu *menu;
   g_autoptr (GtkBuilder) builder = NULL;
-  PhotosBaseItem *item;
 
   builder = gtk_builder_new_from_resource ("/org/gnome/Photos/preview-menu.ui");
 
   menu = G_MENU (g_object_ref (gtk_builder_get_object (builder, "preview-menu")));
-  item = PHOTOS_BASE_ITEM (photos_base_manager_get_active_object (self->item_mngr));
-  if (item != NULL)
-    {
-      const gchar *default_app_name;
-
-      default_app_name = photos_base_item_get_default_app_name (item);
-      if (default_app_name != NULL)
-        {
-          GMenu *section;
-          g_autofree gchar *label = NULL;
-
-          section = G_MENU (gtk_builder_get_object (builder, "open-section"));
-          g_menu_remove (section, 0);
-
-          label = g_strdup_printf (_("Open with %s"), default_app_name);
-          g_menu_prepend (section, label, "app.open-current");
-        }
-    }
 
   return menu;
 }
