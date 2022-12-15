@@ -219,7 +219,6 @@ photos_selection_toolbar_set_item_visibility (PhotosSelectionToolbar *self)
   for (l = selection; l != NULL; l = g_list_next (l))
     {
       PhotosBaseItem *item;
-      const gchar *default_app_name;
       const gchar *urn = (gchar *) l->data;
 
       item = PHOTOS_BASE_ITEM (photos_base_manager_get_object_by_id (self->item_mngr, urn));
@@ -230,24 +229,10 @@ photos_selection_toolbar_set_item_visibility (PhotosSelectionToolbar *self)
       if (photos_base_item_is_favorite (item))
         fav_count++;
 
-      default_app_name = photos_base_item_get_default_app_name (item);
-      if (default_app_name != NULL
-          && g_list_find_custom (apps, default_app_name, (GCompareFunc) g_strcmp0) == NULL)
-        apps = g_list_prepend (apps, (gpointer) g_strdup (default_app_name));
-
       sel_length++;
     }
 
   enable_favorite = enable_favorite && ((fav_count == 0) || (fav_count == sel_length));
-
-  if (apps != NULL && apps->next == NULL) /* length == 1 */
-    /* Translators: this is the Open action in a context menu */
-    open_label = g_strdup_printf (_("Open with %s"), (gchar *) apps->data);
-  else
-    /* Translators: this is the Open action in a context menu */
-    open_label = g_strdup (_("Open"));
-
-  gtk_button_set_label (GTK_BUTTON (self->toolbar_open), open_label);
 
   if (enable_favorite && fav_count == sel_length)
     {
