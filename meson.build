@@ -152,7 +152,7 @@ libgd = subproject(
 )
 libgd_dep = libgd.get_variable('libgd_dep')
 
-babl_dep = dependency('babl')
+babl_dep = dependency('babl-0.1')
 cairo_dep = dependency('cairo', version: '>= 1.14.0')
 gdk_pixbuf_dep = dependency('gdk-pixbuf-2.0', version: '>= 2.36.8')
 gegl_dep = dependency('gegl-0.4', version: '>= 0.4.0')
