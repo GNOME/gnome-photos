@@ -229,7 +229,8 @@
             "name": "libportal",
             "buildsystem": "meson",
             "config-opts": [
-                "-Dbackends=gtk3",
+                "-Dbackend-gtk3=enabled",
+                "-Dbackend-gtk4=disabled",
                 "-Dintrospection=false",
                 "-Dvapi=false",
                 "-Ddocs=false",
