@@ -86,6 +86,7 @@ struct _PhotosApplication
   GSimpleAction *crop_action;
   GSimpleAction *delete_action;
   GSimpleAction *denoise_action;
+  GSimpleAction *rotate_action;
   GSimpleAction *edit_action;
   GSimpleAction *edit_cancel_action;
   GSimpleAction *edit_done_action;
@@ -444,6 +445,7 @@ photos_application_actions_update (PhotosApplication *self)
   g_simple_action_set_enabled (self->contrast_action, enable);
   g_simple_action_set_enabled (self->crop_action, enable);
   g_simple_action_set_enabled (self->denoise_action, enable);
+  g_simple_action_set_enabled (self->rotate_action, enable);
   g_simple_action_set_enabled (self->edit_cancel_action, enable);
   g_simple_action_set_enabled (self->edit_done_action, enable);
   g_simple_action_set_enabled (self->insta_action, enable);
@@ -2558,6 +2560,9 @@ photos_application_startup (GApplication *application)
   self->denoise_action = g_simple_action_new ("denoise-current", G_VARIANT_TYPE_UINT16);
   g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (self->denoise_action));
 
+  self->rotate_action = g_simple_action_new ("rotate-current", G_VARIANT_TYPE_INT16);
+  g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (self->rotate_action));
+
   self->edit_cancel_action = g_simple_action_new ("edit-cancel", NULL);
   g_signal_connect_swapped (self->edit_cancel_action,
                             "activate",
@@ -2824,6 +2829,7 @@ photos_application_dispose (GObject *object)
   g_clear_object (&self->crop_action);
   g_clear_object (&self->delete_action);
   g_clear_object (&self->denoise_action);
+  g_clear_object (&self->rotate_action);
   g_clear_object (&self->edit_action);
   g_clear_object (&self->edit_cancel_action);
   g_clear_object (&self->edit_done_action);

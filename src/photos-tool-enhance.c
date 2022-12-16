@@ -249,3 +249,4 @@ photos_tool_enhance_class_init (PhotosToolEnhanceClass *class)
   tool_class->activate = photos_tool_enhance_activate;
   tool_class->get_widget = photos_tool_enhance_get_widget;
 }
+
