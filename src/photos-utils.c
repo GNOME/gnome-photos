@@ -59,6 +59,7 @@
 #include "photos-tool-crop.h"
 #include "photos-tool-enhance.h"
 #include "photos-tool-filters.h"
+#include "photos-tool-rotate.h"
 #include "photos-tracker-collection-view-controller.h"
 #include "photos-tracker-collections-controller.h"
 #include "photos-tracker-favorites-controller.h"
@@ -726,6 +727,7 @@ photos_utils_ensure_builtins (void)
       g_type_ensure (PHOTOS_TYPE_TOOL_CROP);
       g_type_ensure (PHOTOS_TYPE_TOOL_ENHANCE);
       g_type_ensure (PHOTOS_TYPE_TOOL_FILTERS);
+      g_type_ensure (PHOTOS_TYPE_TOOL_ROTATE);
 
       g_type_ensure (PHOTOS_TYPE_TRACKER_COLLECTION_VIEW_CONTROLLER);
       g_type_ensure (PHOTOS_TYPE_TRACKER_COLLECTIONS_CONTROLLER);
@@ -1447,3 +1449,4 @@ photos_utils_take_string (gchar **string_ptr, gchar *new_string)
   g_free (new_string);
   return ret_val;
 }
+

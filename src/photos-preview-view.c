@@ -700,6 +700,28 @@ photos_preview_view_denoise (PhotosPreviewView *self, GVariant *parameter)
 
 
 static void
+photos_preview_view_rotate(PhotosPreviewView *self, GVariant *parameter)
+{
+  PhotosBaseItem *item;
+  gint16 degrees;
+
+  item = PHOTOS_BASE_ITEM (photos_base_manager_get_active_object (self->item_mngr));
+  if (item == NULL)
+    return;
+
+  degrees = g_variant_get_int16 (parameter);
+  photos_base_item_operation_add_async (item,
+                                        self->cancellable,
+                                        photos_preview_view_process,
+                                        self,
+                                        "gegl:rotate",
+                                        "degrees", (gdouble) degrees,
+                                        NULL);
+}
+
+
+
+static void
 photos_preview_view_insta (PhotosPreviewView *self, GVariant *parameter)
 {
   PhotosBaseItem *item;
@@ -1317,6 +1339,10 @@ photos_preview_view_init (PhotosPreviewView *self)
   action = g_action_map_lookup_action (G_ACTION_MAP (app), "denoise-current");
   g_signal_connect_object (action, "activate", G_CALLBACK (photos_preview_view_denoise), self, G_CONNECT_SWAPPED);
 
+  action = g_action_map_lookup_action (G_ACTION_MAP (app), "rotate-current");
+  g_signal_connect_object (action, "activate", G_CALLBACK (photos_preview_view_rotate), self, G_CONNECT_SWAPPED);
+
+
   action = g_action_map_lookup_action (G_ACTION_MAP (app), "edit-done");
   g_signal_connect_object (action, "activate", G_CALLBACK (photos_preview_view_edit_done), self, G_CONNECT_SWAPPED);
 
@@ -1451,3 +1477,4 @@ photos_preview_view_set_node (PhotosPreviewView *self, GeglNode *node)
       photos_image_view_set_node (PHOTOS_IMAGE_VIEW (view), self->node);
     }
 }
+

@@ -57,6 +57,7 @@ static const gchar *REQUIRED_GEGL_OPS[] =
   "gegl:gray",
   "gegl:load",
   "gegl:noise-reduction",
+  "gegl:rotate",
   "gegl:nop",
   "gegl:scale-ratio",
   "gegl:shadows-highlights",
@@ -910,3 +911,4 @@ photos_gegl_sanity_check (void)
 
   return ret_val;
 }
+

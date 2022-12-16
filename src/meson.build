@@ -190,6 +190,7 @@ gnome_photos_sources = files(
   'photos-tool-enhance.c',
   'photos-tool-filter-button.c',
   'photos-tool-filters.c',
+  'photos-tool-rotate.c',
   'photos-tracker-collection-view-controller.c',
   'photos-tracker-collections-controller.c',
   'photos-tracker-controller.c',
