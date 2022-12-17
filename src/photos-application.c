@@ -317,30 +317,29 @@ photos_application_about (PhotosApplication *self)
 }
 
 
-static PhotosBaseItem *
-photos_application_get_selection_or_active_item (PhotosApplication *self)
+static GList*
+photos_application_get_selection_or_active_items (PhotosApplication *self)
 {
-  PhotosBaseItem *item = NULL;
+  PhotosBaseItem *item;
+  GList *items = NULL;
+  GList *selection;
+  const gchar *urn;
 
-  if (photos_utils_get_selection_mode ())
+  selection = photos_selection_controller_get_selection (self->sel_cntrlr);
+  for (GList *l = selection; l != NULL; l = l->next)
     {
-      GList *selection;
-      const gchar *urn;
-
-      selection = photos_selection_controller_get_selection (self->sel_cntrlr);
-      if (selection == NULL || selection->next != NULL) /* length != 1 */
-        goto out;
-
-      urn = (gchar *) selection->data;
+      urn = (gchar *) l->data;
       item = PHOTOS_BASE_ITEM (photos_base_manager_get_object_by_id (self->state->item_mngr, urn));
+      items = g_list_prepend (items, item);
     }
-  else
+
+  if (items == NULL)
     {
       item = PHOTOS_BASE_ITEM (photos_base_manager_get_active_object (self->state->item_mngr));
+      items = g_list_prepend (items, item);
     }
 
- out:
-  return item;
+  return items;
 }
 
 
@@ -360,7 +359,7 @@ photos_application_actions_update (PhotosApplication *self)
   const gchar *null_accels[] = { NULL };
   guint n_items = 0;
 
-  item = photos_application_get_selection_or_active_item (self);
+  item = photos_application_get_selection_or_active_items (self)->data;
   load_state = photos_item_manager_get_load_state (PHOTOS_ITEM_MANAGER (self->state->item_mngr));
   mode = photos_mode_controller_get_window_mode (self->state->mode_cntrlr);
   selection = photos_selection_controller_get_selection (self->sel_cntrlr);
@@ -1596,7 +1595,7 @@ photos_application_print_current (PhotosApplication *self)
 {
   PhotosBaseItem *item;
 
-  item = photos_application_get_selection_or_active_item (self);
+  item = photos_application_get_selection_or_active_items (self)->data;
   g_return_if_fail (item != NULL);
 
   photos_base_item_print (item, self->main_window);
@@ -1649,7 +1648,7 @@ photos_application_properties_discard_all_edits (PhotosApplication *self)
 {
   PhotosBaseItem *item;
 
-  item = photos_application_get_selection_or_active_item (self);
+  item = photos_application_get_selection_or_active_items (self)->data;
   g_return_if_fail (item != NULL);
 
   g_application_hold (G_APPLICATION (self));
@@ -1680,7 +1679,7 @@ photos_application_properties (PhotosApplication *self)
   PhotosBaseItem *item;
   const gchar *id;
 
-  item = photos_application_get_selection_or_active_item (self);
+  item = photos_application_get_selection_or_active_items (self)->data;
   g_return_if_fail (item != NULL);
 
   id = photos_filterable_get_id (PHOTOS_FILTERABLE (item));
@@ -1838,12 +1837,27 @@ photos_application_quit (PhotosApplication *self)
 
 
 static void
-photos_application_save_save_to_dir (GObject *source_object, GAsyncResult *res, gpointer user_data)
+photos_application_save_to_dir_finish (GObject *source_object, GAsyncResult *res, gpointer user_data);
+
+
+static void
+photos_application_save_export_data (struct PhotosExportDialogData *export_data)
 {
-  PhotosApplication *self = PHOTOS_APPLICATION (user_data);
+  photos_base_item_save_to_dir_async (export_data->items->data,
+                                      export_data->directory,
+                                      export_data->zoom,
+                                      NULL,
+                                      photos_application_save_to_dir_finish,
+                                      export_data);
+}
+
+static void
+photos_application_save_to_dir_finish (GObject *source_object, GAsyncResult *res, gpointer user_data)
+{
+  struct PhotosExportDialogData *export_data = user_data;
+  GList *next;
   PhotosBaseItem *item = PHOTOS_BASE_ITEM (source_object);
   g_autoptr (GFile) file = NULL;
-  GList *items = NULL;
 
   {
     g_autoptr (GError) error = NULL;
@@ -1853,73 +1867,45 @@ photos_application_save_save_to_dir (GObject *source_object, GAsyncResult *res, 
       {
         g_warning ("Unable to save: %s", error->message);
         photos_export_notification_new_with_error (error);
-        goto out;
+        return;
       }
   }
 
-  items = g_list_prepend (items, g_object_ref (item));
-  photos_export_notification_new (items, file);
-
- out:
-  g_application_release (G_APPLICATION (self));
-  g_list_free_full (items, g_object_unref);
+  next = export_data->items->next;
+  if (next == NULL)
+    {
+      export_data->items = g_list_first (export_data->items);
+      photos_export_notification_new (export_data->items, file);
+      photos_export_dialog_free_export_data (export_data);
+      g_application_release (g_application_get_default ());
+    }
+  else
+    {
+      export_data->items = next;
+      photos_application_save_export_data (export_data);
+    }
 }
-
 
 static void
 photos_application_save_response (GtkDialog *dialog, gint response_id, gpointer user_data)
 {
   PhotosApplication *self = PHOTOS_APPLICATION (user_data);
-  g_autoptr (GFile) export_dir = NULL;
-  g_autoptr (GFile) export_sub_dir = NULL;
   GVariant *new_state;
-  PhotosBaseItem *item;
-  const gchar *export_dir_name;
-  const gchar *pictures_path;
-  g_autofree gchar *export_path = NULL;
-  gdouble zoom;
+  struct PhotosExportDialogData *export_data;
 
   if (response_id != GTK_RESPONSE_OK)
     goto out;
 
-  item = photos_application_get_selection_or_active_item (self);
-  g_return_if_fail (item != NULL);
-
   new_state = g_variant_new ("b", FALSE);
   g_action_change_state (G_ACTION (self->selection_mode_action), new_state);
 
-  pictures_path = g_get_user_special_dir (G_USER_DIRECTORY_PICTURES);
-  export_path = g_build_filename (pictures_path, PHOTOS_EXPORT_SUBPATH, NULL);
-  export_dir = g_file_new_for_path (export_path);
-  export_dir_name = photos_export_dialog_get_dir_name (PHOTOS_EXPORT_DIALOG (dialog));
+  export_data = photos_export_dialog_get_export_data (PHOTOS_EXPORT_DIALOG (dialog));
 
-  {
-    g_autoptr (GError) error = NULL;
-
-    export_sub_dir = g_file_get_child_for_display_name (export_dir, export_dir_name, &error);
-    if (error != NULL)
-      {
-        g_warning ("Unable to get a child for %s: %s", export_dir_name, error->message);
-        photos_export_notification_new_with_error (error);
-        goto out;
-      }
-  }
-
-  {
-    g_autoptr (GError) error = NULL;
-
-    if (!photos_glib_make_directory_with_parents (export_sub_dir, NULL, &error))
-      {
-        g_warning ("Unable to create %s: %s", export_path, error->message);
-        photos_export_notification_new_with_error (error);
-        goto out;
-      }
-  }
-
-  zoom = photos_export_dialog_get_zoom (PHOTOS_EXPORT_DIALOG (dialog));
+  if (export_data == NULL)
+    goto out;
 
   g_application_hold (G_APPLICATION (self));
-  photos_base_item_save_to_dir_async (item, export_sub_dir, zoom, NULL, photos_application_save_save_to_dir, self);
+  photos_application_save_export_data (export_data);
 
  out:
   gtk_widget_destroy (GTK_WIDGET (dialog));
@@ -1930,13 +1916,12 @@ static void
 photos_application_save (PhotosApplication *self)
 {
   GtkWidget *dialog;
-  PhotosBaseItem *item;
+  GList *items;
 
-  item = photos_application_get_selection_or_active_item (self);
-  g_return_if_fail (item != NULL);
-  g_return_if_fail (!photos_base_item_is_collection (item));
+  items = photos_application_get_selection_or_active_items (self);
+  g_return_if_fail (items != NULL);
 
-  dialog = photos_export_dialog_new (GTK_WINDOW (self->main_window), item);
+  dialog = photos_export_dialog_new (GTK_WINDOW (self->main_window), items);
   gtk_widget_show_all (dialog);
   g_signal_connect (dialog, "response", G_CALLBACK (photos_application_save_response), self);
 }
@@ -2035,7 +2020,7 @@ photos_application_share_response (GtkDialog *dialog, gint response_id, gpointer
   share_point = photos_share_dialog_get_selected_share_point (PHOTOS_SHARE_DIALOG (dialog));
   g_return_if_fail (share_point != NULL);
 
-  item = photos_application_get_selection_or_active_item (self);
+  item = photos_application_get_selection_or_active_items (self)->data;
   g_return_if_fail (item != NULL);
 
   new_state = g_variant_new ("b", FALSE);
@@ -2056,7 +2041,7 @@ photos_application_share_current (PhotosApplication *self)
   GtkWidget *dialog;
   PhotosBaseItem *item;
 
-  item = photos_application_get_selection_or_active_item (self);
+  item = photos_application_get_selection_or_active_items (self)->data;
   g_return_if_fail (item != NULL);
   g_return_if_fail (!photos_base_item_is_collection (item));
 
@@ -3095,3 +3080,4 @@ photos_application_release (PhotosApplication *self)
   if (self->main_window_deleted && self->use_count == 0)
     gtk_widget_destroy (self->main_window);
 }
+

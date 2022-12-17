@@ -23,6 +23,8 @@
 #include <glib/gi18n.h>
 
 #include "photos-export-dialog.h"
+#include "photos-export-notification.h"
+#include "photos-glib.h"
 #include "photos-utils.h"
 
 
@@ -38,14 +40,16 @@ struct _PhotosExportDialog
   GtkWidget *reduced_button;
   GtkWidget *reduced_label;
   GtkWidget *size_label;
-  PhotosBaseItem *item;
+  GList *items;
   gdouble reduced_zoom;
+  gdouble current_size;
+  gdouble current_reduced_size;
 };
 
 enum
 {
   PROP_0,
-  PROP_ITEM
+  PROP_ITEMS
 };
 
 
@@ -144,7 +148,8 @@ photos_export_dialog_guess_sizes (GObject *source_object, GAsyncResult *res, gpo
         g_autofree gchar *size_str = NULL;
         g_autofree gchar *size_str_markup = NULL;
 
-        size_str = photos_export_dialog_create_size_str (full.height, full.width, (guint64) full.bytes);
+        self->current_size += full.bytes;
+        size_str = photos_export_dialog_create_size_str (full.height, full.width, (guint64) self->current_size);
         size_str_markup = g_strdup_printf ("<small>%s</small>", size_str);
         gtk_label_set_markup (GTK_LABEL (self->full_label), size_str_markup);
       }
@@ -155,7 +160,8 @@ photos_export_dialog_guess_sizes (GObject *source_object, GAsyncResult *res, gpo
           g_autofree gchar *size_str = NULL;
           g_autofree gchar *size_str_markup = NULL;
 
-          size_str = photos_export_dialog_create_size_str (reduced.height, reduced.width, (guint64) reduced.bytes);
+          self->current_reduced_size += reduced.bytes;
+          size_str = photos_export_dialog_create_size_str (reduced.height, reduced.width, (guint64) self->current_reduced_size);
           size_str_markup = g_strdup_printf ("<small>%s</small>", size_str);
           gtk_label_set_markup (GTK_LABEL (self->reduced_label), size_str_markup);
         }
@@ -163,6 +169,19 @@ photos_export_dialog_guess_sizes (GObject *source_object, GAsyncResult *res, gpo
 
   photos_export_dialog_show_size_options (self, self->reduced_zoom > 0.0, FALSE);
 
+  // Guess next item
+  {
+    gint current_index = g_list_index (self->items, item);
+    GList *items;
+    items = g_list_nth (self->items, current_index + 1);
+    if (items != NULL)
+      {
+        photos_base_item_guess_save_sizes_async (items->data,
+                                                 self->cancellable,
+                                                 photos_export_dialog_guess_sizes,
+                                                 self);
+      }
+  }
  out:
   return;
 }
@@ -175,11 +194,11 @@ photos_export_dialog_constructed (GObject *object)
 
   G_OBJECT_CLASS (photos_export_dialog_parent_class)->constructed (object);
 
-  if (photos_base_item_is_collection (self->item))
+  if (g_list_length (self->items) > 1 && photos_base_item_is_collection (self->items->data))
     {
       const gchar *name;
 
-      name = photos_base_item_get_name_with_fallback (self->item);
+      name = photos_base_item_get_name_with_fallback (self->items->data);
       gtk_entry_set_text (GTK_ENTRY (self->dir_entry), name);
     }
   else
@@ -197,7 +216,7 @@ photos_export_dialog_constructed (GObject *object)
       gtk_entry_set_text (GTK_ENTRY (self->dir_entry), now_str);
 
       photos_export_dialog_show_size_options (self, FALSE, TRUE);
-      photos_base_item_guess_save_sizes_async (self->item,
+      photos_base_item_guess_save_sizes_async (self->items->data,
                                                self->cancellable,
                                                photos_export_dialog_guess_sizes,
                                                self);
@@ -216,7 +235,6 @@ photos_export_dialog_dispose (GObject *object)
     g_cancellable_cancel (self->cancellable);
 
   g_clear_object (&self->cancellable);
-  g_clear_object (&self->item);
 
   G_OBJECT_CLASS (photos_export_dialog_parent_class)->dispose (object);
 }
@@ -229,9 +247,14 @@ photos_export_dialog_set_property (GObject *object, guint prop_id, const GValue 
 
   switch (prop_id)
     {
-    case PROP_ITEM:
-      self->item = PHOTOS_BASE_ITEM (g_value_dup_object (value));
-      break;
+    case PROP_ITEMS:
+      {
+        GList *items;
+
+        items = (GList *) g_value_get_pointer (value);
+        self->items = g_list_copy_deep (items, (GCopyFunc) g_object_ref, NULL);
+        break;
+      }
 
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
@@ -253,6 +276,8 @@ photos_export_dialog_init (PhotosExportDialog *self)
   gtk_label_set_markup (GTK_LABEL (self->progress_label), progress_str_markup);
 
   self->reduced_zoom = -1.0;
+  self->current_size = 0.0;
+  self->current_reduced_size = 0.0;
 }
 
 
@@ -267,12 +292,11 @@ photos_export_dialog_class_init (PhotosExportDialogClass *class)
   object_class->set_property = photos_export_dialog_set_property;
 
   g_object_class_install_property (object_class,
-                                   PROP_ITEM,
-                                   g_param_spec_object ("item",
-                                                        "PhotosBaseItem object",
-                                                        "The item to export",
-                                                        PHOTOS_TYPE_BASE_ITEM,
-                                                        G_PARAM_CONSTRUCT_ONLY | G_PARAM_WRITABLE));
+                                   PROP_ITEMS,
+                                   g_param_spec_pointer ("items",
+                                                         "List of PhotosBaseItems",
+                                                         "List of items to export",
+                                                         G_PARAM_CONSTRUCT_ONLY | G_PARAM_WRITABLE));
 
   gtk_widget_class_set_template_from_resource (widget_class, "/org/gnome/Photos/export-dialog.ui");
   gtk_widget_class_bind_template_child (widget_class, PhotosExportDialog, dir_entry);
@@ -287,43 +311,107 @@ photos_export_dialog_class_init (PhotosExportDialogClass *class)
 
 
 GtkWidget *
-photos_export_dialog_new (GtkWindow *parent, PhotosBaseItem *item)
+photos_export_dialog_new (GtkWindow *parent, GList *items)
 {
+  GList *filtered = NULL;
+
   g_return_val_if_fail (GTK_IS_WINDOW (parent), NULL);
-  g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (item), NULL);
+
+  for (GList *l = items; l != NULL; l = l->next)
+    {
+      if (!photos_base_item_is_collection (l->data))
+        {
+          filtered = g_list_prepend (filtered, l->data);
+        }
+    }
+  g_return_val_if_fail (filtered != NULL, NULL);
 
   return g_object_new (PHOTOS_TYPE_EXPORT_DIALOG,
-                       "item", item,
+                       "items", filtered,
                        "transient-for", parent,
                        "use-header-bar", TRUE,
                        NULL);
 }
 
 
-const gchar *
-photos_export_dialog_get_dir_name (PhotosExportDialog *self)
+static GFile *
+photos_export_dialog_get_dir (PhotosExportDialog *self)
 {
-  const gchar *dir_name;
+  g_autoptr (GFile) export_dir = NULL;
+  GFile *export_sub_dir = NULL;
+  const gchar *export_dir_name;
+  const gchar *pictures_path;
+  g_autofree gchar *export_path = NULL;
 
   g_return_val_if_fail (PHOTOS_IS_EXPORT_DIALOG (self), NULL);
 
-  dir_name = gtk_entry_get_text (GTK_ENTRY (self->dir_entry));
-  return dir_name;
+  export_dir_name = gtk_entry_get_text (GTK_ENTRY (self->dir_entry));
+
+  pictures_path = g_get_user_special_dir (G_USER_DIRECTORY_PICTURES);
+  export_path = g_build_filename (pictures_path, PHOTOS_EXPORT_SUBPATH, NULL);
+  export_dir = g_file_new_for_path (export_path);
+
+  {
+    g_autoptr (GError) error = NULL;
+
+    export_sub_dir = g_file_get_child_for_display_name (export_dir, export_dir_name, &error);
+    if (error != NULL)
+      {
+        g_warning ("Unable to get a child for %s: %s", export_dir_name, error->message);
+        photos_export_notification_new_with_error (error);
+        goto out;
+      }
+  }
+
+  {
+    g_autoptr (GError) error = NULL;
+
+    if (!photos_glib_make_directory_with_parents (export_sub_dir, NULL, &error))
+      {
+        g_warning ("Unable to create %s: %s", export_path, error->message);
+        photos_export_notification_new_with_error (error);
+        g_object_unref (export_sub_dir);
+        export_sub_dir = NULL;
+      }
+  }
+
+  out:
+    return export_sub_dir;
 }
 
 
-gdouble
-photos_export_dialog_get_zoom (PhotosExportDialog *self)
+struct PhotosExportDialogData *
+photos_export_dialog_get_export_data (PhotosExportDialog *self)
 {
-  gdouble ret_val = 1.0;
+  struct PhotosExportDialogData *export_data;
+  GFile *directory;
 
-  g_return_val_if_fail (PHOTOS_IS_EXPORT_DIALOG (self), 1.0);
+  g_return_val_if_fail (PHOTOS_IS_EXPORT_DIALOG (self), NULL);
+
+  directory = photos_export_dialog_get_dir (self);
+  g_return_val_if_fail (directory != NULL, NULL);
+
+  export_data = g_malloc (sizeof (struct PhotosExportDialogData));
+  export_data->directory = directory;
+  export_data->items = self->items;
+  export_data->zoom = 1.0;
 
   if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (self->reduced_button)))
     {
-      g_return_val_if_fail (self->reduced_zoom > 0.0, 1.0);
-      ret_val = self->reduced_zoom;
+      if (self->reduced_zoom >= 0.0)
+        {
+          export_data->zoom = self->reduced_zoom;
+        }
     }
 
-  return ret_val;
+  return export_data;
 }
+
+void
+photos_export_dialog_free_export_data (struct PhotosExportDialogData *export_data)
+{
+  g_object_unref (export_data->directory);
+  g_list_free (export_data->items);
+  g_free (export_data);
+}
+

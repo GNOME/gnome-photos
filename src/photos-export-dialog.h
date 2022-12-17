@@ -23,17 +23,25 @@
 
 #include "photos-base-item.h"
 
+struct PhotosExportDialogData
+{
+  GFile *directory;
+  GList *items;
+  gdouble zoom;
+};
+
 G_BEGIN_DECLS
 
 #define PHOTOS_TYPE_EXPORT_DIALOG (photos_export_dialog_get_type ())
 G_DECLARE_FINAL_TYPE (PhotosExportDialog, photos_export_dialog, PHOTOS, EXPORT_DIALOG, GtkDialog);
 
-GtkWidget          *photos_export_dialog_new                (GtkWindow *parent, PhotosBaseItem *item);
+GtkWidget                      *photos_export_dialog_new                (GtkWindow *parent, GList *items);
 
-const gchar        *photos_export_dialog_get_dir_name       (PhotosExportDialog *self);
+struct PhotosExportDialogData  *photos_export_dialog_get_export_data    (PhotosExportDialog *self);
 
-gdouble             photos_export_dialog_get_zoom           (PhotosExportDialog *self);
+void                            photos_export_dialog_free_export_data   (struct PhotosExportDialogData *export_data);
 
 G_END_DECLS
 
 #endif /* PHOTOS_EXPORT_DIALOG_H */
+
