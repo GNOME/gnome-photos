@@ -270,7 +270,17 @@ photos_export_notification_export_folder (PhotosExportNotification *self)
     }
   else
     {
-      directory = g_object_ref (self->file);
+      GFileType file_type;
+
+      file_type = g_file_query_file_type (self->file, G_FILE_QUERY_INFO_NONE, NULL);
+      if (file_type == G_FILE_TYPE_DIRECTORY)
+        {
+          directory = g_object_ref (self->file);
+        }
+      else
+        {
+          directory = g_file_get_parent (self->file);
+        }
     }
 
   directory_uri = g_file_get_uri (directory);
@@ -559,3 +569,4 @@ photos_export_notification_new_with_error (GError *error)
   g_return_if_fail (error != NULL);
   g_object_new (PHOTOS_TYPE_EXPORT_NOTIFICATION, "error", error, NULL);
 }
+
