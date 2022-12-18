@@ -18,7 +18,7 @@
 -->
 <gresources>
   <gresource prefix="/org/gnome/Photos">
-    <file alias="Adwaita.css">../data/Adwaita.css</file>
+    <file alias="application.css">../data/application.css</file>
     <file alias="dlna-renderers-dialog.ui" preprocess="xml-stripblanks" compressed="true">photos-dlna-renderers-dialog.ui</file>
     <file alias="dnd-counter.svg" preprocess="to-pixdata">../data/dnd-counter.svg</file>
     <file alias="dropdown.ui" preprocess="xml-stripblanks" compressed="true">photos-dropdown.ui</file>
@@ -58,3 +58,4 @@
     <file alias="photos.sparql.template">photos-query-photos.sparql.template</file>
   </gresource>
 </gresources>
+

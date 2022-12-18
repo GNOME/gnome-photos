@@ -49,3 +49,4 @@ button.photos-filter-preview:checked {
     color: @theme_selected_fg_color;
     -gtk-icon-shadow: 0 3px 3px shade(@theme_selected_bg_color,0.7);
 }
+

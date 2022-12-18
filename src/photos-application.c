@@ -2202,35 +2202,19 @@ photos_application_stop_miners (PhotosApplication *self)
 
 
 static void
-photos_application_theme_changed (GtkSettings *settings)
+photos_application_apply_css ()
 {
   static GtkCssProvider *provider;
   GdkScreen *screen;
-  g_autofree gchar *theme = NULL;
+  g_autoptr (GFile) file = NULL;
 
-  g_object_get (settings, "gtk-theme-name", &theme, NULL);
   screen = gdk_screen_get_default ();
-
-  if (g_strcmp0 (theme, "Adwaita") == 0)
-    {
-      if (provider == NULL)
-        {
-          g_autoptr (GFile) file = NULL;
-
-          provider = gtk_css_provider_new ();
-          file = g_file_new_for_uri ("resource:///org/gnome/Photos/Adwaita.css");
-          gtk_css_provider_load_from_file (provider, file, NULL);
-        }
-
-      gtk_style_context_add_provider_for_screen (screen,
-                                                 GTK_STYLE_PROVIDER (provider),
-                                                 GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
-    }
-  else if (provider != NULL)
-    {
-      gtk_style_context_remove_provider_for_screen (screen, GTK_STYLE_PROVIDER (provider));
-      g_clear_object (&provider);
-    }
+  provider = gtk_css_provider_new ();
+  file = g_file_new_for_uri ("resource:///org/gnome/Photos/application.css");
+  gtk_css_provider_load_from_file (provider, file, NULL);
+  gtk_style_context_add_provider_for_screen (screen,
+                                             GTK_STYLE_PROVIDER (provider),
+                                             GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
 }
 
 
@@ -2536,8 +2520,7 @@ photos_application_startup (GApplication *application)
 
   settings = gtk_settings_get_default ();
   g_object_set (settings, "gtk-application-prefer-dark-theme", TRUE, NULL);
-  g_signal_connect (settings, "notify::gtk-theme-name", G_CALLBACK (photos_application_theme_changed), NULL);
-  photos_application_theme_changed (settings);
+  photos_application_apply_css ();
 
   self->shr_pnt_mngr = photos_share_point_manager_dup_singleton ();
 
