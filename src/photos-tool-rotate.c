@@ -121,11 +121,11 @@ photos_tool_rotate_init (PhotosToolRotate *self)
   gtk_style_context_add_class (context, "linked");
   gtk_container_add (GTK_CONTAINER (self->grid), box);
 
-  button = gtk_button_new_with_label (_("Rotate left"));
+  button = gtk_button_new_with_label (_("Tourner à gauche"));
   g_signal_connect (G_OBJECT (button), "clicked", G_CALLBACK (photos_tool_rotate_left_clicked), self);
   gtk_container_add (GTK_CONTAINER (box), button);
 
-  button = gtk_button_new_with_label (_("Rotate right"));
+  button = gtk_button_new_with_label (_("Tourner à droite"));
   g_signal_connect (G_OBJECT (button), "clicked", G_CALLBACK (photos_tool_rotate_right_clicked), self);
   gtk_container_add (GTK_CONTAINER (box), button);
 }
